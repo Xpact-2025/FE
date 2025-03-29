@@ -1,9 +1,59 @@
+'use client';
+
+import { useState } from 'react';
 import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
 import FormInput from '../components/InputBox';
 import SocialLogin from '../components/SocialLogin';
+import { useRouter } from 'next/navigation';
 
-export default function LoginPage() {
+export default function SignupPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState('');
+  const [birthDate] = useState('2025-03-29');
+
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const router = useRouter();
+
+const handleSignup = async () => {
+  if (password !== confirmPassword) {
+    alert('비밀번호가 일치하지 않습니다.');
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_URL}/auth/signup`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+        name,
+        birthDate,
+        type: 'FORM',
+        role: 'ROLE_USER',
+      }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert('회원가입 성공!');
+      router.push('/login');
+    } else {
+      alert(`회원가입 실패: ${data.message}`);
+    }
+  } catch (error) {
+    console.error('회원가입 오류:', error);
+    alert('네트워크 오류가 발생했습니다.');
+  }
+};
+
+
   return (
     <div className="min-h-screen bg-black text-white font-[Pretendard]">
       <NavBar />
@@ -15,18 +65,45 @@ export default function LoginPage() {
 
         <div className="w-[448px] space-y-5">
           <div>
-            <div className="text-[18px] mb-[2%] ml-[1%]">아이디</div>
-            <FormInput type="text" placeholder="아이디 (6~12자 이내, 영문/숫자 가능)" />
+            <div className="text-[18px] mb-[2%] ml-[1%]">아이디 (이메일)</div>
+            <FormInput
+              type="email"
+              placeholder="example@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div>
+            <div className="text-[18px] mb-[2%] ml-[1%]">이름</div>
+            <FormInput
+              type="text"
+              placeholder="이름"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
           <div>
             <div className="text-[18px] mb-[2%] ml-[1%]">비밀번호</div>
-            <FormInput type="password" placeholder="비밀번호 (8자 이상, 문자/숫자/기호 가능)" />
+            <FormInput
+              type="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
           <div>
-            <FormInput type="password" placeholder="비밀번호 확인" />
+            <FormInput
+              type="password"
+              placeholder="비밀번호 확인"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
           </div>
 
-          <button className="w-full mt-[8%] py-3 bg-[#FF6D03] hover:bg-[#e45e00] text-[18px] font-semibold rounded">
+          <button
+            onClick={handleSignup}
+            className="w-full mt-[8%] py-3 bg-[#FF6D03] hover:bg-[#e45e00] text-[18px] font-semibold rounded"
+          >
             회원가입
           </button>
         </div>
