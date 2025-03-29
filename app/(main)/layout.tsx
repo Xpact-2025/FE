@@ -15,16 +15,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body className={`${pretendard.variable} flex`}>
-        <div className="flex-none">
-          <SideBar />
-        </div>
-        <div className="flex-1">
-          <Header />
-          {children}
-        </div>
-      </body>
-    </html>
+    <div className={`${pretendard.variable} flex`}>
+      <div className="flex-none">
+        <SideBar />
+      </div>
+      <div className="flex-1">
+        <Header />
+        {children}
+      </div>
+    </div>
   );
 }
