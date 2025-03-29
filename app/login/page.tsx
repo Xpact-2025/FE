@@ -1,3 +1,4 @@
+import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
 
 export default function LoginPage() {
@@ -51,6 +52,7 @@ export default function LoginPage() {
           </div>
         </div>
       </main>
+      <Footer/>
     </div>
   );
 }
