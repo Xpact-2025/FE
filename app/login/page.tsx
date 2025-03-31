@@ -1,56 +1,84 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
+import FormInput from '../components/InputBox';
+import SocialLogin from '../components/SocialLogin';
+import Image from 'next/image';
+import { loginUser } from '../../apis/auth';
 
 export default function LoginPage() {
+  const router = useRouter();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      const data = await loginUser({ email, password });
+  
+      if (data.success) {
+        alert('로그인 성공!');
+        localStorage.setItem('accessToken', data.data.accessToken);
+        router.push('/dashboard');
+      } else {
+        alert(`로그인 실패: ${data.message}`);
+      }
+    } catch (err) {
+      console.error('로그인 오류:', err);
+      alert('네트워크 오류가 발생했습니다.');
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-black text-[#FFFFFF]">
+    <div className="min-h-screen bg-black text-white font-[Pretendard]">
       <NavBar />
-      <main className="flex flex-col items-center justify-center py-20 px-4">
-        <h1 className="text-[40px] font-bold font-[Pretendard] mb-10">
-          로그인
-        </h1>
-        <div className="w-full max-w-sm space-y-4">
-          <input
-            type="text"
-            placeholder="아이디"
-            className="w-full text-[16px] px-4 py-2 border border-gray-500 bg-transparent rounded"
-          />
-          <input
-            type="password"
-            placeholder="비밀번호"
-            className="w-full text-[16px] px-4 py-2 border border-gray-500 bg-transparent rounded"
-          />
-          <button className="items-center text-[21px] font-[Pretendard] w-[209px] py-2 bg-[#FF6D03] hover:bg-orange-600 text-white font-semibold rounded ml-[25%]">
+      <main className="flex flex-col items-center justify-center py-14 px-4">
+        <div className="flex flex-col items-center mb-10">
+          <Image src="/logo2.png" alt="Xpact" width={59} height={48} className="mb-4" />
+          <h1 className="text-[35px] font-semibold">로그인</h1>
+        </div>
+
+        <div className="w-[448px] space-y-5">
+          <div>
+            <div className="text-[18px] mb-[2%] ml-[1%]">아이디</div>
+            <FormInput
+              type="text"
+              placeholder="아이디"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div>
+            <div className="text-[18px] mb-[2%] ml-[1%]">비밀번호</div>
+            <FormInput
+              type="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <button
+            onClick={handleLogin}
+            className="w-full mt-[8%] py-3 bg-[#FF6D03] hover:bg-[#e45e00] text-[18px] font-semibold rounded"
+          >
             로그인
           </button>
         </div>
-        <div className="mt-[50px] text-[22px] flex justify-between w-full max-w-sm text-sm text-gray-400">
-          <a href="#" className="ml-[10%]">
-            회원가입
-          </a>
-          <a href="#" className="mr-[10%]">
-            비밀번호 찾기
-          </a>
+
+        <div className="mt-6 text-[14px] text-gray-400">
+          계정이 없으신가요?{" "}
+          <a href="/signup" className="text-[#FF6D01] font-medium">회원가입</a>
         </div>
 
-        <div className="mt-10 text-center text-gray-400 text-sm">
-          <div className="flex items-center justify-center space-x-4">
-            <hr className="flex-grow border-gray-600 w-[70px]" />
-            <span className="text-[12px] text-gray-400 whitespace-nowrap">
-              SNS 회원가입 및 로그인
-            </span>
-            <hr className="flex-grow border-gray-600 w-[70px]" />
-          </div>
-
-          <div className="mt-4 flex justify-center space-x-4">
-            <a href="#">
-              <img src="/kakao.png" alt="kakao" className="w-[50px] h-[50px]" />
-            </a>
-            <a href="#">
-              <img src="/naver.png" alt="naver" className="w-[50px] h-[50px]" />
-            </a>
-          </div>
+        <div className="mt-[8%]">
+          <SocialLogin />
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
