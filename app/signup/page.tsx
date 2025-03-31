@@ -6,6 +6,8 @@ import NavBar from '../components/NavBar';
 import FormInput from '../components/InputBox';
 import SocialLogin from '../components/SocialLogin';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { signupUser } from '../../apis/auth';
 
 export default function SignupPage() {
   const [email, setEmail] = useState('');
@@ -14,44 +16,35 @@ export default function SignupPage() {
   const [name, setName] = useState('');
   const [birthDate] = useState('2025-03-29');
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
 
-const handleSignup = async () => {
-  if (password !== confirmPassword) {
-    alert('비밀번호가 일치하지 않습니다.');
-    return;
-  }
+  const handleSignup = async () => {
+    if (password !== confirmPassword) {
+      alert('비밀번호가 일치하지 않습니다.');
+      return;
+    }
 
-  try {
-    const res = await fetch(`${API_URL}/auth/signup`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    try {
+      const data = await signupUser({
         email,
         password,
         name,
         birthDate,
         type: 'FORM',
         role: 'ROLE_USER',
-      }),
-    });
+      });
 
-    const data = await res.json();
-
-    if (res.ok) {
-      alert('회원가입 성공!');
-      router.push('/login');
-    } else {
-      alert(`회원가입 실패: ${data.message}`);
+      if (data.success) {
+        alert('회원가입 성공!');
+        router.push('/login');
+      } else {
+        alert(`회원가입 실패: ${data.message}`);
+      }
+    } catch (error) {
+      console.error('회원가입 오류:', error);
+      alert('네트워크 오류가 발생했습니다.');
     }
-  } catch (error) {
-    console.error('회원가입 오류:', error);
-    alert('네트워크 오류가 발생했습니다.');
-  }
-};
+  };
 
 
   return (
@@ -59,7 +52,7 @@ const handleSignup = async () => {
       <NavBar />
       <main className="flex flex-col items-center justify-center py-14 px-4">
         <div className="flex flex-col items-center mb-10">
-          <img src="/logo2.png" alt="Xpact" className="w-[59px] h-[48px] mb-4" />
+          <Image src="/logo2.png" alt="Xpact" width={59} height={48} className="mb-4" />
           <h1 className="text-[35px] font-semibold">회원가입</h1>
         </div>
 

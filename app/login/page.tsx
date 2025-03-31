@@ -6,8 +6,8 @@ import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
 import FormInput from '../components/InputBox';
 import SocialLogin from '../components/SocialLogin';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import Image from 'next/image';
+import { loginUser } from '../../apis/auth';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -17,22 +17,12 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch(`${API_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok && data.success) {
+      const data = await loginUser({ email, password });
+  
+      if (data.success) {
         alert('로그인 성공!');
-
-        // 토큰 저장
         localStorage.setItem('accessToken', data.data.accessToken);
-        localStorage.setItem('refreshToken', data.data.refreshToken);
-
-        router.push('/dashboard'); 
+        router.push('/dashboard');
       } else {
         alert(`로그인 실패: ${data.message}`);
       }
@@ -47,7 +37,7 @@ export default function LoginPage() {
       <NavBar />
       <main className="flex flex-col items-center justify-center py-14 px-4">
         <div className="flex flex-col items-center mb-10">
-          <img src="/logo2.png" alt="Xpact" className="w-[59px] h-[48px] mb-4" />
+          <Image src="/logo2.png" alt="Xpact" width={59} height={48} className="mb-4" />
           <h1 className="text-[35px] font-semibold">로그인</h1>
         </div>
 

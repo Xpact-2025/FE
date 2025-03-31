@@ -20,7 +20,7 @@ export default function ProfilePage() {
           </div>
           <div>
             <div className="text-[18px] mb-[2%] ml-[1%]">나이</div>
-            <FormInput type="password" placeholder="나이이" />
+            <FormInput type="password" placeholder="나이" />
           </div>
           <div>
             <div className="text-[18px] mb-[2%] ml-[1%]">학력</div>

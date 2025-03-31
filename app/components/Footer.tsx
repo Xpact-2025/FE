@@ -1,11 +1,15 @@
+import Image from "next/image";
+
 export default function Footer() {
     return (
       <footer className="w-full h-[130px] font-[Pretendard]">
         <div className="h-full mx-auto px-[5%] flex flex-col sm:flex-row justify-between items-center">
-          <div className="w-[59px] h-[48px] flex items-center">
-            <img
+          <div className="flex items-center">
+            <Image
               src="/logo2.png"
               alt="Xpact"
+              width={59}
+              height={48}
               className="object-contain"
             />
           </div>
