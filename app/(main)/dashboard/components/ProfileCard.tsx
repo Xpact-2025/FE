@@ -3,16 +3,16 @@ import Image from 'next/image';
 const ProfileCard = () => {
   return (
     <div className="mx-16 my-4">
-      <p className="my-8">프로필</p>
+      <h3 className="text-lg my-4">프로필</h3>
       <div className="bg-[#222222] rounded-xl p-6">
         <div className="flex">
           <div className="flex flex-col items-center mr-10">
-            <div className="relative w-64 h-64 mb-4">
+            <div className="relative w-52 h-52 mb-4">
               <Image
                 src="/profile.png"
                 alt="profile"
-                width={400}
-                height={400}
+                width={300}
+                height={300}
                 className="rounded-full w-full h-full object-cover"
               />
             </div>

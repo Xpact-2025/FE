@@ -3,8 +3,8 @@ import Image from 'next/image';
 
 const SideBar = () => {
   return (
-    <aside className="w-64 bg-[#151515] p-6 h-screen">
-      <nav>
+    <aside className="w-64 bg-[#151515] p-6 h-full">
+      <nav className="fixed">
         <Link href="/">
           <Image
             src="/Logo.png"
