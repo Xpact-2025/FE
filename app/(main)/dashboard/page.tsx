@@ -1,8 +1,11 @@
-import { getTest } from "@/apis/test";
+import ProfileCard from './components/ProfileCard';
 
-const DashboardPage = async () => {
-  const test = await getTest();
-  return <div>{test.message}</div>;
+const DashboardPage = () => {
+  return (
+    <div>
+      <ProfileCard />
+    </div>
+  );
 };
 
 export default DashboardPage;
