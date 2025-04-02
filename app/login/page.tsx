@@ -18,7 +18,7 @@ export default function LoginPage() {
   const handleLogin = async () => {
     try {
       const data = await loginUser({ email, password });
-  
+
       if (data.success) {
         alert('로그인 성공!');
         localStorage.setItem('accessToken', data.data.accessToken);
@@ -37,7 +37,13 @@ export default function LoginPage() {
       <NavBar />
       <main className="flex flex-col items-center justify-center py-14 px-4">
         <div className="flex flex-col items-center mb-10">
-          <Image src="/logo2.png" alt="Xpact" width={59} height={48} className="mb-4" />
+          <Image
+            src="/logo2.png"
+            alt="Xpact"
+            width={59}
+            height={48}
+            className="mb-4"
+          />
           <h1 className="text-[35px] font-semibold">로그인</h1>
         </div>
 
@@ -48,7 +54,7 @@ export default function LoginPage() {
               type="text"
               placeholder="아이디"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
             />
           </div>
           <div>
@@ -57,7 +63,7 @@ export default function LoginPage() {
               type="password"
               placeholder="비밀번호"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
             />
           </div>
 
@@ -70,8 +76,10 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-6 text-[14px] text-gray-400">
-          계정이 없으신가요?{" "}
-          <a href="/signup" className="text-[#FF6D01] font-medium">회원가입</a>
+          계정이 없으신가요?{' '}
+          <a href="/signup" className="text-[#FF6D01] font-medium">
+            회원가입
+          </a>
         </div>
 
         <div className="mt-[8%]">

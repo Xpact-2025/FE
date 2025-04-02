@@ -1,9 +1,36 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@theme {
+  /* Gray 색상 */
+  --color-gray-50: rgb(255, 255, 255);
+  --color-gray-50-10: rgb(255, 255, 255, 0.1);
+  --color-gray-100: rgb(217, 217, 217);
+  --color-gray-200: rgb(205, 205, 205);
+  --color-gray-300: rgb(153, 153, 153);
+  --color-gray-400: rgb(117, 117, 117);
+  --color-gray-500: rgb(102, 102, 102);
+  --color-gray-600: rgb(36, 36, 36);
+  --color-gray-700: rgb(22, 22, 22);
+  --color-gray-800: rgb(17, 17, 17);
+  --color-gray-900: rgb(2, 2, 2);
+  --color-gray-1000: rgb(0, 0, 0);
+
+  /* Success 색상 */
+  --color-success: rgb(4, 207, 93);
+
+  /* Error 색상 */
+  --color-error: rgb(238, 53, 53);
+
+  /* Primary 색상 */
+  --color-primary: rgb(255, 109, 1);
+  --color-primary-50: rgb(255, 109, 1);
+  --color-primary-100: rgb(255, 109, 1);
+}
 
 :root {
   --background: #0a0a0a;
   --foreground: #ededed;
-  --font-pretendard: "Pretendard Variable", sans-serif;
+  --font-pretendard: 'Pretendard Variable', sans-serif;
 }
 
 body {
