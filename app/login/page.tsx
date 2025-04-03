@@ -18,8 +18,9 @@ export default function LoginPage() {
   const handleLogin = async () => {
     try {
       const data = await loginUser({ email, password });
+      console.log(data);
 
-      if (data.success) {
+      if (data.httpStatus == 200) {
         alert('로그인 성공!');
         localStorage.setItem('accessToken', data.data.accessToken);
         router.push('/dashboard');
@@ -69,14 +70,14 @@ export default function LoginPage() {
 
           <button
             onClick={handleLogin}
-            className="w-full mt-[8%] py-3 bg-[#FF6D03] hover:bg-[#e45e00] text-[18px] font-semibold rounded"
+            className="w-full mt-[8%] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded"
           >
             로그인
           </button>
         </div>
 
         <div className="mt-6 text-[14px] text-gray-400">
-          계정이 없으신가요?{' '}
+          계정이 없으신가요?
           <a href="/signup" className="text-[#FF6D01] font-medium">
             회원가입
           </a>

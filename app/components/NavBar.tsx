@@ -9,7 +9,7 @@ export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="px-[5%] py-4 bg-gray-900">
+    <header className="px-[5%] py-4 bg-gray-900 body-16-r">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-[41px]">
           <Link href="/">
@@ -22,7 +22,7 @@ export default function NavBar() {
             />
           </Link>
 
-          <nav className="hidden md:flex space-x-6 text-[16px] text-gray-50">
+          <nav className="hidden md:flex space-x-6 text-gray-50">
             <Link href="/dashboard" className="hover:text-primary-100">
               대시보드
             </Link>
@@ -42,7 +42,7 @@ export default function NavBar() {
         </div>
 
         <div className="flex items-center">
-          <div className="hidden md:block text-[16px] text-gray-50">
+          <div className="hidden md:block text-gray-50">
             <Link href="/login" className="hover:text-primary-100">
               로그인
             </Link>
@@ -59,7 +59,7 @@ export default function NavBar() {
       </div>
 
       {isOpen && (
-        <div className="md:hidden mt-4 flex flex-col space-y-3 text-gray-50 text-[16px]">
+        <div className="md:hidden mt-4 flex flex-col space-y-3 text-gray-50">
           <Link
             href="/dashboard"
             onClick={() => setIsOpen(false)}

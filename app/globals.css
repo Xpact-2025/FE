@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 
 @theme {
+  /* Color System */
+
   /* Gray 색상 */
   --color-gray-50: rgb(255, 255, 255);
   --color-gray-50-10: rgb(255, 255, 255, 0.1);
@@ -26,7 +28,7 @@
   --color-primary-50: rgb(255, 109, 1);
   --color-primary-100: rgb(255, 109, 1);
 
-  /* 타이포그래피 시스템 */
+  /* Type System */
 
   /* Headline */
   --font-headline-60-m: 600 60px/130% sans-serif;
@@ -124,8 +126,8 @@
 }
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --background: var(--color-gray-900);
+  --foreground: var(--color-gray-50);
   --font-pretendard: 'Pretendard Variable', sans-serif;
 }
 

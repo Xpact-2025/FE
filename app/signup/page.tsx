@@ -33,8 +33,9 @@ export default function SignupPage() {
         type: 'FORM',
         role: 'ROLE_USER',
       });
+      console.log(data);
 
-      if (data.success) {
+      if (data.httpStatus == 200) {
         alert('회원가입 성공!');
         router.push('/login');
       } else {
@@ -46,13 +47,18 @@ export default function SignupPage() {
     }
   };
 
-
   return (
-    <div className="min-h-screen bg-black text-white font-[Pretendard]">
+    <div>
       <NavBar />
       <main className="flex flex-col items-center justify-center py-14 px-4">
         <div className="flex flex-col items-center mb-10">
-          <Image src="/logo2.png" alt="Xpact" width={59} height={48} className="mb-4" />
+          <Image
+            src="/logo2.png"
+            alt="Xpact"
+            width={59}
+            height={48}
+            className="mb-4"
+          />
           <h1 className="text-[35px] font-semibold">회원가입</h1>
         </div>
 
@@ -63,7 +69,7 @@ export default function SignupPage() {
               type="email"
               placeholder="example@email.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
             />
           </div>
           <div>
@@ -72,7 +78,7 @@ export default function SignupPage() {
               type="text"
               placeholder="이름"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={e => setName(e.target.value)}
             />
           </div>
           <div>
@@ -81,7 +87,7 @@ export default function SignupPage() {
               type="password"
               placeholder="비밀번호"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
             />
           </div>
           <div>
@@ -89,13 +95,13 @@ export default function SignupPage() {
               type="password"
               placeholder="비밀번호 확인"
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={e => setConfirmPassword(e.target.value)}
             />
           </div>
 
           <button
             onClick={handleSignup}
-            className="w-full mt-[8%] py-3 bg-[#FF6D03] hover:bg-[#e45e00] text-[18px] font-semibold rounded"
+            className="w-full mt-[8%] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded"
           >
             회원가입
           </button>
