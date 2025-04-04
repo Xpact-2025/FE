@@ -1,8 +1,5 @@
-import { getTest } from '@/apis/test';
-
 const DashboardPage = async () => {
-  const test = await getTest();
-  return <div className="text-primary headline-60-m">{test.message}</div>;
+  return <div className="text-primary body-16-sb">대시보드</div>;
 };
 
 export default DashboardPage;

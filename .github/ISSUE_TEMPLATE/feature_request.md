@@ -4,12 +4,11 @@ about: Suggest an idea for this project
 title: 'Feat:'
 labels: ''
 assignees: ''
-
 ---
 
 ## 📌 기능 개요
 
-> 연관된 이슈를 작성해주세요.
+> 어떤 기능인지 설명해주세요.
 
 ## 📝작업 내용
 
