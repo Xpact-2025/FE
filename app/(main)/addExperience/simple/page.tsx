@@ -8,15 +8,13 @@ import TextAreaInput from '../components/ExperienceInputBox';
 import Image from 'next/image';
 import Footer from '@/app/components/Footer';
 
-export default function StarExperiencePage() {
+export default function SimpleExperiencePage() {
   const [experienceType, setExperienceType] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [title, setTitle] = useState('');
-  const [situation, setSituation] = useState('');
-  const [task, setTask] = useState('');
-  const [action, setAction] = useState('');
-  const [result, setResult] = useState('');
+  const [role, setRole] = useState('');
+  const [perform, setPerform] = useState('');
   const [keyword, setKeyword] = useState('');
 
   return (
@@ -72,39 +70,21 @@ export default function StarExperiencePage() {
         />
       </div>
 
-      <div className="text-[16px] mb-[2%] ml-[1%]">상황</div>
+      <div className="text-[16px] mb-[2%] ml-[1%]">역할</div>
       <TextAreaInput
         type="textarea"
         placeholder="어떤 배경에서 활동을 하게 되었나요?"
-        value={situation}
-        onChange={e => setSituation(e.target.value)}
+        value={role}
+        onChange={e => setRole(e.target.value)}
       />
 
       <div className="py-10">
-        <div className="text-[16px] mb-[2%] ml-[1%]">문제</div>
+        <div className="text-[16px] mb-[2%] ml-[1%]">주요성과</div>
         <TextAreaInput
           type="textarea"
           placeholder="그 안에서 실제로 겪은 문제나 과제는 무엇이 있었나요?"
-          value={task}
-          onChange={e => setTask(e.target.value)}
-        />
-      </div>
-
-      <div className="text-[16px] mb-[2%] ml-[1%]">해결</div>
-      <TextAreaInput
-        type="textarea"
-        placeholder="그 문제를 해결하기 위해 어떤 행동을 했나요?"
-        value={action}
-        onChange={e => setAction(e.target.value)}
-      />
-
-      <div className="py-10">
-        <div className="text-[16px] mb-[2%] ml-[1%]">결과</div>
-        <TextAreaInput
-          type="textarea"
-          placeholder="선택한 행동의 결과는 어땠나요?"
-          value={result}
-          onChange={e => setResult(e.target.value)}
+          value={perform}
+          onChange={e => setPerform(e.target.value)}
         />
       </div>
 
