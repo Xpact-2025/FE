@@ -136,3 +136,14 @@ body {
   color: var(--foreground);
   font-family: var(--font-pretendard);
 }
+
+.swiper-pagination-bullet {
+  background-color: #999 !important;
+  opacity: 0.5;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #FFF !important;
+  box-shadow: 0 0 0 3px #FF6D01; /* ✅ 바깥쪽 테두리처럼 보이게 */
+  opacity: 1;
+}

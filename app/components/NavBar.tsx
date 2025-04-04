@@ -9,9 +9,9 @@ export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="px-[5%] py-4 bg-gray-900 body-16-r">
+    <header className="fixed top-0 left-0 w-full z-50 px-[130px] py-[2%] bg-gray-900 body-16-r">
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-[41px]">
+        <div className="flex items-center space-x-[103px]">
           <Link href="/">
             <Image
               src="/Logo.png"
@@ -22,7 +22,7 @@ export default function NavBar() {
             />
           </Link>
 
-          <nav className="hidden md:flex space-x-6 text-gray-50">
+          <nav className="hidden md:flex space-x-[41px] font-[Pretendard] text-gray-50">
             <Link href="/dashboard" className="hover:text-primary-100">
               대시보드
             </Link>
