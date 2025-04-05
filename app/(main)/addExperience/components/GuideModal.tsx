@@ -21,7 +21,7 @@ const GuideModal: React.FC<GuideModalProps> = ({
         onClick={e => e.stopPropagation()}
       >
         <h2 className="text-[32px] font-semibold mb-4">{title}</h2>
-        <p className="text-[#CDCDCD]">{content}</p>
+        <div className="text-[#CDCDCD]">{content}</div>
       </div>
     </div>
   );
