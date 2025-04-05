@@ -5,12 +5,12 @@ import ProfileImage from '../components/ProfileImage';
 
 export default function ProfilePage() {
   return (
-    <div className="min-h-screen bg-black text-white font-[Pretendard]">
+    <div className="min-h-screen">
       <NavBar />
       <main className="flex flex-col items-center justify-center py-14 px-4">
         <div className="flex flex-col items-center mb-10">
           <h1 className="text-[35px] font-semibold mb-[15%]">프로필 설정</h1>
-          <ProfileImage/>
+          <ProfileImage />
         </div>
 
         <div className="w-[448px] space-y-5">
@@ -31,7 +31,7 @@ export default function ProfilePage() {
             <FormInput type="password" placeholder="직무" />
           </div>
 
-          <button className="w-full mt-[8%] py-3 bg-[#FF6D03] hover:bg-[#e45e00] text-[18px] font-semibold rounded">
+          <button className="w-full mt-[8%] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded">
             로그인
           </button>
         </div>

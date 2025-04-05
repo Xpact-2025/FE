@@ -1,9 +1,5 @@
 const Header = () => {
-  return (
-    <header className="bg-[#121212] p-4">
-      <div className="text-xl font-bold">Header</div>
-    </header>
-  );
+  return <header className="bg-[#020202] h-[100px]"></header>;
 };
 
 export default Header;

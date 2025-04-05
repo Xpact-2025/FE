@@ -4,8 +4,8 @@ interface LoginPayload {
 }
 
 interface LoginResponse {
-  success: boolean;
-  code: string;
+  httpStatus?: number;
+  code?: string;
   message: string;
   data: {
     accessToken: string;
@@ -23,8 +23,8 @@ interface SignupPayload {
 }
 
 interface SignupResponse {
-  success: boolean;
-  code: string;
+  httpStatus?: number;
+  code?: string;
   message: string;
   data: {
     email: string;
@@ -65,13 +65,16 @@ interface ExperienceResponse {
 }
 
 export async function loginUser(payload: LoginPayload): Promise<LoginResponse> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/auth/login/form`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    }
+  );
 
   const data = await res.json();
   return data;
