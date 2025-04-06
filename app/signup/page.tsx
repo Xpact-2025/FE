@@ -50,7 +50,7 @@ export default function SignupPage() {
   return (
     <div>
       <NavBar />
-      <main className="flex flex-col items-center justify-center py-14 px-4">
+      <main className="flex flex-col items-center justify-center py-[50px] px-4">
         <div className="flex flex-col items-center mb-10">
           <Image
             src="/logo2.png"
