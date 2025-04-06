@@ -122,7 +122,7 @@ export default function LoginPage() {
 
           <button
             onClick={handleLogin}
-            className="w-full mt-[8%] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded"
+            className="w-full mt-[8%] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded cursor-pointer"
           >
             로그인
           </button>
