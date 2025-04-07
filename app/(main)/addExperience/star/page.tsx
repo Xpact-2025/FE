@@ -1,13 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import GuideModal from '../components/GuideModal';
 import SelectInput from '../components/ExperienceInputBox';
 import DateInput from '../components/ExperienceInputBox';
 import TextInput from '../components/ExperienceInputBox';
 import TextAreaInput from '../components/ExperienceInputBox';
 import Footer from '@/app/components/Footer';
+import ChevronLeftIcon from '@/public/icons/Chevron_Left.svg';
+import CircleHelpIcon from '@/public/icons/Circle_Help.svg';
 
 export default function StarExperiencePage() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -25,7 +26,7 @@ export default function StarExperiencePage() {
     <div className="p-16">
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center">
-          <Image src="/Chevron_Left.svg" alt="back" width={35} height={35} />
+          <ChevronLeftIcon />
           <div className="text-[26px]">경험 입력</div>
         </div>
         <div className="flex items-center">
@@ -43,7 +44,7 @@ export default function StarExperiencePage() {
           <div>Tab bar</div>
           <div className="flex items-center">
             <button onClick={() => setModalOpen(true)}>
-              <Image src="/Circle_Help.svg" alt="help" width={24} height={24} />
+              <CircleHelpIcon className="stroke-[#777]" />
             </button>
             <div className="text-[16px] text-[#777] p-2">양식 활용 가이드</div>
           </div>
