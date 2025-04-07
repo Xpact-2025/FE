@@ -13,15 +13,15 @@ const GuideModal: React.FC<GuideModalProps> = ({
 }) => {
   return (
     <div
-      className="absolute inset-0 flex items-center justify-center"
+      className="absolute inset-0 flex items-center justify-end pr-[78px]"
       onClick={closeRequest}
     >
       <div
-        className="bg-[#2D2D2D] p-6 rounded-lg w-[700px]"
+        className="bg-[#2D2D2D] p-6 rounded-2xl w-[758px]"
         onClick={e => e.stopPropagation()}
       >
-        <h2 className="text-[32px] font-semibold mb-4">{title}</h2>
-        <div className="text-[#CDCDCD]">{content}</div>
+        <h2 className="text-3xl font-semibold mb-4">{title}</h2>
+        <div className="text-stone-300 font-medium">{content}</div>
       </div>
     </div>
   );

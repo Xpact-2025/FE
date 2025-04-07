@@ -60,8 +60,8 @@ function SelectInput({ value, onChange }: ExperienceInputBoxProps) {
               target: { value: option },
             } as React.ChangeEvent<HTMLSelectElement>)
           }
-          className={`px-4 py-2 rounded border 
-            ${value === option ? 'bg-[#FF6D01] text-black' : 'bg-[#161616] text-[#777] border-[#444]'}`}
+          className={`w-[120px] h-11 px-12 py-2.5 gap-[7px] rounded-lg border items-center justify-center inline-flex whitespace-nowrap
+            ${value === option ? 'bg-primary-50 text-gray-800 text-lg font-medium' : 'bg-gray-800 text-gray-300 border-gray-50-20 text-lg font-medium'}`}
         >
           {option}
         </button>
@@ -72,14 +72,14 @@ function SelectInput({ value, onChange }: ExperienceInputBoxProps) {
 
 function DateInput({ onChange, value, min, max }: ExperienceInputBoxProps) {
   return (
-    <div className="w-100">
+    <div className="w-full">
       <input
         type="date"
         value={value}
         onChange={onChange}
         min={min}
         max={max}
-        className="w-full text-[16px] px-4 py-3 bg-[#161616] text-[#777] rounded border border-[#161616]"
+        className="w-full px-4 py-3 font-medium bg-gray-900 text-gray-300 rounded border border-gray-50-10"
       />
       <style>
         {`
@@ -103,8 +103,8 @@ function TextAreaInput({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="w-full text-[16px] px-4 py-3 bg-[#161616] text-white rounded
-        border border-[#161616] placeholder:text-[#777]"
+        className="w-full px-4 py-3 bg-gray-700
+        border border-gray-600 placeholder:text-gray-300"
         rows={6}
       />
     </div>
@@ -119,7 +119,7 @@ function TextInput({ placeholder, onChange, value }: ExperienceInputBoxProps) {
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="w-full text-[16px] px-4 py-3 bg-[#161616] text-white rounded border border-[#161616] placeholder:text-[#777]"
+        className="w-full px-4 py-3 bg-gray-700 text-gray-50 rounded border border-gray-600 placeholder:text-gray-300"
       />
     </div>
   );
