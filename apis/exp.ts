@@ -1,4 +1,4 @@
-interface ExperiencePayload {
+export interface ExperiencePayload {
   status: 'DRAFT' | 'SAVE';
   experienceType:
     | 'INTERN'
@@ -38,7 +38,11 @@ export async function saveExperience(
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(payload),
+    body: JSON.stringify({
+      ...payload,
+      startDate: new Date(payload.startDate),
+      endDate: new Date(payload.endDate),
+    }),
   });
 
   const data = await res.json();
