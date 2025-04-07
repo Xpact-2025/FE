@@ -66,3 +66,43 @@ export async function signupUser(
   const data = await res.json();
   return data;
 }
+
+
+//카카오 로그인
+export async function getKakaoAuthUrl(): Promise<string> {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/url/kakao`);
+  if (!res.ok) {
+    throw new Error('카카오 인증 URL 요청 실패');
+  }
+
+  const url = await res.text();
+  return url;
+}
+
+
+interface KakaoLoginResponse {
+  httpStatus?: number;
+  code?: string;
+  message: string;
+  data: {
+    accessToken: string;
+    refreshToken?: string;
+  };
+}
+
+export async function kakaoLogin(code: string): Promise<KakaoLoginResponse> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/auth/login/kakao?code=${code}`,
+    {
+      method: 'POST',
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error('카카오 로그인 실패');
+  }
+
+  const data = await res.json();
+  return data;
+}
+
