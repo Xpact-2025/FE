@@ -2,31 +2,36 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import GuideModal from '../components/GuideModal';
-import SelectInput from '../components/ExperienceInputBox';
-import DateInput from '../components/ExperienceInputBox';
-import TextInput from '../components/ExperienceInputBox';
-import TextAreaInput from '../components/ExperienceInputBox';
+import GuideModal from './components/GuideModal';
+import SelectInput from './components/ExperienceInputBox';
+import DateInput from './components/ExperienceInputBox';
+import TextInput from './components/ExperienceInputBox';
+import TextAreaInput from './components/ExperienceInputBox';
 import Footer from '@/app/components/Footer';
 
-export default function SimpleExperiencePage() {
+export default function StarExperiencePage() {
+  const [selectedTab, setSelectedTab] = useState<'star' | 'simple'>('star');
   const [isModalOpen, setModalOpen] = useState(false);
   const [experienceType, setExperienceType] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [title, setTitle] = useState('');
+  const [situation, setSituation] = useState('');
+  const [task, setTask] = useState('');
+  const [action, setAction] = useState('');
+  const [result, setResult] = useState('');
+  const [keyword, setKeyword] = useState('');
   const [role, setRole] = useState('');
   const [perform, setPerform] = useState('');
-  const [keyword, setKeyword] = useState('');
 
   return (
-    <div className="px-20">
+    <div className="p-20">
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center">
           <Image src="/Chevron_Left.svg" alt="back" width={35} height={35} />
           <div className="text-gray-50 text-2xl font-medium">경험 입력</div>
         </div>
-        <div className="flex items-center gap-[9px]">
+        <div className="flex items-center">
           <button className="w-30 py-3 bg-gray-900 text-sm text-gray-300 font-semibold border border-gray-50-20 rounded-lg">
             임시저장
           </button>
@@ -38,7 +43,29 @@ export default function SimpleExperiencePage() {
 
       <div className="py-10">
         <div className="flex items-center justify-between w-full">
-          <div>Tab bar</div>
+          <div className="flex w-[340px] px-0.5 py-0.5 bg-gray-600 rounded-3xl gap-2">
+            <button
+              className={`w-[170px] rounded-3xl font-medium py-2 transition all ${
+                selectedTab === 'star'
+                  ? 'bg-gray-300 text-black'
+                  : 'bg-gray-600 font-medium text-gray-300'
+              }`}
+              onClick={() => setSelectedTab('star')}
+            >
+              STAR 양식
+            </button>
+            <button
+              className={`w-[170px] rounded-3xl font-medium py-2 transition all ${
+                selectedTab === 'simple'
+                  ? 'bg-gray-300 text-black'
+                  : 'bg-gray-600 font-medium text-gray-300'
+              }`}
+              onClick={() => setSelectedTab('simple')}
+            >
+              간결 양식
+            </button>
+          </div>
+
           <div className="flex items-center gap-[12px]">
             <button onClick={() => setModalOpen(true)}>
               <Image src="/Circle_Help.svg" alt="help" width={24} height={24} />
@@ -50,39 +77,12 @@ export default function SimpleExperiencePage() {
         </div>
         {isModalOpen && (
           <GuideModal
-            title="간결 양식 작성 가이드"
-            content={
-              <div>
-                <p>
-                  간결 양식은 경험을 역할과 주요 성과 중심으로 요약해 정리하는
-                  방식입니다.
-                </p>
-                <p>
-                  짧은 문장으로 내가 어떤 일을 했고, 어떤 성과를 냈는지를 빠르게
-                  보여줄 수 있어요.
-                </p>
-                <br></br>
-
-                <p>
-                  역할: 경험 속에서 내가 맡았던 역할과 수행한 주요 업무를 작성해
-                  주세요.
-                </p>
-                <p>
-                  → 예:
-                  {` "데이터 전처리와 모델링을 전담하고, 분석 결과를 바탕으로 팀 발표 자료를 제작했습니다."`}
-                </p>
-                <br></br>
-
-                <p>
-                  주요 성과: 내가 기여한 결과나 변화, 또는 외부로부터 받은 평가
-                  등을 정리해 주세요.
-                </p>
-                <p>
-                  → 예:
-                  {` "모델 정확도를 82%까지 향상시켰고, 분석 결과가 최종 발표에서 우수 사례로 선정되었습니다."`}
-                </p>
-              </div>
+            title={
+              selectedTab === 'star'
+                ? 'STAR양식 작성 가이드'
+                : '간결 양식 작성 가이드'
             }
+            type={selectedTab}
             closeRequest={() => setModalOpen(false)}
           />
         )}
@@ -122,7 +122,6 @@ export default function SimpleExperiencePage() {
         <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
           제목
         </div>
-        <form></form>
         <TextInput
           type="string"
           placeholder="경험 제목"
@@ -132,25 +131,67 @@ export default function SimpleExperiencePage() {
 
         <div className="py-10">
           <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-            역할
+            {selectedTab === 'star' ? '상황' : '역할'}
           </div>
           <TextAreaInput
             type="textarea"
-            placeholder="어떤 배경에서 활동을 하게 되었나요?"
-            value={role}
-            onChange={e => setRole(e.target.value)}
+            placeholder={
+              selectedTab === 'star'
+                ? '어떤 배경에서 활동을 하게 되었나요?'
+                : '어떤 역할을 맡았나요?'
+            }
+            value={selectedTab === 'star' ? situation : role}
+            onChange={e =>
+              selectedTab === 'star'
+                ? setSituation(e.target.value)
+                : setRole(e.target.value)
+            }
           />
         </div>
 
         <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-          주요성과
+          {selectedTab === 'star' ? '문제' : '주요 성과'}
         </div>
         <TextAreaInput
           type="textarea"
-          placeholder="그 안에서 실제로 겪은 문제나 과제는 무엇이 있었나요?"
-          value={perform}
-          onChange={e => setPerform(e.target.value)}
+          placeholder={
+            selectedTab === 'star'
+              ? ' 안에서 실제로 겪은 문제나 과제는 무엇이 있었나요?'
+              : '활동 내에서 자신의 주요 성과는 어떤 것이 있었나요?'
+          }
+          value={selectedTab === 'star' ? task : perform}
+          onChange={e =>
+            selectedTab === 'star'
+              ? setTask(e.target.value)
+              : setPerform(e.target.value)
+          }
         />
+
+        {selectedTab === 'star' && (
+          <div>
+            <div className="py-10">
+              <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
+                해결
+              </div>
+              <TextAreaInput
+                type="textarea"
+                placeholder="그 문제를 해결하기 위해 어떤 행동을 했나요?"
+                value={action}
+                onChange={e => setAction(e.target.value)}
+              />
+            </div>
+
+            <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
+              결과
+            </div>
+            <TextAreaInput
+              type="textarea"
+              placeholder="선택한 행동의 결과는 어땠나요?"
+              value={result}
+              onChange={e => setResult(e.target.value)}
+            />
+          </div>
+        )}
 
         <div className="py-10">
           <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
