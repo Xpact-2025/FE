@@ -30,15 +30,15 @@ export default function InputBox({
             border placeholder:text-[#777] transition
             ${
               error
-                ? 'border-[#EE3535]'
+                ? 'border-error'
                 : isSuccess
-                ? 'border-[#00C851]'
+                ? 'border-success'
                 : 'border-[#161616]'
             }`}
         />
         <span
           className={`absolute right-4 top-1/2 transform -translate-y-1/2 transition 
-            ${error ? 'text-[#EE3535]' : isSuccess ? 'text-[#00C851]' : 'text-gray-400'}`}
+            ${error ? 'text-error' : isSuccess ? 'text-success' : 'text-gray-400'}`}
         >
           ✔
         </span>
