@@ -4,9 +4,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import SideBarMenu from './SideBarMenu';
 import { usePathname } from 'next/navigation';
+import VectorIcon from '@/public/icons/Vector.svg';
+import BookIcon from '@/public/icons/Book.svg';
+import CopyIcon from '@/public/icons/Copy.svg';
+import FileDocumentIcon from '@/public/icons/File_Document.svg';
+import BookmarkIcon from '@/public/icons/Bookmark.svg';
+import UserCircleIcon from '@/public/icons/User_Circle.svg';
 
 const SideBar = () => {
   const pathname = usePathname();
+
   return (
     <aside className="w-64 bg-[#0E0E0E] p-6 h-screen">
       <nav>
@@ -22,37 +29,61 @@ const SideBar = () => {
         <ul>
           <SideBarMenu
             href="/dashboard"
-            iconSrc="/icons/Vector.svg"
+            icon={
+              <VectorIcon
+                className={`${pathname === '/dashboard' || pathname === '/' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
+              />
+            }
             text="대시보드"
             isActive={pathname === '/dashboard' || pathname === '/'}
           />
           <SideBarMenu
             href="/experience"
-            iconSrc="/icons/Book.svg"
+            icon={
+              <BookIcon
+                className={`${pathname === '/experience' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
+              />
+            }
             text="내 경험"
             isActive={pathname === '/experience'}
           />
           <SideBarMenu
             href="/experience"
-            iconSrc="/icons/Copy.svg"
+            icon={
+              <CopyIcon
+                className={`${pathname === '/growth-guide' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
+              />
+            }
             text="성장 가이드"
             isActive={pathname === '/growth-guide'}
           />
           <SideBarMenu
             href="/ai-self-introduction"
-            iconSrc="/icons/File_Document.svg"
+            icon={
+              <FileDocumentIcon
+                className={`${pathname === '/ai-self-introduction' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
+              />
+            }
             text="AI 자기소개서"
             isActive={pathname === '/ai-self-introduction'}
           />
           <SideBarMenu
             href="/bookmark"
-            iconSrc="/icons/Bookmark.svg"
+            icon={
+              <BookmarkIcon
+                className={`${pathname === '/bookmark' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
+              />
+            }
             text="북마크"
             isActive={pathname === '/bookmark'}
           />
           <SideBarMenu
             href="/my-page"
-            iconSrc="/icons/User_Circle.svg"
+            icon={
+              <UserCircleIcon
+                className={`${pathname === '/my-page' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
+              />
+            }
             text="마이페이지"
             isActive={pathname === '/my-page'}
           />
