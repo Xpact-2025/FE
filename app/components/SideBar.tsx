@@ -14,6 +14,10 @@ import UserCircleIcon from '@/public/icons/User_Circle.svg';
 const SideBar = () => {
   const pathname = usePathname();
 
+  const iconStyle = (currentPath: string) => {
+    return `${currentPath === pathname ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`;
+  };
+
   return (
     <aside className="w-64 bg-[#0E0E0E] p-6 h-screen">
       <nav>
@@ -39,21 +43,13 @@ const SideBar = () => {
           />
           <SideBarMenu
             href="/experience"
-            icon={
-              <BookIcon
-                className={`${pathname === '/experience' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
-              />
-            }
+            icon={<BookIcon className={iconStyle('/experience')} />}
             text="내 경험"
             isActive={pathname === '/experience'}
           />
           <SideBarMenu
             href="/experience"
-            icon={
-              <CopyIcon
-                className={`${pathname === '/growth-guide' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
-              />
-            }
+            icon={<CopyIcon className={iconStyle('/growth-guide')} />}
             text="성장 가이드"
             isActive={pathname === '/growth-guide'}
           />
@@ -61,7 +57,7 @@ const SideBar = () => {
             href="/ai-self-introduction"
             icon={
               <FileDocumentIcon
-                className={`${pathname === '/ai-self-introduction' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
+                className={iconStyle('/ai-self-introduction')}
               />
             }
             text="AI 자기소개서"
@@ -69,21 +65,13 @@ const SideBar = () => {
           />
           <SideBarMenu
             href="/bookmark"
-            icon={
-              <BookmarkIcon
-                className={`${pathname === '/bookmark' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
-              />
-            }
+            icon={<BookmarkIcon className={iconStyle('/bookmark')} />}
             text="북마크"
             isActive={pathname === '/bookmark'}
           />
           <SideBarMenu
             href="/my-page"
-            icon={
-              <UserCircleIcon
-                className={`${pathname === '/my-page' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
-              />
-            }
+            icon={<UserCircleIcon className={iconStyle('/my-page')} />}
             text="마이페이지"
             isActive={pathname === '/my-page'}
           />
