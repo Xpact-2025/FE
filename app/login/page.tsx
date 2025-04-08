@@ -11,21 +11,71 @@ import { loginUser } from '../../apis/auth';
 
 export default function LoginPage() {
   const router = useRouter();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+
+    if (!value.trim()) {
+      setEmailError('아이디를 입력해주세요.');
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError('올바르지 않은 아이디 형식입니다.');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPassword(value);
+
+    if (!value.trim()) {
+      setPasswordError('비밀번호를 입력해주세요.');
+    } else if (value.length < 8) {
+      setPasswordError('비밀번호는 8자 이상 입력해주세요.');
+    } else {
+      setPasswordError('');
+    }
+  };
+
   const handleLogin = async () => {
+    let hasError = false;
+
+    // 최종 유효성 검사
+    if (!email.trim()) {
+      setEmailError('아이디를 입력해주세요.');
+      hasError = true;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError('올바르지 않은 아이디 형식입니다.');
+      hasError = true;
+    }
+
+    if (!password.trim()) {
+      setPasswordError('비밀번호를 입력해주세요.');
+      hasError = true;
+    } else if (password.length < 8) {
+      setPasswordError('비밀번호는 8자 이상 입력해주세요.');
+      hasError = true;
+    }
+
+    if (hasError) return;
+
     try {
       const data = await loginUser({ email, password });
-      console.log(data);
 
-      if (data.httpStatus == 200) {
+      if (data.httpStatus === 200) {
         alert('로그인 성공!');
         localStorage.setItem('accessToken', data.data.accessToken);
         router.push('/dashboard');
       } else {
-        alert(`로그인 실패: ${data.message}`);
+        setEmailError('아이디 또는 비밀번호가 일치하지 않습니다.');
+        setPasswordError('아이디 또는 비밀번호가 일치하지 않습니다.');
       }
     } catch (err) {
       console.error('로그인 오류:', err);
@@ -36,7 +86,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-black text-white font-[Pretendard]">
       <NavBar />
-      <main className="flex flex-col items-center justify-center py-14 px-4">
+      <main className="flex flex-col items-center justify-center py-[50px] px-4">
         <div className="flex flex-col items-center mb-10">
           <Image
             src="/logo2.png"
@@ -55,7 +105,8 @@ export default function LoginPage() {
               type="text"
               placeholder="아이디"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={handleEmailChange}
+              error={emailError}
             />
           </div>
           <div>
@@ -64,20 +115,21 @@ export default function LoginPage() {
               type="password"
               placeholder="비밀번호"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
+              error={passwordError}
             />
           </div>
 
           <button
             onClick={handleLogin}
-            className="w-full mt-[8%] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded"
+            className="w-full mt-[8%] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded cursor-pointer"
           >
             로그인
           </button>
         </div>
 
         <div className="mt-6 text-[14px] text-gray-400">
-          계정이 없으신가요?
+          계정이 없으신가요? <span/>
           <a href="/signup" className="text-[#FF6D01] font-medium">
             회원가입
           </a>
