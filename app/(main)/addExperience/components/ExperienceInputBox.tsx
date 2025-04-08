@@ -37,16 +37,15 @@ export default function ExperienceInputBox({
 function SelectInput({ value, onChange }: ExperienceInputBoxProps) {
   const options = [
     '공모전',
+    '대외활동',
+    '학회/동아리',
     '인턴',
     '프로젝트',
-    '대외활동',
-    '자격증',
-    '학회/동아리',
     '교육',
     '수상',
+    '자격증',
     '봉사활동',
     '해외경험',
-    '교내활동',
     '기타',
   ];
 

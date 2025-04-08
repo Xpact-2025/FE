@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { saveExperience, type ExperiencePayload } from '@/apis/exp';
-import Image from 'next/image';
 import GuideModal from './components/GuideModal';
 import ExperienceInputBox from './components/ExperienceInputBox';
 import Footer from '@/app/components/Footer';
+import BackIcon from '@/public/icons/Chevron_Left.svg';
+import HelpIcon from '@/public/icons/Circle_Help.svg';
 
 export default function AddExperiencePage() {
   const router = useRouter();
@@ -68,10 +69,10 @@ export default function AddExperiencePage() {
       <form onSubmit={handleSubmit}>
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center">
-            <Image src="/Chevron_Left.svg" alt="back" width={35} height={35} />
+            <BackIcon className="stroke-gray-50" />
             <div className="text-gray-50 text-2xl font-medium">경험 입력</div>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center gap-[9px]">
             <button
               type="submit"
               onClick={() =>
@@ -80,7 +81,7 @@ export default function AddExperiencePage() {
                   status: 'DRAFT',
                 }))
               }
-              className="w-30 py-3 bg-gray-900 text-sm text-gray-300 font-semibold border border-gray-50-20 rounded-lg"
+              className="w-20 py-3 bg-gray-900 text-sm text-gray-300 font-semibold border border-gray-50-20 rounded-lg"
             >
               임시저장
             </button>
@@ -92,7 +93,7 @@ export default function AddExperiencePage() {
                   status: 'SAVE',
                 }))
               }
-              className="w-30 py-3 bg-primary-50 text-sm text-black font-semibold rounded-lg"
+              className="w-20 py-3 bg-primary-50 text-sm text-black font-semibold rounded-lg"
             >
               작성완료
             </button>
@@ -145,12 +146,7 @@ export default function AddExperiencePage() {
                   setForm(prev => ({ ...prev, isModalOpen: true }))
                 }
               >
-                <Image
-                  src="/Circle_Help.svg"
-                  alt="help"
-                  width={24}
-                  height={24}
-                />
+                <HelpIcon className="stroke-gray-300" />
               </button>
               <div className="text-neutral-400 font-medium p-2">
                 양식 활용 가이드
