@@ -15,8 +15,8 @@ export default function AddExperiencePage() {
     selectedTab: 'star',
     isModalOpen: false,
     status: 'SAVE',
-    formType: '',
-    experienceType: '',
+    formType: 'STAR_FORM',
+    experienceType: 'INTERN',
     startDate: '',
     endDate: '',
     title: '',
@@ -38,25 +38,26 @@ export default function AddExperiencePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('입력된 값:', form);
 
+    const payload: ExperiencePayload = {
+      ...form,
+      startDate: new Date(form.startDate),
+      endDate: new Date(form.endDate),
+      formType: form.formType as 'STAR_FORM' | 'SIMPLE_FORM',
+      experienceType:
+        form.experienceType as ExperiencePayload['experienceType'],
+      status: form.status as 'SAVE' | 'DRAFT',
+    };
     try {
-      const payload: ExperiencePayload = {
-        ...form,
-        startDate: new Date(form.startDate),
-        endDate: new Date(form.endDate),
-        formType: form.formType as 'STAR_FORM' | 'SIMPLE_FORM',
-        experienceType:
-          form.experienceType as ExperiencePayload['experienceType'],
-        status: form.status as 'SAVE' | 'DRAFT',
-      };
       const data = await saveExperience(payload);
 
       if (data.httpStatus == 200) {
+        localStorage.setItem('accessToken', data.data.accessToken);
         alert('성공적으로 저장되었습니다!');
         router.push('/experience');
       } else {
         alert(`저장 실패: ${data.message}`);
+        console.log('보내는 payload:', payload);
       }
     } catch (err) {
       console.error('저장 중 오류 발생:', err);
