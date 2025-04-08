@@ -5,17 +5,17 @@ interface InputBoxProps {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
-  successHighlight?: boolean; 
+  successHighlight?: boolean;
 }
 
-export default function InputBox({
+const InputBox = ({
   type,
   placeholder,
   value,
   onChange,
   error,
-  successHighlight = false, 
-}: InputBoxProps) {
+  successHighlight = false,
+}: InputBoxProps) => {
   const isSuccess = successHighlight && !error && value?.trim();
 
   return (
@@ -32,8 +32,8 @@ export default function InputBox({
               error
                 ? 'border-error'
                 : isSuccess
-                ? 'border-success'
-                : 'border-[#161616]'
+                  ? 'border-success'
+                  : 'border-[#161616]'
             }`}
         />
         <span
@@ -43,9 +43,9 @@ export default function InputBox({
           ✔
         </span>
       </div>
-      {error && (
-        <p className="text-[#EE3535] text-[14px] mt-1 ml-1">{error}</p>
-      )}
+      {error && <p className="text-error text-[14px] mt-1 ml-1">{error}</p>}
     </>
   );
-}
+};
+
+export default InputBox;

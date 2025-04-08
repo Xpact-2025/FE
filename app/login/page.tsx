@@ -14,7 +14,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
@@ -129,7 +128,7 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-6 text-[14px] text-gray-400">
-          계정이 없으신가요? <span/>
+          계정이 없으신가요? <span />
           <a href="/signup" className="text-[#FF6D01] font-medium">
             회원가입
           </a>
