@@ -54,6 +54,7 @@ function SelectInput({ value, onChange }: ExperienceInputBoxProps) {
     <div className="grid grid-cols-6 gap-2">
       {options.map((option, index) => (
         <button
+          type="button"
           key={index}
           onClick={() =>
             onChange({

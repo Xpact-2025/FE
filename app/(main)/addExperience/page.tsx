@@ -103,6 +103,7 @@ export default function AddExperiencePage() {
           <div className="flex items-center justify-between w-full">
             <div className="flex w-[340px] px-0.5 py-0.5 bg-gray-600 rounded-3xl gap-2">
               <button
+                type="button"
                 className={`w-[170px] rounded-3xl font-medium py-2 transition all ${
                   form.selectedTab === 'star'
                     ? 'bg-gray-300 text-black'
@@ -119,6 +120,7 @@ export default function AddExperiencePage() {
                 STAR 양식
               </button>
               <button
+                type="button"
                 className={`w-[170px] rounded-3xl font-medium py-2 transition all ${
                   form.selectedTab === 'simple'
                     ? 'bg-gray-300 text-black'
@@ -138,6 +140,7 @@ export default function AddExperiencePage() {
 
             <div className="flex items-center gap-[12px]">
               <button
+                type="button"
                 onClick={() =>
                   setForm(prev => ({ ...prev, isModalOpen: true }))
                 }
