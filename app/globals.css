@@ -6,6 +6,7 @@
   /* Gray 색상 */
   --color-gray-50: rgb(255, 255, 255);
   --color-gray-50-10: rgb(255, 255, 255, 0.1);
+  --color-gray-50-20: rgb(255, 255, 255, 0.2);
   --color-gray-100: rgb(217, 217, 217);
   --color-gray-200: rgb(205, 205, 205);
   --color-gray-300: rgb(153, 153, 153);
@@ -143,7 +144,7 @@ body {
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #FFF !important;
-  box-shadow: 0 0 0 3px #FF6D01; /* ✅ 바깥쪽 테두리처럼 보이게 */
+  background-color: #fff !important;
+  box-shadow: 0 0 0 3px #ff6d01; /* ✅ 바깥쪽 테두리처럼 보이게 */
   opacity: 1;
 }
