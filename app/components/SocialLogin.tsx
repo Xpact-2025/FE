@@ -14,11 +14,11 @@ export default function SocialLogin() {
     const code = searchParams.get('code');
     if (code) {
       kakaoLogin(code)
-        .then((res) => {
+        .then(res => {
           localStorage.setItem('accessToken', res.data.accessToken);
           router.push('/');
         })
-        .catch((err) => {
+        .catch(err => {
           console.error('로그인 실패:', err);
         });
     }
@@ -42,26 +42,15 @@ export default function SocialLogin() {
         </span>
         <hr className="flex-grow border-gray-600" />
       </div>
-  
+
       <div className="mt-5 flex justify-center space-x-10">
-        <button onClick={handleKakaoLogin} className='cursor-pointer'>
-          <Image
-            src="/kakao.png"
-            alt="kakao"
-            width={48}
-            height={48}
-          />
+        <button onClick={handleKakaoLogin} className="cursor-pointer">
+          <Image src="/kakao.png" alt="kakao" width={48} height={48} />
         </button>
         <Link href="#">
-          <Image
-            src="/naver.png"
-            alt="naver"
-            width={48}
-            height={48}
-          />
+          <Image src="/naver.png" alt="naver" width={48} height={48} />
         </Link>
       </div>
     </div>
   );
 }
-  
