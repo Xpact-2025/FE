@@ -8,6 +8,7 @@ import SocialLogin from '../components/SocialLogin';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { signupUser } from '../../apis/auth';
+import { Suspense } from 'react';
 
 export default function SignupPage() {
   const [email, setEmail] = useState('');
@@ -46,7 +47,9 @@ export default function SignupPage() {
     }
   };
 
-  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleConfirmPasswordChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = e.target.value;
     setConfirmPassword(value);
     if (value !== password) {
@@ -124,7 +127,13 @@ export default function SignupPage() {
       <NavBar />
       <main className="flex flex-col items-center justify-center py-[50px] px-4">
         <div className="flex flex-col items-center mb-10">
-          <Image src="/logo2.png" alt="Xpact" width={59} height={48} className="mb-4" />
+          <Image
+            src="/logo2.png"
+            alt="Xpact"
+            width={59}
+            height={48}
+            className="mb-4"
+          />
           <h1 className="text-[35px] font-semibold">회원가입</h1>
         </div>
 
@@ -182,7 +191,9 @@ export default function SignupPage() {
         </div>
 
         <div className="mt-[8%]">
-          <SocialLogin />
+          <Suspense fallback={<div>소셜 로그인 로딩 중...</div>}>
+            <SocialLogin />
+          </Suspense>
         </div>
       </main>
       <Footer />
