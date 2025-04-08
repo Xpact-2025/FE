@@ -1,7 +1,3 @@
-import DashboardPage from "./dashboard/page";
-
-const mainPage = () => {
-  return <DashboardPage />;
-};
-
-export default mainPage;
+export default function MainPage() {
+  return <div>main</div>;
+}

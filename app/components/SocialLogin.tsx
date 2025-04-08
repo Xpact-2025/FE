@@ -27,6 +27,7 @@ export default function SocialLogin() {
   const handleKakaoLogin = async () => {
     try {
       const url = await getKakaoAuthUrl();
+      console.log(url);
       window.location.href = url;
     } catch (e) {
       console.error(e);
