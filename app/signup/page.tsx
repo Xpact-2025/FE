@@ -46,7 +46,9 @@ export default function SignupPage() {
     }
   };
 
-  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleConfirmPasswordChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = e.target.value;
     setConfirmPassword(value);
     if (value !== password) {
@@ -124,7 +126,13 @@ export default function SignupPage() {
       <NavBar />
       <main className="flex flex-col items-center justify-center py-[50px] px-4">
         <div className="flex flex-col items-center mb-10">
-          <Image src="/logo2.png" alt="Xpact" width={59} height={48} className="mb-4" />
+          <Image
+            src="/logo2.png"
+            alt="Xpact"
+            width={59}
+            height={48}
+            className="mb-4"
+          />
           <h1 className="text-[35px] font-semibold">회원가입</h1>
         </div>
 
