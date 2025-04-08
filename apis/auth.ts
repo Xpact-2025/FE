@@ -67,7 +67,6 @@ export async function signupUser(
   return data;
 }
 
-
 //카카오 로그인
 export async function getKakaoAuthUrl(): Promise<string> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/url/kakao`);
@@ -76,9 +75,9 @@ export async function getKakaoAuthUrl(): Promise<string> {
   }
 
   const url = await res.text();
+  console.log(url);
   return url;
 }
-
 
 interface KakaoLoginResponse {
   httpStatus?: number;
@@ -97,12 +96,13 @@ export async function kakaoLogin(code: string): Promise<KakaoLoginResponse> {
       method: 'POST',
     }
   );
+  console.log(res);
 
   if (!res.ok) {
     throw new Error('카카오 로그인 실패');
   }
 
   const data = await res.json();
+  console.log(data);
   return data;
 }
-

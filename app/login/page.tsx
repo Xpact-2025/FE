@@ -8,6 +8,7 @@ import FormInput from '../components/InputBox';
 import SocialLogin from '../components/SocialLogin';
 import Image from 'next/image';
 import { loginUser } from '../../apis/auth';
+import { Suspense } from 'react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -135,7 +136,9 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-[8%]">
-          <SocialLogin />
+          <Suspense fallback={<div>소셜 로그인 로딩 중...</div>}>
+            <SocialLogin />
+          </Suspense>
         </div>
       </main>
       <Footer />

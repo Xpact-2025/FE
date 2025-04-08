@@ -8,6 +8,7 @@ import SocialLogin from '../components/SocialLogin';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { signupUser } from '../../apis/auth';
+import { Suspense } from 'react';
 
 export default function SignupPage() {
   const [email, setEmail] = useState('');
@@ -190,7 +191,9 @@ export default function SignupPage() {
         </div>
 
         <div className="mt-[8%]">
-          <SocialLogin />
+          <Suspense fallback={<div>소셜 로그인 로딩 중...</div>}>
+            <SocialLogin />
+          </Suspense>
         </div>
       </main>
       <Footer />
