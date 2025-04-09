@@ -1,14 +1,14 @@
 export interface ExperiencePayload {
   status: 'DRAFT' | 'SAVE';
   experienceType:
-    | 'INTERN'
-    | 'EXTERNAL_ACTIVITIES'
     | 'CONTEST'
-    | 'PROJECT'
-    | 'CERTIFICATES'
+    | 'EXTERNAL_ACTIVITIES'
     | 'ACADEMIC_CLUB'
+    | 'INTERN'
+    | 'PROJECT'
     | 'EDUCATION'
     | 'PRIZE'
+    | 'CERTIFICATES'
     | 'VOLUNTEER_WORK'
     | 'STUDY_ABROAD'
     | 'ETC';
@@ -28,15 +28,21 @@ export interface ExperiencePayload {
 interface ExperienceResponse {
   httpStatus: number;
   message: string;
+  data: {
+    accessToken: string;
+  };
 }
 
 export async function saveExperience(
   payload: ExperiencePayload
 ): Promise<ExperienceResponse> {
+  const token = localStorage.getItem('accessToken');
+
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/exp`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       ...payload,
