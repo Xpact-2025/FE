@@ -28,9 +28,6 @@ export interface ExperiencePayload {
 interface ExperienceResponse {
   httpStatus: number;
   message: string;
-  data: {
-    accessToken: string;
-  };
 }
 
 export async function saveExperience(

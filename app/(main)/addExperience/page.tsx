@@ -54,7 +54,6 @@ export default function AddExperiencePage() {
       console.log('서버 응답:', data);
 
       if (data?.httpStatus == 200) {
-        localStorage.setItem('accessToken', data?.data?.accessToken);
         alert('성공적으로 저장되었습니다!');
         router.push('/experience');
       } else {
