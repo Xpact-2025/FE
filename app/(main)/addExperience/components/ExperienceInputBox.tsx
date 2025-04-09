@@ -36,17 +36,17 @@ export default function ExperienceInputBox({
 
 function SelectInput({ value, onChange }: ExperienceInputBoxProps) {
   const options = [
-    '공모전',
-    '대외활동',
-    '학회/동아리',
-    '인턴',
-    '프로젝트',
-    '교육',
-    '수상',
-    '자격증',
-    '봉사활동',
-    '해외경험',
-    '기타',
+    { label: '공모전', value: 'CONTEST' },
+    { label: '대외활동', value: 'EXTERNAL_ACTIVITIES' },
+    { label: '학회/동아리', value: 'ACADEMIC_CLUB' },
+    { label: '인턴', value: 'INTERN' },
+    { label: '프로젝트', value: 'PROJECT' },
+    { label: '교육', value: 'EDUCATION' },
+    { label: '수상', value: 'PRIZE' },
+    { label: '자격증', value: 'CERTIFICATES' },
+    { label: '봉사활동', value: 'VOLUNTEER_WORK' },
+    { label: '해외경험', value: 'STUDY_ABROAD' },
+    { label: '기타', value: 'ETC' },
   ];
 
   return (
@@ -57,13 +57,13 @@ function SelectInput({ value, onChange }: ExperienceInputBoxProps) {
           key={index}
           onClick={() =>
             onChange({
-              target: { value: option },
+              target: { value: option.value },
             } as React.ChangeEvent<HTMLSelectElement>)
           }
           className={`w-[120px] h-11 px-12 py-2.5 gap-[7px] rounded-lg border items-center justify-center inline-flex whitespace-nowrap
-            ${value === option ? 'bg-primary-50 text-gray-800 text-lg font-medium' : 'bg-gray-800 text-gray-300 border-gray-50-20 text-lg font-medium'}`}
+            ${value === option.value ? 'bg-primary-50 text-gray-800 text-lg font-medium' : 'bg-gray-800 text-gray-300 border-gray-50-20 text-lg font-medium'}`}
         >
-          {option}
+          {option.label}
         </button>
       ))}
     </div>

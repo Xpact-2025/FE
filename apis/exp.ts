@@ -1,14 +1,14 @@
 export interface ExperiencePayload {
   status: 'DRAFT' | 'SAVE';
   experienceType:
-    | 'INTERN'
-    | 'EXTERNAL_ACTIVITIES'
     | 'CONTEST'
-    | 'PROJECT'
-    | 'CERTIFICATES'
+    | 'EXTERNAL_ACTIVITIES'
     | 'ACADEMIC_CLUB'
+    | 'INTERN'
+    | 'PROJECT'
     | 'EDUCATION'
     | 'PRIZE'
+    | 'CERTIFICATES'
     | 'VOLUNTEER_WORK'
     | 'STUDY_ABROAD'
     | 'ETC';
