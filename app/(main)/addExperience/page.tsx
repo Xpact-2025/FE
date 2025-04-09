@@ -16,7 +16,7 @@ export default function AddExperiencePage() {
     isModalOpen: false,
     status: 'SAVE',
     formType: 'STAR_FORM',
-    experienceType: 'INTERN',
+    experienceType: '',
     startDate: '',
     endDate: '',
     title: '',
@@ -48,15 +48,17 @@ export default function AddExperiencePage() {
         form.experienceType as ExperiencePayload['experienceType'],
       status: form.status as 'SAVE' | 'DRAFT',
     };
+
     try {
       const data = await saveExperience(payload);
+      console.log('서버 응답:', data);
 
-      if (data.httpStatus == 200) {
-        localStorage.setItem('accessToken', data.data.accessToken);
+      if (data?.httpStatus == 200) {
+        localStorage.setItem('accessToken', data?.data?.accessToken);
         alert('성공적으로 저장되었습니다!');
         router.push('/experience');
       } else {
-        alert(`저장 실패: ${data.message}`);
+        alert(`저장 실패: ${data?.message}`);
         console.log('보내는 payload:', payload);
       }
     } catch (err) {
