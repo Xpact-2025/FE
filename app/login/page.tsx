@@ -66,20 +66,13 @@ export default function LoginPage() {
 
     if (hasError) return;
 
-    try {
-      const data = await loginUser({ email, password });
-
-      if (data.httpStatus === 200) {
-        alert('로그인 성공!');
-        localStorage.setItem('accessToken', data.data.accessToken);
-        router.push('/dashboard');
-      } else {
-        setEmailError('아이디 또는 비밀번호가 일치하지 않습니다.');
-        setPasswordError('아이디 또는 비밀번호가 일치하지 않습니다.');
-      }
-    } catch (err) {
-      console.error('로그인 오류:', err);
-      alert('네트워크 오류가 발생했습니다.');
+    const data = await loginUser({ email, password });
+    if (data.httpStatus === 200) {
+      alert('로그인 성공!');
+      router.push('/dashboard');
+    } else {
+      setEmailError('아이디 또는 비밀번호가 일치하지 않습니다.');
+      setPasswordError('아이디 또는 비밀번호가 일치하지 않습니다.');
     }
   };
 

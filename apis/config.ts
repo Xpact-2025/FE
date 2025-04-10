@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import { cookies } from 'next/headers';
 
 const API = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -9,11 +10,12 @@ const API = axios.create({
 });
 
 API.interceptors.request.use(
-  config => {
-    // const token = localStorage.getItem('accessToken');
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
+  async config => {
+    const cookieStore = await cookies();
+    const token = cookieStore.get('access-token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token.value}`;
+    }
     return config;
   },
   error => {
@@ -27,7 +29,7 @@ API.interceptors.response.use(
   (error: AxiosError) => {
     if (error.response?.status === 401) {
       console.log('[401 에러] 인증 필요:', error.response.data);
-      // refresh api로 accessToken 재발급
+      // refresh api로 accessToken 재발급 로직 추가 필요
       return Promise.resolve(error.response);
     }
     return Promise.resolve(error.response);
