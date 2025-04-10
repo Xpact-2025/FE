@@ -100,25 +100,20 @@ export default function SignupPage() {
 
     if (hasError) return;
 
-    try {
-      const data = await signupUser({
-        email,
-        password,
-        name,
-        birthDate,
-        type: 'FORM',
-        role: 'ROLE_USER',
-      });
+    const data = await signupUser({
+      email,
+      password,
+      name,
+      birthDate,
+      type: 'FORM',
+      role: 'ROLE_USER',
+    });
 
-      if (data.httpStatus === 200) {
-        alert('회원가입 성공!');
-        router.push('/login');
-      } else {
-        alert(`회원가입 실패: ${data.message}`);
-      }
-    } catch (error) {
-      console.error('회원가입 오류:', error);
-      alert('네트워크 오류가 발생했습니다.');
+    if (data.httpStatus === 200) {
+      alert('회원가입 성공!');
+      router.push('/login');
+    } else {
+      alert(`회원가입 실패: ${data.message}`);
     }
   };
 

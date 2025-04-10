@@ -61,20 +61,13 @@ export async function loginUser(payload: LoginPayload): Promise<LoginResponse> {
 export async function signupUser(
   payload: SignupPayload
 ): Promise<SignupResponse> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      ...payload,
-      type: payload.type ?? 'FORM',
-      role: payload.role ?? 'ROLE_USER',
-    }),
+  const res = await API.post<SignupResponse>('/auth/signup', {
+    ...payload,
+    type: payload.type ?? 'FORM',
+    role: payload.role ?? 'ROLE_USER',
   });
 
-  const data = await res.json();
-  return data;
+  return res.data;
 }
 
 //카카오 로그인
