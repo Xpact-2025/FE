@@ -49,21 +49,15 @@ export default function AddExperiencePage() {
       status: form.status as 'SAVE' | 'DRAFT',
     };
 
-    try {
-      const data = await saveExperience(payload);
-      console.log('서버 응답:', data);
+    const data = await saveExperience(payload);
+    console.log('서버 응답:', data);
 
-      if (data?.httpStatus == 200) {
-        localStorage.setItem('accessToken', data?.data?.accessToken);
-        alert('성공적으로 저장되었습니다!');
-        router.push('/experience');
-      } else {
-        alert(`저장 실패: ${data?.message}`);
-        console.log('보내는 payload:', payload);
-      }
-    } catch (err) {
-      console.error('저장 중 오류 발생:', err);
-      alert('저장 중 오류가 발생했습니다.');
+    if (data?.httpStatus == 200) {
+      alert('성공적으로 저장되었습니다!');
+      router.push('/experience');
+    } else {
+      alert(`저장 실패: ${data?.message}`);
+      console.log('보내는 payload:', payload);
     }
   };
 

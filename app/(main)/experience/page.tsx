@@ -1,7 +1,7 @@
-import { Card, CardHeader, CardTitle, CardFooter } from "./components/ExpCard";
-import { MoreVertical } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardFooter } from './components/ExpCard';
+import { MoreVertical } from 'lucide-react';
 
-const ExpMainPage = () => {
+export default function ExpMainPage() {
   return (
     <div className="min-h-screen bg-black text-[#FFFFFF] flex">
       <main className="flex-1 flex-col items-start py-16 px-8">
@@ -40,6 +40,4 @@ const ExpMainPage = () => {
       </main>
     </div>
   );
-};
-
-export default ExpMainPage;
+}
