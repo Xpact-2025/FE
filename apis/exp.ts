@@ -35,10 +35,10 @@ export interface ExperiencePayload {
   perform?: string;
 }
 
-interface Experience {
+export interface Experience {
   id: number;
   title: string;
-  experienceType: string;
+  experienceType: ExperienceType;
 }
 
 interface SaveExperienceResponse {
@@ -66,6 +66,5 @@ export async function saveExperience(
 
 export async function getMyExperience(): Promise<GetExperienceResponse> {
   const res = await API.get<GetExperienceResponse>('/api/exp');
-  console.log(res.data);
   return res.data;
 }
