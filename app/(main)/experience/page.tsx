@@ -1,7 +1,10 @@
+import { getMyExperience } from '@/apis/exp';
 import { Card, CardHeader, CardTitle, CardFooter } from './components/ExpCard';
 import { MoreVertical } from 'lucide-react';
 
-export default function ExpMainPage() {
+export default async function ExpMainPage() {
+  const data = await getMyExperience();
+  console.log(data);
   return (
     <div className="min-h-screen bg-black text-[#FFFFFF] flex">
       <main className="flex-1 flex-col items-start py-16 px-8">
