@@ -1,5 +1,5 @@
-import { ExperienceType } from '@/apis/exp';
 import { EXPERIENCE_OPTIONS } from '@/constants/experienceOptions';
+import { ExperienceType } from '@/types/exp';
 
 export default function ExpType({ expType }: { expType: ExperienceType }) {
   const label = EXPERIENCE_OPTIONS[expType]?.label || expType;
