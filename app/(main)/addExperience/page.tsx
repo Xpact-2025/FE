@@ -8,6 +8,11 @@ import ExperienceInputBox from './components/ExperienceInputBox';
 import Footer from '@/app/components/Footer';
 import BackIcon from '@/public/icons/Chevron_Left.svg';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
+import {
+  ExperienceFormType,
+  ExperienceStatus,
+  ExperienceType,
+} from '@/types/exp';
 
 export default function AddExperiencePage() {
   const router = useRouter();
@@ -43,10 +48,9 @@ export default function AddExperiencePage() {
       ...form,
       startDate: new Date(form.startDate),
       endDate: new Date(form.endDate),
-      formType: form.formType as 'STAR_FORM' | 'SIMPLE_FORM',
-      experienceType:
-        form.experienceType as ExperiencePayload['experienceType'],
-      status: form.status as 'SAVE' | 'DRAFT',
+      formType: form.formType as ExperienceFormType,
+      experienceType: form.experienceType as ExperienceType,
+      status: form.status as ExperienceStatus,
     };
 
     const data = await saveExperience(payload);

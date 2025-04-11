@@ -1,3 +1,4 @@
+import { EXPERIENCE_OPTIONS } from '@/constants/experienceOptions';
 import React from 'react';
 
 interface ExperienceInputBoxProps {
@@ -35,19 +36,7 @@ export default function ExperienceInputBox({
 }
 
 function SelectInput({ value, onChange }: ExperienceInputBoxProps) {
-  const options = [
-    { label: '공모전', value: 'CONTEST' },
-    { label: '대외활동', value: 'EXTERNAL_ACTIVITIES' },
-    { label: '학회/동아리', value: 'ACADEMIC_CLUB' },
-    { label: '인턴', value: 'INTERN' },
-    { label: '프로젝트', value: 'PROJECT' },
-    { label: '교육', value: 'EDUCATION' },
-    { label: '수상', value: 'PRIZE' },
-    { label: '자격증', value: 'CERTIFICATES' },
-    { label: '봉사활동', value: 'VOLUNTEER_WORK' },
-    { label: '해외경험', value: 'STUDY_ABROAD' },
-    { label: '기타', value: 'ETC' },
-  ];
+  const options = Object.values(EXPERIENCE_OPTIONS);
 
   return (
     <div className="grid grid-cols-6 gap-2">

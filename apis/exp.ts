@@ -1,22 +1,16 @@
 'use server';
 
+import {
+  ExperienceFormType,
+  ExperienceStatus,
+  ExperienceType,
+} from '@/types/exp';
 import API from './config';
 
 export interface ExperiencePayload {
-  status: 'DRAFT' | 'SAVE';
-  experienceType:
-    | 'CONTEST'
-    | 'EXTERNAL_ACTIVITIES'
-    | 'ACADEMIC_CLUB'
-    | 'INTERN'
-    | 'PROJECT'
-    | 'EDUCATION'
-    | 'PRIZE'
-    | 'CERTIFICATES'
-    | 'VOLUNTEER_WORK'
-    | 'STUDY_ABROAD'
-    | 'ETC';
-  formType: 'STAR_FORM' | 'SIMPLE_FORM';
+  status: ExperienceStatus;
+  experienceType: ExperienceType;
+  formType: ExperienceFormType;
   title: string;
   startDate: Date;
   endDate: Date;
@@ -29,22 +23,36 @@ export interface ExperiencePayload {
   perform?: string;
 }
 
-interface ExperienceResponse {
+export interface Experience {
+  id: number;
+  title: string;
+  experienceType: ExperienceType;
+}
+
+interface SaveExperienceResponse {
   httpStatus: number;
   message: string;
-  data: {
-    accessToken: string;
-  };
+}
+
+interface GetExperienceResponse {
+  httpStatus: number;
+  message: string;
+  data: Experience[];
 }
 
 export async function saveExperience(
   payload: ExperiencePayload
-): Promise<ExperienceResponse> {
-  const res = await API.post<ExperienceResponse>('/api/exp', {
+): Promise<SaveExperienceResponse> {
+  const res = await API.post<SaveExperienceResponse>('/api/exp', {
     ...payload,
     startDate: new Date(payload.startDate),
     endDate: new Date(payload.endDate),
   });
 
+  return res.data;
+}
+
+export async function getMyExperience(): Promise<GetExperienceResponse> {
+  const res = await API.get<GetExperienceResponse>('/api/exp');
   return res.data;
 }

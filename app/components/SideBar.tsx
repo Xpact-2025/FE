@@ -43,9 +43,15 @@ const SideBar = () => {
           />
           <SideBarMenu
             href="/experience"
-            icon={<BookIcon className={iconStyle('/experience')} />}
+            icon={
+              <BookIcon
+                className={`${pathname === '/experience' || pathname === '/addExperience' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
+              />
+            }
             text="내 경험"
-            isActive={pathname === '/experience'}
+            isActive={
+              pathname === '/experience' || pathname === '/addExperience'
+            }
           />
           <SideBarMenu
             href="/experience"
