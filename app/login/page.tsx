@@ -79,7 +79,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen  bg-black text-white font-[Pretendard]">
       <NavBar />
-      <main className="flex flex-col items-center justify-center py-[150px] px-4">
+      <main className="flex flex-col items-center justify-center py-[120px] px-4">
         <div className="flex flex-col items-center mb-10">
           <Image
             src="/logo2.png"
@@ -128,7 +128,7 @@ export default function LoginPage() {
           </a>
         </div>
 
-        <div className="mt-[8%]">
+        <div className="mt-[5%]">
           <Suspense fallback={<div>소셜 로그인 로딩 중...</div>}>
             <SocialLogin />
           </Suspense>
