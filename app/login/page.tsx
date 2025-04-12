@@ -77,9 +77,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white font-[Pretendard]">
+    <div className="min-h-screen  bg-black text-white font-[Pretendard]">
       <NavBar />
-      <main className="flex flex-col items-center justify-center py-[50px] px-4">
+      <main className="flex flex-col items-center justify-center py-[150px] px-4">
         <div className="flex flex-col items-center mb-10">
           <Image
             src="/logo2.png"
