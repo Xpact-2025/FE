@@ -92,8 +92,14 @@
   --font-body-23-b: 700 23px/104% sans-serif;
   --tracking-body-23-b: 0em;
 
+  --font-body-20-sb: 600 20px/155% sans-serif;
+  --tracking-body-20-sb: -0.02em;
+
   --font-body-20-r: 400 20px/155% sans-serif;
   --tracking-body-20-r: -0.02em;
+
+  --font-body-18-sb: 600 18px/170% sans-serif;
+  --tracking-body-18-sb: 0em;
 
   --font-body-18-m: 500 18px/133% sans-serif;
   --tracking-body-18-m: 0em;
@@ -103,6 +109,9 @@
 
   --font-body-16-r: 400 16px/150% sans-serif;
   --tracking-body-16-r: 0em;
+
+  --font-body-14-sb: 600 14px/130% sans-serif;
+  --tracking-body-14-sb: 0.02em;
 
   --font-body-14-m: 500 14px/171% sans-serif;
   --tracking-body-14-m: 0em;
@@ -137,9 +146,19 @@
   letter-spacing: var(--tracking-body-23-b);
 }
 
+.body-20-sb {
+  font: var(--font-body-20-sb);
+  letter-spacing: var(--tracking-body-20-sb);
+}
+
 .body-20-r {
   font: var(--font-body-20-r);
   letter-spacing: var(--tracking-body-20-r);
+}
+
+.body-18-sb {
+  font: var(--font-body-18-sb);
+  letter-spacing: var(--tracking-body-18-sb);
 }
 
 .body-18-m {
@@ -155,6 +174,11 @@
 .body-16-r {
   font: var(--font-body-16-r);
   letter-spacing: var(--tracking-body-16-r);
+}
+
+.body-14-sb {
+  font: var(--font-body-14-sb);
+  letter-spacing: var(--tracking-body-14-sb);
 }
 
 .body-14-m {
