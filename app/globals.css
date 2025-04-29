@@ -12,6 +12,7 @@
   --color-gray-300: rgb(153, 153, 153);
   --color-gray-400: rgb(117, 117, 117);
   --color-gray-500: rgb(102, 102, 102);
+  --color-gray-500-20: rgb(102, 102, 102, 0.2);
   --color-gray-600: rgb(36, 36, 36);
   --color-gray-700: rgb(22, 22, 22);
   --color-gray-800: rgb(17, 17, 17);
@@ -27,7 +28,52 @@
   /* Primary 색상 */
   --color-primary: rgb(255, 109, 1);
   --color-primary-50: rgb(255, 109, 1);
-  --color-primary-100: #842800;
+  --color-primary-100: rgb(132, 40, 0);
+
+  /* Color 색상 */
+  /* Pink Colors */
+  --color-pink-50: rgb(255, 68, 111); /* #FF446F RGB(255,68,111) */
+  --color-pink-50-20: rgb(255, 68, 111, 0.2);
+
+  /* Red Colors */
+  --color-red-50: rgb(238, 53, 53); /* #EE3535 RGB(238,53,53) */
+  --color-red-50-20: rgb(238, 53, 53, 0.2);
+
+  /* Orange Colors */
+  --color-orange-50: rgb(247, 139, 8); /* #F78308 RGB(247,139,8) */
+  --color-orange-50-20: rgb(247, 139, 8, 0.2);
+
+  /* Yellow Colors */
+  --color-yellow-50: rgb(245, 211, 10); /* #F5DD0A RGB(245,211,10) */
+  --color-yellow-50-20: rgb(245, 211, 10, 0.2);
+
+  /* YellowGreen Colors*/
+  --color-yellowgreen-50: rgb(157, 198, 33); /* #9DC621 RGB(157,198,33) */
+  --color-yellowgreen-50-20: rgb(157, 198, 33, 0.2);
+
+  /* Green Colors */
+  --color-green-50: rgb(77, 178, 81); /* #4DB251 RGB(77,178,81) */
+  --color-green-50-20: rgb(77, 178, 81, 0.2);
+
+  /* Mint Colors */
+  --color-mint-50: rgb(51, 204, 171); /* #33CCAB RGB(51,204,171) */
+  --color-mint-50-20: rgb(51, 204, 171, 0.2);
+
+  /* Blue Colors */
+  --color-blue-50: rgb(13, 141, 242); /* #0D8DF2 RGB(13,141,242) */
+  --color-blue-50-20: rgb(13, 141, 242, 0.2);
+
+  /* Lavender Colors */
+  --color-lavender-50: rgb(129, 134, 244); /* #8186F4 RGB(129,134,244) */
+  --color-lavender-50-20: rgb(129, 134, 244, 0.2);
+
+  /* Apricot Colors */
+  --color-apricot-50: rgb(254, 152, 104); /* #FE9868 RGB(254,152,104) */
+  --color-apricot-50-20: rgb(254, 152, 104, 0.2);
+
+  /* Plum Colors */
+  --color-plum-50: rgb(153, 73, 182); /* #9949B6 RGB(153,73,182) */
+  --color-plum-50-20: rgb(153, 73, 182, 0.2);
 
   /* Type System */
 
@@ -46,8 +92,14 @@
   --font-body-23-b: 700 23px/104% sans-serif;
   --tracking-body-23-b: 0em;
 
+  --font-body-20-sb: 600 20px/155% sans-serif;
+  --tracking-body-20-sb: -0.02em;
+
   --font-body-20-r: 400 20px/155% sans-serif;
   --tracking-body-20-r: -0.02em;
+
+  --font-body-18-sb: 600 18px/170% sans-serif;
+  --tracking-body-18-sb: 0em;
 
   --font-body-18-m: 500 18px/133% sans-serif;
   --tracking-body-18-m: 0em;
@@ -57,6 +109,9 @@
 
   --font-body-16-r: 400 16px/150% sans-serif;
   --tracking-body-16-r: 0em;
+
+  --font-body-14-sb: 600 14px/130% sans-serif;
+  --tracking-body-14-sb: 0.02em;
 
   --font-body-14-m: 500 14px/171% sans-serif;
   --tracking-body-14-m: 0em;
@@ -91,9 +146,19 @@
   letter-spacing: var(--tracking-body-23-b);
 }
 
+.body-20-sb {
+  font: var(--font-body-20-sb);
+  letter-spacing: var(--tracking-body-20-sb);
+}
+
 .body-20-r {
   font: var(--font-body-20-r);
   letter-spacing: var(--tracking-body-20-r);
+}
+
+.body-18-sb {
+  font: var(--font-body-18-sb);
+  letter-spacing: var(--tracking-body-18-sb);
 }
 
 .body-18-m {
@@ -109,6 +174,11 @@
 .body-16-r {
   font: var(--font-body-16-r);
   letter-spacing: var(--tracking-body-16-r);
+}
+
+.body-14-sb {
+  font: var(--font-body-14-sb);
+  letter-spacing: var(--tracking-body-14-sb);
 }
 
 .body-14-m {
