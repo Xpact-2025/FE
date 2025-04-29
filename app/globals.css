@@ -67,9 +67,9 @@
   --color-lavender-50: rgb(129, 134, 244); /* #8186F4 RGB(129,134,244) */
   --color-lavender-50-20: rgb(129, 134, 244, 0.2);
 
-  /* Purple Colors */
-  --color-purple-50: rgb(145, 86, 240); /* #9156F0 RGB(145,73,182) */
-  --color-purple-50-20: rgb(145, 86, 240, 0.2);
+  /* Appricot Colors */
+  --color-appricot-50: rgb(254, 152, 104); /* #FE9868 RGB(254,152,104) */
+  --color-appricot-50-20: rgb(254, 152, 104, 0.2);
 
   /* Plum Colors */
   --color-plum-50: rgb(153, 73, 182); /* #9949B6 RGB(153,73,182) */
