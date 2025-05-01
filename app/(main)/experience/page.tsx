@@ -5,7 +5,16 @@ import ExpType from './components/ExpType';
 import Link from 'next/link';
 
 export default async function ExpMainPage() {
-  const data = await getMyExperience();
+  const { httpStatus, data } = await getMyExperience();
+
+  if (httpStatus !== 200) {
+    return <div>오류가 발생했습니다.</div>;
+  }
+
+  if (!data || data.length === 0) {
+    return <div>경험이 존재하지 않습니다.</div>;
+  }
+
   return (
     <div className="min-h-screen flex">
       <main className="flex-1 flex-col items-start py-16 px-8">
@@ -19,7 +28,7 @@ export default async function ExpMainPage() {
         </h1>
 
         <div className="w-full flex flex-row space-x-4 overflow-x-auto">
-          {data.data.map((experience: Experience) => (
+          {data.map((experience: Experience) => (
             <Card key={experience.id} className="bg-[#2C2C2C] text-white">
               <CardHeader className="mb-13">
                 <CardTitle>{experience.title}</CardTitle>
