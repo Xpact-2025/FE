@@ -1,7 +1,4 @@
 import { Experience, getMyExperience } from '@/apis/exp';
-//import { Card, CardHeader, CardTitle, CardFooter } from './components/ExpCard';
-//import { MoreVertical } from 'lucide-react';
-//import ExpType from './components/ExpType';
 import Link from 'next/link';
 import ExpeienceCard from './components/ExperienceCard';
 
@@ -36,15 +33,6 @@ export default async function ExpMainPage() {
               type={experience.experienceType}
               isTemp={false}
             />
-            // <Card key={experience.id} className="bg-[#2C2C2C] text-white">
-            //   <CardHeader className="mb-13">
-            //     <CardTitle>{experience.title}</CardTitle>
-            //   </CardHeader>
-            //   <CardFooter className="justify-end">
-            //     <ExpType expType={experience.experienceType} />
-            //     <MoreVertical />
-            //   </CardFooter>
-            // </Card>
           ))}
         </div>
       </main>

@@ -1,5 +1,5 @@
 import { ExperienceType } from '@/types/exp';
-import ExpType from './ExpType';
+import ExpType from './ExperienceType';
 import { MoreVertical } from 'lucide-react';
 
 interface ExperienceCardProps {
@@ -23,7 +23,7 @@ export default function ExpeienceCard({
         >
           {title}
         </div>
-        <ExpType expType={type} />
+        <ExpType type={type} />
       </div>
       <div className="flex flex-row justify-end items-center">
         {isTemp && (
