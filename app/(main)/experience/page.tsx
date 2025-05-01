@@ -1,8 +1,9 @@
 import { Experience, getMyExperience } from '@/apis/exp';
-import { Card, CardHeader, CardTitle, CardFooter } from './components/ExpCard';
-import { MoreVertical } from 'lucide-react';
-import ExpType from './components/ExpType';
+//import { Card, CardHeader, CardTitle, CardFooter } from './components/ExpCard';
+//import { MoreVertical } from 'lucide-react';
+//import ExpType from './components/ExpType';
 import Link from 'next/link';
+import ExpeienceCard from './components/ExperienceCard';
 
 export default async function ExpMainPage() {
   const { httpStatus, data } = await getMyExperience();
@@ -29,15 +30,21 @@ export default async function ExpMainPage() {
 
         <div className="w-full flex flex-row space-x-4 overflow-x-auto">
           {data.map((experience: Experience) => (
-            <Card key={experience.id} className="bg-[#2C2C2C] text-white">
-              <CardHeader className="mb-13">
-                <CardTitle>{experience.title}</CardTitle>
-              </CardHeader>
-              <CardFooter className="justify-end">
-                <ExpType expType={experience.experienceType} />
-                <MoreVertical />
-              </CardFooter>
-            </Card>
+            <ExpeienceCard
+              key={experience.id}
+              title={experience.title}
+              type={experience.experienceType}
+              isTemp={false}
+            />
+            // <Card key={experience.id} className="bg-[#2C2C2C] text-white">
+            //   <CardHeader className="mb-13">
+            //     <CardTitle>{experience.title}</CardTitle>
+            //   </CardHeader>
+            //   <CardFooter className="justify-end">
+            //     <ExpType expType={experience.experienceType} />
+            //     <MoreVertical />
+            //   </CardFooter>
+            // </Card>
           ))}
         </div>
       </main>
