@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
+import BtnMenu from './BtnMenu';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,21 +24,11 @@ export default function Header() {
           </Link>
 
           <nav className="hidden md:flex space-x-[41px] font-[Pretendard] text-gray-50">
-            <Link href="/dashboard" className="hover:text-primary-100">
-              대시보드
-            </Link>
-            <Link href="/experience" className="hover:text-primary-100">
-              내 경험
-            </Link>
-            <Link href="/guide" className="hover:text-primary-100">
-              성장 가이드
-            </Link>
-            <Link href="/ai-intro" className="hover:text-primary-100">
-              AI 자기소개서
-            </Link>
-            <Link href="/mypage" className="hover:text-primary-100">
-              마이페이지
-            </Link>
+            <BtnMenu title="대시보드" menu="dashboard"></BtnMenu>
+            <BtnMenu title="내 경험" menu="experience"></BtnMenu>
+            <BtnMenu title="성장 가이드" menu="guide"></BtnMenu>
+            <BtnMenu title="AI 자기소개서" menu="ai-intro"></BtnMenu>
+            <BtnMenu title="마이페이지" menu="mypage"></BtnMenu>
           </nav>
         </div>
 
