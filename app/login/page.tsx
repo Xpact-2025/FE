@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Footer from '../components/Footer';
-import NavBar from '../components/NavBar';
+import Header from '../components/Header';
 import FormInput from '../components/InputBox';
 import SocialLogin from '../components/SocialLogin';
 import Image from 'next/image';
@@ -78,7 +78,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen  bg-black text-white font-[Pretendard]">
-      <NavBar />
+      <Header />
       <main className="flex flex-col items-center justify-center py-[120px] px-4">
         <div className="flex flex-col items-center mb-10">
           <Image

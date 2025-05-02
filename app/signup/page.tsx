@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Footer from '../components/Footer';
-import NavBar from '../components/NavBar';
+import Header from '../components/Header';
 import FormInput from '../components/InputBox';
 import SocialLogin from '../components/SocialLogin';
 import { useRouter } from 'next/navigation';
@@ -119,7 +119,7 @@ export default function SignupPage() {
 
   return (
     <div>
-      <NavBar />
+      <Header />
       <main className="flex flex-col items-center justify-center py-[120px] px-4">
         <div className="flex flex-col items-center mb-10">
           <Image
