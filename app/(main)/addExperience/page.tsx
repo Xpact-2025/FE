@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { saveExperience, type ExperiencePayload } from '@/apis/exp';
+import Popup from '@/app/components/Popup';
 import GuideModal from './components/GuideModal';
 import ExperienceInputBox from './components/ExperienceInputBox';
 import Footer from '@/app/components/Footer';
@@ -18,6 +19,7 @@ export default function AddExperiencePage() {
   const router = useRouter();
   const [form, setForm] = useState({
     selectedTab: 'star',
+    isPopupOpen: false,
     isModalOpen: false,
     status: 'SAVE',
     formType: 'STAR_FORM',
@@ -70,7 +72,24 @@ export default function AddExperiencePage() {
       <form onSubmit={handleSubmit}>
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center">
-            <BackIcon className="stroke-gray-50" />
+            <button
+              type="button"
+              onClick={() => setForm(prev => ({ ...prev, isPopupOpen: true }))}
+            >
+              <BackIcon className="stroke-gray-50" />
+            </button>
+            {form.isPopupOpen && (
+              <Popup
+                title="작성취소"
+                content={`경험 작성을 취소하시겠습니까?\n취소하시면 입력하신 내용은 저장되지 않습니다.`}
+                confirmText="작성 취소"
+                cancelText="계속 작성"
+                onConfirm={() => router.push('/experience')}
+                onCancel={() =>
+                  setForm(prev => ({ ...prev, isPopupOpen: false }))
+                }
+              />
+            )}
             <div className="text-gray-50 text-2xl font-medium">경험 입력</div>
           </div>
           <div className="flex items-center gap-[9px]">
