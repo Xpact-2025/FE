@@ -25,7 +25,7 @@ export default async function ExpMainPage() {
           </Link>
         </h1>
 
-        <div className="w-full flex flex-row space-x-4 overflow-x-auto">
+        <div className="w-full h-full flex flex-row space-x-4 overflow-x-auto">
           {data.map((experience: Experience) => (
             <ExpeienceCard
               key={experience.id}
