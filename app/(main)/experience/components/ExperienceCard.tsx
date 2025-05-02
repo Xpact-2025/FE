@@ -7,12 +7,14 @@ import MoreVerticalIcon from '@/public/icons/More_Vertical.svg';
 import DropdownMenu from './DropdownMenu';
 
 interface ExperienceCardProps {
+  id: number;
   title: string;
   type: ExperienceType;
   isTemp?: boolean;
 }
 
 export default function ExperienceCard({
+  id,
   title,
   type,
   isTemp,
@@ -50,7 +52,7 @@ export default function ExperienceCard({
           <MoreVerticalIcon className="stroke-gray-50" />
         </button>
         {isDropdownOpen && (
-          <DropdownMenu onClose={() => setIsDropdownOpen(false)} />
+          <DropdownMenu id={id} onClose={() => setIsDropdownOpen(false)} />
         )}
       </div>
     </div>
