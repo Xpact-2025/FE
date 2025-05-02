@@ -1,6 +1,6 @@
 import { ExperienceType } from '@/types/exp';
 import ExpType from './ExperienceType';
-import { MoreVertical } from 'lucide-react';
+import MoreVerticalIcon from '@/public/icons/More_Vertical.svg';
 
 interface ExperienceCardProps {
   title: string;
@@ -32,7 +32,7 @@ export default function ExpeienceCard({
           </div>
         )}
         <button className="w-[24px] h-[24px]">
-          <MoreVertical />
+          <MoreVerticalIcon className="stroke-gray-50" size={24} />
         </button>
       </div>
     </div>
