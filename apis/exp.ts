@@ -37,7 +37,7 @@ interface SaveExperienceResponse {
 interface GetExperienceResponse {
   httpStatus: number;
   message: string;
-  data: Experience[];
+  data?: Experience[];
 }
 
 export async function saveExperience(
