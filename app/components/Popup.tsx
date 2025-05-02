@@ -37,17 +37,17 @@ export default function Popup({
         <div className="flex justify-center gap-2.5">
           <button
             type="button"
-            onClick={onConfirm}
+            onClick={onCancel}
             className="w-40 h-14 bg-gray-600 rounded-4xl text-center text-white text-xl font-semibold"
           >
-            {confirmText}
+            {cancelText}
           </button>
           <button
             type="button"
-            onClick={onCancel}
+            onClick={onConfirm}
             className="w-40 h-14 bg-primary-50 rounded-4xl text-center text-white text-xl font-semibold"
           >
-            {cancelText}
+            {confirmText}
           </button>
         </div>
       </div>
