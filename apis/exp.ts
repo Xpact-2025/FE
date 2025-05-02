@@ -37,7 +37,7 @@ interface SaveExperienceResponse {
 interface GetExperienceResponse {
   httpStatus: number;
   message: string;
-  data: Experience[];
+  data?: Experience[];
 }
 
 export async function saveExperience(
@@ -54,5 +54,10 @@ export async function saveExperience(
 
 export async function getMyExperience(): Promise<GetExperienceResponse> {
   const res = await API.get<GetExperienceResponse>('/api/exp');
+  return res.data;
+}
+
+export async function deleteExperience(id: number) {
+  const res = await API.delete(`/api/exp/${id}`);
   return res.data;
 }
