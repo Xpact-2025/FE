@@ -1,6 +1,6 @@
 import { Experience, getMyExperience } from '@/apis/exp';
-import Link from 'next/link';
 import ExpeienceCard from './components/ExperienceCard';
+import BtnUpload from '@/app/components/BtnUpload';
 
 export default async function ExpMainPage() {
   const { httpStatus, data } = await getMyExperience();
@@ -15,17 +15,13 @@ export default async function ExpMainPage() {
 
   return (
     <div className="min-h-screen flex">
-      <main className="flex-1 flex-col items-start py-16 px-8">
+      <main className="flex-1 flex-col items-start py-16 px-[80px]">
         <h1 className="text-[25px] font-bold mb-10 flex items-center justify-between">
           <span>내 경험</span>
-          <Link href="/addExperience">
-            <div className="w-20 py-3 bg-primary-50 text-sm text-black text-center font-semibold rounded-lg flex items-center justify-center">
-              경험 추가
-            </div>
-          </Link>
+          <BtnUpload href="/addExperience">경험 추가</BtnUpload>
         </h1>
 
-        <div className="w-full h-full flex flex-row space-x-4 overflow-x-auto">
+        <div className="w-full flex flex-wrap space-x-[28px] space-y-[37px]">
           {data.map((experience: Experience) => (
             <ExpeienceCard
               key={experience.id}
