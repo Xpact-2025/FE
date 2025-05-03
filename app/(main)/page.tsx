@@ -1,7 +1,6 @@
-import DashboardPage from "./dashboard/page";
+import { getTest } from '@/apis/test';
 
-const mainPage = () => {
-  return <DashboardPage />;
-};
-
-export default mainPage;
+export default async function MainPage() {
+  const data = await getTest();
+  return <div>{data.message}</div>;
+}

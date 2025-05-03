@@ -1,45 +1,36 @@
-import { Card, CardHeader, CardTitle, CardFooter } from "./components/ExpCard";
-import { MoreVertical } from "lucide-react";
+import { Experience, getMyExperience } from '@/apis/exp';
+import ExpeienceCard from './components/ExperienceCard';
+import BtnUpload from '@/app/components/BtnUpload';
 
-const ExpMainPage = () => {
+export default async function ExpMainPage() {
+  const { httpStatus, data } = await getMyExperience();
+
+  if (httpStatus !== 200) {
+    return <div>오류가 발생했습니다.</div>;
+  }
+
   return (
-    <div className="min-h-screen bg-black text-[#FFFFFF] flex">
-      <main className="flex-1 flex-col items-start py-16 px-8">
-        <h1 className="text-[25px] font-bold font-[Pretendard] mb-10">
-          내 경험
+    <div className="min-h-screen flex">
+      <main className="flex-1 flex-col items-start py-16 px-[80px]">
+        <h1 className="text-[25px] font-bold mb-10 flex items-center justify-between">
+          <span>내 경험</span>
+          <BtnUpload href="/addExperience">경험 추가</BtnUpload>
         </h1>
 
-        <div className="w-full flex flex-row space-x-4 overflow-x-auto">
-          <Card className="bg-[#2C2C2C] text-white">
-            <CardHeader className="mb-13">
-              <CardTitle>경험 1</CardTitle>
-            </CardHeader>
-            <CardFooter className="justify-end">
-              <MoreVertical />
-            </CardFooter>
-          </Card>
+        {!data || (data.length === 0 && <div>경험이 존재하지 않습니다.</div>)}
 
-          <Card className="bg-[#2C2C2C] text-white">
-            <CardHeader className="mb-13">
-              <CardTitle>경험 2</CardTitle>
-            </CardHeader>
-            <CardFooter className="justify-end">
-              <MoreVertical />
-            </CardFooter>
-          </Card>
-
-          <Card className="bg-[#2C2C2C] text-white">
-            <CardHeader className="mb-13">
-              <CardTitle>경험 3</CardTitle>
-            </CardHeader>
-            <CardFooter className="justify-end">
-              <MoreVertical />
-            </CardFooter>
-          </Card>
+        <div className="w-full flex flex-wrap space-x-[28px] space-y-[37px]">
+          {data?.map((experience: Experience) => (
+            <ExpeienceCard
+              key={experience.id}
+              id={experience.id}
+              title={experience.title}
+              type={experience.experienceType}
+              isTemp={false}
+            />
+          ))}
         </div>
       </main>
     </div>
   );
-};
-
-export default ExpMainPage;
+}

@@ -1,13 +1,220 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@theme {
+  /* Color System */
+
+  /* Gray 색상 */
+  --color-gray-50: rgb(255, 255, 255);
+  --color-gray-50-10: rgb(255, 255, 255, 0.1);
+  --color-gray-50-20: rgb(255, 255, 255, 0.2);
+  --color-gray-100: rgb(217, 217, 217);
+  --color-gray-200: rgb(205, 205, 205);
+  --color-gray-300: rgb(153, 153, 153);
+  --color-gray-400: rgb(117, 117, 117);
+  --color-gray-500: rgb(102, 102, 102);
+  --color-gray-500-20: rgb(102, 102, 102, 0.2);
+  --color-gray-600: rgb(36, 36, 36);
+  --color-gray-700: rgb(22, 22, 22);
+  --color-gray-800: rgb(17, 17, 17);
+  --color-gray-900: rgb(2, 2, 2);
+  --color-gray-1000: rgb(0, 0, 0);
+
+  /* Success 색상 */
+  --color-success: rgb(4, 207, 93);
+
+  /* Error 색상 */
+  --color-error: rgb(238, 53, 53);
+
+  /* Primary 색상 */
+  --color-primary: rgb(255, 109, 1);
+  --color-primary-50: rgb(255, 109, 1);
+  --color-primary-100: rgb(132, 40, 0);
+
+  /* Color 색상 */
+  /* Pink Colors */
+  --color-pink-50: rgb(255, 68, 111); /* #FF446F RGB(255,68,111) */
+  --color-pink-50-20: rgb(255, 68, 111, 0.2);
+
+  /* Red Colors */
+  --color-red-50: rgb(238, 53, 53); /* #EE3535 RGB(238,53,53) */
+  --color-red-50-20: rgb(238, 53, 53, 0.2);
+
+  /* Orange Colors */
+  --color-orange-50: rgb(247, 139, 8); /* #F78308 RGB(247,139,8) */
+  --color-orange-50-20: rgb(247, 139, 8, 0.2);
+
+  /* Yellow Colors */
+  --color-yellow-50: rgb(245, 211, 10); /* #F5DD0A RGB(245,211,10) */
+  --color-yellow-50-20: rgb(245, 211, 10, 0.2);
+
+  /* YellowGreen Colors*/
+  --color-yellowgreen-50: rgb(157, 198, 33); /* #9DC621 RGB(157,198,33) */
+  --color-yellowgreen-50-20: rgb(157, 198, 33, 0.2);
+
+  /* Green Colors */
+  --color-green-50: rgb(77, 178, 81); /* #4DB251 RGB(77,178,81) */
+  --color-green-50-20: rgb(77, 178, 81, 0.2);
+
+  /* Mint Colors */
+  --color-mint-50: rgb(51, 204, 171); /* #33CCAB RGB(51,204,171) */
+  --color-mint-50-20: rgb(51, 204, 171, 0.2);
+
+  /* Blue Colors */
+  --color-blue-50: rgb(13, 141, 242); /* #0D8DF2 RGB(13,141,242) */
+  --color-blue-50-20: rgb(13, 141, 242, 0.2);
+
+  /* Lavender Colors */
+  --color-lavender-50: rgb(129, 134, 244); /* #8186F4 RGB(129,134,244) */
+  --color-lavender-50-20: rgb(129, 134, 244, 0.2);
+
+  /* Apricot Colors */
+  --color-apricot-50: rgb(254, 152, 104); /* #FE9868 RGB(254,152,104) */
+  --color-apricot-50-20: rgb(254, 152, 104, 0.2);
+
+  /* Plum Colors */
+  --color-plum-50: rgb(153, 73, 182); /* #9949B6 RGB(153,73,182) */
+  --color-plum-50-20: rgb(153, 73, 182, 0.2);
+
+  /* Type System */
+
+  /* Headline */
+  --font-headline-60-m: 600 60px/130% sans-serif;
+  --tracking-headline-60-m: -0.04em;
+
+  /* Title */
+  --font-title-40-m: 500 40px/150% sans-serif;
+  --tracking-title-40-m: -0.02em;
+
+  --font-title-30-m: 500 30px/106% sans-serif;
+  --tracking-title-30-m: 0em;
+
+  /* Body */
+  --font-body-23-b: 700 23px/104% sans-serif;
+  --tracking-body-23-b: 0em;
+
+  --font-body-20-sb: 600 20px/155% sans-serif;
+  --tracking-body-20-sb: -0.02em;
+
+  --font-body-20-r: 400 20px/155% sans-serif;
+  --tracking-body-20-r: -0.02em;
+
+  --font-body-18-sb: 600 18px/170% sans-serif;
+  --tracking-body-18-sb: 0em;
+
+  --font-body-18-m: 500 18px/133% sans-serif;
+  --tracking-body-18-m: 0em;
+
+  --font-body-16-sb: 600 16px/150% sans-serif;
+  --tracking-body-16-sb: 0em;
+
+  --font-body-16-r: 400 16px/150% sans-serif;
+  --tracking-body-16-r: 0em;
+
+  --font-body-14-sb: 600 14px/130% sans-serif;
+  --tracking-body-14-sb: 0.02em;
+
+  --font-body-14-m: 500 14px/171% sans-serif;
+  --tracking-body-14-m: 0em;
+
+  --font-body-12-m: 500 12px/117% sans-serif;
+  --tracking-body-12-m: -0.025em;
+
+  --font-body-12-r: 400 12px/150% sans-serif;
+  --tracking-body-12-r: 0em;
+
+  /* Pretendard 폰트 */
+  --font-pretendard: 'Pretendard Variable', sans-serif;
+}
+
+.headline-60-m {
+  font: var(--font-headline-60-m);
+  letter-spacing: var(--tracking-headline-60-m);
+}
+
+.title-40-m {
+  font: var(--font-title-40-m);
+  letter-spacing: var(--tracking-title-40-m);
+}
+
+.title-30-m {
+  font: var(--font-title-30-m);
+  letter-spacing: var(--tracking-title-30-m);
+}
+
+.body-23-b {
+  font: var(--font-body-23-b);
+  letter-spacing: var(--tracking-body-23-b);
+}
+
+.body-20-sb {
+  font: var(--font-body-20-sb);
+  letter-spacing: var(--tracking-body-20-sb);
+}
+
+.body-20-r {
+  font: var(--font-body-20-r);
+  letter-spacing: var(--tracking-body-20-r);
+}
+
+.body-18-sb {
+  font: var(--font-body-18-sb);
+  letter-spacing: var(--tracking-body-18-sb);
+}
+
+.body-18-m {
+  font: var(--font-body-18-m);
+  letter-spacing: var(--tracking-body-18-m);
+}
+
+.body-16-sb {
+  font: var(--font-body-16-sb);
+  letter-spacing: var(--tracking-body-16-sb);
+}
+
+.body-16-r {
+  font: var(--font-body-16-r);
+  letter-spacing: var(--tracking-body-16-r);
+}
+
+.body-14-sb {
+  font: var(--font-body-14-sb);
+  letter-spacing: var(--tracking-body-14-sb);
+}
+
+.body-14-m {
+  font: var(--font-body-14-m);
+  letter-spacing: var(--tracking-body-14-m);
+}
+
+.body-12-m {
+  font: var(--font-body-12-m);
+  letter-spacing: var(--tracking-body-12-m);
+}
+
+.body-12-r {
+  font: var(--font-body-12-r);
+  letter-spacing: var(--tracking-body-12-r);
+}
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --font-pretendard: "Pretendard Variable", sans-serif;
+  --background: var(--color-gray-900);
+  --foreground: var(--color-gray-50);
+  --font-pretendard: 'Pretendard Variable', sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-pretendard);
+}
+
+.swiper-pagination-bullet {
+  background-color: #999 !important;
+  opacity: 0.5;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #fff !important;
+  box-shadow: 0 0 0 3px #ff6d01; /* ✅ 바깥쪽 테두리처럼 보이게 */
+  opacity: 1;
 }

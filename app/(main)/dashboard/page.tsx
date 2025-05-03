@@ -1,13 +1,8 @@
-import ProfileCard from './components/ProfileCard';
-import DataSection from './components/DataSection';
+import { getTest } from '@/apis/test';
 
-const DashboardPage = () => {
-  return (
-    <>
-      <ProfileCard />
-      <DataSection />
-    </>
-  );
+const DashboardPage = async () => {
+  const test = await getTest();
+  return <div>{test.message}</div>;
 };
 
 export default DashboardPage;

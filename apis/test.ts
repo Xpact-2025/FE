@@ -1,5 +1,12 @@
-export const getTest = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/test/no-data`);
-  const data = await res.json();
-  return data;
-};
+import API from './config';
+
+interface TestResponse {
+  code: string;
+  httpStatus: number;
+  message: string;
+}
+
+export async function getTest(): Promise<TestResponse> {
+  const res = await API.get('/test/no-data');
+  return res.data;
+}
