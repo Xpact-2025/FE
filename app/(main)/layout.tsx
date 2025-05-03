@@ -2,7 +2,7 @@ import pretendard from '../utils/font';
 import type { Metadata } from 'next';
 import './../globals.css';
 import SideBar from '../components/SideBar';
-import Header from '../components/Header';
+import TopBar from '../components/TopBar';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,7 +20,7 @@ export default function RootLayout({
         <SideBar />
       </div>
       <div className="flex-1">
-        <Header />
+        <TopBar />
         {children}
       </div>
     </div>

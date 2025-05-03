@@ -97,7 +97,7 @@ const GuideModal: React.FC<GuideModalProps> = ({
 
   return (
     <div
-      className="absolute inset-0 flex items-center justify-end pt-[570px] pr-[78px]"
+      className="absolute inset-0 z-50 flex items-center justify-end pt-[570px] pr-[78px]"
       onClick={closeRequest}
     >
       <div

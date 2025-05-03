@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import TrashFullIcon from '@/public/icons/Trash_Full.svg';
 import EditPencilIcon from '@/public/icons/Edit_Pencil_02.svg';
 import { useRouter } from 'next/navigation';
+import Popup from '@/app/components/Popup';
 import { deleteExperience } from '@/apis/exp';
 
 interface DropdownMenuProps {
@@ -13,6 +14,7 @@ interface DropdownMenuProps {
 
 export default function DropdownMenu({ id, onClose }: DropdownMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
+  const [form, setForm] = useState({ isPopupOpen: false });
   const router = useRouter();
 
   useEffect(() => {
@@ -28,19 +30,6 @@ export default function DropdownMenu({ id, onClose }: DropdownMenuProps) {
     };
   }, [onClose]);
 
-  const handleDelete = async () => {
-    const confirmed = window.confirm('정말 삭제하시겠습니까?');
-    if (!confirmed) return;
-    try {
-      await deleteExperience(id);
-      alert('삭제되었습니다.');
-      router.refresh();
-    } catch (error) {
-      console.error('삭제 중 오류 발생:', error);
-      alert('삭제에 실패했습니다.');
-    }
-  };
-
   return (
     <div
       ref={menuRef}
@@ -51,12 +40,25 @@ export default function DropdownMenu({ id, onClose }: DropdownMenuProps) {
         수정
       </button>
       <button
-        onClick={handleDelete}
+        onClick={() => setForm(prev => ({ ...prev, isPopupOpen: true }))}
         className="w-full text-left px-4 py-2 hover:bg-gray-300 flex items-center gap-2"
       >
         <TrashFullIcon className="stroke-gray-1000" />
         삭제
       </button>
+      {form.isPopupOpen && (
+        <Popup
+          title="경험 삭제"
+          content={`경험을 삭제하시겠습니까?\n삭제하시면 다시 복구할 수 없습니다.`}
+          confirmText="삭제"
+          cancelText="취소"
+          onConfirm={async () => {
+            await deleteExperience(id);
+            router.refresh();
+          }}
+          onCancel={() => setForm(prev => ({ ...prev, isPopupOpen: false }))}
+        />
+      )}
     </div>
   );
 }

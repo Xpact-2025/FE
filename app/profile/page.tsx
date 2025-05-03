@@ -1,12 +1,12 @@
 import Footer from '../components/Footer';
-import NavBar from '../components/NavBar';
+import Header from '../components/Header';
 import FormInput from '../components/InputBox';
 import ProfileImage from '../components/ProfileImage';
 
 export default function ProfilePage() {
   return (
     <div className="min-h-screen">
-      <NavBar />
+      <Header />
       <main className="flex flex-col items-center justify-center py-14 px-4">
         <div className="flex flex-col items-center mb-10">
           <h1 className="text-[35px] font-semibold mb-[15%]">프로필 설정</h1>
