@@ -73,10 +73,7 @@ export default function AddExperiencePage() {
       <form onSubmit={handleSubmit}>
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center">
-            <button
-              type="button"
-              onClick={() => setForm(prev => ({ ...prev, isPopupOpen: true }))}
-            >
+            <button type="button" onClick={() => setIsPopupOpen(true)}>
               <BackIcon className="stroke-gray-50" />
             </button>
             {isPopupOpen && (
@@ -159,12 +156,7 @@ export default function AddExperiencePage() {
             </div>
 
             <div className="flex items-center gap-[12px]">
-              <button
-                type="button"
-                onClick={() =>
-                  setForm(prev => ({ ...prev, isModalOpen: true }))
-                }
-              >
+              <button type="button" onClick={() => setIsModalOpen(true)}>
                 <HelpIcon className="stroke-gray-300" />
               </button>
               <div className="text-neutral-400 font-medium p-2">
