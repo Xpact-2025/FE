@@ -26,7 +26,7 @@ const InputBox = ({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className={`w-full text-[16px] px-4 py-3 bg-[#161616] text-white rounded 
+          className={`w-full text-[16px] px-4 py-2 h-[44px] bg-[#161616] text-white rounded 
             border placeholder:text-[#777] transition
             ${
               error
