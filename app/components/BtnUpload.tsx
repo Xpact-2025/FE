@@ -18,7 +18,7 @@ export default function BtnUpload({
   type = 'button',
 }: BtnUploadProps) {
   const baseClass =
-    'w-20 py-3 bg-primary-50 text-sm text-black text-center font-semibold rounded-lg flex items-center justify-center';
+    'w-20 py-3 bg-primary-50 text-sm text-black text-center font-semibold rounded-lg flex items-center justify-center active:scale-[0.90]';
 
   if (href) {
     return (

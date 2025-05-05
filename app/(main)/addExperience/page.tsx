@@ -6,6 +6,7 @@ import { saveExperience, type ExperiencePayload } from '@/apis/exp';
 import Popup from '@/app/components/Popup';
 import GuideModal from './components/GuideModal';
 import ExperienceInputBox from './components/ExperienceInputBox';
+import BtnUpload from '@/app/components/BtnUpload';
 import Footer from '@/app/components/Footer';
 import BackIcon from '@/public/icons/Chevron_Left.svg';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
@@ -101,7 +102,7 @@ export default function AddExperiencePage() {
             >
               임시저장
             </button>
-            <button
+            <BtnUpload
               type="submit"
               onClick={() =>
                 setForm(prev => ({
@@ -109,10 +110,9 @@ export default function AddExperiencePage() {
                   status: 'SAVE',
                 }))
               }
-              className="w-20 py-3 bg-primary-50 text-sm text-black font-semibold rounded-lg"
             >
               작성완료
-            </button>
+            </BtnUpload>
           </div>
         </div>
 
