@@ -19,7 +19,7 @@ const SideBar = () => {
   };
 
   return (
-    <aside className="w-64 bg-[#0E0E0E] p-6 h-screen">
+    <aside className="w-64 bg-gray-900 p-6 h-screen">
       <nav>
         <Link href="/">
           <Image
