@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { MouseEventHandler, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
-interface BtnUploadProps {
+interface ExpBtnProps {
   href?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   className?: string;
@@ -10,15 +10,15 @@ interface BtnUploadProps {
   type?: 'button' | 'submit' | 'reset';
 }
 
-export default function BtnUpload({
+export default function ExpBtn({
   href,
   onClick,
   className,
   children,
   type = 'button',
-}: BtnUploadProps) {
+}: ExpBtnProps) {
   const baseClass =
-    'w-20 py-3 bg-primary-50 text-sm text-black text-center font-semibold rounded-lg flex items-center justify-center active:scale-[0.90]';
+    'w-20 py-3 text-sm text-center font-semibold rounded-lg flex items-center justify-center active:scale-[0.90]';
 
   if (href) {
     return (

@@ -1,6 +1,6 @@
 import { Experience, getMyExperience } from '@/apis/exp';
 import ExpeienceCard from './components/ExperienceCard';
-import BtnUpload from '@/app/components/BtnUpload';
+import ExpBtn from '@/app/components/ExpBtn';
 
 export default async function ExpMainPage() {
   const { httpStatus, data } = await getMyExperience();
@@ -14,7 +14,9 @@ export default async function ExpMainPage() {
       <main className="flex-1 flex-col items-start py-16 px-[80px]">
         <h1 className="text-[25px] font-bold mb-10 flex items-center justify-between">
           <span>내 경험</span>
-          <BtnUpload href="/addExperience">경험 추가</BtnUpload>
+          <ExpBtn href="/addExperience " className="bg-primary-50 text-black">
+            경험 추가
+          </ExpBtn>
         </h1>
 
         {!data || (data.length === 0 && <div>경험이 존재하지 않습니다.</div>)}
