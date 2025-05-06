@@ -1,44 +1,26 @@
 import Image from 'next/image';
 
-const ProfileCard = () => {
+export default function ProfileCard() {
   return (
-    <div className="mx-16 my-4">
-      <h3 className="text-lg my-4">프로필</h3>
-      <div className="bg-[#222222] rounded-xl p-6">
-        <div className="flex">
-          <div className="flex flex-col items-center mr-10">
-            <div className="relative w-52 h-52 mb-4">
-              <Image
-                src="/profile.png"
-                alt="profile"
-                width={300}
-                height={300}
-                className="rounded-full w-full h-full object-cover"
-              />
-            </div>
-          </div>
-          <div className="flex-1 space-y-8 ml-8 my-4">
-            <div className="flex">
-              <p>이름</p>
-              <p className="ml-32">잇타</p>
-            </div>
-            <div className="flex">
-              <p>나이</p>
-              <p className="ml-32">24세</p>
-            </div>
-            <div className="flex">
-              <p>학력</p>
-              <p className="ml-32">잇타대학교</p>
-            </div>
-            <div className="flex">
-              <p>희망 직무</p>
-              <p className="ml-24">서비스 기획자</p>
-            </div>
-          </div>
+    <div className="flex flex-col items-center justify-center p-4 ">
+      <Image
+        src="/profile.png"
+        alt="profile"
+        width={180}
+        height={180}
+        className="rounded-full my-4"
+      />
+      <div className="px-4 py-1 mt-2 bg-primary rounded-full body-16-sb text-gray-900">
+        서비스 기획자
+      </div>
+      <h2 className="mt-2 font-semibold text-[25px]">김잇타</h2>
+      <hr className="border-gray-600 border-[1.5] w-full my-2" />
+      <div className="font-body-16-r text-gray-300 stroke-gray-300 flex flex-col items-center">
+        <div className="mb-1">
+          잇타대학교 무슨학과<span className="body-12-m mx-2">졸업</span>
         </div>
+        <div className="">24세</div>
       </div>
     </div>
   );
-};
-
-export default ProfileCard;
+}
