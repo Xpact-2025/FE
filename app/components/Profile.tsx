@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import ArrowDownIcon from '@/public/icons/Arrow_Down.svg';
 
 export default function Profile() {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,13 +13,7 @@ export default function Profile() {
       <div className="flex items-center justify-center gap-1.5 text-gray-50 font-semibold">
         <Image src="/profile.png" alt="profile" width={36} height={36} />
         <p className="whitespace-nowrap">김잇타</p>
-        <Image
-          src="/Arrow_Down.png"
-          onClick={() => setIsOpen(!isOpen)}
-          alt="dropdown"
-          width={24}
-          height={24}
-        />
+        <ArrowDownIcon onClick={() => setIsOpen(!isOpen)} />
         {isOpen && (
           <div className="flex flex-col absolute top-full justify-center">
             <div className="flex bg-gray-700 w-44 px-5 py-2.5 text-gray-50 text-xs">
