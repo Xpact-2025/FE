@@ -1,5 +1,10 @@
 import { getTest } from '@/apis/test';
 import ProfileCard from './components/ProfileCard';
+import ExpHistory from './components/ExpHistory';
+import Scrap from './components/Scrap';
+import ExpTimeLine from './components/ExpTimeLine';
+import SkillMap from './components/SkillMap';
+import JobRatio from './components/JobRatio';
 
 export default async function DashboardPage() {
   const test = await getTest();
@@ -15,32 +20,28 @@ export default async function DashboardPage() {
 
           {/* 경험 히스토리 */}
           <div className="w-full min-w-[345px] lg:w-[345px] bg-gray-700 rounded-[23px] p-4">
-            <h2 className="text-lg font-semibold mb-2 text-white">
-              경험 히스토리
-            </h2>
+            <ExpHistory />
           </div>
 
           {/* 스크랩 리스트 */}
           <div className="w-full flex-grow bg-gray-700 rounded-[23px] p-4">
-            <h2 className="text-lg font-semibold mb-2 text-white">
-              스크랩 리스트
-            </h2>
+            <Scrap />
           </div>
         </div>
 
         {/* 직무 비율, 핵심 스킬 맵맵 */}
         <div className="flex flex-wrap gap-4 h-[319px]">
           <div className="flex-grow bg-gray-700 rounded-[23px] p-4">
-            <h2 className="text-lg font-semibold mb-2">직무 비율</h2>
+            <JobRatio />
           </div>
           <div className="flex-grow-2 bg-gray-700 rounded-[23px] p-4">
-            <h2 className="text-lg font-semibold mb-2">핵심 스킬맵</h2>
+            <SkillMap />
           </div>
         </div>
 
         {/* 경험 타임라인 */}
         <div className="bg-gray-700 rounded-[23px] p-4 h-[246px]">
-          <h2 className="text-lg font-semibold mb-2">경험 타임라인</h2>
+          <ExpTimeLine />
         </div>
       </div>
     </div>
