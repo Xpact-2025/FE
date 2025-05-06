@@ -6,7 +6,7 @@ import { saveExperience, type ExperiencePayload } from '@/apis/exp';
 import Popup from '@/app/components/Popup';
 import GuideModal from './components/GuideModal';
 import ExperienceInputBox from './components/ExperienceInputBox';
-import ExpBtn from '@/app/components/ExpBtn';
+import BtnExp from '@/app/components/BtnExp';
 import Footer from '@/app/components/Footer';
 import BackIcon from '@/public/icons/Chevron_Left.svg';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
@@ -90,7 +90,7 @@ export default function AddExperiencePage() {
             <div className="text-gray-50 text-2xl font-medium">경험 입력</div>
           </div>
           <div className="flex items-center gap-[9px]">
-            <ExpBtn
+            <BtnExp
               type="submit"
               onClick={() =>
                 setForm(prev => ({
@@ -101,8 +101,8 @@ export default function AddExperiencePage() {
               className="bg-gray-900 text-gray-300 border border-gray-50-20"
             >
               임시저장
-            </ExpBtn>
-            <ExpBtn
+            </BtnExp>
+            <BtnExp
               type="submit"
               onClick={() =>
                 setForm(prev => ({
@@ -113,7 +113,7 @@ export default function AddExperiencePage() {
               className="bg-primary-50 text-black"
             >
               작성완료
-            </ExpBtn>
+            </BtnExp>
           </div>
         </div>
 

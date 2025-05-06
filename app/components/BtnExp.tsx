@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { MouseEventHandler, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
-interface ExpBtnProps {
+interface BtnExpProps {
   href?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   className?: string;
@@ -10,13 +10,13 @@ interface ExpBtnProps {
   type?: 'button' | 'submit' | 'reset';
 }
 
-export default function ExpBtn({
+export default function BtnExp({
   href,
   onClick,
   className,
   children,
   type = 'button',
-}: ExpBtnProps) {
+}: BtnExpProps) {
   const baseClass =
     'w-20 py-3 text-sm text-center font-semibold rounded-lg flex items-center justify-center active:scale-[0.90]';
 

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Experience, getMyExperience } from '@/apis/exp';
 import ExperienceCard from './components/ExperienceCard';
-import ExpBtn from '@/app/components/ExpBtn';
+import BtnExp from '@/app/components/BtnExp';
 import BtnFilter from '@/app/components/BtnFilter';
 import { ExperienceType } from '@/types/exp';
 
@@ -39,9 +39,9 @@ export default function ExpMainPage() {
         <h1 className="text-[25px] font-bold mb-10 flex items-center justify-between">
           <span>내 경험</span>
           <div className="flex justify-end gap-4">
-            <ExpBtn href="/addExperience " className="bg-primary-50 text-black">
+            <BtnExp href="/addExperience " className="bg-primary-50 text-black">
               경험 추가
-            </ExpBtn>
+            </BtnExp>
             <BtnFilter onSelectType={setSelectedType} />
           </div>
         </h1>
