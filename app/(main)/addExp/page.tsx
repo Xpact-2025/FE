@@ -8,13 +8,12 @@ export default async function page({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const params = await searchParams;
-  if (params.id) {
-    const { httpStatus, data } = await getExpById(Number(params.id));
-    if (httpStatus !== 200) {
-      return <div>오류가 발생했습니다.</div>;
-    }
-    return <ExpForm data={data} />;
-  }
 
-  return <ExpForm />;
+  if (!params.id) return <ExpForm />;
+
+  const { httpStatus, data } = await getExpById(Number(params.id));
+
+  if (httpStatus !== 200) return <div>오류가 발생했습니다.</div>;
+
+  return <ExpForm data={data} />;
 }
