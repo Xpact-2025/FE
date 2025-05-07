@@ -97,11 +97,11 @@ const GuideModal: React.FC<GuideModalProps> = ({
 
   return (
     <div
-      className="absolute inset-0 z-50 flex items-center justify-end pt-[570px] pr-[78px]"
+      className="absolute inset-0 z-50 flex items-center justify-end"
       onClick={closeRequest}
     >
       <div
-        className="bg-[#2D2D2D] p-6 rounded-2xl w-[758px]"
+        className="absolute bg-[#2D2D2D] p-6 rounded-2xl top-[320px] right-[78px] w-[758px]"
         onClick={e => e.stopPropagation()}
       >
         <h2 className="text-3xl font-semibold mb-4">{title}</h2>
