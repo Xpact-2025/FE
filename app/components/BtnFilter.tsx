@@ -3,20 +3,20 @@
 import { useState } from 'react';
 import ArrowDownIcon from '@/public/icons/Arrow_Down.svg';
 import CloseIcon from '@/public/icons/Close.svg';
-import { EXPERIENCE_OPTIONS } from '@/constants/experienceOptions';
+import { Exp_OPTIONS } from '@/constants/expOptions';
 import BtnExpType from './BtnExpType';
-import { ExperienceType } from '@/types/exp';
+import { ExpType } from '@/types/exp';
 
 interface BtnFilterProps {
-  onSelectType: (type: ExperienceType | null) => void;
+  onSelectType: (type: ExpType | null) => void;
 }
 
 export default function BtnFilter({ onSelectType }: BtnFilterProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedType, setSelectedType] = useState<ExperienceType | null>(null);
-  const options = Object.values(EXPERIENCE_OPTIONS);
+  const [selectedType, setSelectedType] = useState<ExpType | null>(null);
+  const options = Object.values(Exp_OPTIONS);
 
-  const handleSelectType = (type: ExperienceType) => {
+  const handleSelectType = (type: ExpType) => {
     if (type === null) {
       setSelectedType(null);
     } else {
@@ -52,9 +52,7 @@ export default function BtnFilter({ onSelectType }: BtnFilterProps) {
                   key={index}
                   label={option.label}
                   selected={selectedType === option.value}
-                  onClick={() =>
-                    handleSelectType(option.value as ExperienceType)
-                  }
+                  onClick={() => handleSelectType(option.value as ExpType)}
                 />
               ))}
             </div>

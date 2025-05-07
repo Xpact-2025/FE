@@ -1,6 +1,6 @@
 import React from 'react';
-import AddExperienceClient from './components/AddExperienceClient';
-import { getExperienceById } from '@/apis/exp';
+import ExpForm from './components/ExpForm';
+import { getExpById } from '@/apis/exp';
 
 export default async function page({
   searchParams,
@@ -9,12 +9,12 @@ export default async function page({
 }) {
   const params = await searchParams;
   if (params.id) {
-    const { httpStatus, data } = await getExperienceById(Number(params.id));
+    const { httpStatus, data } = await getExpById(Number(params.id));
     if (httpStatus !== 200) {
       return <div>오류가 발생했습니다.</div>;
     }
-    return <AddExperienceClient data={data} />;
+    return <ExpForm data={data} />;
   }
 
-  return <AddExperienceClient />;
+  return <ExpForm />;
 }
