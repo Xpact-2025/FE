@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import ArrowDownIcon from '@/public/icons/Arrow_Down.svg';
 import CloseIcon from '@/public/icons/Close.svg';
-import { Exp_OPTIONS } from '@/constants/expOptions';
+import { EXP_OPTIONS } from '@/constants/expOptions';
 import BtnExpType from './BtnExpType';
 import { ExpType } from '@/types/exp';
 
@@ -14,7 +14,7 @@ interface BtnFilterProps {
 export default function BtnFilter({ onSelectType }: BtnFilterProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedType, setSelectedType] = useState<ExpType | null>(null);
-  const options = Object.values(Exp_OPTIONS);
+  const options = Object.values(EXP_OPTIONS);
 
   const handleSelectType = (type: ExpType) => {
     if (type === null) {
