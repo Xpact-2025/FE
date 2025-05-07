@@ -16,7 +16,7 @@ export default function ExpList({ data }: ExpListProps) {
   const [localData] = useState(data);
 
   const filteredData = selectedType
-    ? localData?.filter(exp => exp.expType === selectedType)
+    ? localData?.filter(exp => exp.experienceType === selectedType)
     : localData;
 
   return (
@@ -40,7 +40,7 @@ export default function ExpList({ data }: ExpListProps) {
               key={exp.id}
               id={exp.id}
               title={exp.title}
-              type={exp.expType}
+              type={exp.experienceType}
               isTemp={false}
             />
           ))}

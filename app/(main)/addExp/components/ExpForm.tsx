@@ -24,7 +24,7 @@ export default function ExpForm({ data }: ExpFormProps) {
     selectedTab: data?.formType == 'STAR_FORM' ? 'star' : 'simple',
     status: data?.status || 'SAVE',
     formType: data?.formType || 'STAR_FORM',
-    expType: data?.expType || 'WORK',
+    experienceType: data?.experienceType || 'WORK',
     startDate: String(data?.startDate) || '',
     endDate: String(data?.endDate) || '',
     title: data?.title || '',
@@ -52,7 +52,7 @@ export default function ExpForm({ data }: ExpFormProps) {
       startDate: new Date(form.startDate),
       endDate: new Date(form.endDate),
       formType: form.formType as ExpFormType,
-      expType: form.expType as ExpType,
+      experienceType: form.experienceType as ExpType,
       status: form.status as ExpStatus,
     };
 
@@ -184,8 +184,8 @@ export default function ExpForm({ data }: ExpFormProps) {
         </div>
         <ExpInputBox
           type="select"
-          value={form.expType}
-          onChange={e => handleChange('expType', e.target.value)}
+          value={form.experienceType}
+          onChange={e => handleChange('experienceType', e.target.value)}
         />
 
         <div className="py-10">

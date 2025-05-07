@@ -6,7 +6,7 @@ import API from './config';
 export interface ExpPayload {
   id?: number;
   status: ExpStatus;
-  expType: ExpType;
+  experienceType: ExpType;
   formType: ExpFormType;
   title: string;
   startDate: Date;
@@ -23,7 +23,7 @@ export interface ExpPayload {
 export interface Exp {
   id: number;
   title: string;
-  expType: ExpType;
+  experienceType: ExpType;
 }
 
 interface SaveExpResponse {
