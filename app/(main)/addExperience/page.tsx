@@ -6,6 +6,7 @@ import { saveExperience, type ExperiencePayload } from '@/apis/exp';
 import Popup from '@/app/components/Popup';
 import GuideModal from './components/GuideModal';
 import ExperienceInputBox from './components/ExperienceInputBox';
+import BtnExp from '@/app/components/BtnExp';
 import Footer from '@/app/components/Footer';
 import BackIcon from '@/public/icons/Chevron_Left.svg';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
@@ -73,10 +74,7 @@ export default function AddExperiencePage() {
       <form onSubmit={handleSubmit}>
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center">
-            <button
-              type="button"
-              onClick={() => setForm(prev => ({ ...prev, isPopupOpen: true }))}
-            >
+            <button type="button" onClick={() => setIsPopupOpen(true)}>
               <BackIcon className="stroke-gray-50" />
             </button>
             {isPopupOpen && (
@@ -92,7 +90,7 @@ export default function AddExperiencePage() {
             <div className="text-gray-50 text-2xl font-medium">경험 입력</div>
           </div>
           <div className="flex items-center gap-[9px]">
-            <button
+            <BtnExp
               type="submit"
               onClick={() =>
                 setForm(prev => ({
@@ -100,11 +98,11 @@ export default function AddExperiencePage() {
                   status: 'DRAFT',
                 }))
               }
-              className="w-20 py-3 bg-gray-900 text-sm text-gray-300 font-semibold border border-gray-50-20 rounded-lg"
+              className="bg-gray-900 text-gray-300 border border-gray-50-20"
             >
               임시저장
-            </button>
-            <button
+            </BtnExp>
+            <BtnExp
               type="submit"
               onClick={() =>
                 setForm(prev => ({
@@ -112,10 +110,10 @@ export default function AddExperiencePage() {
                   status: 'SAVE',
                 }))
               }
-              className="w-20 py-3 bg-primary-50 text-sm text-black font-semibold rounded-lg"
+              className="bg-primary-50 text-black"
             >
               작성완료
-            </button>
+            </BtnExp>
           </div>
         </div>
 
@@ -159,12 +157,7 @@ export default function AddExperiencePage() {
             </div>
 
             <div className="flex items-center gap-[12px]">
-              <button
-                type="button"
-                onClick={() =>
-                  setForm(prev => ({ ...prev, isModalOpen: true }))
-                }
-              >
+              <button type="button" onClick={() => setIsModalOpen(true)}>
                 <HelpIcon className="stroke-gray-300" />
               </button>
               <div className="text-neutral-400 font-medium p-2">

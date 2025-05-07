@@ -1,3 +1,4 @@
+import BtnExpType from '@/app/components/BtnExpType';
 import { EXPERIENCE_OPTIONS } from '@/constants/experienceOptions';
 import React from 'react';
 
@@ -41,19 +42,16 @@ function SelectInput({ value, onChange }: ExperienceInputBoxProps) {
   return (
     <div className="grid grid-cols-6 gap-2">
       {options.map((option, index) => (
-        <button
-          type="button"
+        <BtnExpType
           key={index}
+          label={option.label}
+          selected={value === option.value}
           onClick={() =>
             onChange({
               target: { value: option.value },
             } as React.ChangeEvent<HTMLSelectElement>)
           }
-          className={`w-[120px] h-11 px-12 py-2.5 gap-[7px] rounded-lg border items-center justify-center inline-flex whitespace-nowrap
-            ${value === option.value ? 'bg-primary-50 text-gray-800 text-lg font-medium' : 'bg-gray-800 text-gray-300 border-gray-50-20 text-lg font-medium'}`}
-        >
-          {option.label}
-        </button>
+        />
       ))}
     </div>
   );
