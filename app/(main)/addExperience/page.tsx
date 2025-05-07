@@ -7,20 +7,14 @@ export default async function page({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const param = await searchParams;
-  console.log(param);
-  if (param.id) {
-    console.log('id:', param.id);
-    const { httpStatus, data } = await getExperienceById(Number(param.id));
+  const params = await searchParams;
+  if (params.id) {
+    const { httpStatus, data } = await getExperienceById(Number(params.id));
     if (httpStatus !== 200) {
       return <div>오류가 발생했습니다.</div>;
     }
-    console.log('experience:', data);
+    return <AddExperienceClient data={data} />;
   }
 
-  return (
-    <div>
-      <AddExperienceClient />
-    </div>
-  );
+  return <AddExperienceClient />;
 }

@@ -2,7 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { saveExperience, type ExperiencePayload } from '@/apis/exp';
+import {
+  editExperience,
+  saveExperience,
+  type ExperiencePayload,
+} from '@/apis/exp';
 import Popup from '@/app/components/Popup';
 import GuideModal from './GuideModal';
 import ExperienceInputBox from './ExperienceInputBox';
@@ -15,26 +19,32 @@ import {
   ExperienceType,
 } from '@/types/exp';
 
-export default function AddExperienceClient() {
+interface AddExperienceClientProps {
+  data?: ExperiencePayload;
+}
+
+export default function AddExperienceClient({
+  data,
+}: AddExperienceClientProps) {
   const router = useRouter();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [form, setForm] = useState({
-    selectedTab: 'star',
-    status: 'SAVE',
-    formType: 'STAR_FORM',
-    experienceType: '',
-    startDate: '',
-    endDate: '',
-    title: '',
-    situation: '',
-    task: '',
-    action: '',
-    result: '',
-    keyword: '',
-    role: '',
-    perform: '',
+    selectedTab: data?.formType == 'STAR_FORM' ? 'star' : 'simple',
+    status: data?.status || 'SAVE',
+    formType: data?.formType || 'STAR_FORM',
+    experienceType: data?.experienceType || 'WORK',
+    startDate: String(data?.startDate) || '',
+    endDate: String(data?.endDate) || '',
+    title: data?.title || '',
+    situation: data?.situation || '',
+    task: data?.task || '',
+    action: data?.action || '',
+    result: data?.result || '',
+    keyword: data?.keyword || '',
+    role: data?.role || '',
+    perform: data?.perform || '',
   });
 
   const handleChange = (key: keyof typeof form, value: string) => {
@@ -56,14 +66,16 @@ export default function AddExperienceClient() {
       status: form.status as ExperienceStatus,
     };
 
-    const data = await saveExperience(payload);
+    const { httpStatus, message } = data?.id
+      ? await editExperience(data.id, payload)
+      : await saveExperience(payload);
     console.log('서버 응답:', data);
 
-    if (data?.httpStatus == 200) {
+    if (httpStatus == 200) {
       alert('성공적으로 저장되었습니다!');
       router.push('/experience');
     } else {
-      alert(`저장 실패: ${data?.message}`);
+      alert(`저장 실패: ${message}`);
       console.log('보내는 payload:', payload);
     }
   };
