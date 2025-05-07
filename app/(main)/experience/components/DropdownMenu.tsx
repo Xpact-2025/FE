@@ -35,7 +35,13 @@ export default function DropdownMenu({ id, onClose }: DropdownMenuProps) {
       ref={menuRef}
       className="absolute right-[-140px] top-[-10px] z-10 w-[132px] bg-gray-200 border rounded-md shadow-md py-2 text-gray-1000"
     >
-      <button className="w-full text-left px-4 py-2 hover:bg-gray-300 flex items-center gap-2">
+      <button
+        onClick={() => {
+          onClose();
+          router.push(`/addExperience?id=${id}`);
+        }}
+        className="w-full text-left px-4 py-2 hover:bg-gray-300 flex items-center gap-2"
+      >
         <EditPencilIcon className="stroke-gray-1000" />
         수정
       </button>

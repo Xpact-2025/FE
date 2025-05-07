@@ -9,6 +9,8 @@ export default async function ExpMainPage() {
     return <div>오류가 발생했습니다.</div>;
   }
 
+  console.log(data);
+
   return (
     <div className="min-h-screen flex">
       <main className="flex-1 flex-col items-start py-16 px-[80px]">
