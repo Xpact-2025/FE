@@ -1,4 +1,5 @@
 import MainCard from './MainCard';
+import Link from 'next/link';
 
 export default function Section2() {
   return (
@@ -18,19 +19,24 @@ export default function Section2() {
       </h3>
 
       <div className="flex flex-col md:flex-row justify-center items-center gap-[65px] mt-[112px]">
-        <MainCard
-          title="경험 대시보드"
-          description={`입력한 경험을 시각화하고, \n 직무 역량을 분석해줍니다`}
-          highlight
-        />
-        <MainCard
-          title="성장 가이드"
-          description={`부족한 역량을 파악하고, \n부족한 경험을 추천해줍니다`}
-        />
-        <MainCard
-          title="AI 자기소개서"
-          description={`정리된 경험을 바탕으로 \n맞춤형 자기소개서를 생성해줍니다`}
-        />
+        <Link href="/dashboard">
+          <MainCard
+            title="경험 대시보드"
+            description={`입력한 경험을 시각화하고, \n 직무 역량을 분석해줍니다`}
+          />
+        </Link>
+        <Link href="/">
+          <MainCard
+            title="성장 가이드"
+            description={`부족한 역량을 파악하고, \n부족한 경험을 추천해줍니다`}
+          />
+        </Link>
+        <Link href="/">
+          <MainCard
+            title="AI 자기소개서"
+            description={`정리된 경험을 바탕으로 \n맞춤형 자기소개서를 생성해줍니다`}
+          />
+        </Link>
       </div>
     </section>
   );

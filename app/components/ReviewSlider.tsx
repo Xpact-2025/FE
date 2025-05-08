@@ -22,7 +22,7 @@ export default function ReviewSlider() {
     >
       {testimonials.map((item, idx) => (
         <SwiperSlide key={idx}>
-          <ReviewCard {...item} highlight={idx === 1} />
+          <ReviewCard {...item} />
         </SwiperSlide>
       ))}
     </Swiper>
