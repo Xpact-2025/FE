@@ -1,6 +1,6 @@
-export type ExperienceStatus = 'DRAFT' | 'SAVE';
+export type ExpStatus = 'DRAFT' | 'SAVE';
 
-export type ExperienceType =
+export type ExpType =
   | 'CONTEST'
   | 'EXTERNAL_ACTIVITIES'
   | 'ACADEMIC_CLUB'
@@ -13,4 +13,4 @@ export type ExperienceType =
   | 'STUDY_ABROAD'
   | 'ETC';
 
-export type ExperienceFormType = 'STAR_FORM' | 'SIMPLE_FORM';
+export type ExpFormType = 'STAR_FORM' | 'SIMPLE_FORM';

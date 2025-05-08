@@ -1,24 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { ExperienceType } from '@/types/exp';
-import ExpType from './ExperienceType';
+import { ExpType } from '@/types/exp';
 import MoreVerticalIcon from '@/public/icons/More_Vertical.svg';
 import DropdownMenu from './DropdownMenu';
+import ExpVariety from './ExpVariety';
 
-interface ExperienceCardProps {
+interface ExpCardProps {
   id: number;
   title: string;
-  type: ExperienceType;
+  type: ExpType;
   isTemp?: boolean;
 }
 
-export default function ExperienceCard({
-  id,
-  title,
-  type,
-  isTemp,
-}: ExperienceCardProps) {
+export default function ExpCard({ id, title, type, isTemp }: ExpCardProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
@@ -37,7 +32,7 @@ export default function ExperienceCard({
         >
           {title}
         </div>
-        <ExpType type={type} />
+        <ExpVariety type={type} />
       </div>
       <div className="flex flex-row justify-end items-center relative">
         {isTemp && (
