@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import SearchProfileIcon from '@/public/icons/Search_Profile.svg';
 
 interface SearchInputProps {
   placeholder: string;
@@ -36,7 +36,7 @@ export default function SearchInput({
         className="absolute right-3 top-1/2 transform -translate-y-1/2"
         onClick={onSearch}
       >
-        <Image src="/search.png" alt="search" width={18} height={18} />
+        <SearchProfileIcon />
       </button>
     </div>
   );

@@ -23,7 +23,12 @@ export default function ReviewCard({ text, name, school }: ReviewCardProps) {
       <p className="text-[16px] leading-relaxed mb-6">{text}</p>
       <div className="flex items-center space-x-5">
         <div className="w-[36px] h-[36px] rounded-full border border-white/20 flex items-center justify-center">
-          <Image src="/reviewuser.png" alt="user" width={36} height={36} />
+          <Image
+            src="/images/reviewUser.svg"
+            alt="user"
+            width={36}
+            height={36}
+          />
         </div>
         <div className="text-[16px]">
           <div className="font-semibold">{name}</div>

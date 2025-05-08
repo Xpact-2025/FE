@@ -39,7 +39,7 @@ export default function Section1() {
 
       <div className="relative z-10 mt-[67.88px] w-[1098px] h-[657px]">
         <Image
-          src="/gray.png"
+          src="/images/gray.svg"
           alt="Xpact"
           width={1098}
           height={657}

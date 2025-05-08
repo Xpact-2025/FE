@@ -5,7 +5,7 @@ export default function ProfileCard() {
   return (
     <div className="flex flex-col items-center justify-center p-4 ">
       <Image
-        src="/profile.png"
+        src="/images/profile.svg"
         alt="profile"
         width={180}
         height={180}

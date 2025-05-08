@@ -1,7 +1,7 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
+import ArrowDownRightIcon from '@/public/icons/Arrow_Down_Right.svg';
 
 interface MainCardProps {
   title: string;
@@ -27,7 +27,7 @@ export default function MainCard({ title, description }: MainCardProps) {
         {description}
       </p>
       <div className="flex justify-end">
-        <Image src="/arrow.png" alt="Xpact" width={29} height={29} />
+        <ArrowDownRightIcon className="stroke-gray-50" />
       </div>
     </div>
   );

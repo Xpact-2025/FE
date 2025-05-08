@@ -46,10 +46,10 @@ export default function SocialLogin() {
 
       <div className="mt-5 flex justify-center space-x-10">
         <button onClick={handleKakaoLogin} className="cursor-pointer">
-          <Image src="/kakao.png" alt="kakao" width={48} height={48} />
+          <Image src="/images/kakao.svg" alt="kakao" width={48} height={48} />
         </button>
         <Link href="#">
-          <Image src="/naver.png" alt="naver" width={48} height={48} />
+          <Image src="/images/naver.svg" alt="naver" width={48} height={48} />
         </Link>
       </div>
     </div>

@@ -15,7 +15,7 @@ export default function Header() {
         <div className="flex items-center space-x-[103px]">
           <Link href="/">
             <Image
-              src="/Logo.png"
+              src="/images/logo.png"
               alt="Xpact"
               width={170}
               height={48}
