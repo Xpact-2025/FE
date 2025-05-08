@@ -25,7 +25,7 @@ export default function Header() {
 
           <nav className="hidden md:flex space-x-[41px] font-[Pretendard] text-gray-50">
             <BtnMenu title="대시보드" menu="dashboard"></BtnMenu>
-            <BtnMenu title="내 경험" menu="experience"></BtnMenu>
+            <BtnMenu title="내 경험" menu="exp"></BtnMenu>
             <BtnMenu title="성장 가이드" menu="guide"></BtnMenu>
             <BtnMenu title="AI 자기소개서" menu="ai-intro"></BtnMenu>
             <BtnMenu title="마이페이지" menu="mypage"></BtnMenu>
@@ -59,7 +59,7 @@ export default function Header() {
             대시보드
           </Link>
           <Link
-            href="/experience"
+            href="/exp"
             onClick={() => setIsOpen(false)}
             className="hover:text-primary-100"
           >

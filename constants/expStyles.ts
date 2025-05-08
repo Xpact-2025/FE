@@ -1,4 +1,4 @@
-export const EXPERIENCE_STYLES = {
+export const EXP_STYLES = {
   CONTEST: 'text-pink-50 bg-pink-50-20',
   EXTERNAL_ACTIVITIES: 'text-red-50 bg-red-50-20',
   ACADEMIC_CLUB: 'text-blue-50 bg-blue-50-20',

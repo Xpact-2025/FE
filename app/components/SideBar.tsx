@@ -42,19 +42,17 @@ const SideBar = () => {
             isActive={pathname === '/dashboard' || pathname === '/'}
           />
           <SideBarMenu
-            href="/experience"
+            href="/exp"
             icon={
               <BookIcon
-                className={`${pathname === '/experience' || pathname === '/addExperience' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
+                className={`${pathname === '/exp' || pathname === '/addExp' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
               />
             }
             text="내 경험"
-            isActive={
-              pathname === '/experience' || pathname === '/addExperience'
-            }
+            isActive={pathname === '/exp' || pathname === '/addExp'}
           />
           <SideBarMenu
-            href="/experience"
+            href="/exp"
             icon={<CopyIcon className={iconStyle('/growth-guide')} />}
             text="성장 가이드"
             isActive={pathname === '/growth-guide'}
