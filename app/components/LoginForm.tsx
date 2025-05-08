@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import FormInput from './InputBox';
+import FormInput from './InputCheckBox';
 import { loginUser } from '../../apis/auth';
 
 export default function LoginForm() {

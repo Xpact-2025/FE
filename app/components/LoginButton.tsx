@@ -7,7 +7,10 @@ export default function LoginButton() {
   if (token) {
     return (
       <form action="/logout" method="POST">
-        <button type="submit" className="hover:text-primary-50 cursor-pointer">
+        <button
+          type="submit"
+          className="hover:text-primary-50 cursor-pointer font-semibold"
+        >
           로그아웃
         </button>
       </form>
@@ -15,7 +18,7 @@ export default function LoginButton() {
   }
 
   return (
-    <Link href="/login" className="hover:text-primary-50">
+    <Link href="/login" className="hover:text-primary-50 font-semibold">
       로그인
     </Link>
   );

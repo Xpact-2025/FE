@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import FormInput from '../components/InputBox';
+import FormInput from '../components/InputCheckBox';
 import SocialLogin from '../components/SocialLogin';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';

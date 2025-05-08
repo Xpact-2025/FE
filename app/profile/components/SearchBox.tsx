@@ -5,6 +5,7 @@ interface SearchInputProps {
   onSearch?: () => void;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFocus?: () => void;
 }
 
 //엔터 키 처리 추가
