@@ -110,7 +110,7 @@ export default function AddExperiencePage() {
                   status: 'SAVE',
                 }))
               }
-              className="bg-primary-50 text-black"
+              className="bg-primary-50 text-gray-1000"
             >
               작성완료
             </BtnExp>
@@ -124,7 +124,7 @@ export default function AddExperiencePage() {
                 type="button"
                 className={`w-[170px] rounded-3xl font-medium py-2 transition all ${
                   form.selectedTab === 'star'
-                    ? 'bg-gray-300 text-black'
+                    ? 'bg-gray-300 text-gray-1000'
                     : 'bg-gray-600 font-medium text-gray-300'
                 }`}
                 onClick={() =>
@@ -141,7 +141,7 @@ export default function AddExperiencePage() {
                 type="button"
                 className={`w-[170px] rounded-3xl font-medium py-2 transition all ${
                   form.selectedTab === 'simple'
-                    ? 'bg-gray-300 text-black'
+                    ? 'bg-gray-300 text-gray-1000'
                     : 'bg-gray-600 font-medium text-gray-300'
                 }`}
                 onClick={() =>
