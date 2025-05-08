@@ -110,7 +110,7 @@ export default function ExpForm({ data }: ExpFormProps) {
                 status: 'SAVE',
               }))
             }
-            className="w-20 py-3 bg-primary-50 text-sm text-black font-semibold rounded-lg"
+            className="w-20 py-3 bg-primary-50 text-sm text-gray-1000 font-semibold rounded-lg"
           >
             작성완료
           </button>
@@ -124,7 +124,7 @@ export default function ExpForm({ data }: ExpFormProps) {
               type="button"
               className={`w-[170px] rounded-3xl font-medium py-2 transition all ${
                 form.selectedTab === 'star'
-                  ? 'bg-gray-300 text-black'
+                  ? 'bg-gray-300 text-gray-100'
                   : 'bg-gray-600 font-medium text-gray-300'
               }`}
               onClick={() =>
@@ -141,7 +141,7 @@ export default function ExpForm({ data }: ExpFormProps) {
               type="button"
               className={`w-[170px] rounded-3xl font-medium py-2 transition all ${
                 form.selectedTab === 'simple'
-                  ? 'bg-gray-300 text-black'
+                  ? 'bg-gray-300 text-gray-1000'
                   : 'bg-gray-600 font-medium text-gray-300'
               }`}
               onClick={() =>

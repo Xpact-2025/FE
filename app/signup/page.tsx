@@ -123,7 +123,7 @@ export default function SignupPage() {
       <main className="flex flex-col items-center justify-center py-[120px] px-4">
         <div className="flex flex-col items-center mb-10">
           <Image
-            src="/logo2.png"
+            src="/images/logo2.svg"
             alt="Xpact"
             width={59}
             height={48}

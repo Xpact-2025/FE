@@ -23,7 +23,7 @@ const SideBar = () => {
       <nav>
         <Link href="/">
           <Image
-            src="/Logo.png"
+            src="/images/logo.png"
             alt="Xpact"
             width={128}
             height={48}

@@ -29,7 +29,7 @@ export default function Section7() {
         XPact
       </p>
 
-      <button className="w-[120px] h-[40px] bg-gray-50 text-gray-1000 text-[16px] font-semibold px-5 py-2 rounded hover:bg-gray-200 transition z-10">
+      <button className="w-[120px] h-[40px] bg-gray-50 text-gray-1000 text-[16px] font-semibold px-5 py-2 rounded hover:bg-primary-50 active:bg-primary-100 transition z-10">
         시작하기
       </button>
     </section>

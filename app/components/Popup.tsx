@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import WarningIcon from '@/public/icons/Triangle_Warning.svg';
 
 interface PopupProps {
   title: string;
@@ -21,12 +21,7 @@ export default function Popup({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="w-[464px] h-72 bg-gray-700 rounded-lg outline outline-gray-500-20">
         <div className="flex flex-col items-center justify-center p-6">
-          <Image
-            src="/Triangle_Warning.png"
-            alt="warning"
-            width={40}
-            height={40}
-          />
+          <WarningIcon />
           <div className="text-gray-50 text-2xl font-semibold pt-6">
             {title}
           </div>

@@ -13,7 +13,7 @@ export default function Section5() {
 
       <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
         <Image
-          src="/gray.png"
+          src="/images/gray.svg"
           alt="Xpact"
           width={1180}
           height={597}

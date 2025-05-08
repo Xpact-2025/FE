@@ -1,4 +1,4 @@
-import ReviewSlider from '../../components/ReviewSlider';
+import ReviewSlider from './ReviewSlider';
 
 export default function Section6() {
   return (

@@ -14,7 +14,7 @@ export default function Section3() {
         </p>
 
         <Image
-          src="/gray.png"
+          src="/images/gray.svg"
           alt="Xpact"
           width={482}
           height={271}
@@ -23,7 +23,7 @@ export default function Section3() {
       </div>
 
       <div className="flex-1 flex flex-col h-full sm:flex-row gap-6 justify-end items-end mt-[15px]">
-        <Image src="/gray.png" alt="Xpact" width={554} height={600} />
+        <Image src="/images/gray.svg" alt="Xpact" width={554} height={600} />
       </div>
     </section>
   );
