@@ -116,14 +116,14 @@ export default function ProfilePage() {
             <div className="text-[18px] mb-2">⠀</div>
             <input
               type="month"
-              className="w-full px-4 py-2 bg-[#161616] text-white rounded border border-gray-600"
+              className="w-full px-4 py-2 bg-[#161616] text-white rounded border border-gray-700"
             />
           </div>
           <div className="w-[149px]">
             <div className="text-[18px] mb-2">⠀</div>
             <input
               type="month"
-              className="w-full px-4 py-2 bg-[#161616] text-white rounded border border-gray-600"
+              className="w-full px-4 py-2 bg-[#161616] text-white rounded border border-gray-700"
             />
           </div>
           <div className="w-[149px]">

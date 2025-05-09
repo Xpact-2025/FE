@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Section2() {
   return (
-    <section className="bg-gray-900 w-full flex flex-col items-center justify-center text-center px-[5%] py-[100px] text-gray-50">
+    <section className="bg-gray-1000 w-full flex flex-col items-center justify-center text-center px-[5%] py-[100px] text-gray-50">
       <h3 className="text-[20px] md:text-[40px] mb-8">
         취업 준비에 꼭 필요한 경험 관리 <br />
         <span

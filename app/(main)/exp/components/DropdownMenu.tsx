@@ -33,7 +33,7 @@ export default function DropdownMenu({ id, onClose }: DropdownMenuProps) {
   return (
     <div
       ref={menuRef}
-      className="absolute right-[-140px] top-[-10px] z-10 w-[132px] bg-gray-200 border rounded-md shadow-md py-2 text-gray-1000"
+      className="absolute right-[-140px] top-[-10px] z-10 w-[132px] bg-gray-200 border rounded-md shadow-md py-2 text-gray-1100"
     >
       <button
         onClick={() => {
@@ -42,14 +42,14 @@ export default function DropdownMenu({ id, onClose }: DropdownMenuProps) {
         }}
         className="w-full text-left px-4 py-2 hover:bg-gray-300 flex items-center gap-2"
       >
-        <EditPencilIcon className="stroke-gray-1000" />
+        <EditPencilIcon className="stroke-gray-1100" />
         수정
       </button>
       <button
         onClick={() => setIsPopupOpen(true)}
         className="w-full text-left px-4 py-2 hover:bg-gray-300 flex items-center gap-2"
       >
-        <TrashFullIcon className="stroke-gray-1000" />
+        <TrashFullIcon className="stroke-gray-1100" />
         삭제
       </button>
       {isPopupOpen && (

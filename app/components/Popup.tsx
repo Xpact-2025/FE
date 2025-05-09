@@ -19,7 +19,7 @@ export default function Popup({
 }: PopupProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="w-[464px] h-72 bg-gray-700 rounded-lg outline outline-gray-500-20">
+      <div className="w-[464px] h-72 bg-gray-800 rounded-lg outline outline-gray-500-20">
         <div className="flex flex-col items-center justify-center p-6">
           <WarningIcon />
           <div className="text-gray-50 text-2xl font-semibold pt-6">
@@ -33,7 +33,7 @@ export default function Popup({
           <button
             type="button"
             onClick={onCancel}
-            className="w-40 h-14 bg-gray-600 rounded-4xl text-center text-white text-xl font-semibold"
+            className="w-40 h-14 bg-gray-700 rounded-4xl text-center text-white text-xl font-semibold"
           >
             {cancelText}
           </button>

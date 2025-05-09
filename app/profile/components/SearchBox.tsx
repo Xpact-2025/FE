@@ -29,7 +29,7 @@ export default function SearchInput({
         value={value}
         onChange={onChange}
         onKeyDown={handleKeyDown}
-        className="w-full h-[44px] px-4 py-2 bg-[#161616] text-white rounded border border-gray-600"
+        className="w-full h-[44px] px-4 py-2 bg-[#161616] text-white rounded border border-gray-700"
       />
       <button
         type="button"

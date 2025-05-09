@@ -20,14 +20,14 @@ export default function ExpCard({ id, title, type, isTemp }: ExpCardProps) {
     <div
       className={`relative w-[322px] h-[224px] border bg-linear-125 ${
         isTemp
-          ? 'from-gray-800 to-gray-900 border-gray-600'
-          : 'from-gray-600 to-gray-700 border-gray-50-20'
+          ? 'from-gray-900 to-gray-1000 border-gray-700'
+          : 'from-gray-700 to-gray-800 border-gray-50-20'
       } rounded-[14px] flex flex-col justify-between p-[28px]`}
     >
       <div className="flex flex-col gap-[26px]">
         <div
           className={`body-20-r break-keep ${
-            isTemp ? 'text-gray-600' : 'text-gray-50'
+            isTemp ? 'text-gray-700' : 'text-gray-50'
           }`}
         >
           {title}

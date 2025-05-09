@@ -66,7 +66,7 @@ function DateInput({ onChange, value, min, max }: ExpInputBoxProps) {
         onChange={onChange}
         min={min}
         max={max}
-        className="w-full px-4 py-3 font-medium bg-gray-900 text-gray-300 rounded border border-gray-50-10"
+        className="w-full px-4 py-3 font-medium bg-gray-1000 text-gray-300 rounded border border-gray-50-10"
       />
       <style>
         {`
@@ -86,8 +86,8 @@ function TextAreaInput({ placeholder, onChange, value }: ExpInputBoxProps) {
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="w-full px-4 py-3 bg-gray-700
-        border border-gray-600 placeholder:text-gray-300"
+        className="w-full px-4 py-3 bg-gray-800
+        border border-gray-700 placeholder:text-gray-300"
         rows={6}
       />
     </div>
@@ -102,7 +102,7 @@ function TextInput({ placeholder, onChange, value }: ExpInputBoxProps) {
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="w-full px-4 py-3 bg-gray-700 text-gray-50 rounded border border-gray-600 placeholder:text-gray-300"
+        className="w-full px-4 py-3 bg-gray-800 text-gray-50 rounded border border-gray-700 placeholder:text-gray-300"
       />
     </div>
   );

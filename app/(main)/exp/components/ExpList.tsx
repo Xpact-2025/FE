@@ -24,7 +24,7 @@ export default function ExpList({ data }: ExpListProps) {
       <h1 className="text-[25px] font-bold mb-10 flex items-center justify-between">
         <span>내 경험</span>
         <div className="flex justify-end gap-4">
-          <BtnExp href="/addExp " className="bg-primary-50 text-gray-1000">
+          <BtnExp href="/addExp " className="bg-primary-50 text-gray-1100">
             경험 추가
           </BtnExp>
           <BtnFilter onSelectType={setSelectedType} />

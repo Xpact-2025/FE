@@ -16,13 +16,13 @@ export default function Profile() {
         <ArrowDownIcon onClick={() => setIsOpen(!isOpen)} />
         {isOpen && (
           <div className="flex flex-col absolute top-full justify-center">
-            <div className="flex bg-gray-700 w-44 px-5 py-2.5 text-gray-50 text-xs">
+            <div className="flex bg-gray-800 w-44 px-5 py-2.5 text-gray-50 text-xs">
               <Link href="/mypage">마이페이지</Link>
             </div>
-            <div className="flex bg-gray-700 w-44 px-5 py-2.5 text-gray-50 text-xs">
+            <div className="flex bg-gray-800 w-44 px-5 py-2.5 text-gray-50 text-xs">
               <Link href="/scrap">스크랩</Link>
             </div>
-            <button className="flex bg-gray-700 w-44 px-5 py-2.5 text-gray-50 text-xs">
+            <button className="flex bg-gray-800 w-44 px-5 py-2.5 text-gray-50 text-xs">
               로그아웃
             </button>
           </div>
