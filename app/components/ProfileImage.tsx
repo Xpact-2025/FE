@@ -5,7 +5,7 @@ export default function ProfileImage() {
   return (
     <div className="relative mb-6">
       <Image
-        src="/images/profile.svg"
+        src="/images/mainporfile.svg"
         alt="profile"
         width={200}
         height={200}
