@@ -13,12 +13,7 @@ export default function ReviewCard({ text, name, school }: ReviewCardProps) {
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`px-[30px] py-[37px] w-[373px] h-[272px] text-left shadow-lg hover:scale-[1.02] transition rounded-[8px] outline-1 outline-white/10 border-none`}
-      style={{
-        background: isHovered
-          ? 'linear-gradient(180deg, #111111 0%, #341812 25.5%, #7E2614 100%)'
-          : '#111',
-      }}
+      className={`px-[30px] py-[37px] w-[373px] h-[272px] text-left shadow-lg hover:scale-[1.02] transition rounded-[8px] outline-1 outline-white/10 border-none ${isHovered ? 'bg-select-gradient' : 'bg-gray-900'}`}
     >
       <p className="text-[16px] leading-relaxed mb-6">{text}</p>
       <div className="flex items-center space-x-5">

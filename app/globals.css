@@ -76,6 +76,23 @@
   --color-plum-50: rgb(153, 73, 182); /* #9949B6 RGB(153,73,182) */
   --color-plum-50-20: rgb(153, 73, 182, 0.2);
 
+  /* Gradient Colors */
+  --color-exp-gradient-s: linear-gradient(125deg, #242424 0%, #161616 100%);
+  --color-exp-gradient-un-s: linear-gradient(125deg, #111111 0%, #020202 100%);
+  --color-select-gradient: linear-gradient(
+    180deg,
+    #111111 0%,
+    #341812 25%,
+    #7e2614 100%
+  );
+  --color-highlight: linear-gradient(
+    90deg,
+    rgba(255, 109, 3, 1) 0%,
+    rgba(255, 109, 3, 0.51) 3%,
+    rgba(255, 109, 3, 0.29) 51%,
+    rgba(255, 109, 3, 0) 100%
+  );
+
   /* Type System */
 
   /* Headline */
@@ -234,4 +251,20 @@ body {
   background-color: #fff !important;
   box-shadow: 0 0 0 3px #ff6d01; /* ✅ 바깥쪽 테두리처럼 보이게 */
   opacity: 1;
+}
+
+.bg-exp-gradient-s {
+  background: var(--color-exp-gradient-s);
+}
+
+.bg-exp-gradient-un-s {
+  background: var(--color-exp-gradient-un-s);
+}
+
+.bg-select-gradient {
+  background: var(--color-select-gradient);
+}
+
+.bg-highlight {
+  background: var(--color-highlight);
 }

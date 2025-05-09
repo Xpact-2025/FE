@@ -45,13 +45,7 @@ export default function Section1() {
           height={657}
           className="rounded-[8px] w-full h-full object-cover"
         />
-        <div
-          className="absolute bottom-0 left-0 w-full h-[150px] z-[11]"
-          style={{
-            background:
-              'linear-gradient(180deg, rgba(0, 0, 0, 0) 1%, #050208 100%)',
-          }}
-        />
+        <div className="absolute bottom-0 left-0 w-full h-[150px] z-[11] bg-gradient-to-b from-black/0 to-[#050208]" />
       </div>
     </section>
   );
