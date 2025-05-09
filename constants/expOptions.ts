@@ -1,4 +1,4 @@
-export const EXPERIENCE_OPTIONS = {
+export const EXP_OPTIONS = {
   CONTEST: { label: '공모전', value: 'CONTEST' },
   EXTERNAL_ACTIVITIES: { label: '대외활동', value: 'EXTERNAL_ACTIVITIES' },
   ACADEMIC_CLUB: { label: '학회/동아리', value: 'ACADEMIC_CLUB' },

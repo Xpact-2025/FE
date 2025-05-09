@@ -1,8 +1,8 @@
 import BtnExpType from '@/app/components/BtnExpType';
-import { EXPERIENCE_OPTIONS } from '@/constants/experienceOptions';
+import { EXP_OPTIONS } from '@/constants/expOptions';
 import React from 'react';
 
-interface ExperienceInputBoxProps {
+interface ExpInputBoxProps {
   type: 'select' | 'string' | 'date' | 'textarea';
   placeholder?: string;
   value: string;
@@ -15,14 +15,14 @@ interface ExperienceInputBoxProps {
   ) => void;
 }
 
-export default function ExperienceInputBox({
+export default function ExpInputBox({
   type,
   placeholder,
   value,
   min,
   max,
   onChange,
-}: ExperienceInputBoxProps) {
+}: ExpInputBoxProps) {
   const components = {
     select: SelectInput,
     string: TextInput,
@@ -36,8 +36,8 @@ export default function ExperienceInputBox({
   ) : null;
 }
 
-function SelectInput({ value, onChange }: ExperienceInputBoxProps) {
-  const options = Object.values(EXPERIENCE_OPTIONS);
+function SelectInput({ value, onChange }: ExpInputBoxProps) {
+  const options = Object.values(EXP_OPTIONS);
 
   return (
     <div className="grid grid-cols-6 gap-2">
@@ -57,7 +57,7 @@ function SelectInput({ value, onChange }: ExperienceInputBoxProps) {
   );
 }
 
-function DateInput({ onChange, value, min, max }: ExperienceInputBoxProps) {
+function DateInput({ onChange, value, min, max }: ExpInputBoxProps) {
   return (
     <div className="w-full">
       <input
@@ -66,7 +66,7 @@ function DateInput({ onChange, value, min, max }: ExperienceInputBoxProps) {
         onChange={onChange}
         min={min}
         max={max}
-        className="w-full px-4 py-3 font-medium bg-gray-900 text-gray-300 rounded border border-gray-50-10"
+        className="w-full px-4 py-3 font-medium bg-gray-1000 text-gray-300 rounded border border-gray-50-10"
       />
       <style>
         {`
@@ -79,26 +79,22 @@ function DateInput({ onChange, value, min, max }: ExperienceInputBoxProps) {
   );
 }
 
-function TextAreaInput({
-  placeholder,
-  onChange,
-  value,
-}: ExperienceInputBoxProps) {
+function TextAreaInput({ placeholder, onChange, value }: ExpInputBoxProps) {
   return (
     <div className="relative">
       <textarea
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="w-full px-4 py-3 bg-gray-700
-        border border-gray-600 placeholder:text-gray-300"
+        className="w-full px-4 py-3 bg-gray-800
+        border border-gray-700 placeholder:text-gray-300"
         rows={6}
       />
     </div>
   );
 }
 
-function TextInput({ placeholder, onChange, value }: ExperienceInputBoxProps) {
+function TextInput({ placeholder, onChange, value }: ExpInputBoxProps) {
   return (
     <div className="relative">
       <input
@@ -106,7 +102,7 @@ function TextInput({ placeholder, onChange, value }: ExperienceInputBoxProps) {
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="w-full px-4 py-3 bg-gray-700 text-gray-50 rounded border border-gray-600 placeholder:text-gray-300"
+        className="w-full px-4 py-3 bg-gray-800 text-gray-50 rounded border border-gray-700 placeholder:text-gray-300"
       />
     </div>
   );
