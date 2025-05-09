@@ -1,3 +1,4 @@
+import { logout } from '@/apis/auth';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 
@@ -6,7 +7,7 @@ export default function LoginButton() {
 
   if (token) {
     return (
-      <form action="/logout" method="POST">
+      <form action={logout}>
         <button
           type="submit"
           className="hover:text-primary-50 cursor-pointer font-semibold"
