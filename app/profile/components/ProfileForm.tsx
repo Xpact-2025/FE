@@ -137,6 +137,7 @@ import SelectBox from './SelectBox';
 import SearchInput from './SearchBox';
 import InputBox from '@/app/components/InputBox';
 import SchoolModal from './SchoolModal';
+import MajorModal from './MajorModal';
 
 export default function ProfileForm() {
   const [degree, setDegree] = useState('');
@@ -147,6 +148,10 @@ export default function ProfileForm() {
   const [selectedSchool, setSelectedSchool] = useState('');
   const [schoolList, setSchoolList] = useState<string[]>([]);
   const [schoolSearchInput, setSchoolSearchInput] = useState('');
+  const [isMajorModalOpen, setIsMajorModalOpen] = useState(false);
+  const [majorList, setMajorList] = useState<string[]>([]);
+  const [selectedMajor, setSelectedMajor] = useState('');
+  const [majorSearchInput, setMajorSearchInput] = useState('');
 
   const handleAddJob = () => {
     const trimmed = jobInput.trim();
@@ -166,6 +171,21 @@ export default function ProfileForm() {
       } catch (err) {
         console.error('학교 목록 로딩 실패:', err);
       }
+    }
+  };
+
+  const handleMajorSearch = async () => {
+    setIsMajorModalOpen(true);
+    try {
+      const res = await fetch('/api/fetch-majors', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ schoolName: selectedSchool }),
+      });
+      const data = await res.json();
+      setMajorList(data);
+    } catch (err) {
+      console.error('학과 목록 로딩 실패:', err);
     }
   };
 
@@ -216,7 +236,12 @@ export default function ProfileForm() {
         </div>
         <div className="w-[149px]">
           <div className="text-[18px] mb-2">⠀</div>
-          <SearchInput placeholder="학과" onSearch={() => alert('학과 검색')} />
+          <SearchInput
+            placeholder="학과명"
+            value={selectedMajor}
+            onChange={e => setSelectedMajor(e.target.value)}
+            onSearch={handleMajorSearch}
+          />
         </div>
         <div className="w-[149px]">
           <SelectBox
@@ -269,6 +294,16 @@ export default function ProfileForm() {
         searchValue={schoolSearchInput}
         onChange={e => setSchoolSearchInput(e.target.value)}
         onSearch={handleSchoolSearch}
+      />
+
+      <MajorModal
+        isOpen={isMajorModalOpen}
+        onClose={() => setIsMajorModalOpen(false)}
+        majors={majorList}
+        onSelect={major => setSelectedMajor(major)}
+        searchValue={majorSearchInput}
+        onChange={e => setMajorSearchInput(e.target.value)}
+        onSearch={handleMajorSearch}
       />
     </main>
   );

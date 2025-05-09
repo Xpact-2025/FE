@@ -1,17 +1,19 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
-export async function GET() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('access-token')?.value;
+export async function POST(req: Request) {
+  const { schoolName } = await req.json();
+  const token = cookies().get('access-token')?.value;
 
   if (!token) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
   try {
+    const encoded = encodeURIComponent(schoolName);
     const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-    const res = await fetch(`${baseUrl}/api/educations/name`, {
+
+    const res = await fetch(`${baseUrl}/api/educations/${encoded}/major`, {
       method: 'GET',
       headers: {
         accept: '*/*',
@@ -23,6 +25,9 @@ export async function GET() {
     const json = await res.json();
     return NextResponse.json(json.data || []);
   } catch (error) {
-    return NextResponse.json({ message: 'Failed to fetch' }, { status: 500 });
+    return NextResponse.json(
+      { message: 'Failed to fetch majors' },
+      { status: 500 }
+    );
   }
 }
