@@ -90,6 +90,9 @@
   --tracking-title-30-m: 0em;
 
   /* Body */
+  --font-body-26-sb: 600 26px/104% sans-serif;
+  --tracking-body-26-sb: 0em;
+
   --font-body-23-b: 700 23px/104% sans-serif;
   --tracking-body-23-b: 0em;
 
@@ -104,6 +107,9 @@
 
   --font-body-18-m: 500 18px/133% sans-serif;
   --tracking-body-18-m: 0em;
+
+  --font-body-18-r: 400 18px/140% sans-serif;
+  --tracking-body-18-m: -0.03em;
 
   --font-body-16-sb: 600 16px/150% sans-serif;
   --tracking-body-16-sb: 0em;
@@ -142,6 +148,11 @@
   letter-spacing: var(--tracking-title-30-m);
 }
 
+.body-26-sb {
+  font: var(--font-body-26-sb);
+  letter-spacing: var(--tracking-body-26-sb);
+}
+
 .body-23-b {
   font: var(--font-body-23-b);
   letter-spacing: var(--tracking-body-23-b);
@@ -165,6 +176,11 @@
 .body-18-m {
   font: var(--font-body-18-m);
   letter-spacing: var(--tracking-body-18-m);
+}
+
+.body-18-r {
+  font: var(--font-body-18-r);
+  letter-spacing: var(--tracking-body-18-r);
 }
 
 .body-16-sb {
