@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function Section5() {
   return (
-    <section className="bg-gray-900 text-white w-full p-[130px] text-center">
+    <section className="bg-gray-1000 text-white w-full p-[130px] text-center">
       <h3 className="text-[24px] md:text-[40px] font-semibold mb-4">
         자기소개서, 이제 쉽게 작성해보세요
       </h3>
@@ -13,7 +13,7 @@ export default function Section5() {
 
       <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
         <Image
-          src="/gray.png"
+          src="/images/gray.svg"
           alt="Xpact"
           width={1180}
           height={597}

@@ -201,12 +201,12 @@ import HeaderToggle from './HeaderToggle';
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 w-full z-50 px-[130px] py-[2%] bg-gray-900 body-16-r">
+    <header className="fixed top-0 left-0 w-full z-50 px-[130px] py-[2%] bg-gray-1000 body-16-r">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-[103px]">
           <Link href="/">
             <Image
-              src="/Logo.png"
+              src="/images/logo.png"
               alt="Xpact"
               width={170}
               height={48}

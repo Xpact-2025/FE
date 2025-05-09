@@ -5,7 +5,7 @@ export default function ProfileImage() {
   return (
     <div className="relative mb-6">
       <Image
-        src="/profile.png"
+        src="/images/profile.svg"
         alt="profile"
         width={200}
         height={200}
@@ -16,7 +16,12 @@ export default function ProfileImage() {
         href="#"
         className="absolute bottom-2 right-2 flex items-center justify-center cursor-pointer"
       >
-        <Image src="/btnProfileImg.png" alt="upload" width={40} height={40} />
+        <Image
+          src="/images/btnProfileImg.svg"
+          alt="upload"
+          width={40}
+          height={40}
+        />
       </Link>
     </div>
   );

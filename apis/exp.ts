@@ -1,16 +1,13 @@
 'use server';
 
-import {
-  ExperienceFormType,
-  ExperienceStatus,
-  ExperienceType,
-} from '@/types/exp';
+import { ExpFormType, ExpStatus, ExpType } from '@/types/exp';
 import API from './config';
 
-export interface ExperiencePayload {
-  status: ExperienceStatus;
-  experienceType: ExperienceType;
-  formType: ExperienceFormType;
+export interface ExpPayload {
+  id?: number;
+  status: ExpStatus;
+  experienceType: ExpType;
+  formType: ExpFormType;
   title: string;
   startDate: Date;
   endDate: Date;
@@ -23,27 +20,31 @@ export interface ExperiencePayload {
   perform?: string;
 }
 
-export interface Experience {
+export interface Exp {
   id: number;
   title: string;
-  experienceType: ExperienceType;
+  experienceType: ExpType;
 }
 
-interface SaveExperienceResponse {
+interface SaveExpResponse {
   httpStatus: number;
   message: string;
 }
 
-interface GetExperienceResponse {
+interface GetExpResponse {
   httpStatus: number;
   message: string;
-  data?: Experience[];
+  data?: Exp[];
 }
 
-export async function saveExperience(
-  payload: ExperiencePayload
-): Promise<SaveExperienceResponse> {
-  const res = await API.post<SaveExperienceResponse>('/api/exp', {
+interface GetExpByIdResponse {
+  httpStatus: number;
+  message: string;
+  data: ExpPayload;
+}
+
+export async function saveExp(payload: ExpPayload): Promise<SaveExpResponse> {
+  const res = await API.post<SaveExpResponse>('/api/exp', {
     ...payload,
     startDate: new Date(payload.startDate),
     endDate: new Date(payload.endDate),
@@ -52,12 +53,31 @@ export async function saveExperience(
   return res.data;
 }
 
-export async function getMyExperience(): Promise<GetExperienceResponse> {
-  const res = await API.get<GetExperienceResponse>('/api/exp');
+export async function editExp(
+  exp_id: number,
+  payload: ExpPayload
+): Promise<SaveExpResponse> {
+  const res = await API.patch<SaveExpResponse>(`/api/exp/${exp_id}`, {
+    ...payload,
+    startDate: new Date(payload.startDate),
+    endDate: new Date(payload.endDate),
+  });
+
   return res.data;
 }
 
-export async function deleteExperience(id: number) {
+export async function getExpById(exp_id: number): Promise<GetExpByIdResponse> {
+  const res = await API.get<GetExpByIdResponse>(`/api/exp/${exp_id}`);
+
+  return res.data;
+}
+
+export async function getMyExp(): Promise<GetExpResponse> {
+  const res = await API.get<GetExpResponse>('/api/exp');
+  return res.data;
+}
+
+export async function deleteExp(id: number) {
   const res = await API.delete(`/api/exp/${id}`);
   return res.data;
 }

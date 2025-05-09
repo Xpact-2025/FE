@@ -1,43 +1,38 @@
 'use client';
 
 import { useState } from 'react';
-import { ExperienceType } from '@/types/exp';
-import ExpType from './ExperienceType';
+import { ExpType } from '@/types/exp';
 import MoreVerticalIcon from '@/public/icons/More_Vertical.svg';
 import DropdownMenu from './DropdownMenu';
+import ExpVariety from './ExpVariety';
 
-interface ExperienceCardProps {
+interface ExpCardProps {
   id: number;
   title: string;
-  type: ExperienceType;
+  type: ExpType;
   isTemp?: boolean;
 }
 
-export default function ExperienceCard({
-  id,
-  title,
-  type,
-  isTemp,
-}: ExperienceCardProps) {
+export default function ExpCard({ id, title, type, isTemp }: ExpCardProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
     <div
-      className={`relative w-[322px] h-[224px] border bg-linear-125 ${
+      className={`relative w-[322px] h-[224px] border ${
         isTemp
-          ? 'from-gray-800 to-gray-900 border-gray-600'
-          : 'from-gray-600 to-gray-700 border-gray-50-20'
+          ? 'bg-exp-gradient-un-s border-gray-700'
+          : 'bg-exp-gradient-s border-gray-50-20'
       } rounded-[14px] flex flex-col justify-between p-[28px]`}
     >
       <div className="flex flex-col gap-[26px]">
         <div
           className={`body-20-r break-keep ${
-            isTemp ? 'text-gray-600' : 'text-gray-50'
+            isTemp ? 'text-gray-700' : 'text-gray-50'
           }`}
         >
           {title}
         </div>
-        <ExpType type={type} />
+        <ExpVariety type={type} />
       </div>
       <div className="flex flex-row justify-end items-center relative">
         {isTemp && (
