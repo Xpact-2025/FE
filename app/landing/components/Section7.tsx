@@ -1,6 +1,6 @@
 export default function Section7() {
   return (
-    <section className="bg-gray-900 text-white w-full h-[1226px] text-center flex flex-col items-center justify-centermx-auto relative">
+    <section className="bg-gray-1000 text-white w-full h-[1226px] text-center flex flex-col items-center justify-centermx-auto relative">
       <div
         className="absolute z-0 left-1/2 -translate-x-1/2"
         style={{
@@ -29,7 +29,7 @@ export default function Section7() {
         XPact
       </p>
 
-      <button className="w-[120px] h-[40px] bg-gray-50 text-gray-1000 text-[16px] font-semibold px-5 py-2 rounded hover:bg-primary-50 active:bg-primary-100 transition z-10">
+      <button className="w-[120px] h-[40px] bg-gray-50 text-gray-1100 text-[16px] font-semibold px-5 py-2 rounded hover:bg-primary-50 active:bg-primary-100 transition z-10">
         시작하기
       </button>
     </section>

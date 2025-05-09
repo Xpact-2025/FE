@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function Section4() {
   return (
-    <section className="bg-gray-900 text-white w-full p-[130px] flex flex-col md:flex-row justify-between items-center">
+    <section className="bg-gray-1000 text-white w-full p-[130px] flex flex-col md:flex-row justify-between items-center">
       <div className="flex-1 flex flex-col h-full sm:flex-row gap-6 justify-start items-start">
         <Image src="/images/gray.svg" alt="Xpact" width={534} height={597} />
       </div>
@@ -20,7 +20,7 @@ export default function Section4() {
           alt="Xpact"
           width={491}
           height={302}
-          className="h-[302px] bg-gray-800 mt-[115px] ml-auto"
+          className="h-[302px] bg-gray-900 mt-[115px] ml-auto"
         />
       </div>
     </section>

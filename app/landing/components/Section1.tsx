@@ -11,7 +11,7 @@ export default function Section1() {
           경험 정리 대시보드, 직무 역량 분석, AI 자기소개서까지 <br />
           취업 준비에 꼭 필요한 모든 과정을 한 번에 제공합니다.
         </p>
-        <button className="bg-white w-[120px] h-[40px] text-gray-1000 text-[16px] font-semibold px-6 py-2 rounded hover:bg-primary-50 active:bg-primary-100 transition mt-[45px]">
+        <button className="bg-white w-[120px] h-[40px] text-gray-1100 text-[16px] font-semibold px-6 py-2 rounded hover:bg-primary-50 active:bg-primary-100 transition mt-[45px]">
           시작하기
         </button>
       </div>
@@ -45,13 +45,7 @@ export default function Section1() {
           height={657}
           className="rounded-[8px] w-full h-full object-cover"
         />
-        <div
-          className="absolute bottom-0 left-0 w-full h-[150px] z-[11]"
-          style={{
-            background:
-              'linear-gradient(180deg, rgba(0, 0, 0, 0) 1%, #050208 100%)',
-          }}
-        />
+        <div className="absolute bottom-0 left-0 w-full h-[150px] z-[11] bg-gradient-to-b from-black/0 to-[#050208]" />
       </div>
     </section>
   );

@@ -37,11 +37,11 @@ export default function SocialLogin() {
   return (
     <div className="w-[448px]">
       <div className="flex items-center justify-center space-x-4 text-gray-500">
-        <hr className="flex-grow border-gray-600" />
+        <hr className="flex-grow border-gray-700" />
         <span className="text-[14px] whitespace-nowrap">
           SNS 회원가입 및 로그인
         </span>
-        <hr className="flex-grow border-gray-600" />
+        <hr className="flex-grow border-gray-700" />
       </div>
 
       <div className="mt-5 flex justify-center space-x-10">

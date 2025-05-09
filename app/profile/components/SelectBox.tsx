@@ -24,7 +24,7 @@ const SelectBox = ({
         <select
           value={value}
           onChange={onChange}
-          className={`appearance-none w-full h-[44px] px-4 py-2 bg-[#161616] rounded border border-gray-600 pr-10 ${
+          className={`appearance-none w-full h-[44px] px-4 py-2 bg-[#161616] rounded border border-gray-700 pr-10 ${
             value === '' ? 'text-gray-300' : 'text-white'
           }`}
         >

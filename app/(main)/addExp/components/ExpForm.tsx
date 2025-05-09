@@ -98,7 +98,7 @@ export default function ExpForm({ data }: ExpFormProps) {
                 status: 'DRAFT',
               }))
             }
-            className="w-20 py-3 bg-gray-900 text-sm text-gray-300 font-semibold border border-gray-50-20 rounded-lg"
+            className="w-20 py-3 bg-gray-1000 text-sm text-gray-300 font-semibold border border-gray-50-20 rounded-lg"
           >
             임시저장
           </button>
@@ -110,7 +110,7 @@ export default function ExpForm({ data }: ExpFormProps) {
                 status: 'SAVE',
               }))
             }
-            className="w-20 py-3 bg-primary-50 text-sm text-gray-1000 font-semibold rounded-lg"
+            className="w-20 py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg"
           >
             작성완료
           </button>
@@ -119,13 +119,13 @@ export default function ExpForm({ data }: ExpFormProps) {
 
       <div className="py-10">
         <div className="flex items-center justify-between w-full">
-          <div className="flex w-[340px] px-0.5 py-0.5 bg-gray-600 rounded-3xl gap-2">
+          <div className="flex w-[340px] px-0.5 py-0.5 bg-gray-700 rounded-3xl gap-2">
             <button
               type="button"
               className={`w-[170px] rounded-3xl font-medium py-2 transition all ${
                 form.selectedTab === 'star'
                   ? 'bg-gray-300 text-gray-100'
-                  : 'bg-gray-600 font-medium text-gray-300'
+                  : 'bg-gray-700 font-medium text-gray-300'
               }`}
               onClick={() =>
                 setForm(prev => ({
@@ -141,8 +141,8 @@ export default function ExpForm({ data }: ExpFormProps) {
               type="button"
               className={`w-[170px] rounded-3xl font-medium py-2 transition all ${
                 form.selectedTab === 'simple'
-                  ? 'bg-gray-300 text-gray-1000'
-                  : 'bg-gray-600 font-medium text-gray-300'
+                  ? 'bg-gray-300 text-gray-1100'
+                  : 'bg-gray-700 font-medium text-gray-300'
               }`}
               onClick={() =>
                 setForm(prev => ({
