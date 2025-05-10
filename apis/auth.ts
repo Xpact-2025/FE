@@ -2,6 +2,7 @@
 
 import API from './config';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 interface LoginPayload {
   email: string;
@@ -108,4 +109,29 @@ export async function kakaoLogin(code: string): Promise<KakaoLoginResponse> {
   const data = await res.json();
   console.log(data);
   return data;
+}
+
+export async function logout() {
+  const token = cookies().get('access-token')?.value;
+
+  if (token) {
+    try {
+      await API.post(
+        '/auth/logout',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.error('로그아웃 API 오류:', error);
+    }
+
+    // 쿠키 삭제
+    cookies().delete('access-token');
+  }
+
+  redirect('/login');
 }
