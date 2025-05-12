@@ -10,6 +10,7 @@ import Footer from '@/app/components/Footer';
 import BackIcon from '@/public/icons/Chevron_Left.svg';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
 import { ExpFormType, ExpStatus, ExpType } from '@/types/exp';
+import KeywordInput from './KeywordInput';
 
 interface ExpFormProps {
   data?: ExpPayload;
@@ -32,7 +33,7 @@ export default function ExpForm({ data }: ExpFormProps) {
     task: data?.task || '',
     action: data?.action || '',
     result: data?.result || '',
-    keyword: data?.keyword || '',
+    keywords: data?.keywords || '',
     role: data?.role || '',
     perform: data?.perform || '',
   });
@@ -54,6 +55,7 @@ export default function ExpForm({ data }: ExpFormProps) {
       formType: form.formType as ExpFormType,
       experienceType: form.experienceType as ExpType,
       status: form.status as ExpStatus,
+      keywords: Array.isArray(form.keywords) ? form.keywords : [form.keywords],
     };
 
     const { httpStatus, message } = data?.id
@@ -286,12 +288,7 @@ export default function ExpForm({ data }: ExpFormProps) {
           <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
             키워드
           </div>
-          <ExpInputBox
-            type="string"
-            placeholder="#태그 입력 (최대 30개)"
-            value={form.keyword}
-            onChange={e => handleChange('keyword', e.target.value)}
-          />
+          <KeywordInput />
         </div>
         <Footer />
       </div>

@@ -11,7 +11,7 @@ export interface ExpPayload {
   title: string;
   startDate: Date;
   endDate: Date;
-  keyword: string;
+  keywords: string[];
   situation?: string;
   task?: string;
   action?: string;
