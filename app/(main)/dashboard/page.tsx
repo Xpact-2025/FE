@@ -19,7 +19,7 @@ export default async function DashboardPage() {
           </div>
 
           {/* 경험 히스토리 */}
-          <div className="w-full min-w-[345px] lg:w-[345px] bg-gray-800 rounded-[23px] p-4">
+          <div className="w-full min-w-[345px] lg:w-[345px] bg-gray-800 rounded-[23px] py-8 px-10">
             <ExpHistory />
           </div>
 
