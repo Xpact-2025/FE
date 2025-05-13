@@ -19,7 +19,7 @@ export default function CalendarHeader({
         className="flex items-center justify-center bg-gray-700 rounded-lg w-9 h-9 cursor-pointer mr-3 hover:bg-gray-600 transition"
         aria-label="이전 달"
       >
-        <BackIcon className="stroke-gray-100" width={20} height={20} />
+        <BackIcon className="stroke-gray-100 w-[20px] h-[20px]" />
       </button>
       <span className="body-18-m text-gray-100 min-w-[120px] text-center">
         {monthName} {year}
