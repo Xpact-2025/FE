@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { useCalendar } from '@/hooks/useCalendar';
-
-const WEEK_DAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+import { WEEK_DAYS } from '../../../constants/calendar';
 
 interface CalendarProps {
   markedDates?: Record<string, number>;
