@@ -10,7 +10,7 @@ export default async function DashboardPage() {
   const test = await getTest();
   console.log(test);
   return (
-    <div className="min-h-screen p-6">
+    <div className="min-h-screen py-6 px-14">
       <div className="flex flex-col gap-4">
         <div className="flex flex-wrap lg:flex-nowrap gap-4 h-auto">
           {/* ProfileCard 컴포넌트 */}
@@ -19,12 +19,12 @@ export default async function DashboardPage() {
           </div>
 
           {/* 경험 히스토리 */}
-          <div className="w-full min-w-[345px] lg:w-[345px] bg-gray-800 rounded-[23px] p-4">
+          <div className="w-full min-w-[345px] lg:w-[345px] bg-gray-800 rounded-[23px] py-8 px-10">
             <ExpHistory />
           </div>
 
           {/* 스크랩 리스트 */}
-          <div className="w-full flex-grow bg-gray-800 rounded-[23px] p-4">
+          <div className="w-full flex-grow bg-gray-800 rounded-[23px] py-8 px-10">
             <Scrap />
           </div>
         </div>
