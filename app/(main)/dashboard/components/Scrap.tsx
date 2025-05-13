@@ -19,6 +19,19 @@ const scrapItems = [
   },
 ];
 
+function ScrapCard({ title, dday }: { title: string; dday: number }) {
+  return (
+    <div className="flex justify-between items-center bg-gray-700 border border-gray-50-20 rounded-[8px] px-[32px] py-[15px]">
+      <div className="body-16-sb text-gray-50 whitespace-pre-line">{title}</div>
+      <div
+        className={`title-30-m ${dday <= 7 ? 'text-gray-50' : 'text-gray-500'}`}
+      >
+        D-{dday}
+      </div>
+    </div>
+  );
+}
+
 export default function Scrap() {
   return (
     <>
@@ -28,19 +41,7 @@ export default function Scrap() {
       </div>
       <div className="flex flex-col gap-3">
         {scrapItems.map((item, idx) => (
-          <div
-            key={idx}
-            className="flex justify-between items-center bg-gray-700 border border-gray-50-20 rounded-[8px] px-[32px] py-[15px]"
-          >
-            <div className="body-16-sb text-gray-50 whitespace-pre-line">
-              {item.title}
-            </div>
-            <div
-              className={`title-30-m ${item.dday <= 7 ? 'text-gray-50' : 'text-gray-500'}`}
-            >
-              D-{item.dday}
-            </div>
-          </div>
+          <ScrapCard key={idx} title={item.title} dday={item.dday} />
         ))}
       </div>
     </>
