@@ -10,7 +10,7 @@ export default function LoginButton() {
       <form action={logout}>
         <button
           type="submit"
-          className="hover:text-primary-50 cursor-pointer font-semibold"
+          className="hover:text-primary-50 cursor-pointer font-semibold font-[Pretendard]"
         >
           로그아웃
         </button>
