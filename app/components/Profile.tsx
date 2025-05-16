@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import ArrowDownIcon from '@/public/icons/Arrow_Down.svg';
+import { logout } from '@/apis/auth';
 
 export default function Profile() {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,9 +23,14 @@ export default function Profile() {
             <div className="flex bg-gray-800 w-44 px-5 py-2.5 text-gray-50 text-xs">
               <Link href="/scrap">스크랩</Link>
             </div>
-            <button className="flex bg-gray-800 w-44 px-5 py-2.5 text-gray-50 text-xs">
-              로그아웃
-            </button>
+            <form action={logout}>
+              <button
+                type="submit"
+                className="flex bg-gray-800 w-44 px-5 py-2.5 text-gray-50 text-xs"
+              >
+                로그아웃
+              </button>
+            </form>
           </div>
         )}
       </div>

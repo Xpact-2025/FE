@@ -2,15 +2,15 @@ import { logout } from '@/apis/auth';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 
-export default function LoginButton() {
-  const token = cookies().get('access-token');
+export default async function LoginButton() {
+  const token = (await cookies()).get('access-token');
 
   if (token) {
     return (
       <form action={logout}>
         <button
           type="submit"
-          className="hover:text-primary-50 cursor-pointer font-semibold"
+          className="hover:text-primary-50 cursor-pointer font-semibold font-[Pretendard]"
         >
           로그아웃
         </button>

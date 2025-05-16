@@ -10,6 +10,7 @@ interface MajorModalProps {
   searchValue: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSearch: () => void;
+  isLoading: boolean;
 }
 
 export default function MajorModal({
@@ -20,6 +21,7 @@ export default function MajorModal({
   searchValue,
   onChange,
   onSearch,
+  isLoading,
 }: MajorModalProps) {
   if (!isOpen) return null;
 
@@ -40,7 +42,9 @@ export default function MajorModal({
           &times;
         </button>
 
-        <div className="text-[20px] font-bold mb-1 text-gray-50">학과</div>
+        <div className="text-[20px] font-bold mb-1 text-gray-50">
+          학과명 조회
+        </div>
         <p className="text-sm text-gray-300 mb-4">
           검색해서 추가해 주세요. 만약 해당 학과가 없다면 직접 추가하기 버튼을
           눌러 추가해 주세요.
@@ -65,18 +69,22 @@ export default function MajorModal({
 
         {/* 결과 목록 */}
         <div className="bg-[#2b2b2b] rounded-md max-h-[250px] overflow-y-auto px-2 py-3">
-          {majors.map((major, index) => (
-            <div
-              key={index}
-              className="px-4 py-2 rounded hover:bg-orange-500 cursor-pointer"
-              onClick={() => {
-                onSelect(major);
-                onClose();
-              }}
-            >
-              {major}
-            </div>
-          ))}
+          {isLoading ? (
+            <div className="text-center py-4 text-gray-300">로딩 중...</div>
+          ) : (
+            majors.map((major, index) => (
+              <div
+                key={index}
+                className="px-4 py-2 rounded hover:bg-orange-500 cursor-pointer"
+                onClick={() => {
+                  onSelect(major);
+                  onClose();
+                }}
+              >
+                {major}
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

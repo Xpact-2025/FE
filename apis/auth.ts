@@ -108,30 +108,21 @@ export async function kakaoLogin(code: string): Promise<KakaoLoginResponse> {
 
   const data = await res.json();
   console.log(data);
+
+  if (res.status === 200) await setAccessTokenCookie(data.data.accessToken);
+
   return data;
 }
 
 export async function logout() {
-  const token = cookies().get('access-token')?.value;
-
-  if (token) {
-    try {
-      await API.post(
-        '/auth/logout',
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-    } catch (error) {
-      console.error('로그아웃 API 오류:', error);
-    }
-
-    // 쿠키 삭제
-    cookies().delete('access-token');
+  try {
+    await API.post('/auth/logout');
+  } catch (error) {
+    console.error('로그아웃 API 오류:', error);
   }
+
+  // 쿠키 삭제
+  (await cookies()).delete('access-token');
 
   redirect('/login');
 }
