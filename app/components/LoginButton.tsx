@@ -2,8 +2,8 @@ import { logout } from '@/apis/auth';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 
-export default function LoginButton() {
-  const token = cookies().get('access-token');
+export default async function LoginButton() {
+  const token = (await cookies()).get('access-token');
 
   if (token) {
     return (
