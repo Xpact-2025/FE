@@ -108,6 +108,9 @@ export async function kakaoLogin(code: string): Promise<KakaoLoginResponse> {
 
   const data = await res.json();
   console.log(data);
+
+  if (res.status === 200) await setAccessTokenCookie(data.data.accessToken);
+
   return data;
 }
 

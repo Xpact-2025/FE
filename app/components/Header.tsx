@@ -18,7 +18,7 @@ export default function Header() {
               className="h-[48px] w-[170px]"
             />
           </Link>
-          <nav className="hidden md:flex space-x-[41px] font-[Pretendard] text-gray-50">
+          <nav className="hidden lg:flex space-x-[41px] text-gray-50">
             <BtnMenu title="대시보드" menu="dashboard" />
             <BtnMenu title="내 경험" menu="experience" />
             <BtnMenu title="성장 가이드" menu="guide" />
@@ -28,7 +28,7 @@ export default function Header() {
         </div>
 
         <div className="flex items-center">
-          <div className="hidden md:block text-gray-50">
+          <div className="hidden lg:block text-gray-50">
             <LoginButton />
           </div>
 

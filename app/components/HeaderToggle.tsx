@@ -8,7 +8,7 @@ export default function HeaderToggle() {
 
   return (
     <button
-      className="md:hidden text-gray-50"
+      className="lg:hidden text-gray-50"
       onClick={() => setIsOpen(!isOpen)}
       aria-label="Toggle Menu"
     >
