@@ -3,8 +3,7 @@ import ProfileCard from './components/ProfileCard';
 import ExpHistory from './components/ExpHistory';
 import Scrap from './components/Scrap';
 import ExpTimeLine from './components/ExpTimeLine';
-import SkillMap from './components/SkillMap';
-import JobRatio from './components/JobRatio';
+import ChartContainer from './components/ChartContainer';
 
 export default async function DashboardPage() {
   const test = await getTest();
@@ -29,18 +28,11 @@ export default async function DashboardPage() {
           </div>
         </div>
 
-        {/* 직무 비율, 핵심 스킬 맵맵 */}
-        <div className="flex flex-wrap gap-4 h-[319px]">
-          <div className="flex-grow bg-gray-800 rounded-[23px] p-4">
-            <JobRatio />
-          </div>
-          <div className="flex-grow-2 bg-gray-800 rounded-[23px] p-4">
-            <SkillMap />
-          </div>
-        </div>
+        {/* 직무 비율, 핵심 스킬 맵 */}
+        <ChartContainer />
 
         {/* 경험 타임라인 */}
-        <div className="bg-gray-800 rounded-[23px] p-4 h-[246px]">
+        <div className="bg-gray-800 rounded-[23px] py-8 px-10">
           <ExpTimeLine />
         </div>
       </div>
