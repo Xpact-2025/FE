@@ -4,6 +4,7 @@ import ExpHistory from './components/ExpHistory';
 import Scrap from './components/Scrap';
 import ExpTimeLine from './components/ExpTimeLine';
 import ChartContainer from './components/ChartContainer';
+import JobRatio from './components/JobRatio';
 
 export default async function DashboardPage() {
   const test = await getTest();
