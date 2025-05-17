@@ -1,5 +1,12 @@
-import React from 'react';
+import HelpIcon from '@/public/icons/Circle_Help.svg';
 
 export default function ExpTimeLine() {
-  return <h2 className="text-lg font-semibold mb-2">경험 타임라인</h2>;
+  return (
+    <>
+      <div className="flex mb-3">
+        <span className="body-23-b mr-2">경험 타임 라인</span>
+        <HelpIcon className="stroke-gray-600" />
+      </div>
+    </>
+  );
 }

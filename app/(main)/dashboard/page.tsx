@@ -4,7 +4,6 @@ import ExpHistory from './components/ExpHistory';
 import Scrap from './components/Scrap';
 import ExpTimeLine from './components/ExpTimeLine';
 import ChartContainer from './components/ChartContainer';
-import JobRatio from './components/JobRatio';
 
 export default async function DashboardPage() {
   const test = await getTest();
@@ -33,7 +32,7 @@ export default async function DashboardPage() {
         <ChartContainer />
 
         {/* 경험 타임라인 */}
-        <div className="bg-gray-800 rounded-[23px] p-4 h-[246px]">
+        <div className="bg-gray-800 rounded-[23px] py-8 px-10">
           <ExpTimeLine />
         </div>
       </div>
