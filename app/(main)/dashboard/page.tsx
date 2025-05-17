@@ -18,12 +18,26 @@ export default async function DashboardPage() {
     <div className="min-h-screen py-6 px-14">
       <div className="flex flex-col gap-4">
         <div className="flex flex-wrap 2xl:flex-nowrap gap-4 h-auto">
+<<<<<<< HEAD
           <div className="grow-2 bg-gray-800 rounded-[23px]">
             <ProfileCard />
           </div>
           <div className="grow-3 bg-gray-800 rounded-[23px] py-8 px-10">
             <ExpHistory expHistory={expHistory} />
           </div>
+=======
+          {/* ProfileCard 컴포넌트 */}
+          <div className="grow-2 bg-gray-800 rounded-[23px]">
+            <ProfileCard />
+          </div>
+
+          {/* 경험 히스토리 */}
+          <div className="grow-3 bg-gray-800 rounded-[23px] py-8 px-10">
+            <ExpHistory />
+          </div>
+
+          {/* 스크랩 리스트 */}
+>>>>>>> 8bfa1eb (Payload 수정)
           <div className="grow-4 bg-gray-800 rounded-[23px] py-8 px-10">
             <Scrap />
           </div>

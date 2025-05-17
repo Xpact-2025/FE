@@ -8,7 +8,10 @@ export interface ExpPayload {
   status: ExpStatus;
   experienceType: ExpType;
   formType?: ExpFormType;
+<<<<<<< HEAD
   uploadType?: UploadType;
+=======
+>>>>>>> 8bfa1eb (Payload 수정)
   qualification?: string;
   publisher?: string;
   issueDate?: Date;
@@ -59,8 +62,11 @@ interface DeleteExpResponse {
 export async function saveExp(payload: ExpPayload): Promise<SaveExpResponse> {
   const res = await API.post<SaveExpResponse>('/api/exp', {
     ...payload,
+<<<<<<< HEAD
     title: payload.title ?? '',
     keywords: payload.keywords ?? [],
+=======
+>>>>>>> 8bfa1eb (Payload 수정)
     issueDate: payload.issueDate ? new Date(payload.issueDate) : undefined,
     startDate: payload.startDate ? new Date(payload.startDate) : undefined,
     endDate: payload.endDate ? new Date(payload.endDate) : undefined,
