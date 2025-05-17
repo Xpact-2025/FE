@@ -139,11 +139,12 @@ export default function ProfileForm() {
         </div>
       </div>
 
-      {/* 학력 입력 */}
-      <div className="w-full max-w-[50%] flex flex-wrap gap-5 mb-10">
-        <div className="w-[149px]">
+      <label className="text-[18px] justify-items-start w-full max-w-[50%] mb-2">
+        학력
+      </label>
+      <div className="w-full max-w-[50%] grid gap-4 mb-10 grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+        <div>
           <SelectBox
-            label="학사"
             value={degree}
             onChange={e => setDegree(e.target.value)}
             options={[
@@ -156,8 +157,7 @@ export default function ProfileForm() {
             placeholder="학위 구분"
           />
         </div>
-        <div className="w-[149px]">
-          <div className="text-[18px] mb-2">⠀</div>
+        <div>
           <SearchInput
             placeholder="학교명"
             value={selectedSchool}
@@ -165,8 +165,7 @@ export default function ProfileForm() {
             onSearch={handleSchoolSearch}
           />
         </div>
-        <div className="w-[149px]">
-          <div className="text-[18px] mb-2">⠀</div>
+        <div>
           <SearchInput
             placeholder="학과명"
             value={selectedMajor}
@@ -174,9 +173,8 @@ export default function ProfileForm() {
             onSearch={handleMajorSearch}
           />
         </div>
-        <div className="w-[149px]">
+        <div>
           <SelectBox
-            label="⠀"
             value={graduation}
             onChange={e => setGraduation(e.target.value)}
             options={['재학', '휴학', '졸업', '졸업예정', '수료', '중퇴']}

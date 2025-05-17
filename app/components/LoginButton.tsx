@@ -19,7 +19,10 @@ export default async function LoginButton() {
   }
 
   return (
-    <Link href="/login" className="hover:text-primary-50 font-semibold">
+    <Link
+      href="/login"
+      className="hover:text-primary-50 font-semibold font-[Pretendard]"
+    >
       로그인
     </Link>
   );
