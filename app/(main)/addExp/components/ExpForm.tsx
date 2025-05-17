@@ -77,7 +77,7 @@ export default function ExpForm({ data }: ExpFormProps) {
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center">
           <button type="button" onClick={() => setIsPopupOpen(true)}>
-            <BackIcon className="stroke-gray-50" />
+            <BackIcon className="stroke-gray-50 w-[35px] h-[35px]" />
           </button>
           {isPopupOpen && (
             <Popup

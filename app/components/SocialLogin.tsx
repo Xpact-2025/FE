@@ -12,16 +12,18 @@ export default function SocialLogin() {
 
   useEffect(() => {
     const code = searchParams.get('code');
-    if (code) {
-      kakaoLogin(code)
-        .then(res => {
-          localStorage.setItem('accessToken', res.data.accessToken);
-          router.push('/');
-        })
-        .catch(err => {
-          console.error('로그인 실패:', err);
-        });
-    }
+    if (!code) return;
+
+    const login = async () => {
+      try {
+        await kakaoLogin(code);
+        router.push('/');
+      } catch (err) {
+        console.error('로그인 실패:', err);
+      }
+    };
+
+    login();
   }, [searchParams, router]);
 
   const handleKakaoLogin = async () => {

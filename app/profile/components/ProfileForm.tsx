@@ -8,11 +8,20 @@ import InputBox from '@/app/components/InputBox';
 import SchoolModal from './SchoolModal';
 import MajorModal from './MajorModal';
 import { fetchMajors, fetchSchools } from '@/apis/school';
+import { fetchIndustryList } from '@/apis/industry';
+import IndustryModal from './IndustryModal';
+import {
+  saveProfileInfo,
+  saveEducationInfo,
+  saveJobPreferences,
+} from '../../../apis/saveProfileInfo';
+import { useRouter } from 'next/navigation';
 
 export default function ProfileForm() {
+  const router = useRouter();
+
   const [degree, setDegree] = useState('');
   const [graduation, setGraduation] = useState('');
-  const [jobInput, setJobInput] = useState('');
   const [jobList, setJobList] = useState<string[]>([]);
   const [isSchoolModalOpen, setIsSchoolModalOpen] = useState(false);
   const [selectedSchool, setSelectedSchool] = useState('');
@@ -23,22 +32,34 @@ export default function ProfileForm() {
   const [selectedMajor, setSelectedMajor] = useState('');
   const [majorSearchInput, setMajorSearchInput] = useState('');
 
-  const handleAddJob = () => {
-    const trimmed = jobInput.trim();
-    if (trimmed && !jobList.includes(trimmed)) {
-      setJobList(prev => [...prev, trimmed]);
-      setJobInput('');
-    }
-  };
+  const [isIndustryModalOpen, setIsIndustryModalOpen] = useState(false);
+  const [industryList, setIndustryList] = useState<string[]>([]);
+  const [industrySearchValue, setIndustrySearchValue] = useState('');
+
+  const [isSchoolLoading, setIsSchoolLoading] = useState(false);
+  const [isMajorLoading, setIsMajorLoading] = useState(false);
+  const [isIndustryLoading, setIsIndustryLoading] = useState(false);
+
+  const [name, setName] = useState('');
+  const [age, setAge] = useState('');
+
+  const today = new Date().toISOString().split('T')[0];
+  const [imgUrl] = useState('/images/mainporfile.svg');
+
+  const [startDate] = useState(today);
+  const [endDate] = useState(today);
 
   const handleSchoolSearch = async () => {
     setIsSchoolModalOpen(true);
     if (schoolList.length === 0) {
       try {
+        setIsSchoolLoading(true);
         const data = await fetchSchools();
         setSchoolList(data || []);
       } catch (err) {
         console.error('학교 목록 로딩 실패:', err);
+      } finally {
+        setIsSchoolLoading(false);
       }
     }
   };
@@ -46,10 +67,46 @@ export default function ProfileForm() {
   const handleMajorSearch = async () => {
     setIsMajorModalOpen(true);
     try {
+      setIsMajorLoading(true);
       const data = await fetchMajors(selectedSchool);
       setMajorList(data || []);
     } catch (err) {
       console.error('학과 목록 로딩 실패:', err);
+    } finally {
+      setIsMajorLoading(false);
+    }
+  };
+
+  const handleIndustrySearch = async () => {
+    setIsIndustryModalOpen(true);
+    try {
+      setIsIndustryLoading(true);
+      const data = await fetchIndustryList();
+      setIndustryList(data);
+    } catch (error) {
+      console.error('산업군 로딩 실패:', error);
+    } finally {
+      setIsIndustryLoading(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await saveProfileInfo(name, imgUrl, Number(age));
+      await saveEducationInfo(
+        degree,
+        selectedSchool,
+        selectedMajor,
+        graduation,
+        startDate,
+        endDate
+      );
+      await saveJobPreferences(jobList);
+      alert('모든 정보가 성공적으로 저장되었습니다!');
+      router.push('/');
+    } catch (error) {
+      console.error(error);
+      alert('저장 실패');
     }
   };
 
@@ -64,11 +121,21 @@ export default function ProfileForm() {
       <div className="flex flex-wrap gap-5 w-full max-w-[50%] mb-10">
         <div className="w-[318px] min-w-[300px]">
           <div className="text-[18px] mb-2">이름</div>
-          <InputBox type="text" placeholder="3~12자 이내, 영문/숫자 가능" />
+          <InputBox
+            type="text"
+            placeholder="3~12자 이내, 영문/숫자 가능"
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
         </div>
         <div className="w-[149px]">
           <div className="text-[18px] mb-2">나이</div>
-          <InputBox type="text" placeholder="나이 (숫자만)" />
+          <InputBox
+            type="text"
+            placeholder="나이 (숫자만)"
+            value={age}
+            onChange={e => setAge(e.target.value)}
+          />
         </div>
       </div>
 
@@ -124,26 +191,38 @@ export default function ProfileForm() {
         <div className="flex gap-2 items-center">
           <div className="w-[350px]">
             <SearchInput
-              placeholder="직무명 검색"
-              value={jobInput}
-              onChange={e => setJobInput(e.target.value)}
-              onSearch={handleAddJob}
+              placeholder="산업군 검색"
+              value={industrySearchValue}
+              onChange={e => setIndustrySearchValue(e.target.value)}
+              onSearch={handleIndustrySearch}
             />
           </div>
           <div className="flex flex-wrap gap-2">
             {jobList.map((job, index) => (
-              <span
+              <div
                 key={index}
-                className="px-5 py-3 h-[44px] rounded bg-gray-500 text-white text-sm whitespace-nowrap"
+                className="flex items-center px-4 py-2 h-[44px] rounded bg-gray-500 text-white text-sm whitespace-nowrap"
               >
-                {job}
-              </span>
+                <span className="mr-2">{job}</span>
+                <button
+                  onClick={() =>
+                    setJobList(prev => prev.filter((_, i) => i !== index))
+                  }
+                  className="text-white hover:text-primary-50"
+                  aria-label={`${job} 삭제`}
+                >
+                  ✕
+                </button>
+              </div>
             ))}
           </div>
         </div>
       </div>
 
-      <button className="w-[448px] mt-[3%] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded">
+      <button
+        onClick={handleSubmit}
+        className="w-[448px] mt-[3%] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded"
+      >
         입력 완료
       </button>
 
@@ -158,6 +237,7 @@ export default function ProfileForm() {
         searchValue={schoolSearchInput}
         onChange={e => setSchoolSearchInput(e.target.value)}
         onSearch={handleSchoolSearch}
+        isLoading={isSchoolLoading}
       />
 
       <MajorModal
@@ -168,6 +248,23 @@ export default function ProfileForm() {
         searchValue={majorSearchInput}
         onChange={e => setMajorSearchInput(e.target.value)}
         onSearch={handleMajorSearch}
+        isLoading={isMajorLoading}
+      />
+
+      <IndustryModal
+        isOpen={isIndustryModalOpen}
+        onClose={() => setIsIndustryModalOpen(false)}
+        industries={industryList}
+        onSelect={industry => {
+          if (!jobList.includes(industry)) {
+            setJobList(prev => [...prev, industry]);
+          }
+          setIsIndustryModalOpen(false);
+        }}
+        searchValue={industrySearchValue}
+        onChange={e => setIndustrySearchValue(e.target.value)}
+        onSearch={handleIndustrySearch}
+        isLoading={isIndustryLoading}
       />
     </main>
   );
