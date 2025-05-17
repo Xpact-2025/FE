@@ -7,7 +7,7 @@ export default function KeywordInput() {
   const [tags, setTags] = useState<string[]>([]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length <= 11) {
+    if (e.target.value.length <= 16) {
       setInput(e.target.value);
     }
   };
