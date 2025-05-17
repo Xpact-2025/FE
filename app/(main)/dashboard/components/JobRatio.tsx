@@ -4,7 +4,7 @@ import { Pie, PieChart, Cell, Label } from 'recharts';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
 
 const data = [
-  { name: '서비스 기획', value: 40 },
+  { name: '기획', value: 40 },
   { name: '마케팅', value: 25 },
   { name: 'UX', value: 20 },
   { name: '개발', value: 10 },
@@ -25,12 +25,12 @@ function CustomLabel({
       <text>
         <tspan
           x={cx}
-          y={cy}
+          y={cy - 10}
           textAnchor="middle"
           style={{
-            fontWeight: 700,
-            fontSize: '23px',
-            fill: '#CDCDCD',
+            fontWeight: 500,
+            fontSize: '14px',
+            fill: '#A9A9A9',
             fontFamily: 'Pretendard',
           }}
         >
@@ -41,9 +41,9 @@ function CustomLabel({
           y={cy + 20}
           textAnchor="middle"
           style={{
-            fontWeight: 500,
-            fontSize: '14px',
-            fill: '#A9A9A9',
+            fontWeight: 700,
+            fontSize: '23px',
+            fill: '#CDCDCD',
             fontFamily: 'Pretendard',
           }}
         >
@@ -62,6 +62,7 @@ export default function JobRatio() {
         <HelpIcon className="stroke-gray-600" />
       </div>
       <div className="flex flex-row items-center justify-center">
+        {/* 차트 */}
         <PieChart width={218} height={218}>
           <Pie
             data={data}
@@ -94,7 +95,7 @@ export default function JobRatio() {
             />
           </Pie>
         </PieChart>
-        {/* 오른쪽: 범례 */}
+        {/* 범례 */}
         <div className="ml-10 flex flex-col justify-center">
           <ul>
             {data.map((item, idx) => (

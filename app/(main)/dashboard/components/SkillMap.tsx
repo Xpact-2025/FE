@@ -10,11 +10,11 @@ import {
 } from 'recharts';
 
 const data = [
-  { subject: '사용자 중심 사고', A: 120, fullMark: 150 },
-  { subject: '콘텐츠 기획력', A: 90, fullMark: 150 },
-  { subject: '데이터 분석', A: 60, fullMark: 150 },
-  { subject: '문제 해결력', A: 40, fullMark: 150 },
-  { subject: '커뮤니케이션', A: 80, fullMark: 150 },
+  { skill: '사용자 중심 사고', score: 90, fullMark: 100 },
+  { skill: '콘텐츠 기획력', score: 70, fullMark: 100 },
+  { skill: '데이터 분석', score: 80, fullMark: 100 },
+  { skill: '문제 해결력', score: 40, fullMark: 100 },
+  { skill: '커뮤니케이션', score: 70, fullMark: 100 },
 ];
 
 export default function SkillMap() {
@@ -33,42 +33,37 @@ export default function SkillMap() {
           cy="50%"
           outerRadius="80%"
           data={data}
+          className="mx-5"
         >
           <PolarGrid stroke="#444" />
           <PolarAngleAxis
-            dataKey="subject"
+            dataKey="skill"
             tick={{ fill: '#CDCDCD', fontSize: 13 }}
           />
           <PolarRadiusAxis axisLine={false} tick={false} stroke="#444" />
           <Radar
             name="역량"
-            dataKey="A"
+            dataKey="score"
             stroke="#FF6D01"
             fill="#FF6D01"
-            fillOpacity={0.3}
+            fillOpacity={0.2}
             isAnimationActive={false}
           />
         </RadarChart>
         {/* 설명 */}
-        <div className="flex flex-col justify-center gap-4 mx-5">
+        <div className="flex flex-col justify-center gap-4">
           <div>
-            <div className="text-[#CDCDCD] text-[15px] mb-2">강점 역량</div>
+            <div className="text-gray-300 body-12-m mb-2">강점 역량</div>
             <div className="flex items-center">
-              <span className="inline-block w-3 h-3 border-2 border-gray-200 rounded-full mr-2" />
-              <span className="text-primary text-[18px] font-bold">
-                사용자 중심 사고
-              </span>
+              <span className="inline-block w-3 h-3 border-2 border-gray-200 rounded-2xl mr-2" />
+              <span className="text-primary body-16-sb">사용자 중심 사고</span>
             </div>
           </div>
           <div>
-            <div className="text-[#CDCDCD] text-[15px] mb-2">
-              보완 필요 역량
-            </div>
+            <div className="text-gray-300 body-12-m mb-2">보완 필요 역량</div>
             <div className="flex items-center">
-              <span className="inline-block w-3 h-3 border-2 border-gray-200 rounded-full mr-2" />
-              <span className="text-primary text-[18px] font-bold">
-                문제 해결력
-              </span>
+              <span className="inline-block w-3 h-3 border-2 border-gray-200 rounded-2xl mr-2" />
+              <span className="text-primary body-16-sb">문제 해결력</span>
             </div>
           </div>
         </div>
