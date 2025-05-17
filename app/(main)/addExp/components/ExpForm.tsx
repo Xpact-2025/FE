@@ -10,10 +10,15 @@ import ExpInputBox from './ExpInputBox';
 import Footer from '@/app/components/Footer';
 import BackIcon from '@/public/icons/Chevron_Left.svg';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
+<<<<<<< HEAD
 import { ExpFormType, ExpType } from '@/types/exp';
 import AwardForm from './AwardForm';
 import StarForm from './StarForm';
 import SimpleForm from './SimpleForm';
+=======
+import { ExpFormType, ExpStatus, ExpType } from '@/types/exp';
+import AwardForm from './AwardForm';
+>>>>>>> 0429c12 (feat/#71: AwardForm component 생성)
 
 interface ExpFormProps {
   data?: ExpPayload;
@@ -53,6 +58,7 @@ export default function ExpForm({ data }: ExpFormProps) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTabVisible, setIsTabVisible] = useState(true);
+<<<<<<< HEAD
   const [pendingFormType, setPendingFormType] = useState<ExpFormType | null>(
     null
   );
@@ -125,6 +131,28 @@ export default function ExpForm({ data }: ExpFormProps) {
   };
 
   const handleChange = (key: string, value: string | string[]) => {
+=======
+
+  const [form, setForm] = useState({
+    selectedTab: data?.formType == 'STAR_FORM' ? 'star' : 'simple',
+    status: data?.status || 'SAVE',
+    formType: data?.formType || 'STAR_FORM',
+    experienceType: data?.experienceType || '',
+  });
+
+  const handleTabChange = (value: {
+    formType: ExpFormType;
+    selectedTab: string;
+  }) => {
+    setForm(prev => ({
+      ...prev,
+      formType: value.formType,
+      selectedTab: value.selectedTab,
+    }));
+  };
+
+  const handleChange = (key: string, value: string) => {
+>>>>>>> 0429c12 (feat/#71: AwardForm component 생성)
     setForm(prev => ({
       ...prev,
       [key]: value,
@@ -136,9 +164,15 @@ export default function ExpForm({ data }: ExpFormProps) {
 
     const payload: ExpPayload = {
       ...form,
+<<<<<<< HEAD
       issueDate: form.issueDate ? new Date(form.issueDate) : undefined,
       startDate: form.startDate ? new Date(form.startDate) : undefined,
       endDate: form.endDate ? new Date(form.endDate) : undefined,
+=======
+      formType: form.formType as ExpFormType,
+      experienceType: form.experienceType as ExpType,
+      status: form.status as ExpStatus,
+>>>>>>> 0429c12 (feat/#71: AwardForm component 생성)
     };
 
     const { httpStatus, message } = form.id
@@ -162,6 +196,7 @@ export default function ExpForm({ data }: ExpFormProps) {
       return (
         <AwardForm
           experienceType={form.experienceType}
+<<<<<<< HEAD
           onChange={handleChange}
         />
       );
@@ -170,6 +205,12 @@ export default function ExpForm({ data }: ExpFormProps) {
       return <StarForm onChange={handleChange} />;
     }
     return <SimpleForm onChange={handleChange} />;
+=======
+          onChange={(key, value) => handleChange(key, value)}
+        />
+      );
+    }
+>>>>>>> 0429c12 (feat/#71: AwardForm component 생성)
   };
 
   return (
@@ -231,7 +272,11 @@ export default function ExpForm({ data }: ExpFormProps) {
         <div className="flex items-center justify-between w-full">
           {isTabVisible && (
             <>
+<<<<<<< HEAD
               <FormTab onChange={handleTabChange} selectedTab={tab} />
+=======
+              <FormTab onChange={handleTabChange} />
+>>>>>>> 0429c12 (feat/#71: AwardForm component 생성)
               <div className="flex items-center gap-[12px]">
                 <button type="button" onClick={() => setIsModalOpen(true)}>
                   <HelpIcon className="stroke-gray-300" />
@@ -240,6 +285,7 @@ export default function ExpForm({ data }: ExpFormProps) {
                   양식 활용 가이드
                 </div>
               </div>
+<<<<<<< HEAD
               {isPopupOpen && pendingFormType && (
                 <Popup
                   title="양식 변경"
@@ -250,6 +296,8 @@ export default function ExpForm({ data }: ExpFormProps) {
                   onCancel={() => setIsPopupOpen(false)}
                 />
               )}
+=======
+>>>>>>> 0429c12 (feat/#71: AwardForm component 생성)
             </>
           )}
         </div>
@@ -274,11 +322,24 @@ export default function ExpForm({ data }: ExpFormProps) {
           type="select"
           value={form.experienceType}
           onChange={e => {
+<<<<<<< HEAD
             const newType = e.target.value;
             handleChange('experienceType', newType);
             setIsTabVisible(
               !(newType === 'CERTIFICATES' || newType === 'PRIZE')
             );
+=======
+            handleChange('experienceType', e.target.value);
+
+            if (
+              e.target.value === 'CERTIFICATES' ||
+              e.target.value === 'PRIZE'
+            ) {
+              setIsTabVisible(false);
+            } else {
+              setIsTabVisible(true);
+            }
+>>>>>>> 0429c12 (feat/#71: AwardForm component 생성)
           }}
         />
         {renderForm()}

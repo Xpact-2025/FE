@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { ExpFormType } from '@/types/exp';
 
 interface FormTabProps {
@@ -10,6 +11,22 @@ interface FormTabProps {
 
 export default function FormTab({ onChange, selectedTab }: FormTabProps) {
   const handleTabChange = (tab: 'star' | 'simple') => {
+=======
+'use client';
+
+import { ExpFormType } from '@/types/exp';
+import { useState } from 'react';
+
+interface FormTabProps {
+  onChange: (value: { formType: ExpFormType; selectedTab: string }) => void;
+}
+
+export default function FormTab({ onChange }: FormTabProps) {
+  const [selectedTab, setSelectedTab] = useState<'star' | 'simple'>('star');
+
+  const handleTabChange = (tab: 'star' | 'simple') => {
+    setSelectedTab(tab);
+>>>>>>> 0429c12 (feat/#71: AwardForm component 생성)
     onChange({
       formType: tab === 'star' ? 'STAR_FORM' : 'SIMPLE_FORM',
       selectedTab: tab,
