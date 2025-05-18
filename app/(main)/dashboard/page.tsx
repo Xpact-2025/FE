@@ -4,6 +4,7 @@ import ExpHistory from './components/ExpHistory';
 import Scrap from './components/Scrap';
 import ExpTimeLine from './components/ExpTimeLine';
 import ChartContainer from './components/ChartContainer';
+import Footer from '@/app/components/Footer';
 
 export default async function DashboardPage() {
   const test = await getTest();
@@ -36,6 +37,7 @@ export default async function DashboardPage() {
           <ExpTimeLine />
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
