@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useRef, useEffect, useState } from 'react';
+import useResponsiveWidth from '@/hooks/useResponsiveWidth';
 
 interface Experience {
   startDate: string;
@@ -45,34 +46,8 @@ export default function Timeline({
   };
 
   // width가 string일 경우 실제 렌더링된 width를 사용
-  const svgRef = useRef<SVGSVGElement | null>(null);
-  const [measuredWidth, setMeasuredWidth] = useState<number>(
-    typeof width === 'number' ? width : 1000
-  );
-
-  //반응형 처리
-  useEffect(() => {
-    if (typeof width === 'string' && svgRef.current) {
-      const handleResize = () => {
-        if (svgRef.current) {
-          setMeasuredWidth(svgRef.current.clientWidth);
-        }
-      };
-
-      // ResizeObserver로 svg의 크기 변화를 감지
-      const observer = new window.ResizeObserver(handleResize);
-      observer.observe(svgRef.current);
-
-      // 최초 측정
-      handleResize();
-
-      return () => {
-        observer.disconnect();
-      };
-    }
-  }, [width]);
-
-  const numericWidth = typeof width === 'number' ? width : measuredWidth;
+  const svgRef = useRef<SVGSVGElement>(null);
+  const numericWidth = useResponsiveWidth(svgRef, width, 1000);
 
   // 1. 날짜 파싱 및 시작일 기준 정렬
   const parsed = useMemo<ParsedExperience[]>(
@@ -191,7 +166,7 @@ export default function Timeline({
         return (
           <g key={idx}>
             <circle
-              cx={x1 + Math.max(x2 - x1, 1)}
+              cx={x1 + Math.max(x2 - x1, 1) - 9}
               cy={y + thickHeight / 2 - 2}
               r={9}
               fill={typeColors[exp.experienceType] || '#666'}
