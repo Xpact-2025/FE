@@ -12,6 +12,8 @@ import BackIcon from '@/public/icons/Chevron_Left.svg';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
 import { ExpFormType, ExpStatus, ExpType } from '@/types/exp';
 import AwardForm from './AwardForm';
+import StarForm from './StarForm';
+import SimpleForm from './SimpleForm';
 
 interface ExpFormProps {
   data?: ExpPayload;
@@ -83,6 +85,10 @@ export default function ExpForm({ data }: ExpFormProps) {
           onChange={(key, value) => handleChange(key, value)}
         />
       );
+    } else if (form.formType === 'STAR_FORM') {
+      return <StarForm onChange={(key, value) => handleChange(key, value)} />;
+    } else if (form.formType === 'SIMPLE_FORM') {
+      return <SimpleForm onChange={(key, value) => handleChange(key, value)} />;
     }
   };
 

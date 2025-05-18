@@ -7,7 +7,7 @@ export default function KeywordInput() {
   const [tags, setTags] = useState<string[]>([]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length <= 16) {
+    if (e.target.value.length <= 21) {
       setInput(e.target.value);
     }
   };
@@ -42,7 +42,7 @@ export default function KeywordInput() {
         value={input}
         onChange={onChange}
         onKeyDown={onKeyDown}
-        placeholder="#태그 입력 (최대 5개)"
+        placeholder="#태그 입력 (최대 5개, 20글자 이내)"
       />
     </div>
   );
