@@ -17,11 +17,8 @@ export default function AwardForm({
   onChange,
 }: AwardFormProps) {
   const [form, setForm] = useState({
-<<<<<<< HEAD
-=======
     status: data?.status || 'SAVE',
     experienceType: data?.experienceType || '',
->>>>>>> 0429c12 (feat/#71: AwardForm component 생성)
     qualification: data?.qualification || '',
     publisher: data?.publisher || '',
     issueDate: String(data?.issueDate) || '',

@@ -10,8 +10,8 @@ interface KeywordInputProps {
 export default function KeywordInput({ value, onChange }: KeywordInputProps) {
   const [input, setInput] = useState('');
 
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length <= 21) {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length <= 16) {
       setInput(e.target.value);
     }
   };
@@ -56,7 +56,7 @@ export default function KeywordInput({ value, onChange }: KeywordInputProps) {
         value={input}
         onChange={onInputChange}
         onKeyDown={onKeyDown}
-        placeholder="#태그 입력 (최대 5개)"
+        placeholder="#태그 입력 (최대 5개, 20글자 이내)"
       />
     </div>
   );

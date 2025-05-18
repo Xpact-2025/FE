@@ -18,7 +18,6 @@ import SimpleForm from './SimpleForm';
 =======
 import { ExpFormType, ExpStatus, ExpType } from '@/types/exp';
 import AwardForm from './AwardForm';
->>>>>>> 0429c12 (feat/#71: AwardForm component 생성)
 
 interface ExpFormProps {
   data?: ExpPayload;
@@ -209,6 +208,10 @@ export default function ExpForm({ data }: ExpFormProps) {
           onChange={(key, value) => handleChange(key, value)}
         />
       );
+    } else if (form.formType === 'STAR_FORM') {
+      return <StarForm onChange={(key, value) => handleChange(key, value)} />;
+    } else if (form.formType === 'SIMPLE_FORM') {
+      return <SimpleForm onChange={(key, value) => handleChange(key, value)} />;
     }
 >>>>>>> 0429c12 (feat/#71: AwardForm component 생성)
   };
