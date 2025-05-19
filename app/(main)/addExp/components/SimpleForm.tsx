@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { type ExpPayload } from '@/apis/exp';
 import ExpInputBox from './ExpInputBox';
 import KeywordInput from './KeywordInput';
+import FileInput from './FileInput';
 
 interface SimpleFormProps {
   data?: ExpPayload;
@@ -84,12 +85,7 @@ export default function SimpleForm({ data, onChange }: SimpleFormProps) {
       <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
         자료 첨부(선택)
       </div>
-      <ExpInputBox
-        type="textarea"
-        placeholder="이곳에 파일을 올려주세요"
-        value={form.role}
-        onChange={e => handleChange('role', e.target.value)}
-      />
+      <FileInput />
 
       <div className="py-10">
         <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">

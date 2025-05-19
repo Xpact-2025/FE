@@ -1,6 +1,6 @@
 'use server';
 
-import { ExpFormType, ExpStatus, ExpType } from '@/types/exp';
+import { ExpFormType, ExpStatus, ExpType, UploadType } from '@/types/exp';
 import API from './config';
 
 export interface ExpPayload {
@@ -8,6 +8,7 @@ export interface ExpPayload {
   status: ExpStatus;
   experienceType: ExpType;
   formType?: ExpFormType;
+  uploadType?: UploadType;
   qualification?: string;
   publisher?: string;
   issueDate?: Date;

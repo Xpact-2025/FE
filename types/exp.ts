@@ -14,3 +14,5 @@ export type ExpType =
   | 'ETC';
 
 export type ExpFormType = 'STAR_FORM' | 'SIMPLE_FORM';
+
+export type UploadType = 'FILE' | 'LINK';

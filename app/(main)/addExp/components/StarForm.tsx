@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { type ExpPayload } from '@/apis/exp';
 import ExpInputBox from './ExpInputBox';
 import KeywordInput from './KeywordInput';
+import FileInput from './FileInput';
 
 interface StarFormProps {
   data?: ExpPayload;
@@ -108,12 +109,7 @@ export default function StarForm({ data, onChange }: StarFormProps) {
       <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
         자료 첨부(선택)
       </div>
-      <ExpInputBox
-        type="textarea"
-        placeholder="이곳에 파일을 올려주세요"
-        value={form.title}
-        onChange={e => handleChange('title', e.target.value)}
-      />
+      <FileInput />
 
       <div className="py-10">
         <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
