@@ -17,7 +17,17 @@ export default function KeywordInput() {
       e.preventDefault();
       const trimmedInput = input.trim();
 
-      if (tags.length < 5 && !tags.includes(trimmedInput)) {
+      if (tags.length >= 5) {
+        alert('키워드는 최대 5개까지 입력할 수 있습니다.');
+        return;
+      }
+
+      if (trimmedInput.length > 20) {
+        alert('각 키워드는 최대 20글자까지 입력할 수 있습니다.');
+        return;
+      }
+
+      if (!tags.includes(trimmedInput)) {
         setTags(prevTags => [...prevTags, trimmedInput]);
         setInput('');
       }
@@ -42,7 +52,7 @@ export default function KeywordInput() {
         value={input}
         onChange={onChange}
         onKeyDown={onKeyDown}
-        placeholder="#태그 입력 (최대 5개, 20글자 이내)"
+        placeholder="#태그 입력 (최대 5개)"
       />
     </div>
   );
