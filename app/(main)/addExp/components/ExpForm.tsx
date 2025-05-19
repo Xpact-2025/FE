@@ -3,14 +3,17 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { editExp, saveExp, type ExpPayload } from '@/apis/exp';
+import FormTab from './FormTab';
 import Popup from '@/app/components/Popup';
 import GuideModal from './GuideModal';
 import ExpInputBox from './ExpInputBox';
 import Footer from '@/app/components/Footer';
 import BackIcon from '@/public/icons/Chevron_Left.svg';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
-import { ExpFormType, ExpStatus, ExpType } from '@/types/exp';
-import KeywordInput from './KeywordInput';
+import { ExpFormType, ExpStatus, ExpType, UploadType } from '@/types/exp';
+import AwardForm from './AwardForm';
+import StarForm from './StarForm';
+import SimpleForm from './SimpleForm';
 
 interface ExpFormProps {
   data?: ExpPayload;
@@ -20,25 +23,28 @@ export default function ExpForm({ data }: ExpFormProps) {
   const router = useRouter();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTabVisible, setIsTabVisible] = useState(true);
 
   const [form, setForm] = useState({
     selectedTab: data?.formType == 'STAR_FORM' ? 'star' : 'simple',
     status: data?.status || 'SAVE',
     formType: data?.formType || 'STAR_FORM',
-    experienceType: data?.experienceType || 'WORK',
-    startDate: String(data?.startDate) || '',
-    endDate: String(data?.endDate) || '',
-    title: data?.title || '',
-    situation: data?.situation || '',
-    task: data?.task || '',
-    action: data?.action || '',
-    result: data?.result || '',
-    keywords: data?.keywords || '',
-    role: data?.role || '',
-    perform: data?.perform || '',
+    experienceType: data?.experienceType || '',
+    uploadType: data?.uploadType || 'FILE',
   });
 
-  const handleChange = (key: keyof typeof form, value: string) => {
+  const handleTabChange = (value: {
+    formType: ExpFormType;
+    selectedTab: string;
+  }) => {
+    setForm(prev => ({
+      ...prev,
+      formType: value.formType,
+      selectedTab: value.selectedTab,
+    }));
+  };
+
+  const handleChange = (key: string, value: string) => {
     setForm(prev => ({
       ...prev,
       [key]: value,
@@ -50,12 +56,10 @@ export default function ExpForm({ data }: ExpFormProps) {
 
     const payload: ExpPayload = {
       ...form,
-      startDate: new Date(form.startDate),
-      endDate: new Date(form.endDate),
       formType: form.formType as ExpFormType,
       experienceType: form.experienceType as ExpType,
       status: form.status as ExpStatus,
-      keywords: Array.isArray(form.keywords) ? form.keywords : [form.keywords],
+      uploadType: form.uploadType as UploadType,
     };
 
     const { httpStatus, message } = data?.id
@@ -69,6 +73,24 @@ export default function ExpForm({ data }: ExpFormProps) {
     } else {
       alert(`저장 실패: ${message}`);
       console.log('보내는 payload:', payload);
+    }
+  };
+
+  const renderForm = () => {
+    if (
+      form.experienceType === 'CERTIFICATES' ||
+      form.experienceType === 'PRIZE'
+    ) {
+      return (
+        <AwardForm
+          experienceType={form.experienceType}
+          onChange={(key, value) => handleChange(key, value)}
+        />
+      );
+    } else if (form.formType === 'STAR_FORM') {
+      return <StarForm onChange={(key, value) => handleChange(key, value)} />;
+    } else if (form.formType === 'SIMPLE_FORM') {
+      return <SimpleForm onChange={(key, value) => handleChange(key, value)} />;
     }
   };
 
@@ -121,51 +143,19 @@ export default function ExpForm({ data }: ExpFormProps) {
 
       <div className="py-10">
         <div className="flex items-center justify-between w-full">
-          <div className="flex w-[340px] px-0.5 py-0.5 bg-gray-700 rounded-3xl gap-2">
-            <button
-              type="button"
-              className={`w-[170px] rounded-3xl font-medium py-2 transition all ${
-                form.selectedTab === 'star'
-                  ? 'bg-gray-300 text-gray-100'
-                  : 'bg-gray-700 font-medium text-gray-300'
-              }`}
-              onClick={() =>
-                setForm(prev => ({
-                  ...prev,
-                  formType: 'STAR_FORM',
-                  selectedTab: 'star',
-                }))
-              }
-            >
-              STAR 양식
-            </button>
-            <button
-              type="button"
-              className={`w-[170px] rounded-3xl font-medium py-2 transition all ${
-                form.selectedTab === 'simple'
-                  ? 'bg-gray-300 text-gray-1100'
-                  : 'bg-gray-700 font-medium text-gray-300'
-              }`}
-              onClick={() =>
-                setForm(prev => ({
-                  ...prev,
-                  formType: 'SIMPLE_FORM',
-                  selectedTab: 'simple',
-                }))
-              }
-            >
-              간결 양식
-            </button>
-          </div>
-
-          <div className="flex items-center gap-[12px]">
-            <button type="button" onClick={() => setIsModalOpen(true)}>
-              <HelpIcon className="stroke-gray-300" />
-            </button>
-            <div className="text-neutral-400 font-medium p-2">
-              양식 활용 가이드
-            </div>
-          </div>
+          {isTabVisible && (
+            <>
+              <FormTab onChange={handleTabChange} />
+              <div className="flex items-center gap-[12px]">
+                <button type="button" onClick={() => setIsModalOpen(true)}>
+                  <HelpIcon className="stroke-gray-300" />
+                </button>
+                <div className="text-neutral-400 font-medium p-2">
+                  양식 활용 가이드
+                </div>
+              </div>
+            </>
+          )}
         </div>
         {isModalOpen && (
           <GuideModal
@@ -187,111 +177,22 @@ export default function ExpForm({ data }: ExpFormProps) {
         <ExpInputBox
           type="select"
           value={form.experienceType}
-          onChange={e => handleChange('experienceType', e.target.value)}
-        />
+          onChange={e => {
+            handleChange('experienceType', e.target.value);
 
-        <div className="py-10">
-          <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-            기간
-          </div>
-          <div className="flex gap-4">
-            <ExpInputBox
-              type="date"
-              value={form.startDate}
-              max={form.endDate}
-              onChange={e => handleChange('startDate', e.target.value)}
-            />
-            <ExpInputBox
-              type="date"
-              value={form.endDate}
-              min={form.startDate}
-              onChange={e => handleChange('endDate', e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-          제목
-        </div>
-        <ExpInputBox
-          type="string"
-          placeholder="경험 제목"
-          value={form.title}
-          onChange={e => handleChange('title', e.target.value)}
-        />
-
-        <div className="py-10">
-          <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-            {form.selectedTab === 'star' ? '상황' : '역할'}
-          </div>
-          <ExpInputBox
-            type="textarea"
-            placeholder={
-              form.selectedTab === 'star'
-                ? '어떤 배경에서 활동을 하게 되었나요?'
-                : '어떤 역할을 맡았나요?'
+            if (
+              e.target.value === 'CERTIFICATES' ||
+              e.target.value === 'PRIZE'
+            ) {
+              setIsTabVisible(false);
+            } else {
+              setIsTabVisible(true);
             }
-            value={form.selectedTab === 'star' ? form.situation : form.role}
-            onChange={e =>
-              form.selectedTab === 'star'
-                ? handleChange('situation', e.target.value)
-                : handleChange('role', e.target.value)
-            }
-          />
-        </div>
-
-        <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-          {form.selectedTab === 'star' ? '문제' : '주요 성과'}
-        </div>
-        <ExpInputBox
-          type="textarea"
-          placeholder={
-            form.selectedTab === 'star'
-              ? ' 안에서 실제로 겪은 문제나 과제는 무엇이 있었나요?'
-              : '활동 내에서 자신의 주요 성과는 어떤 것이 있었나요?'
-          }
-          value={form.selectedTab === 'star' ? form.task : form.perform}
-          onChange={e =>
-            form.selectedTab === 'star'
-              ? handleChange('task', e.target.value)
-              : handleChange('perform', e.target.value)
-          }
+          }}
         />
-
-        {form.selectedTab === 'star' && (
-          <div>
-            <div className="py-10">
-              <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-                해결
-              </div>
-              <ExpInputBox
-                type="textarea"
-                placeholder="그 문제를 해결하기 위해 어떤 행동을 했나요?"
-                value={form.action}
-                onChange={e => handleChange('action', e.target.value)}
-              />
-            </div>
-
-            <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-              결과
-            </div>
-            <ExpInputBox
-              type="textarea"
-              placeholder="선택한 행동의 결과는 어땠나요?"
-              value={form.result}
-              onChange={e => handleChange('result', e.target.value)}
-            />
-          </div>
-        )}
-
-        <div className="py-10">
-          <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-            키워드
-          </div>
-          <KeywordInput />
-        </div>
-        <Footer />
+        {renderForm()}
       </div>
+      <Footer />
     </form>
   );
 }

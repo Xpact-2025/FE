@@ -7,7 +7,7 @@ export default function KeywordInput() {
   const [tags, setTags] = useState<string[]>([]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length <= 11) {
+    if (e.target.value.length <= 21) {
       setInput(e.target.value);
     }
   };
@@ -17,7 +17,17 @@ export default function KeywordInput() {
       e.preventDefault();
       const trimmedInput = input.trim();
 
-      if (tags.length < 5 && !tags.includes(trimmedInput)) {
+      if (tags.length >= 5) {
+        alert('키워드는 최대 5개까지 입력할 수 있습니다.');
+        return;
+      }
+
+      if (trimmedInput.length > 20) {
+        alert('각 키워드는 최대 20글자까지 입력할 수 있습니다.');
+        return;
+      }
+
+      if (!tags.includes(trimmedInput)) {
         setTags(prevTags => [...prevTags, trimmedInput]);
         setInput('');
       }
