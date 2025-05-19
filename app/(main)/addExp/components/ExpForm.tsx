@@ -11,7 +11,11 @@ import Footer from '@/app/components/Footer';
 import BackIcon from '@/public/icons/Chevron_Left.svg';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { ExpFormType, ExpType } from '@/types/exp';
+=======
+import { ExpFormType, ExpStatus, ExpType, UploadType } from '@/types/exp';
+>>>>>>> 718a957 (FileInput component 생성)
 import AwardForm from './AwardForm';
 import StarForm from './StarForm';
 import SimpleForm from './SimpleForm';
@@ -137,6 +141,7 @@ export default function ExpForm({ data }: ExpFormProps) {
     status: data?.status || 'SAVE',
     formType: data?.formType || 'STAR_FORM',
     experienceType: data?.experienceType || '',
+    uploadType: data?.uploadType || 'FILE',
   });
 
   const handleTabChange = (value: {
@@ -171,7 +176,11 @@ export default function ExpForm({ data }: ExpFormProps) {
       formType: form.formType as ExpFormType,
       experienceType: form.experienceType as ExpType,
       status: form.status as ExpStatus,
+<<<<<<< HEAD
 >>>>>>> 0429c12 (feat/#71: AwardForm component 생성)
+=======
+      uploadType: form.uploadType as UploadType,
+>>>>>>> 718a957 (FileInput component 생성)
     };
 
     const { httpStatus, message } = form.id

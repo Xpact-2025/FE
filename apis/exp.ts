@@ -9,9 +9,13 @@ export interface ExpPayload {
   experienceType: ExpType;
   formType?: ExpFormType;
 <<<<<<< HEAD
+<<<<<<< HEAD
   uploadType?: UploadType;
 =======
 >>>>>>> 8bfa1eb (Payload 수정)
+=======
+  uploadType?: UploadType;
+>>>>>>> 718a957 (FileInput component 생성)
   qualification?: string;
   publisher?: string;
   issueDate?: Date;

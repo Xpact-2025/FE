@@ -2,9 +2,12 @@
 
 import { useState, useCallback } from 'react';
 import CloseIcon from '@/public/icons/Close.svg';
+<<<<<<< HEAD
 import RadioFillIcon from '@/public/icons/Radio_Fill.svg';
 import RadioNotFillIcon from '@/public/icons/Radio_NOT_Fill.svg';
 import PlusIcon from '@/public/icons/PlusIcon.svg';
+=======
+>>>>>>> 718a957 (FileInput component 생성)
 import { UploadType } from '@/types/exp';
 
 interface UploadItem {
@@ -20,11 +23,23 @@ export default function FileInput() {
     { id: Date.now(), uploadType: 'FILE', files: [], links: [], newLink: '' },
   ]);
 
+<<<<<<< HEAD
   const handleUploadTypeChange = (id: number, type: UploadType) => {
     setItems(prevItems =>
       prevItems.map(item =>
         item.id === id
           ? { ...item, uploadType: type, files: [], links: [], newLink: '' }
+=======
+  const handleUploadTypeChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: number
+  ) => {
+    const newType = e.target.value as UploadType;
+    setItems(prevItems =>
+      prevItems.map(item =>
+        item.id === id
+          ? { ...item, uploadType: newType, files: [], links: [], newLink: '' }
+>>>>>>> 718a957 (FileInput component 생성)
           : item
       )
     );
@@ -34,6 +49,7 @@ export default function FileInput() {
     (e: React.DragEvent<HTMLDivElement>, id: number) => {
       e.preventDefault();
       const droppedFiles = Array.from(e.dataTransfer.files);
+<<<<<<< HEAD
       const pdfFile = droppedFiles.find(
         file => file.type === 'application/pdf'
       );
@@ -47,11 +63,33 @@ export default function FileInput() {
         name: pdfFile.name,
         url: URL.createObjectURL(pdfFile),
       };
+=======
+      const pdfFiles = droppedFiles.filter(
+        file => file.type === 'application/pdf'
+      );
+
+      if (pdfFiles.length !== droppedFiles.length) {
+        alert('PDF 파일만 업로드할 수 있습니다.');
+      }
+
+      const fileURLs = pdfFiles.map(file => ({
+        name: file.name,
+        url: URL.createObjectURL(file),
+      }));
+>>>>>>> 718a957 (FileInput component 생성)
 
       setItems(prevItems =>
         prevItems.map(item =>
           item.id === id
+<<<<<<< HEAD
             ? { ...item, files: [fileData], newLink: item.newLink || '' }
+=======
+            ? {
+                ...item,
+                files: [...item.files, ...fileURLs],
+                newLink: item.newLink || '',
+              }
+>>>>>>> 718a957 (FileInput component 생성)
             : item
         )
       );
@@ -83,8 +121,13 @@ export default function FileInput() {
   const handleAddLink = (id: number) => {
     setItems(prevItems =>
       prevItems.map(item =>
+<<<<<<< HEAD
         item.id === id && item.newLink && item.links.length === 0
           ? { ...item, links: [item.newLink], newLink: '' }
+=======
+        item.id === id && item.newLink
+          ? { ...item, links: [...item.links, item.newLink], newLink: '' }
+>>>>>>> 718a957 (FileInput component 생성)
           : item
       )
     );
@@ -107,6 +150,7 @@ export default function FileInput() {
     ]);
   };
 
+<<<<<<< HEAD
   const removeItem = (id: number) => {
     setItems(prevItems => prevItems.filter(item => item.id !== id));
   };
@@ -152,6 +196,31 @@ export default function FileInput() {
                 링크
               </div>
             </div>
+=======
+  return (
+    <div>
+      {items.map(item => (
+        <div key={item.id}>
+          <div className="ml-245 pb-3">
+            <label className="mr-2">
+              <input
+                type="radio"
+                value="FILE"
+                checked={item.uploadType === 'FILE'}
+                onChange={e => handleUploadTypeChange(e, item.id)}
+              />
+              파일
+            </label>
+            <label className="ml-4">
+              <input
+                type="radio"
+                value="LINK"
+                checked={item.uploadType === 'LINK'}
+                onChange={e => handleUploadTypeChange(e, item.id)}
+              />
+              링크
+            </label>
+>>>>>>> 718a957 (FileInput component 생성)
           </div>
 
           {item.uploadType === 'FILE' ? (
@@ -181,9 +250,13 @@ export default function FileInput() {
                   </ul>
                 )}
               </div>
+<<<<<<< HEAD
               <p className="text-gray-200 text-xs pt-2">
                 * 파일 첨부 시, PDF로 변환하여 업로드해주세요.
               </p>
+=======
+              <p>* 파일 첨부 시, PDF로 변환하여 업로드해주세요.</p>
+>>>>>>> 718a957 (FileInput component 생성)
             </div>
           ) : (
             <div>
@@ -199,12 +272,19 @@ export default function FileInput() {
                 <button
                   onClick={() => handleAddLink(item.id)}
                   className="w-[60px] bg-gray-600 text-white px-3 py-2 rounded-[20px]"
+<<<<<<< HEAD
                   disabled={item.links.length >= 1}
+=======
+>>>>>>> 718a957 (FileInput component 생성)
                 >
                   추가
                 </button>
               </div>
+<<<<<<< HEAD
               <p className="text-gray-200 text-xs pt-2">
+=======
+              <p>
+>>>>>>> 718a957 (FileInput component 생성)
                 * 링크 첨부 시, 열람 가능한 주소를 입력해주세요. (예: 구글
                 드라이브, 노션 등)
               </p>
@@ -230,11 +310,18 @@ export default function FileInput() {
       ))}
 
       <button
+<<<<<<< HEAD
         type="button"
         onClick={addNewItem}
         className="flex gap-2.5 w-full h-14 items-center justify-center bg-gray-700 rounded mt-7 p-2 text-gray-50 text-xl"
       >
         <PlusIcon /> 항목 추가
+=======
+        onClick={addNewItem}
+        className="w-full h-[40px] flex items-center justify-center border border-gray-300 mt-7 p-2"
+      >
+        + 항목 추가
+>>>>>>> 718a957 (FileInput component 생성)
       </button>
     </div>
   );
