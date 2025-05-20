@@ -1,6 +1,8 @@
 import { getTest } from '@/apis/test';
+import { redirect } from 'next/navigation';
 
 export default async function MainPage() {
-  const data = await getTest();
-  return <div>{data.message}</div>;
+  const { httpStatus } = await getTest();
+  if (httpStatus !== 200) redirect('/login');
+  redirect('/dashboard');
 }
