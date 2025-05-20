@@ -1,50 +1,91 @@
-export interface ExperiencePayload {
-  status: 'DRAFT' | 'SAVE';
-  experienceType:
-    | 'INTERN'
-    | 'EXTERNAL_ACTIVITIES'
-    | 'CONTEST'
-    | 'PROJECT'
-    | 'CERTIFICATES'
-    | 'ACADEMIC_CLUB'
-    | 'EDUCATION'
-    | 'PRIZE'
-    | 'VOLUNTEER_WORK'
-    | 'STUDY_ABROAD'
-    | 'ETC';
-  formType: 'STAR_FORM' | 'SIMPLE_FORM';
-  title: string;
-  startDate: Date;
-  endDate: Date;
-  keyword: string;
+'use server';
+
+import { ExpFormType, ExpStatus, ExpType, UploadType } from '@/types/exp';
+import API from './config';
+
+export interface ExpPayload {
+  id?: number;
+  status: ExpStatus;
+  experienceType: ExpType;
+  formType?: ExpFormType;
+  uploadType?: UploadType;
+  qualification?: string;
+  publisher?: string;
+  issueDate?: Date;
+  simpleDescription?: string;
+  title?: string;
+  startDate?: Date;
+  endDate?: Date;
+  role?: string;
+  perform?: string;
   situation?: string;
   task?: string;
   action?: string;
   result?: string;
-  role?: string;
-  perform?: string;
+  files?: string[];
+  keywords?: string[];
 }
 
-interface ExperienceResponse {
+export interface Exp {
+  id: number;
+  title: string;
+  experienceType: ExpType;
+}
+
+interface SaveExpResponse {
   httpStatus: number;
   message: string;
 }
 
-export async function saveExperience(
-  payload: ExperiencePayload
-): Promise<ExperienceResponse> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/exp`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      ...payload,
-      startDate: new Date(payload.startDate),
-      endDate: new Date(payload.endDate),
-    }),
+interface GetExpResponse {
+  httpStatus: number;
+  message: string;
+  data?: Exp[];
+}
+
+interface GetExpByIdResponse {
+  httpStatus: number;
+  message: string;
+  data: ExpPayload;
+}
+
+export async function saveExp(payload: ExpPayload): Promise<SaveExpResponse> {
+  const res = await API.post<SaveExpResponse>('/api/exp', {
+    ...payload,
+    issueDate: payload.issueDate ? new Date(payload.issueDate) : undefined,
+    startDate: payload.startDate ? new Date(payload.startDate) : undefined,
+    endDate: payload.endDate ? new Date(payload.endDate) : undefined,
   });
 
-  const data = await res.json();
-  return data;
+  return res.data;
+}
+
+export async function editExp(
+  exp_id: number,
+  payload: ExpPayload
+): Promise<SaveExpResponse> {
+  const res = await API.patch<SaveExpResponse>(`/api/exp/${exp_id}`, {
+    ...payload,
+    issueDate: payload.issueDate ? new Date(payload.issueDate) : undefined,
+    startDate: payload.startDate ? new Date(payload.startDate) : undefined,
+    endDate: payload.endDate ? new Date(payload.endDate) : undefined,
+  });
+
+  return res.data;
+}
+
+export async function getExpById(exp_id: number): Promise<GetExpByIdResponse> {
+  const res = await API.get<GetExpByIdResponse>(`/api/exp/${exp_id}`);
+
+  return res.data;
+}
+
+export async function getMyExp(): Promise<GetExpResponse> {
+  const res = await API.get<GetExpResponse>('/api/exp');
+  return res.data;
+}
+
+export async function deleteExp(id: number) {
+  const res = await API.delete(`/api/exp/${id}`);
+  return res.data;
 }

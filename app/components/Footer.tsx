@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="h-full mx-auto px-[130px] flex flex-col sm:flex-row justify-between items-center">
         <div className="flex items-center">
           <Image
-            src="/logo2.png"
+            src="/images/logo2.svg"
             alt="Xpact"
             width={59}
             height={48}

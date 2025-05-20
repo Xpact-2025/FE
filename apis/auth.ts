@@ -1,3 +1,9 @@
+'use server';
+
+import API from './config';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+
 interface LoginPayload {
   email: string;
   password: string;
@@ -32,39 +38,37 @@ interface SignupResponse {
   };
 }
 
-export async function loginUser(payload: LoginPayload): Promise<LoginResponse> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/auth/login/form`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    }
-  );
+export async function setAccessTokenCookie(token: string) {
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7일 후 만료
 
-  const data = await res.json();
-  return data;
+  const cookieStore = await cookies();
+  cookieStore.set('access-token', token, {
+    httpOnly: true,
+    secure: true,
+    path: '/',
+    sameSite: 'lax',
+    expires: expiresAt,
+  });
+}
+
+export async function loginUser(payload: LoginPayload): Promise<LoginResponse> {
+  const res = await API.post<LoginResponse>('/auth/login/form', payload);
+
+  if (res.status == 200) setAccessTokenCookie(res.data.data.accessToken);
+
+  return res.data;
 }
 
 export async function signupUser(
   payload: SignupPayload
 ): Promise<SignupResponse> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      ...payload,
-      type: payload.type ?? 'FORM',
-      role: payload.role ?? 'ROLE_USER',
-    }),
+  const res = await API.post<SignupResponse>('/auth/signup', {
+    ...payload,
+    type: payload.type ?? 'FORM',
+    role: payload.role ?? 'ROLE_USER',
   });
 
-  const data = await res.json();
-  return data;
+  return res.data;
 }
 
 //카카오 로그인
@@ -104,5 +108,21 @@ export async function kakaoLogin(code: string): Promise<KakaoLoginResponse> {
 
   const data = await res.json();
   console.log(data);
+
+  if (res.status === 200) await setAccessTokenCookie(data.data.accessToken);
+
   return data;
+}
+
+export async function logout() {
+  try {
+    await API.post('/auth/logout');
+  } catch (error) {
+    console.error('로그아웃 API 오류:', error);
+  }
+
+  // 쿠키 삭제
+  (await cookies()).delete('access-token');
+
+  redirect('/login');
 }

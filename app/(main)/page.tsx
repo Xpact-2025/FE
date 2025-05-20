@@ -1,3 +1,5 @@
-export default function MainPage() {
-  return <div>main</div>;
+import { redirect } from 'next/navigation';
+
+export default async function MainPage() {
+  redirect('/dashboard');
 }

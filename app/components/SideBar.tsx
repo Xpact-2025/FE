@@ -19,11 +19,11 @@ const SideBar = () => {
   };
 
   return (
-    <aside className="w-64 bg-[#0E0E0E] p-6 h-screen">
+    <aside className="w-64 bg-gray-1000 p-6 h-screen">
       <nav>
         <Link href="/">
           <Image
-            src="/Logo.png"
+            src="/images/logo.png"
             alt="Xpact"
             width={128}
             height={48}
@@ -42,13 +42,17 @@ const SideBar = () => {
             isActive={pathname === '/dashboard' || pathname === '/'}
           />
           <SideBarMenu
-            href="/experience"
-            icon={<BookIcon className={iconStyle('/experience')} />}
+            href="/exp"
+            icon={
+              <BookIcon
+                className={`${pathname === '/exp' || pathname === '/addExp' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
+              />
+            }
             text="내 경험"
-            isActive={pathname === '/experience'}
+            isActive={pathname === '/exp' || pathname === '/addExp'}
           />
           <SideBarMenu
-            href="/experience"
+            href="/exp"
             icon={<CopyIcon className={iconStyle('/growth-guide')} />}
             text="성장 가이드"
             isActive={pathname === '/growth-guide'}
