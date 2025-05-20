@@ -1,4 +1,3 @@
-import { getTest } from '@/apis/test';
 import ProfileCard from './components/ProfileCard';
 import ExpHistory from './components/ExpHistory';
 import Scrap from './components/Scrap';
@@ -6,8 +5,6 @@ import ExpTimeLine from './components/ExpTimeLine';
 import ChartContainer from './components/ChartContainer';
 
 export default async function DashboardPage() {
-  const test = await getTest();
-  console.log(test);
   return (
     <div className="min-h-screen py-6 px-14">
       <div className="flex flex-col gap-4">
