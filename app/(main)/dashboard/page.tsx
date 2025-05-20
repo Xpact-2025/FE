@@ -3,8 +3,11 @@ import ExpHistory from './components/ExpHistory';
 import Scrap from './components/Scrap';
 import ExpTimeLine from './components/ExpTimeLine';
 import ChartContainer from './components/ChartContainer';
+import { getJobRatio } from '@/apis/dashboard';
 
 export default async function DashboardPage() {
+  const jobRatio = await getJobRatio();
+
   return (
     <div className="min-h-screen py-6 px-14">
       <div className="flex flex-col gap-4">
@@ -26,7 +29,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* 직무 비율, 핵심 스킬 맵 */}
-        <ChartContainer />
+        <ChartContainer jobRatio={jobRatio} />
 
         {/* 경험 타임라인 */}
         <div className="bg-gray-800 rounded-[23px] py-8 px-10">
