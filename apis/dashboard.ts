@@ -34,12 +34,28 @@ export async function getExpHistory(
   year: number,
   month: number
 ): Promise<ExpHisoryResponse> {
-  const params = new URLSearchParams({
-    year: year.toString(),
-    month: month.toString(),
-  });
-  const res = await API.get<ExpHisoryResponse>(
-    `/api/dashboard/history?${params}`
+  const months = [
+    { year: year, month: month - 1 },
+    { year: year, month },
+    { year: year, month: month + 1 },
+  ];
+
+  const res = await Promise.all(
+    months.map(({ year, month }) =>
+      API.get<ExpHisoryResponse>(
+        `/api/dashboard/history?${new URLSearchParams({
+          year: year.toString(),
+          month: month.toString(),
+        })}`
+      )
+    )
   );
-  return res.data;
+
+  return {
+    httpStatus: res[0].data.httpStatus,
+    message: res[0].data.message,
+    data: {
+      dateCounts: res.flatMap(res => res.data.data.dateCounts),
+    },
+  };
 }
