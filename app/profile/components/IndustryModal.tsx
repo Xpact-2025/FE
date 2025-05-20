@@ -79,8 +79,8 @@ export default function IndustryModal({
         <p className="text-sm text-gray-300 mb-4">
           희망하는 산업군을 선택 후, 상세 직무를 선택해 주세요.
           <br></br>
-          검색해서 추가해 주세요. 조회되지 않는 경우, '직접 추가하기' 버튼을
-          눌러 추가해 주세요.
+          검색해서 추가해 주세요. 조회되지 않는 경우, &rsquo;직접
+          추가하기&rsquo; 버튼을 눌러 추가해 주세요.
         </p>
 
         {/* 검색창 */}

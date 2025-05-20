@@ -20,7 +20,7 @@ export default function Header() {
           </Link>
           <nav className="hidden lg:flex space-x-[41px] text-gray-50">
             <BtnMenu title="대시보드" menu="dashboard" />
-            <BtnMenu title="내 경험" menu="experience" />
+            <BtnMenu title="내 경험" menu="exp" />
             <BtnMenu title="성장 가이드" menu="guide" />
             <BtnMenu title="AI 자기소개서" menu="ai-intro" />
             <BtnMenu title="마이페이지" menu="mypage" />
