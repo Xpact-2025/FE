@@ -2,6 +2,7 @@
 
 import axios, { AxiosError } from 'axios';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 const API = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -32,7 +33,7 @@ API.interceptors.response.use(
     if (error.response?.status === 401) {
       console.log('[401 에러] 인증 필요:', error.response.data);
       // refresh api로 accessToken 재발급 로직 추가 필요
-      return Promise.resolve(error.response);
+      redirect('/login');
     }
     return Promise.reject(error);
   }
