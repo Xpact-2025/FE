@@ -10,11 +10,7 @@ import MajorModal from './MajorModal';
 import { fetchMajors, fetchSchools } from '@/apis/school';
 import { fetchIndustryList } from '@/apis/industry';
 import IndustryModal from './IndustryModal';
-import {
-  saveProfileInfo,
-  saveEducationInfo,
-  saveJobPreferences,
-} from '../../../apis/saveProfileInfo';
+import { saveProfileInfo } from '../../../apis/saveProfileInfo';
 import { useRouter } from 'next/navigation';
 
 export default function ProfileForm() {
@@ -22,7 +18,6 @@ export default function ProfileForm() {
 
   const [degree, setDegree] = useState('');
   const [graduation, setGraduation] = useState('');
-  const [jobList, setJobList] = useState<string[]>([]);
   const [isSchoolModalOpen, setIsSchoolModalOpen] = useState(false);
   const [selectedSchool, setSelectedSchool] = useState('');
   const [schoolList, setSchoolList] = useState<string[]>([]);
@@ -35,6 +30,8 @@ export default function ProfileForm() {
   const [isIndustryModalOpen, setIsIndustryModalOpen] = useState(false);
   const [industryList, setIndustryList] = useState<string[]>([]);
   const [industrySearchValue, setIndustrySearchValue] = useState('');
+  const [recruitName, setRecruitName] = useState('');
+  const [detailRecruitName, setDetailRecruitName] = useState('');
 
   const [isSchoolLoading, setIsSchoolLoading] = useState(false);
   const [isMajorLoading, setIsMajorLoading] = useState(false);
@@ -43,11 +40,7 @@ export default function ProfileForm() {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
 
-  const today = new Date().toISOString().split('T')[0];
   const [imgUrl] = useState('/images/mainporfile.svg');
-
-  const [startDate] = useState(today);
-  const [endDate] = useState(today);
 
   const handleSchoolSearch = async () => {
     setIsSchoolModalOpen(true);
@@ -90,18 +83,56 @@ export default function ProfileForm() {
     }
   };
 
+  const mapDegree = (kor: string) => {
+    switch (kor) {
+      case '고등학교':
+        return 'HIGH';
+      case '전문대학':
+        return 'COLLEGE';
+      case '대학교':
+        return 'UNIV';
+      case '대학원(석사)':
+        return 'MASTER';
+      case '대학원(박사)':
+        return 'DOCTOR';
+      default:
+        return '';
+    }
+  };
+
+  const mapSchoolStatus = (kor: string) => {
+    switch (kor) {
+      case '재학':
+        return 'CURRENT';
+      case '휴학':
+        return 'SUSPENDED';
+      case '졸업':
+        return 'GRADUATION';
+      case '졸업예정':
+        return 'EXPECTED_GRADUATION';
+      case '수료':
+        return 'COMPLETED';
+      case '중퇴':
+        return 'WITHDRAWN';
+      default:
+        return '';
+    }
+  };
+
   const handleSubmit = async () => {
     try {
-      await saveProfileInfo(name, imgUrl, Number(age));
-      await saveEducationInfo(
-        degree,
+      await saveProfileInfo(
+        name,
+        imgUrl,
+        Number(age),
+        mapDegree(degree),
         selectedSchool,
         selectedMajor,
-        graduation,
-        startDate,
-        endDate
+        mapSchoolStatus(graduation),
+        recruitName,
+        detailRecruitName
       );
-      await saveJobPreferences(jobList);
+
       alert('모든 정보가 성공적으로 저장되었습니다!');
       router.push('/');
     } catch (error) {
@@ -109,6 +140,22 @@ export default function ProfileForm() {
       alert('저장 실패');
     }
   };
+
+  console.log({
+    name,
+    imgurl: imgUrl,
+    age: Number(age),
+    educationSaveRequestDto: {
+      degree: mapDegree(degree),
+      name: selectedSchool,
+      major: selectedMajor,
+      schoolStatus: mapSchoolStatus(graduation),
+    },
+    desiredRecruitRequestDto: {
+      recruitName,
+      detailRecruitName,
+    },
+  });
 
   return (
     <main className="flex flex-col items-center justify-center py-[120px] px-4">
@@ -196,30 +243,28 @@ export default function ProfileForm() {
             />
           </div>
           <div className="flex flex-wrap gap-2">
-            {jobList.map((job, index) => (
-              <div
-                key={index}
-                className="flex items-center px-4 py-2 h-[44px] rounded bg-gray-500 text-white text-sm whitespace-nowrap"
-              >
-                <span className="mr-2">{job}</span>
+            {recruitName && detailRecruitName && (
+              <div className="flex items-center px-4 py-2 h-[44px] rounded bg-gray-500 text-white text-sm whitespace-nowrap">
+                <span className="mr-2">{`${recruitName} / ${detailRecruitName}`}</span>
                 <button
-                  onClick={() =>
-                    setJobList(prev => prev.filter((_, i) => i !== index))
-                  }
+                  onClick={() => {
+                    setRecruitName('');
+                    setDetailRecruitName('');
+                  }}
                   className="text-white hover:text-primary-50"
-                  aria-label={`${job} 삭제`}
+                  aria-label="직무 삭제"
                 >
                   ✕
                 </button>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>
 
       <button
         onClick={handleSubmit}
-        className="w-[448px] mt-[3%] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded"
+        className="w-[448px] mt-[3%] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded cursor-pointer"
       >
         입력 완료
       </button>
@@ -253,10 +298,9 @@ export default function ProfileForm() {
         isOpen={isIndustryModalOpen}
         onClose={() => setIsIndustryModalOpen(false)}
         industries={industryList}
-        onSelect={industry => {
-          if (!jobList.includes(industry)) {
-            setJobList(prev => [...prev, industry]);
-          }
+        onSelect={(recruit, detail) => {
+          setRecruitName(recruit);
+          setDetailRecruitName(detail);
           setIsIndustryModalOpen(false);
         }}
         searchValue={industrySearchValue}

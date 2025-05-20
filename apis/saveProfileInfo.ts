@@ -1,37 +1,44 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import API from './config';
 
 export async function saveProfileInfo(
   name: string,
   imgUrl: string,
-  age: number
-) {
-  await API.patch('/api/members', {
-    name,
-    imgUrl,
-    age,
-  });
-}
-
-export async function saveEducationInfo(
+  age: number,
   degree: string,
   schoolName: string,
   major: string,
   schoolStatus: string,
-  startedAt: string,
-  endedAt: string
+  recruitName: string,
+  detailRecruitName: string
 ) {
-  await API.post('/api/educations', {
-    degree,
-    name: schoolName,
-    major,
-    schoolStatus,
-    startedAt,
-    endedAt,
-  });
-}
+  const cookieStore = await cookies();
+  const token = cookieStore.get('access-token')?.value;
+  if (!token) throw new Error('No access token');
 
-export async function saveJobPreferences(jobs: string[]) {
-  await API.patch('/api/recruits', jobs);
+  await API.patch(
+    '/api/members',
+    {
+      name,
+      imgurl: imgUrl,
+      age,
+      educationSaveRequestDto: {
+        degree,
+        name: schoolName,
+        major,
+        schoolStatus,
+      },
+      desiredRecruitRequestDto: {
+        recruitName,
+        detailRecruitName,
+      },
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 }
