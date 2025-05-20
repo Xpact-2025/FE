@@ -1,3 +1,5 @@
+'use server';
+
 import API from './config';
 
 export type JobRatioType = Record<string, number>;
@@ -10,12 +12,12 @@ export interface JobRatioResponse {
   };
 }
 
-type DateCount = {
+export type DateCount = {
   date: string;
   count: number;
 };
 
-type ExpHisoryResponse = {
+export type ExpHisoryResponse = {
   httpStatus: number;
   message: string;
   data: {

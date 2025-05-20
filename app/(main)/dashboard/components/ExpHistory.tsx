@@ -18,7 +18,7 @@ export default function ExpHistory({
         <span className="body-23-b mr-2">경험 히스토리</span>
         <HelpIcon className="stroke-gray-600" />
       </div>
-      <Calendar markedDates={dateCounts} />
+      <Calendar dateCounts={dateCounts} />
     </>
   );
 }
