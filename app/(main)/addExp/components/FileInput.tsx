@@ -2,6 +2,9 @@
 
 import { useState, useCallback } from 'react';
 import CloseIcon from '@/public/icons/Close.svg';
+import RadioFillIcon from '@/public/icons/Radio_Fill.svg';
+import RadioNotFillIcon from '@/public/icons/Radio_NOT_Fill.svg';
+import PlusIcon from '@/public/icons/PlusIcon.svg';
 import { UploadType } from '@/types/exp';
 
 interface UploadItem {
@@ -17,15 +20,11 @@ export default function FileInput() {
     { id: Date.now(), uploadType: 'FILE', files: [], links: [], newLink: '' },
   ]);
 
-  const handleUploadTypeChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    id: number
-  ) => {
-    const newType = e.target.value as UploadType;
+  const handleUploadTypeChange = (id: number, type: UploadType) => {
     setItems(prevItems =>
       prevItems.map(item =>
         item.id === id
-          ? { ...item, uploadType: newType, files: [], links: [], newLink: '' }
+          ? { ...item, uploadType: type, files: [], links: [], newLink: '' }
           : item
       )
     );
@@ -119,30 +118,40 @@ export default function FileInput() {
           {items.length > 1 && index > 0 && (
             <button
               onClick={() => removeItem(item.id)}
-              className="absolute top-2 right-2 w-[28px] h-[28px] flex items-center justify-center"
+              className="flex ml-220 mb-5"
             >
               <CloseIcon />
             </button>
           )}
-          <div className="ml-245 pb-3">
-            <label className="mr-2">
-              <input
-                type="radio"
-                value="FILE"
-                checked={item.uploadType === 'FILE'}
-                onChange={e => handleUploadTypeChange(e, item.id)}
-              />
-              파일
-            </label>
-            <label className="ml-4">
-              <input
-                type="radio"
-                value="LINK"
-                checked={item.uploadType === 'LINK'}
-                onChange={e => handleUploadTypeChange(e, item.id)}
-              />
-              링크
-            </label>
+          <div className="flex ml-180 mb-2">
+            <div className="flex gap-9 text-gray-200">
+              <div className="flex gap-3">
+                <div
+                  onClick={() => handleUploadTypeChange(item.id, 'FILE')}
+                  className="cursor-pointer"
+                >
+                  {item.uploadType === 'FILE' ? (
+                    <RadioFillIcon />
+                  ) : (
+                    <RadioNotFillIcon />
+                  )}
+                </div>
+                파일
+              </div>
+              <div className="flex gap-3">
+                <div
+                  onClick={() => handleUploadTypeChange(item.id, 'LINK')}
+                  className="cursor-pointer"
+                >
+                  {item.uploadType === 'LINK' ? (
+                    <RadioFillIcon />
+                  ) : (
+                    <RadioNotFillIcon />
+                  )}
+                </div>
+                링크
+              </div>
+            </div>
           </div>
 
           {item.uploadType === 'FILE' ? (
@@ -172,7 +181,9 @@ export default function FileInput() {
                   </ul>
                 )}
               </div>
-              <p>* 파일 첨부 시, PDF로 변환하여 업로드해주세요.</p>
+              <p className="text-gray-200 text-xs pt-2">
+                * 파일 첨부 시, PDF로 변환하여 업로드해주세요.
+              </p>
             </div>
           ) : (
             <div>
@@ -220,9 +231,9 @@ export default function FileInput() {
 
       <button
         onClick={addNewItem}
-        className="w-full h-[40px] flex items-center justify-center border border-gray-300 mt-7 p-2"
+        className="flex gap-2.5 w-[929px] h-14 items-center justify-center bg-gray-700 rounded mt-7 p-2 text-gray-50 text-xl"
       >
-        + 항목 추가
+        <PlusIcon /> 항목 추가
       </button>
     </div>
   );
