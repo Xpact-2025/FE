@@ -190,8 +190,7 @@ export default function ExpForm({ data }: ExpFormProps) {
         <div className="flex items-center gap-[9px]">
           <button
             type="submit"
-            onClick={e => {
-              e.preventDefault();
+            onClick={() => {
               setForm(prev => ({
                 ...prev,
                 status: 'DRAFT',
@@ -203,8 +202,7 @@ export default function ExpForm({ data }: ExpFormProps) {
           </button>
           <button
             type="submit"
-            onClick={e => {
-              e.preventDefault();
+            onClick={() => {
               setForm(prev => ({
                 ...prev,
                 status: 'SAVE',
