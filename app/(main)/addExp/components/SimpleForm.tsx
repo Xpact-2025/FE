@@ -50,11 +50,13 @@ export default function SimpleForm({ data, onChange }: SimpleFormProps) {
           <ExpInputBox
             type="date"
             value={form.startDate}
+            max={form.endDate}
             onChange={e => handleChange('startDate', e.target.value)}
           />
           <ExpInputBox
             type="date"
             value={form.endDate}
+            min={form.startDate}
             onChange={e => handleChange('endDate', e.target.value)}
           />
         </div>
