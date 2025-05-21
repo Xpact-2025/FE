@@ -52,9 +52,12 @@ interface GetExpByIdResponse {
 export async function saveExp(payload: ExpPayload): Promise<SaveExpResponse> {
   const res = await API.post<SaveExpResponse>('/api/exp', {
     ...payload,
-    issueDate: payload.issueDate ? new Date(payload.issueDate) : undefined,
-    startDate: payload.startDate ? new Date(payload.startDate) : undefined,
-    endDate: payload.endDate ? new Date(payload.endDate) : undefined,
+    title: payload.title ?? '',
+    keywords: payload.keywords ?? [],
+
+    issueDate: payload.issueDate ? new Date(payload.issueDate) : null,
+    startDate: payload.startDate ? new Date(payload.startDate) : null,
+    endDate: payload.endDate ? new Date(payload.endDate) : null,
   });
 
   return res.data;

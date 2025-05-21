@@ -108,10 +108,22 @@ export default function FileInput() {
     ]);
   };
 
+  const removeItem = (id: number) => {
+    setItems(prevItems => prevItems.filter(item => item.id !== id));
+  };
+
   return (
     <div>
-      {items.map(item => (
-        <div key={item.id}>
+      {items.map((item, index) => (
+        <div key={item.id} className="relative">
+          {items.length > 1 && index > 0 && (
+            <button
+              onClick={() => removeItem(item.id)}
+              className="absolute top-2 right-2 w-[28px] h-[28px] flex items-center justify-center"
+            >
+              <CloseIcon />
+            </button>
+          )}
           <div className="ml-245 pb-3">
             <label className="mr-2">
               <input
