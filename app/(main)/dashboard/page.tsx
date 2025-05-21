@@ -4,8 +4,11 @@ import Scrap from './components/Scrap';
 import ExpTimeLine from './components/ExpTimeLine';
 import ChartContainer from './components/ChartContainer';
 import { getJobRatio, getExpHistory } from '@/apis/dashboard';
+<<<<<<< HEAD
 import HelpIcon from '@/public/icons/Circle_Help.svg';
 import Footer from '@/app/components/Footer';
+=======
+>>>>>>> 08251c5 (fix/#75: 에러 수정, key 분리)
 
 export default async function DashboardPage() {
   const jobRatio = await getJobRatio();
@@ -13,6 +16,10 @@ export default async function DashboardPage() {
     new Date().getFullYear(),
     new Date().getMonth() + 1
   );
+<<<<<<< HEAD
+=======
+  console.log(new Date().getMonth());
+>>>>>>> 08251c5 (fix/#75: 에러 수정, key 분리)
 
   return (
     <div className="min-h-screen py-6 px-14">
@@ -24,6 +31,7 @@ export default async function DashboardPage() {
           </div>
           <div className="grow-3 bg-gray-800 rounded-[23px] py-8 px-10">
             <ExpHistory expHistory={expHistory} />
+<<<<<<< HEAD
           </div>
 =======
           {/* ProfileCard 컴포넌트 */}
@@ -34,6 +42,8 @@ export default async function DashboardPage() {
           {/* 경험 히스토리 */}
           <div className="grow-3 bg-gray-800 rounded-[23px] py-8 px-10">
             <ExpHistory />
+=======
+>>>>>>> 08251c5 (fix/#75: 에러 수정, key 분리)
           </div>
 
           {/* 스크랩 리스트 */}

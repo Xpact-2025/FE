@@ -17,13 +17,21 @@ export type DateCount = {
   count: number;
 };
 
+<<<<<<< HEAD
 export interface ExpHisoryResponse {
+=======
+export type ExpHisoryResponse = {
+>>>>>>> 08251c5 (fix/#75: 에러 수정, key 분리)
   httpStatus: number;
   message: string;
   data: {
     dateCounts: DateCount[];
   };
+<<<<<<< HEAD
 }
+=======
+};
+>>>>>>> 08251c5 (fix/#75: 에러 수정, key 분리)
 
 export async function getJobRatio(): Promise<JobRatioResponse | null> {
   try {

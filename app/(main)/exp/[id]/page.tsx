@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+<<<<<<< HEAD
 import { ExpPayload, getExpById, deleteExp, editExp } from '@/apis/exp';
+=======
+import { ExpPayload, getExpById } from '@/apis/exp';
+>>>>>>> 08251c5 (fix/#75: 에러 수정, key 분리)
 import { EXP_OPTIONS } from '@/constants/expOptions';
 import { useRouter } from 'next/navigation';
 import Popup from '@/app/components/Popup';
@@ -10,11 +14,16 @@ import BackIcon from '@/public/icons/Chevron_Left.svg';
 
 export default function ExpDetailPage() {
   const params = useParams();
+<<<<<<< HEAD
   const router = useRouter();
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [editData, setEditData] = useState<ExpPayload>({} as ExpPayload);
   const [data, setData] = useState<ExpPayload | null>(null);
+=======
+  const [data, setData] = useState<ExpPayload | null>(null);
+
+>>>>>>> 08251c5 (fix/#75: 에러 수정, key 분리)
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -28,7 +37,10 @@ export default function ExpDetailPage() {
       try {
         const res = await getExpById(expId);
         setData(res.data);
+<<<<<<< HEAD
         setEditData(res.data);
+=======
+>>>>>>> 08251c5 (fix/#75: 에러 수정, key 분리)
       } catch {
         setError('경험 데이터를 불러오는 데 실패했습니다.');
       }
