@@ -25,9 +25,14 @@ export type ExpHisoryResponse = {
   };
 };
 
-export async function getJobRatio(): Promise<JobRatioResponse> {
-  const res = await API.get<JobRatioResponse>('/api/dashboard/ratio');
-  return res.data;
+export async function getJobRatio(): Promise<JobRatioResponse | null> {
+  try {
+    const res = await API.get<JobRatioResponse>('/api/dashboard/ratio');
+    return res.data;
+  } catch (error) {
+    console.error('직무 비율 불러오기 실패:', error);
+    return null;
+  }
 }
 
 export async function getExpHistory(

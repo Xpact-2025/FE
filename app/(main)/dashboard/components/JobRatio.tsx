@@ -14,6 +14,14 @@ export default function JobRatio({
     value,
   }));
 
+  if (data.length === 0) {
+    return (
+      <div className="text-gray-400 text-center py-10">
+        아직 직무 경험이 없어요.
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="flex mb-3">
@@ -44,11 +52,8 @@ export default function JobRatio({
               position="center"
               content={
                 <CustomLabel
-                  job={data[0].name}
-                  viewBox={{
-                    cx: 109,
-                    cy: 109,
-                  }}
+                  job={data[0]?.name ?? ''}
+                  viewBox={{ cx: 109, cy: 109 }}
                 />
               }
             />

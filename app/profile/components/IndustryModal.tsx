@@ -7,7 +7,8 @@ interface IndustryModalProps {
   isOpen: boolean;
   onClose: () => void;
   industries: string[];
-  onSelect: (job: string) => void;
+  onSelect: (recruitName: string, detailRecruitName: string) => void;
+
   searchValue: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSearch: () => void;
@@ -130,7 +131,7 @@ export default function IndustryModal({
                     key={index}
                     className="px-4 py-2 rounded hover:bg-orange-500 cursor-pointer"
                     onClick={() => {
-                      onSelect(job);
+                      onSelect(selectedIndustry, job); // recruitName, detailRecruitName 전달
                       setSelectedIndustry('');
                       setSubJobs([]);
                       onClose();
