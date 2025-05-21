@@ -54,12 +54,10 @@ export async function saveExp(payload: ExpPayload): Promise<SaveExpResponse> {
     ...payload,
     title: payload.title ?? '',
     keywords: payload.keywords ?? [],
-
-    issueDate: payload.issueDate ? new Date(payload.issueDate) : null,
-    startDate: payload.startDate ? new Date(payload.startDate) : null,
-    endDate: payload.endDate ? new Date(payload.endDate) : null,
+    issueDate: payload.issueDate ? new Date(payload.issueDate) : undefined,
+    startDate: payload.startDate ? new Date(payload.startDate) : undefined,
+    endDate: payload.endDate ? new Date(payload.endDate) : undefined,
   });
-
   return res.data;
 }
 
