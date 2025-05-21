@@ -35,27 +35,24 @@ export default function FileInput() {
     (e: React.DragEvent<HTMLDivElement>, id: number) => {
       e.preventDefault();
       const droppedFiles = Array.from(e.dataTransfer.files);
-      const pdfFiles = droppedFiles.filter(
+      const pdfFile = droppedFiles.find(
         file => file.type === 'application/pdf'
       );
 
-      if (pdfFiles.length !== droppedFiles.length) {
+      if (!pdfFile) {
         alert('PDF 파일만 업로드할 수 있습니다.');
+        return;
       }
 
-      const fileURLs = pdfFiles.map(file => ({
-        name: file.name,
-        url: URL.createObjectURL(file),
-      }));
+      const fileData = {
+        name: pdfFile.name,
+        url: URL.createObjectURL(pdfFile),
+      };
 
       setItems(prevItems =>
         prevItems.map(item =>
           item.id === id
-            ? {
-                ...item,
-                files: [...item.files, ...fileURLs],
-                newLink: item.newLink || '',
-              }
+            ? { ...item, files: [fileData], newLink: item.newLink || '' }
             : item
         )
       );
@@ -87,8 +84,8 @@ export default function FileInput() {
   const handleAddLink = (id: number) => {
     setItems(prevItems =>
       prevItems.map(item =>
-        item.id === id && item.newLink
-          ? { ...item, links: [...item.links, item.newLink], newLink: '' }
+        item.id === id && item.newLink && item.links.length === 0
+          ? { ...item, links: [item.newLink], newLink: '' }
           : item
       )
     );
@@ -179,6 +176,7 @@ export default function FileInput() {
                 <button
                   onClick={() => handleAddLink(item.id)}
                   className="w-[60px] bg-gray-600 text-white px-3 py-2 rounded-[20px]"
+                  disabled={item.links.length >= 1}
                 >
                   추가
                 </button>
