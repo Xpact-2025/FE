@@ -12,6 +12,7 @@ import { fetchIndustryList } from '@/apis/industry';
 import IndustryModal from './IndustryModal';
 import { saveProfileInfo } from '../../../apis/saveProfileInfo';
 import { useRouter } from 'next/navigation';
+import { DEGREE_MAP, SCHOOL_STATUS_MAP } from '@/constants/education';
 
 export default function ProfileForm() {
   const router = useRouter();
@@ -83,41 +84,41 @@ export default function ProfileForm() {
     }
   };
 
-  const mapDegree = (kor: string) => {
-    switch (kor) {
-      case '고등학교':
-        return 'HIGH';
-      case '전문대학':
-        return 'COLLEGE';
-      case '대학교':
-        return 'UNIV';
-      case '대학원(석사)':
-        return 'MASTER';
-      case '대학원(박사)':
-        return 'DOCTOR';
-      default:
-        return '';
-    }
-  };
+  // const mapDegree = (kor: string) => {
+  //   switch (kor) {
+  //     case '고등학교':
+  //       return 'HIGH';
+  //     case '전문대학':
+  //       return 'COLLEGE';
+  //     case '대학교':
+  //       return 'UNIV';
+  //     case '대학원(석사)':
+  //       return 'MASTER';
+  //     case '대학원(박사)':
+  //       return 'DOCTOR';
+  //     default:
+  //       return '';
+  //   }
+  // };
 
-  const mapSchoolStatus = (kor: string) => {
-    switch (kor) {
-      case '재학':
-        return 'CURRENT';
-      case '휴학':
-        return 'SUSPENDED';
-      case '졸업':
-        return 'GRADUATION';
-      case '졸업예정':
-        return 'EXPECTED_GRADUATION';
-      case '수료':
-        return 'COMPLETED';
-      case '중퇴':
-        return 'WITHDRAWN';
-      default:
-        return '';
-    }
-  };
+  // const mapSchoolStatus = (kor: string) => {
+  //   switch (kor) {
+  //     case '재학':
+  //       return 'CURRENT';
+  //     case '휴학':
+  //       return 'SUSPENDED';
+  //     case '졸업':
+  //       return 'GRADUATION';
+  //     case '졸업예정':
+  //       return 'EXPECTED_GRADUATION';
+  //     case '수료':
+  //       return 'COMPLETED';
+  //     case '중퇴':
+  //       return 'WITHDRAWN';
+  //     default:
+  //       return '';
+  //   }
+  // };
 
   const handleSubmit = async () => {
     try {
@@ -125,10 +126,10 @@ export default function ProfileForm() {
         name,
         imgUrl,
         Number(age),
-        mapDegree(degree),
+        DEGREE_MAP[degree] || '',
         selectedSchool,
         selectedMajor,
-        mapSchoolStatus(graduation),
+        SCHOOL_STATUS_MAP[graduation] || '',
         recruitName,
         detailRecruitName
       );
@@ -140,22 +141,6 @@ export default function ProfileForm() {
       alert('저장 실패');
     }
   };
-
-  console.log({
-    name,
-    imgurl: imgUrl,
-    age: Number(age),
-    educationSaveRequestDto: {
-      degree: mapDegree(degree),
-      name: selectedSchool,
-      major: selectedMajor,
-      schoolStatus: mapSchoolStatus(graduation),
-    },
-    desiredRecruitRequestDto: {
-      recruitName,
-      detailRecruitName,
-    },
-  });
 
   return (
     <main className="flex flex-col items-center justify-center py-[120px] px-4">

@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { getExpById } from '@/apis/exp';
+import { ExpPayload, getExpById } from '@/apis/exp';
 import { EXP_OPTIONS } from '@/constants/expOptions';
 
 export default function ExpDetailPage() {
   const params = useParams();
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<ExpPayload | null>(null);
+
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function ExpDetailPage() {
       try {
         const res = await getExpById(expId);
         setData(res.data);
-      } catch (err) {
+      } catch {
         setError('경험 데이터를 불러오는 데 실패했습니다.');
       }
     };
@@ -39,7 +40,9 @@ export default function ExpDetailPage() {
     <>
       {data.qualification && <p>수상명: {data.qualification}</p>}
       {data.publisher && <p>대회명 · 주최기관: {data.publisher}</p>}
-      {data.issueDate && <p>수상일: {data.issueDate}</p>}
+      {data.issueDate && (
+        <p>수상일: {new Date(data.issueDate).toLocaleDateString('ko-KR')}</p>
+      )}
       {data.simpleDescription && <p>간단 설명: {data.simpleDescription}</p>}
     </>
   );
@@ -48,7 +51,9 @@ export default function ExpDetailPage() {
     <>
       {data.qualification && <p>자격증명: {data.qualification}</p>}
       {data.publisher && <p>발행처: {data.publisher}</p>}
-      {data.issueDate && <p>취득일: {data.issueDate}</p>}
+      {data.issueDate && (
+        <p>취득일: {new Date(data.issueDate).toLocaleDateString('ko-KR')}</p>
+      )}
       {data.simpleDescription && <p>간단 설명: {data.simpleDescription}</p>}
     </>
   );
@@ -57,7 +62,8 @@ export default function ExpDetailPage() {
     <>
       {data.startDate && data.endDate && (
         <p>
-          기간: {data.startDate} ~ {data.endDate}
+          기간: {new Date(data.startDate).toLocaleDateString('ko-KR')} ~{' '}
+          {new Date(data.endDate).toLocaleDateString('ko-KR')}
         </p>
       )}
       {data.role && <p>역할: {data.role}</p>}
@@ -70,7 +76,8 @@ export default function ExpDetailPage() {
       {data.title && <p>경험 제목: {data.title}</p>}
       {data.startDate && data.endDate && (
         <p>
-          기간: {data.startDate} ~ {data.endDate}
+          기간: {new Date(data.startDate).toLocaleDateString('ko-KR')} ~{' '}
+          {new Date(data.endDate).toLocaleDateString('ko-KR')}
         </p>
       )}
       {data.situation && <p>상황: {data.situation}</p>}
