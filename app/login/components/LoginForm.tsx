@@ -60,7 +60,7 @@ export default function LoginForm() {
     const data = await loginUser({ email, password });
     if (data.httpStatus === 200) {
       alert('로그인 성공!');
-      router.push('/dashboard');
+      router.push('/profile');
     } else {
       setEmailError('아이디 또는 비밀번호가 일치하지 않습니다.');
       setPasswordError('아이디 또는 비밀번호가 일치하지 않습니다.');
