@@ -61,6 +61,7 @@ export default function DropdownMenu({ id, onClose }: DropdownMenuProps) {
           onConfirm={async () => {
             await deleteExp(id);
             router.refresh();
+            onClose();
           }}
           onCancel={() => setIsPopupOpen(false)}
         />

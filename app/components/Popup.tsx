@@ -31,14 +31,14 @@ export default function Popup({
           <button
             type="button"
             onClick={onCancel}
-            className="w-40 h-14 bg-gray-600 rounded-[130px]"
+            className="w-40 h-14 bg-gray-600 rounded-[130px] cursor-pointer"
           >
             {cancelText}
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className="w-40 h-14 bg-primary-50 rounded-[130px]"
+            className="w-40 h-14 bg-primary-50 rounded-[130px] cursor-pointer"
           >
             {confirmText}
           </button>

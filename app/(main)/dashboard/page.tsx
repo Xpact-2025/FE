@@ -11,7 +11,6 @@ export default async function DashboardPage() {
     new Date().getFullYear(),
     new Date().getMonth() + 1
   );
-  console.log(new Date().getMonth());
 
   return (
     <div className="min-h-screen py-6 px-14">
