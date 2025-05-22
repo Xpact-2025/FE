@@ -8,7 +8,7 @@ import FileInput from './FileInput';
 
 interface StarFormProps {
   data?: ExpPayload;
-  onChange: (key: string, value: string) => void;
+  onChange: (key: string, value: string | string[]) => void;
 }
 
 export default function StarForm({ data, onChange }: StarFormProps) {
@@ -20,11 +20,11 @@ export default function StarForm({ data, onChange }: StarFormProps) {
     task: data?.task || '',
     action: data?.action || '',
     result: data?.result || '',
-    files: data?.files || '',
-    keywords: data?.keywords || '',
+    files: data?.files || [],
+    keywords: data?.keywords || [],
   });
 
-  const handleChange = (key: keyof typeof form, value: string) => {
+  const handleChange = (key: keyof typeof form, value: string | string[]) => {
     setForm(prev => ({
       ...prev,
       [key]: value,
@@ -117,7 +117,10 @@ export default function StarForm({ data, onChange }: StarFormProps) {
         <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
           키워드
         </div>
-        <KeywordInput />
+        <KeywordInput
+          value={form.keywords}
+          onChange={newTags => handleChange('keywords', newTags)}
+        />
       </div>
     </div>
   );

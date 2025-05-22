@@ -8,7 +8,7 @@ import FileInput from './FileInput';
 
 interface SimpleFormProps {
   data?: ExpPayload;
-  onChange: (key: string, value: string) => void;
+  onChange: (key: string, value: string | string[]) => void;
 }
 
 export default function SimpleForm({ data, onChange }: SimpleFormProps) {
@@ -18,11 +18,11 @@ export default function SimpleForm({ data, onChange }: SimpleFormProps) {
     endDate: String(data?.endDate) || '',
     role: data?.role || '',
     perform: data?.perform || '',
-    files: data?.files || '',
-    keywords: data?.keywords || '',
+    files: data?.files || [],
+    keywords: data?.keywords || [],
   });
 
-  const handleChange = (key: keyof typeof form, value: string) => {
+  const handleChange = (key: keyof typeof form, value: string | string[]) => {
     setForm(prev => ({
       ...prev,
       [key]: value,
@@ -93,7 +93,10 @@ export default function SimpleForm({ data, onChange }: SimpleFormProps) {
         <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
           키워드
         </div>
-        <KeywordInput />
+        <KeywordInput
+          value={form.keywords}
+          onChange={newTags => handleChange('keywords', newTags)}
+        />
       </div>
     </div>
   );
