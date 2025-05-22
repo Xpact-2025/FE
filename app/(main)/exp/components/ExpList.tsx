@@ -13,11 +13,10 @@ interface ExpListProps {
 
 export default function ExpList({ data }: ExpListProps) {
   const [selectedType, setSelectedType] = useState<ExpType | null>(null);
-  const [localData] = useState(data);
 
   const filteredData = selectedType
-    ? localData?.filter(exp => exp.experienceType === selectedType)
-    : localData;
+    ? data?.filter(exp => exp.experienceType === selectedType)
+    : data;
 
   return (
     <main className="flex-1 flex-col items-start py-16 px-[80px]">
