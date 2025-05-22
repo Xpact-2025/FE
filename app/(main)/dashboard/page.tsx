@@ -4,6 +4,7 @@ import Scrap from './components/Scrap';
 import ExpTimeLine from './components/ExpTimeLine';
 import ChartContainer from './components/ChartContainer';
 import { getJobRatio, getExpHistory } from '@/apis/dashboard';
+import HelpIcon from '@/public/icons/Circle_Help.svg';
 
 export default async function DashboardPage() {
   const jobRatio = await getJobRatio();
@@ -11,7 +12,6 @@ export default async function DashboardPage() {
     new Date().getFullYear(),
     new Date().getMonth() + 1
   );
-  console.log(new Date().getMonth());
 
   return (
     <div className="min-h-screen py-6 px-14">
@@ -32,8 +32,25 @@ export default async function DashboardPage() {
         {jobRatio?.data?.ratios ? (
           <ChartContainer jobRatio={jobRatio} />
         ) : (
-          <div className="text-gray-400 text-sm px-4 py-6 bg-gray-800 rounded-[23px] text-center">
-            경험 정보가 없어 직무 비율을 표시할 수 없습니다.
+          <div className="flex flex-wrap gap-4 h-[319px]">
+            <div className="flex-grow-4 bg-gray-800 rounded-[23px] py-8 px-10 flex flex-col">
+              <div className="flex mb-3">
+                <span className="body-23-b mr-2">직무 비율</span>
+                <HelpIcon className="stroke-gray-600" />
+              </div>
+              <div className="flex flex-1 items-center justify-center">
+                경험 정보를 추가해주세요.
+              </div>
+            </div>
+            <div className="flex-grow-6 bg-gray-800 rounded-[23px] py-8 px-10 flex flex-col">
+              <div className="flex mb-3">
+                <span className="body-23-b mr-2">핵심 스킬맵</span>
+                <HelpIcon className="stroke-gray-600" />
+              </div>
+              <div className="flex flex-1 items-center justify-center">
+                경험 정보를 추가해주세요.
+              </div>
+            </div>
           </div>
         )}
 

@@ -17,13 +17,13 @@ export type DateCount = {
   count: number;
 };
 
-export type ExpHisoryResponse = {
+export interface ExpHisoryResponse {
   httpStatus: number;
   message: string;
   data: {
     dateCounts: DateCount[];
   };
-};
+}
 
 export async function getJobRatio(): Promise<JobRatioResponse | null> {
   try {

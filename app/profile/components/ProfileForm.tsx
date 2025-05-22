@@ -10,7 +10,7 @@ import MajorModal from './MajorModal';
 import { fetchMajors, fetchSchools } from '@/apis/school';
 import { fetchIndustryList } from '@/apis/industry';
 import IndustryModal from './IndustryModal';
-import { saveProfileInfo } from '../../../apis/saveProfileInfo';
+import { saveProfileInfo } from '@/apis/profile';
 import { useRouter } from 'next/navigation';
 import { DEGREE_MAP, SCHOOL_STATUS_MAP } from '@/constants/education';
 

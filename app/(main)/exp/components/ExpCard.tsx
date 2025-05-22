@@ -24,14 +24,16 @@ export default function ExpCard({ id, title, type, isTemp }: ExpCardProps) {
 
   return (
     <div
-      onClick={handleClick}
       className={`relative w-[322px] h-[224px] border ${
         isTemp
           ? 'bg-exp-gradient-un-s border-gray-700'
           : 'bg-exp-gradient-s border-gray-50-20'
-      } rounded-[14px] flex flex-col justify-between p-[28px] cursor-pointer`}
+      } rounded-[14px] flex flex-col justify-between p-[28px]`}
     >
-      <div className="flex flex-col gap-[26px]">
+      <div
+        onClick={handleClick}
+        className="flex flex-col gap-[26px] cursor-pointer"
+      >
         <div
           className={`body-20-r break-keep ${
             isTemp ? 'text-gray-700' : 'text-gray-50'
@@ -48,7 +50,7 @@ export default function ExpCard({ id, title, type, isTemp }: ExpCardProps) {
           </div>
         )}
         <button
-          className="w-[24px] h-[24px]"
+          className="w-[24px] h-[24px] cursor-pointer"
           onClick={() => setIsDropdownOpen(prev => !prev)}
         >
           <MoreVerticalIcon className="stroke-gray-50" />
