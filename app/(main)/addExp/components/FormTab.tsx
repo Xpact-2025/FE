@@ -1,17 +1,12 @@
-'use client';
-
 import { ExpFormType } from '@/types/exp';
-import { useState } from 'react';
 
 interface FormTabProps {
   onChange: (value: { formType: ExpFormType; selectedTab: string }) => void;
+  selectedTab: string;
 }
 
-export default function FormTab({ onChange }: FormTabProps) {
-  const [selectedTab, setSelectedTab] = useState<'star' | 'simple'>('star');
-
+export default function FormTab({ onChange, selectedTab }: FormTabProps) {
   const handleTabChange = (tab: 'star' | 'simple') => {
-    setSelectedTab(tab);
     onChange({
       formType: tab === 'star' ? 'STAR_FORM' : 'SIMPLE_FORM',
       selectedTab: tab,

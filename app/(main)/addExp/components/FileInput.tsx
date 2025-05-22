@@ -2,6 +2,9 @@
 
 import { useState, useCallback } from 'react';
 import CloseIcon from '@/public/icons/Close.svg';
+import RadioFillIcon from '@/public/icons/Radio_Fill.svg';
+import RadioNotFillIcon from '@/public/icons/Radio_NOT_Fill.svg';
+import PlusIcon from '@/public/icons/PlusIcon.svg';
 import { UploadType } from '@/types/exp';
 
 interface UploadItem {
@@ -17,15 +20,11 @@ export default function FileInput() {
     { id: Date.now(), uploadType: 'FILE', files: [], links: [], newLink: '' },
   ]);
 
-  const handleUploadTypeChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    id: number
-  ) => {
-    const newType = e.target.value as UploadType;
+  const handleUploadTypeChange = (id: number, type: UploadType) => {
     setItems(prevItems =>
       prevItems.map(item =>
         item.id === id
-          ? { ...item, uploadType: newType, files: [], links: [], newLink: '' }
+          ? { ...item, uploadType: type, files: [], links: [], newLink: '' }
           : item
       )
     );
@@ -35,27 +34,24 @@ export default function FileInput() {
     (e: React.DragEvent<HTMLDivElement>, id: number) => {
       e.preventDefault();
       const droppedFiles = Array.from(e.dataTransfer.files);
-      const pdfFiles = droppedFiles.filter(
+      const pdfFile = droppedFiles.find(
         file => file.type === 'application/pdf'
       );
 
-      if (pdfFiles.length !== droppedFiles.length) {
+      if (!pdfFile) {
         alert('PDF 파일만 업로드할 수 있습니다.');
+        return;
       }
 
-      const fileURLs = pdfFiles.map(file => ({
-        name: file.name,
-        url: URL.createObjectURL(file),
-      }));
+      const fileData = {
+        name: pdfFile.name,
+        url: URL.createObjectURL(pdfFile),
+      };
 
       setItems(prevItems =>
         prevItems.map(item =>
           item.id === id
-            ? {
-                ...item,
-                files: [...item.files, ...fileURLs],
-                newLink: item.newLink || '',
-              }
+            ? { ...item, files: [fileData], newLink: item.newLink || '' }
             : item
         )
       );
@@ -87,8 +83,8 @@ export default function FileInput() {
   const handleAddLink = (id: number) => {
     setItems(prevItems =>
       prevItems.map(item =>
-        item.id === id && item.newLink
-          ? { ...item, links: [...item.links, item.newLink], newLink: '' }
+        item.id === id && item.newLink && item.links.length === 0
+          ? { ...item, links: [item.newLink], newLink: '' }
           : item
       )
     );
@@ -111,29 +107,51 @@ export default function FileInput() {
     ]);
   };
 
+  const removeItem = (id: number) => {
+    setItems(prevItems => prevItems.filter(item => item.id !== id));
+  };
+
   return (
     <div>
-      {items.map(item => (
-        <div key={item.id}>
-          <div className="ml-245 pb-3">
-            <label className="mr-2">
-              <input
-                type="radio"
-                value="FILE"
-                checked={item.uploadType === 'FILE'}
-                onChange={e => handleUploadTypeChange(e, item.id)}
-              />
-              파일
-            </label>
-            <label className="ml-4">
-              <input
-                type="radio"
-                value="LINK"
-                checked={item.uploadType === 'LINK'}
-                onChange={e => handleUploadTypeChange(e, item.id)}
-              />
-              링크
-            </label>
+      {items.map((item, index) => (
+        <div key={item.id} className="relative">
+          {items.length > 1 && index > 0 && (
+            <button
+              onClick={() => removeItem(item.id)}
+              className="flex w-full justify-end pb-5"
+            >
+              <CloseIcon />
+            </button>
+          )}
+          <div className="flex justify-end mb-2">
+            <div className="flex gap-9 text-gray-200">
+              <div className="flex gap-3">
+                <div
+                  onClick={() => handleUploadTypeChange(item.id, 'FILE')}
+                  className="cursor-pointer"
+                >
+                  {item.uploadType === 'FILE' ? (
+                    <RadioFillIcon />
+                  ) : (
+                    <RadioNotFillIcon />
+                  )}
+                </div>
+                파일
+              </div>
+              <div className="flex gap-3">
+                <div
+                  onClick={() => handleUploadTypeChange(item.id, 'LINK')}
+                  className="cursor-pointer"
+                >
+                  {item.uploadType === 'LINK' ? (
+                    <RadioFillIcon />
+                  ) : (
+                    <RadioNotFillIcon />
+                  )}
+                </div>
+                링크
+              </div>
+            </div>
           </div>
 
           {item.uploadType === 'FILE' ? (
@@ -163,7 +181,9 @@ export default function FileInput() {
                   </ul>
                 )}
               </div>
-              <p>* 파일 첨부 시, PDF로 변환하여 업로드해주세요.</p>
+              <p className="text-gray-200 text-xs pt-2">
+                * 파일 첨부 시, PDF로 변환하여 업로드해주세요.
+              </p>
             </div>
           ) : (
             <div>
@@ -179,11 +199,12 @@ export default function FileInput() {
                 <button
                   onClick={() => handleAddLink(item.id)}
                   className="w-[60px] bg-gray-600 text-white px-3 py-2 rounded-[20px]"
+                  disabled={item.links.length >= 1}
                 >
                   추가
                 </button>
               </div>
-              <p>
+              <p className="text-gray-200 text-xs pt-2">
                 * 링크 첨부 시, 열람 가능한 주소를 입력해주세요. (예: 구글
                 드라이브, 노션 등)
               </p>
@@ -209,10 +230,11 @@ export default function FileInput() {
       ))}
 
       <button
+        type="button"
         onClick={addNewItem}
-        className="w-full h-[40px] flex items-center justify-center border border-gray-300 mt-7 p-2"
+        className="flex gap-2.5 w-full h-14 items-center justify-center bg-gray-700 rounded mt-7 p-2 text-gray-50 text-xl"
       >
-        + 항목 추가
+        <PlusIcon /> 항목 추가
       </button>
     </div>
   );
