@@ -118,7 +118,7 @@ export default function FileInput() {
           {items.length > 1 && index > 0 && (
             <button
               onClick={() => removeItem(item.id)}
-              className="flex ml-220 mb-5"
+              className="flex w-full justify-end pb-5"
             >
               <CloseIcon />
             </button>
@@ -204,7 +204,7 @@ export default function FileInput() {
                   추가
                 </button>
               </div>
-              <p>
+              <p className="text-gray-200 text-xs pt-2">
                 * 링크 첨부 시, 열람 가능한 주소를 입력해주세요. (예: 구글
                 드라이브, 노션 등)
               </p>
