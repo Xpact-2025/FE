@@ -1,10 +1,11 @@
 import React from 'react';
 import DateMark from './DateMark';
 import { WEEK_DAYS } from '@/constants/calendar';
+import { DateCount } from '@/apis/dashboard';
 
 interface CalendarDaysProps {
   calendarDays: (number | null)[];
-  markedDates: Record<string, number>;
+  markedDates: DateCount[];
   year: number;
   month: number;
 }
@@ -31,7 +32,7 @@ export default function CalendarDays({
         {calendarDays.map((day, i) => {
           if (day === null) return <div key={i} />;
           const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-          const count = markedDates[dateStr];
+          const count = markedDates.find(d => d.date === dateStr)?.count;
           return (
             <div
               key={i}

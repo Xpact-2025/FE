@@ -35,6 +35,7 @@ API.interceptors.response.use(
       // refresh api로 accessToken 재발급 로직 추가 필요
       redirect('/login');
     }
+    console.error('[응답 에러]', error.message);
     return Promise.reject(error);
   }
 );
