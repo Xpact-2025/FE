@@ -117,7 +117,7 @@ export default function ExpForm({ data }: ExpFormProps) {
     }
   };
 
-  const handleChange = (key: string, value: string) => {
+  const handleChange = (key: string, value: string | string[]) => {
     setForm(prev => ({
       ...prev,
       [key]: value,
