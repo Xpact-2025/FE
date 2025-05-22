@@ -67,7 +67,7 @@ export default function SimpleForm({ data, onChange }: SimpleFormProps) {
       </div>
       <ExpInputBox
         type="textarea"
-        placeholder="어떤 배경에서 활동을 하게 되었나요?"
+        placeholder="본인이 맡은 역할이나 담당한 업무는 무엇이었나요?"
         value={form.role}
         onChange={e => handleChange('role', e.target.value)}
       />
@@ -78,7 +78,7 @@ export default function SimpleForm({ data, onChange }: SimpleFormProps) {
         </div>
         <ExpInputBox
           type="textarea"
-          placeholder="그 안에서 실제로 겪은 문제나 과제는 무엇이 있었나요?"
+          placeholder="해당 경험에서 달성한 결과나 성과는 무엇이었나요?"
           value={form.perform}
           onChange={e => handleChange('perform', e.target.value)}
         />
