@@ -2,17 +2,18 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { ExpPayload, getExpById } from '@/apis/exp';
+import { ExpPayload, getExpById, deleteExp, editExp } from '@/apis/exp';
 import { EXP_OPTIONS } from '@/constants/expOptions';
-import { deleteExp } from '@/apis/exp';
 import { useRouter } from 'next/navigation';
 import Popup from '@/app/components/Popup';
+import BackIcon from '@/public/icons/Chevron_Left.svg';
 
 export default function ExpDetailPage() {
   const params = useParams();
   const router = useRouter();
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [editData, setEditData] = useState<ExpPayload>({} as ExpPayload);
   const [data, setData] = useState<ExpPayload | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,6 +28,7 @@ export default function ExpDetailPage() {
       try {
         const res = await getExpById(expId);
         setData(res.data);
+        setEditData(res.data);
       } catch {
         setError('경험 데이터를 불러오는 데 실패했습니다.');
       }
@@ -106,9 +108,19 @@ export default function ExpDetailPage() {
   };
 
   return (
-    <main className="min-h-screen py-13 px-20 bg-black text-white">
-      <div className="flex justify-between">
-        <h1 className="text-3xl font-bold mb-[26px]">경험 상세</h1>
+    <div className="p-20">
+      <div className="flex justify-between w-full">
+        <div className="flex items-center">
+          <button
+            type="button"
+            onClick={() => {
+              router.push('/exp');
+            }}
+          >
+            <BackIcon className="stroke-gray-50 w-[35px] h-[35px]" />
+          </button>
+          <div className="text-3xl font-bold">경험 상세</div>
+        </div>
         <div className="flex items-center gap-[9px]">
           <button
             type="button"
@@ -134,7 +146,9 @@ export default function ExpDetailPage() {
           )}
           <button
             type="button"
-            onClick={() => {}}
+            onClick={async () => {
+              await editExp(Number(params?.id), editData);
+            }}
             className="w-20 py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg"
           >
             수정
@@ -168,6 +182,6 @@ export default function ExpDetailPage() {
           </div>
         )}
       </section>
-    </main>
+    </div>
   );
 }
