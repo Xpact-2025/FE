@@ -1,23 +1,29 @@
 'use server';
 
-import { ExpFormType, ExpStatus, ExpType } from '@/types/exp';
+import { ExpFormType, ExpStatus, ExpType, UploadType } from '@/types/exp';
 import API from './config';
 
 export interface ExpPayload {
   id?: number;
   status: ExpStatus;
   experienceType: ExpType;
-  formType: ExpFormType;
-  title: string;
-  startDate: Date;
-  endDate: Date;
-  keywords: string[];
+  formType?: ExpFormType;
+  uploadType?: UploadType;
+  qualification?: string;
+  publisher?: string;
+  issueDate?: Date;
+  simpleDescription?: string;
+  title?: string;
+  startDate?: Date;
+  endDate?: Date;
+  role?: string;
+  perform?: string;
   situation?: string;
   task?: string;
   action?: string;
   result?: string;
-  role?: string;
-  perform?: string;
+  files?: string[];
+  keywords?: string[];
 }
 
 export interface Exp {
@@ -46,10 +52,12 @@ interface GetExpByIdResponse {
 export async function saveExp(payload: ExpPayload): Promise<SaveExpResponse> {
   const res = await API.post<SaveExpResponse>('/api/exp', {
     ...payload,
-    startDate: new Date(payload.startDate),
-    endDate: new Date(payload.endDate),
+    title: payload.title ?? '',
+    keywords: payload.keywords ?? [],
+    issueDate: payload.issueDate ? new Date(payload.issueDate) : undefined,
+    startDate: payload.startDate ? new Date(payload.startDate) : undefined,
+    endDate: payload.endDate ? new Date(payload.endDate) : undefined,
   });
-
   return res.data;
 }
 
@@ -59,8 +67,9 @@ export async function editExp(
 ): Promise<SaveExpResponse> {
   const res = await API.patch<SaveExpResponse>(`/api/exp/${exp_id}`, {
     ...payload,
-    startDate: new Date(payload.startDate),
-    endDate: new Date(payload.endDate),
+    issueDate: payload.issueDate ? new Date(payload.issueDate) : undefined,
+    startDate: payload.startDate ? new Date(payload.startDate) : undefined,
+    endDate: payload.endDate ? new Date(payload.endDate) : undefined,
   });
 
   return res.data;

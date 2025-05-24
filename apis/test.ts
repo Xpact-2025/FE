@@ -2,7 +2,7 @@ import API from './config';
 
 interface TestResponse {
   code: string;
-  httpStatus: number;
+  httpStatus: number | string;
   message: string;
 }
 

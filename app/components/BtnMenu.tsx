@@ -8,7 +8,7 @@ interface BtnMenuProps {
 export default function BtnMenu({ title, menu }: BtnMenuProps) {
   return (
     <Link href={`/${menu}`}>
-      <div className="text-gray-50 hover:text-primary-50 active:text-primary-100 font-semibold">
+      <div className="text-gray-50 hover:text-primary-50 active:text-primary-100 font-semibold font-[Pretendard]">
         {title}
       </div>
     </Link>

@@ -10,19 +10,15 @@ import MajorModal from './MajorModal';
 import { fetchMajors, fetchSchools } from '@/apis/school';
 import { fetchIndustryList } from '@/apis/industry';
 import IndustryModal from './IndustryModal';
-import {
-  saveProfileInfo,
-  saveEducationInfo,
-  saveJobPreferences,
-} from '../../../apis/saveProfileInfo';
+import { saveProfileInfo } from '@/apis/profile';
 import { useRouter } from 'next/navigation';
+import { DEGREE_MAP, SCHOOL_STATUS_MAP } from '@/constants/education';
 
 export default function ProfileForm() {
   const router = useRouter();
 
   const [degree, setDegree] = useState('');
   const [graduation, setGraduation] = useState('');
-  const [jobList, setJobList] = useState<string[]>([]);
   const [isSchoolModalOpen, setIsSchoolModalOpen] = useState(false);
   const [selectedSchool, setSelectedSchool] = useState('');
   const [schoolList, setSchoolList] = useState<string[]>([]);
@@ -35,6 +31,8 @@ export default function ProfileForm() {
   const [isIndustryModalOpen, setIsIndustryModalOpen] = useState(false);
   const [industryList, setIndustryList] = useState<string[]>([]);
   const [industrySearchValue, setIndustrySearchValue] = useState('');
+  const [recruitName, setRecruitName] = useState('');
+  const [detailRecruitName, setDetailRecruitName] = useState('');
 
   const [isSchoolLoading, setIsSchoolLoading] = useState(false);
   const [isMajorLoading, setIsMajorLoading] = useState(false);
@@ -43,11 +41,7 @@ export default function ProfileForm() {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
 
-  const today = new Date().toISOString().split('T')[0];
   const [imgUrl] = useState('/images/mainporfile.svg');
-
-  const [startDate] = useState(today);
-  const [endDate] = useState(today);
 
   const handleSchoolSearch = async () => {
     setIsSchoolModalOpen(true);
@@ -90,18 +84,56 @@ export default function ProfileForm() {
     }
   };
 
+  // const mapDegree = (kor: string) => {
+  //   switch (kor) {
+  //     case '고등학교':
+  //       return 'HIGH';
+  //     case '전문대학':
+  //       return 'COLLEGE';
+  //     case '대학교':
+  //       return 'UNIV';
+  //     case '대학원(석사)':
+  //       return 'MASTER';
+  //     case '대학원(박사)':
+  //       return 'DOCTOR';
+  //     default:
+  //       return '';
+  //   }
+  // };
+
+  // const mapSchoolStatus = (kor: string) => {
+  //   switch (kor) {
+  //     case '재학':
+  //       return 'CURRENT';
+  //     case '휴학':
+  //       return 'SUSPENDED';
+  //     case '졸업':
+  //       return 'GRADUATION';
+  //     case '졸업예정':
+  //       return 'EXPECTED_GRADUATION';
+  //     case '수료':
+  //       return 'COMPLETED';
+  //     case '중퇴':
+  //       return 'WITHDRAWN';
+  //     default:
+  //       return '';
+  //   }
+  // };
+
   const handleSubmit = async () => {
     try {
-      await saveProfileInfo(name, imgUrl, Number(age));
-      await saveEducationInfo(
-        degree,
+      await saveProfileInfo(
+        name,
+        imgUrl,
+        Number(age),
+        DEGREE_MAP[degree] || '',
         selectedSchool,
         selectedMajor,
-        graduation,
-        startDate,
-        endDate
+        SCHOOL_STATUS_MAP[graduation] || '',
+        recruitName,
+        detailRecruitName
       );
-      await saveJobPreferences(jobList);
+
       alert('모든 정보가 성공적으로 저장되었습니다!');
       router.push('/');
     } catch (error) {
@@ -139,11 +171,12 @@ export default function ProfileForm() {
         </div>
       </div>
 
-      {/* 학력 입력 */}
-      <div className="w-full max-w-[50%] flex flex-wrap gap-5 mb-10">
-        <div className="w-[149px]">
+      <label className="text-[18px] justify-items-start w-full max-w-[50%] mb-2">
+        학력
+      </label>
+      <div className="w-full max-w-[50%] grid gap-4 mb-10 grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+        <div>
           <SelectBox
-            label="학사"
             value={degree}
             onChange={e => setDegree(e.target.value)}
             options={[
@@ -156,8 +189,7 @@ export default function ProfileForm() {
             placeholder="학위 구분"
           />
         </div>
-        <div className="w-[149px]">
-          <div className="text-[18px] mb-2">⠀</div>
+        <div>
           <SearchInput
             placeholder="학교명"
             value={selectedSchool}
@@ -165,8 +197,7 @@ export default function ProfileForm() {
             onSearch={handleSchoolSearch}
           />
         </div>
-        <div className="w-[149px]">
-          <div className="text-[18px] mb-2">⠀</div>
+        <div>
           <SearchInput
             placeholder="학과명"
             value={selectedMajor}
@@ -174,9 +205,8 @@ export default function ProfileForm() {
             onSearch={handleMajorSearch}
           />
         </div>
-        <div className="w-[149px]">
+        <div>
           <SelectBox
-            label="⠀"
             value={graduation}
             onChange={e => setGraduation(e.target.value)}
             options={['재학', '휴학', '졸업', '졸업예정', '수료', '중퇴']}
@@ -198,30 +228,28 @@ export default function ProfileForm() {
             />
           </div>
           <div className="flex flex-wrap gap-2">
-            {jobList.map((job, index) => (
-              <div
-                key={index}
-                className="flex items-center px-4 py-2 h-[44px] rounded bg-gray-500 text-white text-sm whitespace-nowrap"
-              >
-                <span className="mr-2">{job}</span>
+            {recruitName && detailRecruitName && (
+              <div className="flex items-center px-4 py-2 h-[44px] rounded bg-gray-500 text-white text-sm whitespace-nowrap">
+                <span className="mr-2">{`${recruitName} / ${detailRecruitName}`}</span>
                 <button
-                  onClick={() =>
-                    setJobList(prev => prev.filter((_, i) => i !== index))
-                  }
+                  onClick={() => {
+                    setRecruitName('');
+                    setDetailRecruitName('');
+                  }}
                   className="text-white hover:text-primary-50"
-                  aria-label={`${job} 삭제`}
+                  aria-label="직무 삭제"
                 >
                   ✕
                 </button>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>
 
       <button
         onClick={handleSubmit}
-        className="w-[448px] mt-[3%] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded"
+        className="w-[448px] mt-[3%] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded cursor-pointer"
       >
         입력 완료
       </button>
@@ -255,10 +283,9 @@ export default function ProfileForm() {
         isOpen={isIndustryModalOpen}
         onClose={() => setIsIndustryModalOpen(false)}
         industries={industryList}
-        onSelect={industry => {
-          if (!jobList.includes(industry)) {
-            setJobList(prev => [...prev, industry]);
-          }
+        onSelect={(recruit, detail) => {
+          setRecruitName(recruit);
+          setDetailRecruitName(detail);
           setIsIndustryModalOpen(false);
         }}
         searchValue={industrySearchValue}

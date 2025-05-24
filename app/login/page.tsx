@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import LoginForm from '../components/LoginForm';
+import LoginForm from './components/LoginForm';
 import SocialLogin from '../components/SocialLogin';
 import { Suspense } from 'react';
 

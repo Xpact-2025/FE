@@ -5,6 +5,7 @@ import { ExpType } from '@/types/exp';
 import MoreVerticalIcon from '@/public/icons/More_Vertical.svg';
 import DropdownMenu from './DropdownMenu';
 import ExpVariety from './ExpVariety';
+import { useRouter } from 'next/navigation';
 
 interface ExpCardProps {
   id: number;
@@ -15,6 +16,11 @@ interface ExpCardProps {
 
 export default function ExpCard({ id, title, type, isTemp }: ExpCardProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/exp/${id}`);
+  };
 
   return (
     <div
@@ -24,7 +30,10 @@ export default function ExpCard({ id, title, type, isTemp }: ExpCardProps) {
           : 'bg-exp-gradient-s border-gray-50-20'
       } rounded-[14px] flex flex-col justify-between p-[28px]`}
     >
-      <div className="flex flex-col gap-[26px]">
+      <div
+        onClick={handleClick}
+        className="flex flex-col gap-[26px] cursor-pointer"
+      >
         <div
           className={`body-20-r break-keep ${
             isTemp ? 'text-gray-700' : 'text-gray-50'
@@ -41,7 +50,7 @@ export default function ExpCard({ id, title, type, isTemp }: ExpCardProps) {
           </div>
         )}
         <button
-          className="w-[24px] h-[24px]"
+          className="w-[24px] h-[24px] cursor-pointer"
           onClick={() => setIsDropdownOpen(prev => !prev)}
         >
           <MoreVerticalIcon className="stroke-gray-50" />
