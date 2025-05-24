@@ -169,7 +169,7 @@ export default function ExpForm({ data }: ExpFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="p-20">
-      <div className="flex items-center justify-between w-full">
+      <div className="flex justify-between w-full">
         <div className="flex items-center">
           <button
             type="button"
