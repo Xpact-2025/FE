@@ -1,8 +1,11 @@
 import { ExpFormType } from '@/types/exp';
 
 interface FormTabProps {
-  onChange: (value: { formType: ExpFormType; selectedTab: string }) => void;
-  selectedTab: string;
+  onChange: (value: {
+    formType: ExpFormType;
+    selectedTab: 'star' | 'simple';
+  }) => void;
+  selectedTab: 'star' | 'simple';
 }
 
 export default function FormTab({ onChange, selectedTab }: FormTabProps) {
