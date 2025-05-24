@@ -1,4 +1,3 @@
-import BackIcon from '@/public/icons/Chevron_Left.svg';
 import BtnPrev from './BtnPrev';
 import BtnNext from './BtnNext';
 
