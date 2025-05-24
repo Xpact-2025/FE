@@ -20,7 +20,12 @@ interface ExpFormProps {
 }
 
 const getInitialForm = (data?: ExpPayload & { selectedTab?: string }) => ({
-  selectedTab: data?.formType === 'STAR_FORM' ? 'star' : 'simple',
+  selectedTab:
+    data?.formType === 'STAR_FORM'
+      ? 'star'
+      : data?.formType === 'SIMPLE_FORM'
+        ? 'simple'
+        : 'star',
   status: data?.status || 'SAVE',
   formType: data?.formType || 'STAR_FORM',
   uploadType: data?.uploadType || 'FILE',
@@ -255,7 +260,7 @@ export default function ExpForm({ data }: ExpFormProps) {
                 ? 'STAR양식 작성 가이드'
                 : '간결 양식 작성 가이드'
             }
-            type={form.selectedTab as 'star' | 'simple'}
+            type={tab}
             closeRequest={() => setIsModalOpen(false)}
           />
         )}
