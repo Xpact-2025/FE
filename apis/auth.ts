@@ -126,3 +126,18 @@ export async function logout() {
 
   redirect('/login');
 }
+
+export async function refreshAccessToken(): Promise<string> {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
+    method: 'POST',
+    credentials: 'include', // 쿠키 포함 (Refresh Token)
+  });
+  console.log('refreshToken 에러', await res.json());
+
+  if (!res.ok) {
+    throw new Error('AccessToken 재발급 실패');
+  }
+
+  const data = await res.json();
+  return data.data; // 토큰만 리턴
+}
