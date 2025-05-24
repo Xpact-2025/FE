@@ -13,31 +13,31 @@ const sampleExperiences: Experience[] = [
     startDate: '2025-01-01',
     endDate: '2025-06-30',
     title: '인턴십 A',
-    experienceType: 'intern',
+    experienceType: 'INTERN',
   },
   {
     startDate: '2025-02-01',
     endDate: '2025-03-10',
     title: '인턴십 B',
-    experienceType: 'intern',
+    experienceType: 'INTERN',
   },
   {
     startDate: '2025-03-15',
     endDate: '2025-06-20',
     title: '잇타 동아리 활동',
-    experienceType: 'project',
+    experienceType: 'PROJECT',
   },
   {
     startDate: '2025-03-30',
     endDate: '2025-06-22',
     title: '잇타 동아리 활동2',
-    experienceType: 'project',
+    experienceType: 'PROJECT',
   },
   {
     startDate: '2025-06-24',
     endDate: '2025-06-24',
     title: '공모전',
-    experienceType: 'work',
+    experienceType: 'CONTEST',
   },
 ];
 

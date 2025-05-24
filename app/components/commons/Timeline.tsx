@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useEffect, useState } from 'react';
 import useResponsiveWidth from '@/hooks/useResponsiveWidth';
+import { EXP_COLORS } from '@/constants/expColors';
 
 interface Experience {
   startDate: string;
@@ -99,15 +100,6 @@ export default function Timeline({
   const gap = 3; // 바 사이의 세로 간격(px)
   const rowHeight = (height - padding * 2 - gap * (rowsCount - 1)) / rowsCount;
 
-  // 경험 유형별 색상 매핑
-  const typeColors: Record<string, string> = {
-    intern: '#FFC107',
-    project: '#9C27B0',
-    activity: '#3F51B5',
-    education: '#4CAF50',
-    work: '#F44336',
-  };
-
   // 텍스트 width 측정: 클라이언트에서만 측정하여 상태로 저장
   const [textWidths, setTextWidths] = useState<number[]>([]);
 
@@ -159,7 +151,7 @@ export default function Timeline({
                 cx={x1 + Math.max(x2 - x1, 1)}
                 cy={y + thickHeight / 2 - 2}
                 r={12}
-                fill={typeColors[exp.experienceType] || '#666'}
+                fill={EXP_COLORS[exp.experienceType] || '#666'}
               />
             </g>
           );
@@ -169,7 +161,7 @@ export default function Timeline({
               cx={x1 + Math.max(x2 - x1, 1) - 9}
               cy={y + thickHeight / 2 - 2}
               r={9}
-              fill={typeColors[exp.experienceType] || '#666'}
+              fill={EXP_COLORS[exp.experienceType] || '#666'}
             />
             {/* 얇은 전체 기간 바 */}
             <rect
@@ -177,7 +169,7 @@ export default function Timeline({
               y={y + thickHeight / 2 - 5}
               width={Math.max(x2 - x1, 1)}
               height={thinHeight}
-              fill={typeColors[exp.experienceType] || '#666'}
+              fill={EXP_COLORS[exp.experienceType] || '#666'}
               rx={2}
             />
             {/* 두꺼운 하이라이트 바 */}
@@ -186,7 +178,7 @@ export default function Timeline({
               y={y}
               width={highlightWidth}
               height={thickHeight}
-              fill={typeColors[exp.experienceType] || '#666'}
+              fill={EXP_COLORS[exp.experienceType] || '#666'}
               rx={4}
             />
             {/* 제목 텍스트 */}
