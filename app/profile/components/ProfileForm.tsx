@@ -7,7 +7,12 @@ import SearchInput from './SearchBox';
 import InputBox from '@/app/components/InputBox';
 import SchoolModal from './SchoolModal';
 import MajorModal from './MajorModal';
-import { fetchMajors, fetchSchools } from '@/apis/school';
+import {
+  fetchMajors,
+  fetchSchools,
+  searchMajors,
+  searchSchools,
+} from '@/apis/school';
 import { fetchIndustryList } from '@/apis/industry';
 import IndustryModal from './IndustryModal';
 import { saveProfileInfo } from '@/apis/profile';
@@ -45,16 +50,17 @@ export default function ProfileForm() {
 
   const handleSchoolSearch = async () => {
     setIsSchoolModalOpen(true);
-    if (schoolList.length === 0) {
-      try {
-        setIsSchoolLoading(true);
-        const data = await fetchSchools();
-        setSchoolList(data || []);
-      } catch (err) {
-        console.error('학교 목록 로딩 실패:', err);
-      } finally {
-        setIsSchoolLoading(false);
-      }
+    try {
+      setIsSchoolLoading(true);
+      const data = schoolSearchInput.trim()
+        ? await searchSchools(schoolSearchInput.trim())
+        : await fetchSchools();
+      setSchoolList(data || []);
+    } catch (err) {
+      console.error('학교 검색 실패:', err);
+      setSchoolList([]);
+    } finally {
+      setIsSchoolLoading(false);
     }
   };
 
@@ -62,10 +68,14 @@ export default function ProfileForm() {
     setIsMajorModalOpen(true);
     try {
       setIsMajorLoading(true);
-      const data = await fetchMajors(selectedSchool);
+      const trimmed = majorSearchInput.trim();
+      const data = trimmed
+        ? await searchMajors(selectedSchool, trimmed)
+        : await fetchMajors(selectedSchool);
       setMajorList(data || []);
     } catch (err) {
-      console.error('학과 목록 로딩 실패:', err);
+      console.error('학과 검색 실패:', err);
+      setMajorList([]);
     } finally {
       setIsMajorLoading(false);
     }

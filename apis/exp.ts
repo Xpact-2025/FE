@@ -49,6 +49,11 @@ interface GetExpByIdResponse {
   data: ExpPayload;
 }
 
+interface DeleteExpResponse {
+  httpStatus: number;
+  message: string;
+}
+
 export async function saveExp(payload: ExpPayload): Promise<SaveExpResponse> {
   const res = await API.post<SaveExpResponse>('/api/exp', {
     ...payload,
@@ -86,7 +91,7 @@ export async function getMyExp(): Promise<GetExpResponse> {
   return res.data;
 }
 
-export async function deleteExp(id: number) {
-  const res = await API.delete(`/api/exp/${id}`);
+export async function deleteExp(exp_id: number): Promise<DeleteExpResponse> {
+  const res = await API.delete(`/api/exp/${exp_id}`);
   return res.data;
 }
