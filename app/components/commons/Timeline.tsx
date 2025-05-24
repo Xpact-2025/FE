@@ -81,17 +81,19 @@ export default function Timeline({
   // 3. 전체 날짜 범위 결정
   interface DateRange {
     minDate: Date;
+    maxDate: Date;
     totalDays: number;
     rowsCount: number;
   }
 
-  const { minDate, totalDays, rowsCount } = useMemo<DateRange>(() => {
+  const { minDate, maxDate, totalDays, rowsCount } = useMemo<DateRange>(() => {
     const allDates = placedBar.flatMap(e => [e._start, e._end]);
     const minD = new Date(Math.min(...allDates.map(d => d.getTime())));
     const maxD = new Date(Math.max(...allDates.map(d => d.getTime())));
     const days = differenceInDays(maxD, minD) || 1;
     return {
       minDate: minD,
+      maxDate: maxD,
       totalDays: days,
       rowsCount: Math.max(1, ...placedBar.map(e => e.rowIndex + 1)),
     };
@@ -99,6 +101,17 @@ export default function Timeline({
 
   const gap = 3; // 바 사이의 세로 간격(px)
   const rowHeight = (height - padding * 2 - gap * (rowsCount - 1)) / rowsCount;
+
+  //월 정보
+  const monthLabels = useMemo(() => {
+    const months: string[] = [];
+    const current = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
+    while (current <= maxDate) {
+      months.push(`${current.getMonth() + 1}월`);
+      current.setMonth(current.getMonth() + 1);
+    }
+    return months;
+  }, [minDate, maxDate]);
 
   // 텍스트 width 측정: 클라이언트에서만 측정하여 상태로 저장
   const [textWidths, setTextWidths] = useState<number[]>([]);
@@ -117,82 +130,106 @@ export default function Timeline({
   }, [placedBar]);
 
   return (
-    <svg
-      ref={svgRef}
-      width={width}
-      height={height}
-      style={{
-        background: 'transparent',
-        width: typeof width === 'number' ? `${width}px` : width,
-      }}
-    >
-      {/* 바 */}
-      {placedBar.map((exp, idx) => {
-        const x1 =
-          padding +
-          (differenceInDays(exp._start, minDate) / totalDays) *
-            (numericWidth - padding * 2);
-        const x2 =
-          padding +
-          (differenceInDays(exp._end, minDate) / totalDays) *
-            (numericWidth - padding * 2);
-        const y = padding + exp.rowIndex * (rowHeight + gap);
+    <>
+      <div className="flex items-center justify-between mb-2 px-2">
+        <button
+          aria-label="Previous month"
+          className="px-2 py-1 text-sm rounded hover:bg-gray-200"
+        >
+          ◀
+        </button>
+        <div className="flex flex-row justify-between">
+          {monthLabels.map(label => (
+            <div key={label}>{label}</div>
+          ))}
+        </div>
+        <button
+          aria-label="Next month"
+          className="px-2 py-1 text-sm rounded hover:bg-gray-200"
+        >
+          ▶
+        </button>
+      </div>
+      <svg
+        ref={svgRef}
+        width={width}
+        height={height}
+        style={{
+          background: 'transparent',
+          width: typeof width === 'number' ? `${width}px` : width,
+        }}
+      >
+        {/* 바 */}
+        {placedBar.map((exp, idx) => {
+          const x1 =
+            padding +
+            (differenceInDays(exp._start, minDate) / totalDays) *
+              (numericWidth - padding * 2);
+          const x2 =
+            padding +
+            (differenceInDays(exp._end, minDate) / totalDays) *
+              (numericWidth - padding * 2);
+          const y = padding + exp.rowIndex * (rowHeight + gap);
 
-        const thinHeight = 6;
-        const thickHeight = 24;
-        const textWidth = textWidths[idx] ?? 0;
-        const highlightWidth = Math.max(Math.min(80, x2 - x1), textWidth + 24); // 텍스트보다 항상 길게
+          const thinHeight = 6;
+          const thickHeight = 24;
+          const textWidth = textWidths[idx] ?? 0;
+          const highlightWidth = Math.max(
+            Math.min(80, x2 - x1),
+            textWidth + 24
+          ); // 텍스트보다 항상 길게
 
-        //기간이 짧을 경우 원으로 표시
-        if (x2 - x1 < 40)
+          //기간이 짧을 경우 원으로 표시
+          if (x2 - x1 < 40)
+            return (
+              <g key={idx}>
+                <circle
+                  cx={x1 + Math.max(x2 - x1, 1)}
+                  cy={y + thickHeight / 2 - 2}
+                  r={12}
+                  fill={EXP_COLORS[exp.experienceType] || '#666'}
+                />
+              </g>
+            );
           return (
             <g key={idx}>
               <circle
-                cx={x1 + Math.max(x2 - x1, 1)}
+                cx={x1 + Math.max(x2 - x1, 1) - 9}
                 cy={y + thickHeight / 2 - 2}
-                r={12}
+                r={9}
                 fill={EXP_COLORS[exp.experienceType] || '#666'}
               />
+              {/* 얇은 전체 기간 바 */}
+              <rect
+                x={x1}
+                y={y + thickHeight / 2 - 5}
+                width={Math.max(x2 - x1, 1)}
+                height={thinHeight}
+                fill={EXP_COLORS[exp.experienceType] || '#666'}
+                rx={2}
+              />
+              {/* 두꺼운 하이라이트 바 */}
+              <rect
+                x={x1}
+                y={y}
+                width={highlightWidth}
+                height={thickHeight}
+                fill={EXP_COLORS[exp.experienceType] || '#666'}
+                rx={4}
+              />
+              {/* 제목 텍스트 */}
+              <text
+                x={x1 + 15}
+                y={y + thickHeight / 2 + 6}
+                fill="#000"
+                fontSize={14}
+              >
+                {exp.title}
+              </text>
             </g>
           );
-        return (
-          <g key={idx}>
-            <circle
-              cx={x1 + Math.max(x2 - x1, 1) - 9}
-              cy={y + thickHeight / 2 - 2}
-              r={9}
-              fill={EXP_COLORS[exp.experienceType] || '#666'}
-            />
-            {/* 얇은 전체 기간 바 */}
-            <rect
-              x={x1}
-              y={y + thickHeight / 2 - 5}
-              width={Math.max(x2 - x1, 1)}
-              height={thinHeight}
-              fill={EXP_COLORS[exp.experienceType] || '#666'}
-              rx={2}
-            />
-            {/* 두꺼운 하이라이트 바 */}
-            <rect
-              x={x1}
-              y={y}
-              width={highlightWidth}
-              height={thickHeight}
-              fill={EXP_COLORS[exp.experienceType] || '#666'}
-              rx={4}
-            />
-            {/* 제목 텍스트 */}
-            <text
-              x={x1 + 15}
-              y={y + thickHeight / 2 + 6}
-              fill="#000"
-              fontSize={14}
-            >
-              {exp.title}
-            </text>
-          </g>
-        );
-      })}
-    </svg>
+        })}
+      </svg>
+    </>
   );
 }
