@@ -1,14 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import { fetchJobsByIndustry } from '@/apis/industry';
+import { fetchJobsByIndustry, searchDetailJobs } from '@/apis/industry';
 
 interface IndustryModalProps {
   isOpen: boolean;
   onClose: () => void;
   industries: string[];
   onSelect: (recruitName: string, detailRecruitName: string) => void;
-
   searchValue: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSearch: () => void;
@@ -22,17 +21,17 @@ export default function IndustryModal({
   onSelect,
   searchValue,
   onChange,
-  onSearch,
+  isLoading,
 }: IndustryModalProps) {
   const [selectedIndustry, setSelectedIndustry] = useState('');
   const [subJobs, setSubJobs] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadingSubJobs, setLoadingSubJobs] = useState(false);
 
   if (!isOpen) return null;
 
   const handleIndustryClick = async (industry: string) => {
     setSelectedIndustry(industry);
-    setIsLoading(true);
+    setLoadingSubJobs(true);
     try {
       const jobs = await fetchJobsByIndustry(industry);
       setSubJobs(jobs);
@@ -40,7 +39,21 @@ export default function IndustryModal({
       console.error('상세 직무 불러오기 실패', e);
       setSubJobs([]);
     } finally {
-      setIsLoading(false);
+      setLoadingSubJobs(false);
+    }
+  };
+
+  const handleDetailSearch = async () => {
+    if (!selectedIndustry || !searchValue.trim()) return;
+    setLoadingSubJobs(true);
+    try {
+      const jobs = await searchDetailJobs(selectedIndustry, searchValue.trim());
+      setSubJobs(jobs);
+    } catch (e) {
+      console.error('상세 직무 검색 실패', e);
+      setSubJobs([]);
+    } finally {
+      setLoadingSubJobs(false);
     }
   };
 
@@ -60,49 +73,60 @@ export default function IndustryModal({
         >
           &times;
         </button>
-        <div className="absolute top-12 right-9 flex gap-1">
-          <button
-            onClick={() => {
-              setSelectedIndustry('');
-              setSubJobs([]);
-            }}
-            className={`w-2 h-2 rounded-full transition ${
-              selectedIndustry ? 'bg-white' : 'bg-gray-400'
-            } hover:bg-primary-50`}
-            aria-label="산업군으로 돌아가기"
-          />
-          <div className="w-2 h-2 bg-gray-400 rounded-full" />
-        </div>
 
+        {/* 제목 */}
         <div className="text-[20px] font-bold mb-1 text-gray-50">
           희망 직무 조회
         </div>
         <p className="text-sm text-gray-300 mb-4">
-          희망하는 산업군을 선택 후, 상세 직무를 선택해 주세요.
-          <br></br>
-          검색해서 추가해 주세요. 조회되지 않는 경우, &rsquo;직접
-          추가하기&rsquo; 버튼을 눌러 추가해 주세요.
+          검색해서 추가해 주세요. 조회되지 않는 경우, ‘직접 추가하기’ 버튼을
+          눌러 추가해 주세요.
         </p>
 
         {/* 검색창 */}
-        <div className="flex mb-6">
-          <input
-            type="text"
-            placeholder="산업군 검색"
-            value={searchValue}
-            onChange={onChange}
-            className="flex-1 h-[44px] px-4 py-2 bg-gray-600 text-white rounded border border-gray-400"
-          />
+        {selectedIndustry && (
+          <div className="flex mb-6">
+            <input
+              type="text"
+              placeholder="희망 직무 검색"
+              value={searchValue}
+              onChange={onChange}
+              className="flex-1 h-[44px] px-4 py-2 bg-gray-600 text-white rounded border border-gray-400"
+            />
+            <button
+              onClick={handleDetailSearch}
+              className="w-[80px] bg-primary-50 hover:bg-primary-100 rounded-[8px] text-black font-semibold ml-2"
+            >
+              검색
+            </button>
+          </div>
+        )}
+
+        {/* 탭 헤더 */}
+        <div className="flex">
           <button
-            onClick={onSearch}
-            className="w-[80px] bg-primary-50 hover:bg-primary-100 rounded-[8px] text-black font-semibold ml-2"
+            className={`w-1/5 py-2 text-center font-medium rounded-t-[6px] cursor-pointer ${
+              !selectedIndustry ? 'bg-gray-400' : 'bg-gray-600 text-gray-300'
+            }`}
+            onClick={() => {
+              setSelectedIndustry('');
+              setSubJobs([]);
+            }}
           >
-            검색
+            <div className="">산업군</div>
+          </button>
+          <button
+            className={`ml-2 w-1/5 py-2 text-center font-medium rounded-t-[6px] ${
+              selectedIndustry ? 'bg-gray-400' : 'bg-gray-600 text-gray-300'
+            }`}
+            disabled={!selectedIndustry}
+          >
+            <div className="">직무</div>
           </button>
         </div>
 
-        {/* 목록 */}
-        <div className="bg-[#1e1e1e] rounded-md max-h-[250px] overflow-y-auto px-2 py-3">
+        {/* 리스트 */}
+        <div className="bg-gray-600 rounded-tr-md rounded-br-md rounded-bl-md max-h-[250px] overflow-y-auto px-2 py-3 border border-gray-400">
           {!selectedIndustry &&
             (isLoading ? (
               <div className="text-center py-4 text-gray-300">로딩 중...</div>
@@ -123,7 +147,7 @@ export default function IndustryModal({
               <div className="text-sm text-gray-300 px-4 mb-2">
                 {selectedIndustry} 상세 직무 선택
               </div>
-              {isLoading ? (
+              {loadingSubJobs ? (
                 <div className="text-center py-4">로딩 중...</div>
               ) : (
                 subJobs.map((job, index) => (
@@ -131,7 +155,7 @@ export default function IndustryModal({
                     key={index}
                     className="px-4 py-2 rounded hover:bg-orange-500 cursor-pointer"
                     onClick={() => {
-                      onSelect(selectedIndustry, job); // recruitName, detailRecruitName 전달
+                      onSelect(selectedIndustry, job);
                       setSelectedIndustry('');
                       setSubJobs([]);
                       onClose();
