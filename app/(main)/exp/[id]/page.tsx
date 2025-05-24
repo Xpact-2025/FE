@@ -144,29 +144,29 @@ export default function ExpDetailPage() {
 
       <section className="bg-gray-800 p-8 rounded-[14px] text-gray-100">
         <h2 className="text-[21px] font-semibold mb-6 text-gray-50">내용</h2>
-
         <div className="bg-gray-700 p-6 rounded-[4px] space-y-4 border border-gray-600 leading-relaxed">
           <p>경험 유형: {experienceLabel}</p>
           {renderDetailContent()}
         </div>
-
-        <div className="mt-10">
-          <h3 className="text-[21px] font-semibold mb-6 text-gray-50">
-            키워드
-          </h3>
-          <div className="bg-gray-700 p-3 rounded-[4px] border border-gray-600">
-            <div className="flex flex-wrap gap-2">
-              {data.keywords?.map((keyword: string, idx: number) => (
-                <span
-                  key={idx}
-                  className="px-4 py-1 bg-gray-300 text-sm rounded-full text-gray-1100"
-                >
-                  #{keyword}
-                </span>
-              ))}
+        {!['수상', '자격증'].includes(experienceLabel) && (
+          <div className="mt-10">
+            <h3 className="text-[21px] font-semibold mb-6 text-gray-50">
+              키워드
+            </h3>
+            <div className="bg-gray-700 p-3 rounded-[4px] border border-gray-600">
+              <div className="flex flex-wrap gap-2">
+                {data.keywords?.map((keyword: string, idx: number) => (
+                  <span
+                    key={idx}
+                    className="px-4 py-1 bg-gray-300 text-sm rounded-full text-gray-1100"
+                  >
+                    #{keyword}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </section>
     </main>
   );
