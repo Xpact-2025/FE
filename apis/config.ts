@@ -1,8 +1,11 @@
-'use server';
-
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { refreshAccessToken } from './auth';
+
+interface CustomAxiosRequestConfig extends AxiosRequestConfig {
+  _retry?: boolean;
+}
 
 const API = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -21,21 +24,25 @@ API.interceptors.request.use(
     }
     return config;
   },
-  error => {
-    console.error('[요청 에러]', error);
-    return Promise.reject(error);
-  }
+  error => Promise.reject(error)
 );
 
 API.interceptors.response.use(
   response => response,
-  (error: AxiosError) => {
-    if (error.response?.status === 401) {
-      console.log('[401 에러] 인증 필요:', error.response.data);
-      // refresh api로 accessToken 재발급 로직 추가 필요
-      redirect('/login');
+  async (error: AxiosError) => {
+    const originalRequest = error.config as CustomAxiosRequestConfig;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        await refreshAccessToken();
+      } catch (refreshError) {
+        console.error('토큰 재발급 실패', refreshError);
+        redirect('/login');
+      }
     }
-    console.error('[응답 에러]', error.message);
+
     return Promise.reject(error);
   }
 );

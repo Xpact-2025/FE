@@ -53,6 +53,7 @@ export default function ExpForm({ data }: ExpFormProps) {
   );
 
   const [form, setForm] = useState(getInitialForm(data));
+  const [tab, setTab] = useState<'star' | 'simple'>('star');
 
   const isFormChanged = () => {
     const keysToCompare = [
@@ -103,7 +104,7 @@ export default function ExpForm({ data }: ExpFormProps) {
 
   const handleTabChange = (value: {
     formType: ExpFormType;
-    selectedTab: string;
+    selectedTab: 'star' | 'simple';
   }) => {
     if (isFormChanged()) {
       setPendingFormType(value.formType);
@@ -114,6 +115,7 @@ export default function ExpForm({ data }: ExpFormProps) {
         formType: value.formType,
         selectedTab: value.selectedTab,
       }));
+      setTab(value.selectedTab);
     }
   };
 
@@ -167,7 +169,7 @@ export default function ExpForm({ data }: ExpFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="p-20">
-      <div className="flex items-center justify-between w-full">
+      <div className="flex justify-between w-full">
         <div className="flex items-center">
           <button
             type="button"
@@ -224,10 +226,7 @@ export default function ExpForm({ data }: ExpFormProps) {
         <div className="flex items-center justify-between w-full">
           {isTabVisible && (
             <>
-              <FormTab
-                onChange={handleTabChange}
-                selectedTab={form.selectedTab}
-              />
+              <FormTab onChange={handleTabChange} selectedTab={tab} />
               <div className="flex items-center gap-[12px]">
                 <button type="button" onClick={() => setIsModalOpen(true)}>
                   <HelpIcon className="stroke-gray-300" />

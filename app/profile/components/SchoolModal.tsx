@@ -85,6 +85,20 @@ export default function SchoolModal({
               </div>
             ))
           )}
+          {!isLoading && schools.length === 0 && (
+            <div className="text-center py-4 text-gray-300">
+              검색 결과가 없습니다.
+              <button
+                onClick={() => {
+                  onSelect(searchValue); // 직접 추가
+                  onClose();
+                }}
+                className="mt-2 underline text-primary-50"
+              >
+                {searchValue} 직접 추가하기
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
