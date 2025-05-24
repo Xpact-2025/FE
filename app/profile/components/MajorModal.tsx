@@ -85,6 +85,20 @@ export default function MajorModal({
               </div>
             ))
           )}
+          {!isLoading && majors.length === 0 && (
+            <div className="text-center py-4 text-gray-400">
+              검색 결과가 없습니다.
+              <div
+                className="mt-2 px-4 py-2 bg-orange-500 text-white font-semibold rounded cursor-pointer inline-block"
+                onClick={() => {
+                  onSelect(searchValue); // 직접 입력된 학과명 사용
+                  onClose();
+                }}
+              >
+                {searchValue} 직접 추가하기
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
