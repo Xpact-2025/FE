@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { Exp } from '@/apis/exp';
 import { ExpType } from '@/types/exp';
 import ExpCard from './ExpCard';
-import BtnExp from '@/app/components/BtnExp';
 import BtnFilter from '@/app/components/BtnFilter';
 import SearchBar from '@/app/components/SearchBar';
+import AddExpBtn from './AddExpBtn';
 
 interface ExpListProps {
   data: Exp[];
@@ -21,15 +21,13 @@ export default function ExpList({ data }: ExpListProps) {
 
   return (
     <main className="flex-1 flex-col items-start py-16 px-[80px]">
-      <h1 className="text-[25px] font-bold mb-9">내 경험</h1>
-      <div className="flex justify-between gap-4 mb-13.5">
+      <div className="fixed top-[65vh] right-[49px] z-50">
+        <AddExpBtn />
+      </div>
+      <h1 className="text-[25px] font-bold mb-6">내 경험</h1>
+      <div className="flex justify-between mb-7">
         <SearchBar />
-        <div className="flex gap-[9px]">
-          <BtnExp href="/addExp " className="bg-primary-50 text-gray-1100">
-            경험 추가
-          </BtnExp>
-          <BtnFilter onSelectType={setSelectedType} />
-        </div>
+        <BtnFilter onSelectType={setSelectedType} />
       </div>
 
       {!data || data.length === 0 ? (

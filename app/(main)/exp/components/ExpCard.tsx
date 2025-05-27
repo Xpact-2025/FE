@@ -28,11 +28,11 @@ export default function ExpCard({ id, title, type, status }: ExpCardProps) {
     <div
       className="relative w-[322px] h-[224px] border 
           bg-exp-gradient-un-s border-gray-700
-       rounded-[14px] flex flex-col justify-between p-[28px]"
+       rounded-[14px] flex flex-col justify-between p-[16px]"
     >
       <div
         onClick={handleClick}
-        className="flex flex-col gap-[26px] cursor-pointer"
+        className="flex flex-col gap-[15px] cursor-pointer"
       >
         <ExpVariety type={type} />
         <div className="body-20-r text-gray-50">{title}</div>
