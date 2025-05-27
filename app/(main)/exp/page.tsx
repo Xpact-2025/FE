@@ -1,5 +1,6 @@
 import { getMyExp } from '@/apis/exp';
 import ExpList from './components/ExpList';
+import Footer from '@/app/components/Footer';
 
 export default async function ExpMainPage() {
   const { httpStatus, data = [] } = await getMyExp();
@@ -9,8 +10,9 @@ export default async function ExpMainPage() {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="flex flex-col min-h-screen">
       <ExpList data={data} />
+      <Footer />
     </div>
   );
 }

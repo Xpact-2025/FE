@@ -4,7 +4,7 @@ import { useState } from 'react';
 import ArrowDownIcon from '@/public/icons/Arrow_Down.svg';
 import CloseIcon from '@/public/icons/Close.svg';
 import { EXP_OPTIONS } from '@/constants/expOptions';
-import BtnExpType from './BtnExpType';
+import BtnExpType from '../../../components/BtnExpType';
 import { ExpType } from '@/types/exp';
 
 interface BtnFilterProps {
