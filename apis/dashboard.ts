@@ -26,12 +26,37 @@ export interface ExpHisoryResponse {
   };
 }
 
+export type CoreSkillMapType = {
+  name: string;
+  value: number;
+};
+
+export interface CoreSkillMapResponse {
+  httpStatus: number;
+  message: string;
+  data: {
+    coreSkillMaps: { coreSkillMaps: CoreSkillMapType[] };
+    strengthFeedback: string;
+    weaknessFeedback: string;
+  };
+}
+
 export async function getJobRatio(): Promise<JobRatioResponse | null> {
   try {
     const res = await API.get<JobRatioResponse>('/api/dashboard/ratio');
     return res.data;
   } catch (error) {
     console.error('직무 비율 불러오기 실패:', error);
+    return null;
+  }
+}
+
+export async function getCoreSkillMap(): Promise<CoreSkillMapResponse | null> {
+  try {
+    const res = await API.post<CoreSkillMapResponse>('/api/dashboard/skills');
+    return res.data;
+  } catch (error) {
+    console.error('핵심 스킬맵 불러오기 실패:', error);
     return null;
   }
 }
