@@ -10,7 +10,7 @@ export default function ChartContainer({
 }: {
   jobRatio: JobRatioResponse;
 }) {
-  const jobRatioData = jobRatio.data.ratios;
+  const jobRatioData = jobRatio.data;
 
   return (
     <div className="flex flex-wrap gap-4">

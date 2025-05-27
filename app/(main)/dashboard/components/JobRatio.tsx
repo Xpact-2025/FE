@@ -7,12 +7,9 @@ import { JobRatioType } from '@/apis/dashboard';
 export default function JobRatio({
   jobRatioData,
 }: {
-  jobRatioData: JobRatioType;
+  jobRatioData: JobRatioType[];
 }) {
-  const data = Object.entries(jobRatioData).map(([name, value]) => ({
-    name,
-    value,
-  }));
+  const data = jobRatioData;
 
   if (data.length === 0) {
     return (

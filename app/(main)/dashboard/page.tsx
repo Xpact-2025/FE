@@ -30,7 +30,7 @@ export default async function DashboardPage() {
         </div>
 
         {/*null 체크 후 렌더링 */}
-        {jobRatio?.data?.ratios ? (
+        {jobRatio?.data ? (
           <ChartContainer jobRatio={jobRatio} />
         ) : (
           <div className="flex flex-wrap gap-4 h-[319px]">

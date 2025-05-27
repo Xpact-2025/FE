@@ -2,14 +2,15 @@
 
 import API from './config';
 
-export type JobRatioType = Record<string, number>;
+export type JobRatioType = {
+  name: string;
+  value: number;
+};
 
 export interface JobRatioResponse {
   httpStatus: number;
   message: string;
-  data: {
-    ratios: JobRatioType;
-  };
+  data: JobRatioType[];
 }
 
 export type DateCount = {
