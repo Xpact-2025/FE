@@ -22,18 +22,18 @@ export default function JobRatio({
   return (
     <>
       <div className="flex mb-3">
-        <span className="body-23-b mr-2">직무 비율</span>
+        <span className="body-16-sb mr-2">직무 비율</span>
         <HelpIcon className="stroke-gray-600" />
       </div>
       <div className="flex flex-row items-center justify-center">
         {/* 차트 */}
-        <PieChart width={218} height={218}>
+        <PieChart width={170} height={170}>
           <Pie
             data={data}
-            cx={109}
-            cy={109}
-            innerRadius={70}
-            outerRadius={100}
+            cx={85}
+            cy={85}
+            innerRadius={50}
+            outerRadius={70}
             fill="#FF6D01"
             dataKey="value"
             stroke="none"
@@ -65,7 +65,7 @@ export default function JobRatio({
                   className="inline-block w-4 h-4 rounded-full mr-3"
                   style={{ backgroundColor: COLORS[idx] }}
                 />
-                <span className="text-gray-300 body-16-r">
+                <span className="text-gray-300 body-12-m">
                   {item.name} {item.value}%
                 </span>
               </li>
@@ -95,7 +95,7 @@ function CustomLabel({
           y={cy - 10}
           textAnchor="middle"
           style={{
-            fontWeight: 500,
+            fontWeight: 400,
             fontSize: '14px',
             fill: '#A9A9A9',
             fontFamily: 'Pretendard',
@@ -108,8 +108,8 @@ function CustomLabel({
           y={cy + 20}
           textAnchor="middle"
           style={{
-            fontWeight: 700,
-            fontSize: '23px',
+            fontWeight: 600,
+            fontSize: '18px',
             fill: '#CDCDCD',
             fontFamily: 'Pretendard',
           }}

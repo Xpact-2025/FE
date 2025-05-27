@@ -239,6 +239,21 @@
   letter-spacing: var(--tracking-body-12-r);
 }
 
+.body-11-m {
+  font: var(--font-body-11-m);
+  letter-spacing: var(--tracking-body-11-m);
+}
+
+.body-10-m {
+  font: var(--font-body-10-m);
+  letter-spacing: var(--tracking-body-10-m);
+}
+
+.body-9-r {
+  font: var(--font-body-9-r);
+  letter-spacing: var(--tracking-body-9-r);
+}
+
 :root {
   --background: var(--color-gray-1000);
   --foreground: var(--color-gray-50);

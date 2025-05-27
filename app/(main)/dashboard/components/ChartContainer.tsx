@@ -13,11 +13,11 @@ export default function ChartContainer({
   const jobRatioData = jobRatio.data;
 
   return (
-    <div className="flex flex-wrap gap-4">
-      <div className="flex-grow-4 bg-gray-800 rounded-[23px] py-8 px-10 h-[319px]">
+    <div className="flex flex-grow flex-wrap xl:flex-nowrap gap-4 h-auto">
+      <div className="flex-[38] bg-gray-800 rounded-[23px] py-8 px-10 h-[270px]">
         <JobRatio jobRatioData={jobRatioData} />
       </div>
-      <div className="flex-grow-6 bg-gray-800 rounded-[23px] py-8 px-10">
+      <div className="flex-[47] bg-gray-800 rounded-[23px] py-8 px-10 h-[270px]">
         <SkillMap />
       </div>
     </div>

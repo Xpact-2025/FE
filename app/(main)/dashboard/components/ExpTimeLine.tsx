@@ -10,13 +10,13 @@ interface Experience {
 
 const sampleExperiences: Experience[] = [
   {
-    startDate: '2025-01-01',
+    startDate: '2025-03-01',
     endDate: '2025-06-30',
     title: '인턴십 A',
     experienceType: 'INTERN',
   },
   {
-    startDate: '2025-02-01',
+    startDate: '2025-03-01',
     endDate: '2025-03-10',
     title: '인턴십 B',
     experienceType: 'INTERN',
@@ -45,7 +45,7 @@ export default function ExpTimeLine() {
   return (
     <>
       <div className="flex mb-3">
-        <span className="body-23-b mr-2">경험 타임 라인</span>
+        <span className="body-16-sb mr-2">경험 타임 라인</span>
         <HelpIcon className="stroke-gray-600" />
       </div>
       <Timeline experiences={sampleExperiences} />

@@ -15,7 +15,7 @@ export default function ExpHistory({
   return (
     <>
       <div className="flex mb-6">
-        <span className="body-23-b mr-2">경험 히스토리</span>
+        <span className="body-16-sb mr-2">경험 히스토리</span>
         <HelpIcon className="stroke-gray-600" />
       </div>
       <Calendar dateCounts={dateCounts} />
