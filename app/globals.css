@@ -146,6 +146,15 @@
   --font-body-12-r: 300 12px/150% sans-serif;
   --tracking-body-12-r: 0em;
 
+  --font-body-11-m: 400 11px/150% sans-serif;
+  --tracking-body-11-m: 0em;
+
+  --font-body-10-m: 400 10px/150% sans-serif;
+  --tracking-body-10-m: 0em;
+
+  --font-body-9-r: 300 9px/150% sans-serif;
+  --tracking-body-9-r: 0em;
+
   /* Pretendard 폰트 */
   --font-pretendard: 'Pretendard Variable', sans-serif;
 }

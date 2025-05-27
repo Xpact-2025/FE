@@ -3,7 +3,7 @@ import ExpHistory from './components/ExpHistory';
 import Scrap from './components/Scrap';
 import ExpTimeLine from './components/ExpTimeLine';
 import ChartContainer from './components/ChartContainer';
-import { getJobRatio, getExpHistory, getCoreSkillMap } from '@/apis/dashboard';
+import { getJobRatio, getExpHistory } from '@/apis/dashboard';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
 import Footer from '@/app/components/Footer';
 
