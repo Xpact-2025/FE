@@ -13,6 +13,7 @@ interface ExpCardProps {
   title: string;
   type: ExpType;
   status: ExpStatus;
+  keywords: string[];
 }
 
 export default function ExpCard({ id, title, type, status }: ExpCardProps) {

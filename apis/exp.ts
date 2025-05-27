@@ -31,6 +31,7 @@ export interface Exp {
   title: string;
   experienceType: ExpType;
   status: ExpStatus;
+  keywords: string[];
 }
 
 interface SaveExpResponse {

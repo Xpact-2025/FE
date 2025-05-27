@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { Exp } from '@/apis/exp';
 import { ExpType } from '@/types/exp';
 import ExpCard from './ExpCard';
-import BtnFilter from '@/app/components/BtnFilter';
-import SearchBar from '@/app/components/SearchBar';
+import BtnFilter from '@/app/(main)/exp/components/BtnFilter';
+import SearchBar from './SearchBar';
 import AddExpBtn from './AddExpBtn';
 
 interface ExpListProps {
@@ -13,11 +13,22 @@ interface ExpListProps {
 }
 
 export default function ExpList({ data }: ExpListProps) {
+  console.log('ExpList data:', data);
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<ExpType | null>(null);
 
+  const filteredSearch = data.filter(exp => {
+    return (
+      exp.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      exp.keywords?.some(keyword =>
+        keyword.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  });
+
   const filteredData = selectedType
-    ? data?.filter(exp => exp.experienceType === selectedType)
-    : data;
+    ? filteredSearch?.filter(exp => exp.experienceType === selectedType)
+    : filteredSearch;
 
   return (
     <main className="flex-1 flex-col items-start py-16 px-[80px]">
@@ -26,7 +37,7 @@ export default function ExpList({ data }: ExpListProps) {
       </div>
       <h1 className="text-[25px] font-bold mb-6">내 경험</h1>
       <div className="flex justify-between mb-7">
-        <SearchBar />
+        <SearchBar onSearch={setSearchTerm} />
         <BtnFilter onSelectType={setSelectedType} />
       </div>
 
@@ -41,6 +52,7 @@ export default function ExpList({ data }: ExpListProps) {
               title={exp.title}
               type={exp.experienceType}
               status={exp.status}
+              keywords={exp.keywords}
             />
           ))}
         </div>
