@@ -25,6 +25,8 @@ export interface ExpHisoryResponse {
   };
 }
 
+// 직무 비율을 가져오는 API 함수
+// API 호출 시 try-catch로 에러 처리를 하고, 에러 발생 시 null을 반환
 export async function getJobRatio(): Promise<JobRatioResponse | null> {
   try {
     const res = await API.get<JobRatioResponse>('/api/dashboard/ratio');
@@ -34,6 +36,7 @@ export async function getJobRatio(): Promise<JobRatioResponse | null> {
     return null;
   }
 }
+//
 
 export async function getExpHistory(
   year: number,
