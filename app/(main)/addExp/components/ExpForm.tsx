@@ -48,6 +48,7 @@ const getInitialForm = (data?: ExpPayload & { selectedTab?: string }) => ({
   id: data?.id,
 });
 
+//최상위 ExpForm 컴포넌트
 export default function ExpForm({ data }: ExpFormProps) {
   const router = useRouter();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -57,6 +58,7 @@ export default function ExpForm({ data }: ExpFormProps) {
     null
   );
 
+  //form 상태를 ExpForm에 저장
   const [form, setForm] = useState(getInitialForm(data));
   const [tab, setTab] = useState<'star' | 'simple'>('star');
 
@@ -124,6 +126,7 @@ export default function ExpForm({ data }: ExpFormProps) {
     }
   };
 
+  //상태 변화 동기화를 위한 handleChange 함수
   const handleChange = (key: string, value: string | string[]) => {
     setForm(prev => ({
       ...prev,
@@ -155,6 +158,7 @@ export default function ExpForm({ data }: ExpFormProps) {
   };
 
   const renderForm = () => {
+    // 자격증, 수상 form 컴포넌트 렌더링
     if (
       form.experienceType === 'CERTIFICATES' ||
       form.experienceType === 'PRIZE'
@@ -166,9 +170,12 @@ export default function ExpForm({ data }: ExpFormProps) {
         />
       );
     }
+    // STAR 양식과 간결 양식에 따라 다른 컴포넌트 렌더링
     if (form.formType === 'STAR_FORM') {
+      // onChange prop을 통해 상태 변화 동기화
       return <StarForm onChange={handleChange} />;
     }
+    // onChange prop을 통해 상태 변화 동기화
     return <SimpleForm onChange={handleChange} />;
   };
 
