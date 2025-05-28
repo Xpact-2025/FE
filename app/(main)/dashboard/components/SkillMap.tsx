@@ -46,7 +46,6 @@ export default function SkillMap() {
             stroke="#FF6D01"
             fill="#FF6D01"
             fillOpacity={0.2}
-            isAnimationActive={false}
           />
         </RadarChart>
         {/* 설명 */}

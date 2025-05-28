@@ -37,7 +37,6 @@ export default function JobRatio({
             fill="#FF6D01"
             dataKey="value"
             stroke="none"
-            isAnimationActive={false}
           >
             {data.map((entry, index) => (
               <Cell

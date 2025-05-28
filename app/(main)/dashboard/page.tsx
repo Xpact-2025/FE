@@ -60,18 +60,6 @@ export default async function DashboardPage() {
             <Scrap />
           </div>
         </div>
-
-        {/* <div className="flex flex-grow flex-wrap xl:flex-nowrap gap-4 h-auto">
-          <div className="grow-2 bg-gray-800 rounded-[23px] py-8 px-10">
-            <ExpTimeLine />
-          </div>
-          <div className="grow-1 bg-gray-800 rounded-[23px] py-8 px-10">
-            <ExpHistory expHistory={expHistory} />
-          </div>
-          <div className="grow-1 bg-gray-800 rounded-[23px] py-8 px-10">
-            <Scrap />
-          </div>
-        </div> */}
       </div>
       <Footer />
     </div>
