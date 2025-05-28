@@ -7,6 +7,7 @@ import { getJobRatio, getExpHistory } from '@/apis/dashboard';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
 import Footer from '@/app/components/Footer';
 
+//getJobRatio()로 API 호출
 export default async function DashboardPage() {
   const jobRatio = await getJobRatio();
   const expHistory = await getExpHistory(
@@ -29,10 +30,11 @@ export default async function DashboardPage() {
           </div>
         </div>
 
-        {/*null 체크 후 렌더링 */}
+        {/*getJobRatio()에서 API 호출 시 null이 반환되지 않았을 때만 하위 컴포넌트 렌더링 */}
         {jobRatio?.data?.ratios ? (
           <ChartContainer jobRatio={jobRatio} />
         ) : (
+          // jobRatio가 null이거나 비어있을 때 대체 UI
           <div className="flex flex-wrap gap-4 h-[319px]">
             <div className="flex-grow-4 bg-gray-800 rounded-[23px] py-8 px-10 flex flex-col">
               <div className="flex mb-3">
