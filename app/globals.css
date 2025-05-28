@@ -268,3 +268,17 @@ body {
 .bg-highlight {
   background: var(--color-highlight);
 }
+
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: #222427;
+  border: #36383b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #656668;
+  border-radius: 100px;
+}

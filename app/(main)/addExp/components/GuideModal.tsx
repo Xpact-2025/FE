@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 interface GuideModalProps {
   title: string;
   type: 'star' | 'simple';
@@ -100,12 +102,18 @@ const GuideModal: React.FC<GuideModalProps> = ({
       className="absolute inset-0 z-50 flex items-center justify-end"
       onClick={closeRequest}
     >
-      <div
-        className="absolute bg-[#2D2D2D] p-6 rounded-2xl top-[320px] right-[78px] w-[758px]"
-        onClick={e => e.stopPropagation()}
-      >
-        <h2 className="text-3xl font-semibold mb-4">{title}</h2>
-        {renderContent()}
+      <div className="flex flex-col" onClick={e => e.stopPropagation()}>
+        <Image
+          src="/images/Modal_Polygon.svg"
+          alt="profile"
+          width={74}
+          height={42}
+          className="absolute top-[305px] right-[78px]"
+        />
+        <div className="absolute bg-gray-700 p-6 rounded-2xl top-[325px] right-[78px] w-[758px]">
+          <h2 className="text-3xl font-semibold mb-4">{title}</h2>
+          {renderContent()}
+        </div>
       </div>
     </div>
   );
