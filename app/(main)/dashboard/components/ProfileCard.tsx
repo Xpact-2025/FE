@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function ProfileCard() {
   return (
-    <div className="flex flex-col items-center justify-center p-2 h-[270px]">
+    <div className="flex flex-col items-center justify-center p-2 min-w-[120px] h-[270px]">
       <Image
         src="/images/profile.svg"
         alt="profile"

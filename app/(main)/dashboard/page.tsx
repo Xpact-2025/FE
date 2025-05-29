@@ -17,7 +17,7 @@ export default async function DashboardPage() {
   return (
     <div className="min-h-screen py-6 px-14">
       <div className="flex flex-col gap-4">
-        <div className="flex flex-grow flex-wrap xl:flex-nowrap gap-4 h-auto">
+        <div className="flex flex-grow flex-wrap lg:flex-nowrap gap-4 h-auto">
           <div className="flex-[1] bg-gray-800 rounded-[23px]">
             <ProfileCard />
           </div>
@@ -49,7 +49,7 @@ export default async function DashboardPage() {
           )}
         </div>
 
-        <div className="flex flex-grow flex-wrap xl:flex-nowrap gap-4 h-auto">
+        <div className="flex flex-grow flex-wrap lg:flex-nowrap gap-4 h-auto">
           <div className="flex-[2] bg-gray-800 rounded-[23px] py-8 px-10">
             <ExpTimeLine />
           </div>
