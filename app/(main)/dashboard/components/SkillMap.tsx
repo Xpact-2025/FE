@@ -1,5 +1,6 @@
 'use client';
 
+import { CoreSkillMapResponse } from '@/apis/dashboard';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
 import {
   RadarChart,
@@ -9,15 +10,19 @@ import {
   PolarRadiusAxis,
 } from 'recharts';
 
-const data = [
-  { skill: '사용자 중심 사고', score: 90, fullMark: 100 },
-  { skill: '콘텐츠 기획력', score: 70, fullMark: 100 },
-  { skill: '데이터 분석', score: 80, fullMark: 100 },
-  { skill: '문제 해결력', score: 40, fullMark: 100 },
-  { skill: '커뮤니케이션', score: 70, fullMark: 100 },
-];
+export default function SkillMap({
+  skillMapData,
+}: {
+  skillMapData: CoreSkillMapResponse['data'];
+}) {
+  const { coreSkillMaps, strengthFeedback, weaknessFeedback } = skillMapData;
+  console.log(
+    'coreSkillMaps',
+    coreSkillMaps,
+    strengthFeedback,
+    weaknessFeedback
+  );
 
-export default function SkillMap() {
   return (
     <>
       <div className="flex mb-3">
@@ -32,11 +37,11 @@ export default function SkillMap() {
           cx="50%"
           cy="50%"
           outerRadius="80%"
-          data={data}
+          data={coreSkillMaps}
         >
           <PolarGrid stroke="#444" />
           <PolarAngleAxis
-            dataKey="skill"
+            dataKey="coreSkillName"
             tick={{ fill: '#CDCDCD', fontSize: 13 }}
           />
           <PolarRadiusAxis axisLine={false} tick={false} stroke="#444" />
@@ -54,14 +59,18 @@ export default function SkillMap() {
             <div className="text-gray-300 body-10-m mb-2">강점 역량</div>
             <div className="flex items-center">
               <span className="inline-block w-3 h-3 border-2 border-gray-200 rounded-2xl mr-2" />
-              <span className="text-primary body-12-m">사용자 중심 사고</span>
+              <span className="text-primary body-12-m">
+                {strengthFeedback.strengthName}
+              </span>
             </div>
           </div>
           <div>
             <div className="text-gray-300 body-10-m mb-2">보완 필요 역량</div>
             <div className="flex items-center">
               <span className="inline-block w-3 h-3 border-2 border-gray-200 rounded-2xl mr-2" />
-              <span className="text-primary body-12-m">문제 해결력</span>
+              <span className="text-primary body-12-m">
+                {weaknessFeedback.weaknessName}
+              </span>
             </div>
           </div>
         </div>

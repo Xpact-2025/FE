@@ -3,12 +3,13 @@ import ExpHistory from './components/ExpHistory';
 import Scrap from './components/Scrap';
 import ExpTimeLine from './components/ExpTimeLine';
 import ChartContainer from './components/ChartContainer';
-import { getJobRatio, getExpHistory } from '@/apis/dashboard';
+import { getJobRatio, getExpHistory, getCoreSkillMap } from '@/apis/dashboard';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
 import Footer from '@/app/components/Footer';
 
 export default async function DashboardPage() {
   const jobRatio = await getJobRatio();
+  const skillMap = await getCoreSkillMap();
   const expHistory = await getExpHistory(
     new Date().getFullYear(),
     new Date().getMonth() + 1
@@ -21,9 +22,9 @@ export default async function DashboardPage() {
           <div className="flex-[1] bg-gray-800 rounded-[23px]">
             <ProfileCard />
           </div>
-          {jobRatio?.data ? (
+          {jobRatio && skillMap ? (
             <div className="flex-[7]">
-              <ChartContainer jobRatio={jobRatio} />
+              <ChartContainer jobRatio={jobRatio} skillMap={skillMap} />
             </div>
           ) : (
             <div className="flex-[7] flex flex-wrap grow-7 gap-4 h-[319px]">
