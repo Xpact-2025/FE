@@ -49,7 +49,7 @@ export default function JobRatio({
               content={
                 <CustomLabel
                   job={data[0]?.name ?? ''}
-                  viewBox={{ cx: 109, cy: 109 }}
+                  viewBox={{ cx: 85, cy: 85 }}
                 />
               }
             />

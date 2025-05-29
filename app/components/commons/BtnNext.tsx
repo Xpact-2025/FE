@@ -4,7 +4,7 @@ interface BtnNextProps {
   moveNext: (direction: number) => void;
 }
 
-export default function BtnPrev({ moveNext }: BtnNextProps) {
+export default function BtnNext({ moveNext }: BtnNextProps) {
   return (
     <button
       onClick={() => moveNext(1)}
