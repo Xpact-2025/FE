@@ -48,7 +48,7 @@ export default function ExpTimeLine() {
         <span className="body-16-sb mr-2">경험 타임 라인</span>
         <HelpIcon className="stroke-gray-600" />
       </div>
-      <Timeline experiences={sampleExperiences} />
+      <Timeline width={380} experiences={sampleExperiences} />
     </>
   );
 }
