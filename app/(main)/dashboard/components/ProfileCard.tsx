@@ -1,30 +1,22 @@
 import Image from 'next/image';
-import BuildingIcon from '@/public/icons/Building.svg';
-import UserCardIdIcon from '@/public/icons/User_Card_ID.svg';
+
 export default function ProfileCard() {
   return (
-    <div className="flex flex-col items-center justify-center p-4 ">
+    <div className="flex flex-col items-center justify-center p-2 min-w-[120px] h-[270px]">
       <Image
         src="/images/profile.svg"
         alt="profile"
-        width={180}
-        height={180}
-        className="rounded-full my-4"
+        width={150}
+        height={150}
+        className="rounded-full my-3"
       />
-      <div className="px-4 py-1 mt-2 bg-primary rounded-full body-16-sb text-gray-1000">
+      <div className="px-4 py-1 bg-primary rounded-full body-12-m text-gray-1000">
         서비스 기획자
       </div>
-      <h2 className="mt-2 font-semibold text-[25px]">김잇타</h2>
-      <hr className="border-gray-700 border-[1.5] w-full my-6" />
-      <div className="font-body-16-r text-gray-300 stroke-gray-300 flex flex-col gap-[12px]">
-        <div className="mb-1 flex items-center gap-2">
-          <BuildingIcon />
-          잇타대학교 무슨학과<span className="body-12-m">졸업</span>
-        </div>
-        <div className="mb-2 flex items-center gap-2">
-          <UserCardIdIcon />
-          24세
-        </div>
+      <h2 className="my-2 body-16-sb">김잇타</h2>
+      <div className="body-9-r text-gray-300 stroke-gray-300 flex flex-col">
+        <span>잇타대학교 무슨학과</span>
+        <span>24세</span>
       </div>
     </div>
   );

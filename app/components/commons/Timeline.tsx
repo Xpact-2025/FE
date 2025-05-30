@@ -122,7 +122,7 @@ export default function Timeline({
           {monthLabels.map(label => (
             <div
               key={label}
-              className="flex-1 min-w-0 py-2 flex items-center justify-center bg-gray-700 rounded-lg"
+              className="flex-1 min-w-0 py-2 flex items-center justify-center bg-gray-700 rounded-lg body-12-m"
             >
               {label}
             </div>
