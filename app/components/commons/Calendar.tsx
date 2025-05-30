@@ -24,16 +24,13 @@ export default function Calendar({ dateCounts = {} }: CalendarProps) {
   }, [markedDates]);
 
   useEffect(() => {
-    console.log(
-      'markedDatesRef.current, 현재 월월',
-      markedDatesRef.current,
-      String(month + 1)
-    );
+    //dateCounts에 현재 월이 있으면 더 data를 새로 fetch하지 않음
     if (markedDatesRef.current[String(month + 1)]) return;
     async function fetchMarkedDates() {
       try {
         const dateCounts = (await getExpHistory(year, month + 1)).data
           .dateCounts;
+        //dateCounts에 현재 월이 없으면 빈 배열을 저장
         if (!dateCounts[String(month + 1)]) {
           setMarkedDates(prev => ({
             ...prev,
@@ -41,6 +38,7 @@ export default function Calendar({ dateCounts = {} }: CalendarProps) {
           }));
           return;
         }
+        //dateCounts에 현재 월이 있으면 저장
         setMarkedDates(prev => ({
           ...prev,
           ...dateCounts,
