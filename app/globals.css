@@ -96,55 +96,64 @@
   /* Type System */
 
   /* Headline */
-  --font-headline-60-m: 600 60px/130% sans-serif;
+  --font-headline-60-m: 500 60px/130% sans-serif;
   --tracking-headline-60-m: -0.04em;
 
   /* Title */
-  --font-title-40-m: 500 40px/150% sans-serif;
+  --font-title-40-m: 400 40px/150% sans-serif;
   --tracking-title-40-m: -0.02em;
 
-  --font-title-30-m: 500 30px/120% sans-serif;
+  --font-title-30-m: 400 30px/120% sans-serif;
   --tracking-title-30-m: 0em;
 
   /* Body */
-  --font-body-26-sb: 600 26px/104% sans-serif;
+  --font-body-26-sb: 500 26px/104% sans-serif;
   --tracking-body-26-sb: 0em;
 
-  --font-body-23-b: 700 23px/104% sans-serif;
+  --font-body-23-b: 600 23px/104% sans-serif;
   --tracking-body-23-b: 0em;
 
-  --font-body-20-sb: 600 20px/155% sans-serif;
+  --font-body-20-sb: 500 20px/155% sans-serif;
   --tracking-body-20-sb: -0.02em;
 
-  --font-body-20-r: 400 20px/155% sans-serif;
+  --font-body-20-r: 300 20px/155% sans-serif;
   --tracking-body-20-r: -0.02em;
 
-  --font-body-18-sb: 600 18px/170% sans-serif;
+  --font-body-18-sb: 500 18px/170% sans-serif;
   --tracking-body-18-sb: 0em;
 
-  --font-body-18-m: 500 18px/133% sans-serif;
+  --font-body-18-m: 400 18px/133% sans-serif;
   --tracking-body-18-m: 0em;
 
-  --font-body-18-r: 400 18px/140% sans-serif;
+  --font-body-18-r: 300 18px/140% sans-serif;
   --tracking-body-18-m: -0.03em;
 
-  --font-body-16-sb: 600 16px/150% sans-serif;
+  --font-body-16-sb: 500 16px/150% sans-serif;
   --tracking-body-16-sb: 0em;
 
-  --font-body-16-r: 400 16px/150% sans-serif;
+  --font-body-16-r: 300 16px/150% sans-serif;
   --tracking-body-16-r: 0em;
 
-  --font-body-14-sb: 600 14px/130% sans-serif;
+  --font-body-14-sb: 500 14px/130% sans-serif;
   --tracking-body-14-sb: 0.02em;
 
-  --font-body-14-m: 500 14px/171% sans-serif;
+  --font-body-14-m: 400 14px/171% sans-serif;
   --tracking-body-14-m: 0em;
 
-  --font-body-12-m: 500 12px/117% sans-serif;
+  --font-body-12-m: 400 12px/117% sans-serif;
   --tracking-body-12-m: -0.025em;
 
-  --font-body-12-r: 400 12px/150% sans-serif;
+  --font-body-12-r: 300 12px/150% sans-serif;
   --tracking-body-12-r: 0em;
+
+  --font-body-11-m: 400 11px/150% sans-serif;
+  --tracking-body-11-m: 0em;
+
+  --font-body-10-m: 400 10px/150% sans-serif;
+  --tracking-body-10-m: 0em;
+
+  --font-body-9-r: 300 9px/150% sans-serif;
+  --tracking-body-9-r: 0em;
 
   /* Pretendard 폰트 */
   --font-pretendard: 'Pretendard Variable', sans-serif;
@@ -230,6 +239,21 @@
   letter-spacing: var(--tracking-body-12-r);
 }
 
+.body-11-m {
+  font: var(--font-body-11-m);
+  letter-spacing: var(--tracking-body-11-m);
+}
+
+.body-10-m {
+  font: var(--font-body-10-m);
+  letter-spacing: var(--tracking-body-10-m);
+}
+
+.body-9-r {
+  font: var(--font-body-9-r);
+  letter-spacing: var(--tracking-body-9-r);
+}
+
 :root {
   --background: var(--color-gray-1000);
   --foreground: var(--color-gray-50);
@@ -267,4 +291,18 @@ body {
 
 .bg-highlight {
   background: var(--color-highlight);
+}
+
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: #222427;
+  border: #36383b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #656668;
+  border-radius: 100px;
 }

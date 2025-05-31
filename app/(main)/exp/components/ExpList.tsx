@@ -4,31 +4,42 @@ import { useState } from 'react';
 import { Exp } from '@/apis/exp';
 import { ExpType } from '@/types/exp';
 import ExpCard from './ExpCard';
-import BtnExp from '@/app/components/BtnExp';
-import BtnFilter from '@/app/components/BtnFilter';
+import BtnFilter from '@/app/(main)/exp/components/BtnFilter';
+import SearchBar from './SearchBar';
+import AddExpBtn from './AddExpBtn';
 
 interface ExpListProps {
   data: Exp[];
 }
 
 export default function ExpList({ data }: ExpListProps) {
+  console.log('ExpList data:', data);
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<ExpType | null>(null);
 
+  const filteredSearch = data.filter(exp => {
+    return (
+      exp.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      exp.keywords?.some(keyword =>
+        keyword.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  });
+
   const filteredData = selectedType
-    ? data?.filter(exp => exp.experienceType === selectedType)
-    : data;
+    ? filteredSearch?.filter(exp => exp.experienceType === selectedType)
+    : filteredSearch;
 
   return (
     <main className="flex-1 flex-col items-start py-16 px-[80px]">
-      <h1 className="text-[25px] font-bold mb-10 flex items-center justify-between">
-        <span>내 경험</span>
-        <div className="flex justify-end gap-4">
-          <BtnExp href="/addExp " className="bg-primary-50 text-gray-1100">
-            경험 추가
-          </BtnExp>
-          <BtnFilter onSelectType={setSelectedType} />
-        </div>
-      </h1>
+      <div className="fixed top-[65vh] right-[49px] z-50">
+        <AddExpBtn />
+      </div>
+      <h1 className="text-[25px] font-bold mb-6">내 경험</h1>
+      <div className="flex justify-between mb-7">
+        <SearchBar onSearch={setSearchTerm} />
+        <BtnFilter onSelectType={setSelectedType} />
+      </div>
 
       {!data || data.length === 0 ? (
         <div>경험이 존재하지 않습니다.</div>
@@ -40,7 +51,8 @@ export default function ExpList({ data }: ExpListProps) {
               id={exp.id}
               title={exp.title}
               type={exp.experienceType}
-              isTemp={false}
+              status={exp.status}
+              keywords={exp.keywords}
             />
           ))}
         </div>
