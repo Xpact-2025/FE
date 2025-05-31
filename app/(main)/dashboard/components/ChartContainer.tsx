@@ -3,22 +3,25 @@
 import dynamic from 'next/dynamic';
 const JobRatio = dynamic(() => import('./JobRatio'), { ssr: false });
 const SkillMap = dynamic(() => import('./SkillMap'), { ssr: false });
-import { JobRatioResponse } from '@/apis/dashboard';
+import { JobRatioResponse, CoreSkillMapResponse } from '@/apis/dashboard';
 
 export default function ChartContainer({
   jobRatio,
+  skillMap,
 }: {
   jobRatio: JobRatioResponse;
+  skillMap: CoreSkillMapResponse;
 }) {
-  const jobRatioData = jobRatio.data.ratios;
+  const jobRatioData = jobRatio.data;
+  const skillMapData = skillMap.data;
 
   return (
-    <div className="flex flex-wrap gap-4">
-      <div className="flex-grow-4 bg-gray-800 rounded-[23px] py-8 px-10 h-[319px]">
+    <div className="flex flex-grow flex-wrap lg:flex-nowrap gap-4 h-auto">
+      <div className="flex-[38] bg-gray-800 rounded-[23px] py-8 px-10 h-[270px]">
         <JobRatio jobRatioData={jobRatioData} />
       </div>
-      <div className="flex-grow-6 bg-gray-800 rounded-[23px] py-8 px-10">
-        <SkillMap />
+      <div className="flex-[47] bg-gray-800 rounded-[23px] py-8 px-10 h-[270px]">
+        <SkillMap skillMapData={skillMapData} />
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ export default function CalendarDays({
         {WEEK_DAYS.map(day => (
           <div
             key={day}
-            className="text-center text-gray-100 body-16-r select-none"
+            className="text-center text-gray-100 body-12-r select-none"
           >
             {day}
           </div>
@@ -36,7 +36,7 @@ export default function CalendarDays({
           return (
             <div
               key={i}
-              className="text-center pt-2 h-[40px] text-gray-300 body-16-r relative select-none"
+              className="text-center pt-2 h-[40px] text-gray-300 body-11-m relative select-none"
             >
               {day}
               {count && <DateMark count={count} />}
