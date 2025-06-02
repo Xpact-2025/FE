@@ -12,11 +12,18 @@ interface ExpCardProps {
   id: number;
   title: string;
   type: ExpType;
+  draftTime?: string;
   status: ExpStatus;
   keywords: string[];
 }
 
-export default function ExpCard({ id, title, type, status }: ExpCardProps) {
+export default function ExpCard({
+  id,
+  title,
+  type,
+  draftTime,
+  status,
+}: ExpCardProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const isTemp = status === 'DRAFT';
   const router = useRouter();
@@ -39,10 +46,11 @@ export default function ExpCard({ id, title, type, status }: ExpCardProps) {
         <div className="body-20-r text-gray-50">{title}</div>
       </div>
       <div className="flex flex-row justify-between items-center relative">
-        {isTemp && (
+        {isTemp && draftTime && (
           <div className="flex gap-1.5 items-center body-14-m text-gray-300 whitespace-nowrap">
             <ClockIcon />
-            임시저장
+            <span>{new Date(draftTime).toLocaleDateString('ko-KR')}</span>
+            <span>임시저장</span>
           </div>
         )}
         <button

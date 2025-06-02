@@ -51,6 +51,7 @@ export default function ExpList({ data }: ExpListProps) {
               id={exp.id}
               title={exp.title}
               type={exp.experienceType}
+              draftTime={exp.draftTime}
               status={exp.status}
               keywords={exp.keywords}
             />
