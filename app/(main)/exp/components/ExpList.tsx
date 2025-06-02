@@ -32,7 +32,7 @@ export default function ExpList({ data }: ExpListProps) {
 
   return (
     <main className="flex-1 flex-col items-start py-16 px-[80px]">
-      <div className="fixed top-[65vh] right-[49px] z-50">
+      <div className="fixed top-[75vh] right-[49px] z-50">
         <AddExpBtn />
       </div>
       <h1 className="text-[25px] font-bold mb-6">내 경험</h1>

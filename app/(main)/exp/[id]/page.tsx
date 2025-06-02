@@ -2,7 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { ExpPayload, getExpById, deleteExp, editExp } from '@/apis/exp';
+import {
+  ExpPayload,
+  getExpById,
+  deleteExp,
+  editExp,
+  SubExperience,
+} from '@/apis/exp';
 import { EXP_OPTIONS } from '@/constants/expOptions';
 import { useRouter } from 'next/navigation';
 import Popup from '@/app/components/Popup';
@@ -15,6 +21,7 @@ export default function ExpDetailPage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [editData, setEditData] = useState<ExpPayload>({} as ExpPayload);
   const [data, setData] = useState<ExpPayload | null>(null);
+  const [subData, setSubData] = useState<SubExperience | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -29,6 +36,9 @@ export default function ExpDetailPage() {
         const res = await getExpById(expId);
         setData(res.data);
         setEditData(res.data);
+
+        const firstSub = res.data.subExperiences?.[0] ?? null;
+        setSubData(firstSub);
       } catch {
         setError('경험 데이터를 불러오는 데 실패했습니다.');
       }
@@ -50,7 +60,9 @@ export default function ExpDetailPage() {
       {data.issueDate && (
         <p>수상일: {new Date(data.issueDate).toLocaleDateString('ko-KR')}</p>
       )}
-      {data.simpleDescription && <p>간단 설명: {data.simpleDescription}</p>}
+      {subData?.simpleDescription && (
+        <p>간단 설명: {subData.simpleDescription}</p>
+      )}
     </>
   );
 
@@ -61,7 +73,9 @@ export default function ExpDetailPage() {
       {data.issueDate && (
         <p>취득일: {new Date(data.issueDate).toLocaleDateString('ko-KR')}</p>
       )}
-      {data.simpleDescription && <p>간단 설명: {data.simpleDescription}</p>}
+      {subData?.simpleDescription && (
+        <p>간단 설명: {subData.simpleDescription}</p>
+      )}
     </>
   );
 
@@ -73,8 +87,8 @@ export default function ExpDetailPage() {
           {new Date(data.endDate).toLocaleDateString('ko-KR')}
         </p>
       )}
-      {data.role && <p>역할: {data.role}</p>}
-      {data.perform && <p>주요 성과: {data.perform}</p>}
+      {subData?.role && <p>역할: {subData.role}</p>}
+      {subData?.perform && <p>주요 성과: {subData.perform}</p>}
     </>
   );
 
@@ -87,22 +101,22 @@ export default function ExpDetailPage() {
           {new Date(data.endDate).toLocaleDateString('ko-KR')}
         </p>
       )}
-      {data.situation && <p>상황: {data.situation}</p>}
-      {data.task && <p>문제: {data.task}</p>}
-      {data.action && <p>행동: {data.action}</p>}
-      {data.result && <p>결과: {data.result}</p>}
+      {subData?.situation && <p>상황: {subData.situation}</p>}
+      {subData?.task && <p>문제: {subData.task}</p>}
+      {subData?.action && <p>행동: {subData.action}</p>}
+      {subData?.result && <p>결과: {subData.result}</p>}
     </>
   );
 
   const renderDetailContent = () => {
-    if (data.formType === 'SIMPLE_FORM') {
+    if (subData?.formType === 'SIMPLE_FORM') {
       if (data.experienceType === 'PRIZE') return renderPrizeSection();
       if (data.experienceType === 'CERTIFICATES')
         return renderCertificateSection();
       return renderSimpleSection();
     }
 
-    if (data.formType === 'STAR_FORM') return renderStarSection();
+    if (subData?.formType === 'STAR_FORM') return renderStarSection();
 
     return null;
   };
@@ -147,7 +161,10 @@ export default function ExpDetailPage() {
           <button
             type="button"
             onClick={async () => {
-              await editExp(Number(params?.id), editData);
+              await editExp(Number(params?.id), {
+                ...editData,
+                subExperiences: editData.subExperiences ?? [],
+              });
             }}
             className="w-20 py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg"
           >
@@ -169,7 +186,7 @@ export default function ExpDetailPage() {
             </h3>
             <div className="bg-gray-700 p-3 rounded-[4px] border border-gray-600">
               <div className="flex flex-wrap gap-2">
-                {data.keywords?.map((keyword: string, idx: number) => (
+                {subData?.keywords?.map((keyword: string, idx: number) => (
                   <span
                     key={idx}
                     className="px-4 py-1 bg-gray-300 text-sm rounded-full text-gray-1100"
