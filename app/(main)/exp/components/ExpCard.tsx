@@ -32,6 +32,25 @@ export default function ExpCard({
     router.push(`/exp/${id}`);
   };
 
+  const formattedDraftTime = draftTime
+    ? (() => {
+        const date = new Date(draftTime);
+        const today = new Date();
+        const isToday =
+          date.getFullYear() === today.getFullYear() &&
+          date.getMonth() === today.getMonth() &&
+          date.getDate() === today.getDate();
+
+        return isToday
+          ? date.toLocaleTimeString('ko-KR', {
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true,
+            })
+          : date.toLocaleDateString('ko-KR');
+      })()
+    : null;
+
   return (
     <div
       className="relative w-[322px] h-[224px] border 
@@ -49,7 +68,7 @@ export default function ExpCard({
         {isTemp && draftTime && (
           <div className="flex gap-1.5 items-center body-14-m text-gray-300 whitespace-nowrap">
             <ClockIcon />
-            <span>{new Date(draftTime).toLocaleDateString('ko-KR')}</span>
+            <span>{formattedDraftTime}</span>
             <span>임시저장</span>
           </div>
         )}
