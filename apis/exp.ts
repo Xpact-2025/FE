@@ -55,7 +55,7 @@ interface GetExpResponse {
 interface GetExpByIdResponse {
   httpStatus: number;
   message: string;
-  data: ExpPayload & SubExperience;
+  data: ExpPayload & { subExperiencesResponseDto: SubExperience[] };
 }
 
 interface DeleteExpResponse {
