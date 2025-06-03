@@ -14,7 +14,10 @@ export default function Profile() {
       <div className="flex items-center justify-center gap-1.5 text-gray-50 font-semibold">
         <Image src="/images/profile.svg" alt="profile" width={36} height={36} />
         <p className="whitespace-nowrap">김잇타</p>
-        <ArrowDownIcon onClick={() => setIsOpen(!isOpen)} />
+        <ArrowDownIcon
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-[24px] h-[24px]"
+        />
         {isOpen && (
           <div className="flex flex-col absolute top-full justify-center">
             <div className="flex bg-gray-800 w-44 px-5 py-2.5 text-gray-50 text-xs">

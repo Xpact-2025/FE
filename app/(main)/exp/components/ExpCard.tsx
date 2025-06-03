@@ -12,11 +12,18 @@ interface ExpCardProps {
   id: number;
   title: string;
   type: ExpType;
+  draftTime?: string;
   status: ExpStatus;
   keywords: string[];
 }
 
-export default function ExpCard({ id, title, type, status }: ExpCardProps) {
+export default function ExpCard({
+  id,
+  title,
+  type,
+  draftTime,
+  status,
+}: ExpCardProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const isTemp = status === 'DRAFT';
   const router = useRouter();
@@ -24,6 +31,30 @@ export default function ExpCard({ id, title, type, status }: ExpCardProps) {
   const handleClick = () => {
     router.push(`/exp/${id}`);
   };
+
+  const formattedDraftTime = draftTime
+    ? (() => {
+        const date = new Date(draftTime);
+        const today = new Date();
+        const isToday =
+          date.getFullYear() === today.getFullYear() &&
+          date.getMonth() === today.getMonth() &&
+          date.getDate() === today.getDate();
+
+        if (isToday) {
+          return date.toLocaleTimeString('ko-KR', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+          });
+        } else {
+          const yyyy = date.getFullYear();
+          const mm = String(date.getMonth() + 1).padStart(2, '0');
+          const dd = String(date.getDate()).padStart(2, '0');
+          return `${yyyy}-${mm}-${dd}`;
+        }
+      })()
+    : null;
 
   return (
     <div
@@ -39,10 +70,11 @@ export default function ExpCard({ id, title, type, status }: ExpCardProps) {
         <div className="body-20-r text-gray-50">{title}</div>
       </div>
       <div className="flex flex-row justify-between items-center relative">
-        {isTemp && (
+        {isTemp && draftTime && (
           <div className="flex gap-1.5 items-center body-14-m text-gray-300 whitespace-nowrap">
             <ClockIcon />
-            임시저장
+            <span>{formattedDraftTime}</span>
+            <span>임시저장</span>
           </div>
         )}
         <button
