@@ -1,27 +1,28 @@
 'use client';
 
 import { useState } from 'react';
-import { type ExpPayload } from '@/apis/exp';
+import { type ExpPayload, SubExperience } from '@/apis/exp';
 import ExpInputBox from './ExpInputBox';
 import KeywordInput from './KeywordInput';
 import FileInput from './FileInput';
 
 interface StarFormProps {
-  data?: ExpPayload;
+  data?: ExpPayload & { subExperiencesResponseDto: SubExperience[] };
   onChange: (key: string, value: string | string[]) => void;
 }
 
 export default function StarForm({ data, onChange }: StarFormProps) {
+  const sub = data?.subExperiencesResponseDto?.[0];
   const [form, setForm] = useState({
     title: data?.title || '',
     startDate: String(data?.startDate) || '',
     endDate: String(data?.endDate) || '',
-    situation: data?.situation || '',
-    task: data?.task || '',
-    action: data?.action || '',
-    result: data?.result || '',
-    files: data?.files || [],
-    keywords: data?.keywords || [],
+    situation: sub?.situation || '',
+    task: sub?.task || '',
+    action: sub?.action || '',
+    result: sub?.result || '',
+    files: sub?.files || [],
+    keywords: sub?.keywords || [],
   });
 
   const handleChange = (key: keyof typeof form, value: string | string[]) => {

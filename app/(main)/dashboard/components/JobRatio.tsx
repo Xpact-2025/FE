@@ -1,7 +1,6 @@
 'use client';
 
 import { Pie, PieChart, Cell, Label } from 'recharts';
-import HelpIcon from '@/public/icons/Circle_Help.svg';
 import { JobRatioType } from '@/apis/dashboard';
 
 export default function JobRatio({
@@ -11,20 +10,8 @@ export default function JobRatio({
 }) {
   const data = jobRatioData;
 
-  if (data.length === 0) {
-    return (
-      <div className="text-gray-400 text-center py-10">
-        아직 직무 경험이 없어요.
-      </div>
-    );
-  }
-
   return (
     <>
-      <div className="flex mb-3">
-        <span className="body-16-sb mr-2">직무 비율</span>
-        <HelpIcon className="stroke-gray-600" />
-      </div>
       <div className="flex flex-row items-center justify-center">
         {/* 차트 */}
         <PieChart width={170} height={170}>

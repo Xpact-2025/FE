@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { editExp, saveExp, type ExpPayload } from '@/apis/exp';
+import { editExp, saveExp, SubExperience, type ExpPayload } from '@/apis/exp';
 import FormTab from './FormTab';
 import Popup from '@/app/components/Popup';
 import GuideModal from './GuideModal';
@@ -16,37 +16,45 @@ import StarForm from './StarForm';
 import SimpleForm from './SimpleForm';
 
 interface ExpFormProps {
-  data?: ExpPayload;
+  data?: ExpPayload & { subExperiencesResponseDto: SubExperience[] };
 }
 
-const getInitialForm = (data?: ExpPayload & { selectedTab?: string }) => ({
-  selectedTab:
-    data?.formType === 'STAR_FORM'
-      ? 'star'
-      : data?.formType === 'SIMPLE_FORM'
-        ? 'simple'
-        : 'star',
-  status: data?.status || 'SAVE',
-  formType: data?.formType || 'STAR_FORM',
-  uploadType: data?.uploadType || 'FILE',
-  experienceType: data?.experienceType || ('' as ExpType),
-  qualification: data?.qualification || '',
-  publisher: data?.publisher || '',
-  issueDate: data?.issueDate || '',
-  simpleDescription: data?.simpleDescription || '',
-  title: data?.title || '',
-  startDate: data?.startDate || '',
-  endDate: data?.endDate || '',
-  role: data?.role || '',
-  perform: data?.perform || '',
-  situation: data?.situation || '',
-  task: data?.task || '',
-  action: data?.action || '',
-  result: data?.result || '',
-  files: data?.files || [],
-  keywords: data?.keywords || [],
-  id: data?.id,
-});
+const getInitialForm = (
+  data?: ExpPayload & { subExperiencesResponseDto?: SubExperience[] }
+) => {
+  const sub = data?.subExperiencesResponseDto?.[0];
+
+  return {
+    subExperiences: data?.subExperiencesResponseDto || [],
+    selectedTab:
+      sub?.formType === 'STAR_FORM'
+        ? 'star'
+        : sub?.formType === 'SIMPLE_FORM'
+          ? 'simple'
+          : 'star',
+    status: sub?.status || 'SAVE',
+    formType: sub?.formType || 'STAR_FORM',
+    uploadType: sub?.uploadType || 'FILE',
+    experienceType: data?.experienceType || ('' as ExpType),
+    qualification: data?.qualification || '',
+    publisher: data?.publisher || '',
+    issueDate: data?.issueDate || '',
+    simpleDescription: sub?.simpleDescription || '',
+    title: data?.title || '',
+    startDate: data?.startDate || '',
+    endDate: data?.endDate || '',
+    role: sub?.role || '',
+    perform: sub?.perform || '',
+    situation: sub?.situation || '',
+    task: sub?.task || '',
+    action: sub?.action || '',
+    result: sub?.result || '',
+    files: sub?.files || [],
+    keywords: sub?.keywords || [],
+    id: data?.id,
+    subId: sub?.id,
+  };
+};
 
 export default function ExpForm({ data }: ExpFormProps) {
   const router = useRouter();
@@ -81,7 +89,7 @@ export default function ExpForm({ data }: ExpFormProps) {
 
     if (!data) {
       const allEmpty = keysToCompare.every(key => {
-        const val = form[key];
+        const val = form[key as keyof typeof form];
         if (val === undefined || val === null) return true;
         if (typeof val === 'string' && val.trim() === '') return true;
         if (Array.isArray(val) && val.length === 0) return true;
@@ -91,7 +99,10 @@ export default function ExpForm({ data }: ExpFormProps) {
     }
 
     return keysToCompare.some(key => {
-      return JSON.stringify(form[key]) !== JSON.stringify(data[key]);
+      return (
+        JSON.stringify(form[key as keyof typeof form]) !==
+        JSON.stringify(data[key])
+      );
     });
   };
 
@@ -136,14 +147,24 @@ export default function ExpForm({ data }: ExpFormProps) {
 
     const payload: ExpPayload = {
       ...form,
-      issueDate: form.issueDate ? new Date(form.issueDate) : undefined,
-      startDate: form.startDate ? new Date(form.startDate) : undefined,
-      endDate: form.endDate ? new Date(form.endDate) : undefined,
+      issueDate: form.issueDate
+        ? new Date(form.issueDate).toISOString()
+        : undefined,
+      startDate: form.startDate
+        ? new Date(form.startDate).toISOString()
+        : undefined,
+      endDate: form.endDate ? new Date(form.endDate).toISOString() : undefined,
     };
 
     const { httpStatus, message } = form.id
-      ? await editExp(form.id, payload)
-      : await saveExp(payload);
+      ? await editExp(form.id, {
+          ...payload,
+          subExperiences: form.subExperiences,
+        })
+      : await saveExp({
+          ...payload,
+          subExperiences: form.subExperiences || [],
+        });
 
     if (httpStatus == 200) {
       alert('성공적으로 저장되었습니다!');

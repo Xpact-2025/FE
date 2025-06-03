@@ -2,14 +2,16 @@ import ProfileCard from './components/ProfileCard';
 import ExpHistory from './components/ExpHistory';
 import Scrap from './components/Scrap';
 import ExpTimeLine from './components/ExpTimeLine';
-import ChartContainer from './components/ChartContainer';
-import { getJobRatio, getExpHistory, getCoreSkillMap } from '@/apis/dashboard';
-import HelpIcon from '@/public/icons/Circle_Help.svg';
+import { getExpHistory } from '@/apis/dashboard';
 import Footer from '@/app/components/Footer';
+import {
+  LazyJobRatioContainer,
+  LazySkillMapContainer,
+} from './components/LazyChartContainer';
+import SkeletonBox from './components/SkeletonBox';
+import { Suspense } from 'react';
 
 export default async function DashboardPage() {
-  const jobRatio = await getJobRatio();
-  const skillMap = await getCoreSkillMap();
   const expHistory = await getExpHistory(
     new Date().getFullYear(),
     new Date().getMonth() + 1
@@ -22,34 +24,17 @@ export default async function DashboardPage() {
           <div className="flex-[1] bg-gray-800 rounded-[23px]">
             <ProfileCard />
           </div>
-          {jobRatio && skillMap ? (
-            <div className="flex-[7]">
-              <ChartContainer jobRatio={jobRatio} skillMap={skillMap} />
+          <div className="flex-[7]">
+            <div className="flex flex-grow flex-wrap lg:flex-nowrap gap-4 h-auto">
+              <Suspense fallback={<SkeletonBox title="직무 비율" />}>
+                <LazyJobRatioContainer />
+              </Suspense>
+              <Suspense fallback={<SkeletonBox title="핵심 스킬맵" />}>
+                <LazySkillMapContainer />
+              </Suspense>
             </div>
-          ) : (
-            <div className="flex-[7] flex flex-wrap grow-7 gap-4 h-[319px]">
-              <div className="flex-grow-38 bg-gray-800 rounded-[23px] py-8 px-10 flex flex-col">
-                <div className="flex mb-3">
-                  <span className="  mr-2">직무 비율</span>
-                  <HelpIcon className="stroke-gray-600" />
-                </div>
-                <div className="flex flex-1 items-center justify-center">
-                  경험 정보를 추가해주세요.
-                </div>
-              </div>
-              <div className="flex-grow-47 bg-gray-800 rounded-[23px] py-8 px-10 flex flex-col">
-                <div className="flex mb-3">
-                  <span className="body-16-sb mr-2">핵심 스킬맵</span>
-                  <HelpIcon className="stroke-gray-600" />
-                </div>
-                <div className="flex flex-1 items-center justify-center">
-                  경험 정보를 추가해주세요.
-                </div>
-              </div>
-            </div>
-          )}
+          </div>
         </div>
-
         <div className="flex flex-grow flex-wrap lg:flex-nowrap gap-4 h-auto">
           <div className="flex-[2] bg-gray-800 rounded-[23px] py-8 px-10">
             <ExpTimeLine />

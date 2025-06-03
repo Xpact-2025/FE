@@ -32,13 +32,18 @@ export default function ExpList({ data }: ExpListProps) {
 
   return (
     <main className="flex-1 flex-col items-start py-16 px-[80px]">
-      <div className="fixed top-[65vh] right-[49px] z-50">
+      <div className="fixed top-[75vh] right-[49px] z-50">
         <AddExpBtn />
       </div>
       <h1 className="text-[25px] font-bold mb-6">내 경험</h1>
       <div className="flex justify-between mb-7">
         <SearchBar onSearch={setSearchTerm} />
-        <BtnFilter onSelectType={setSelectedType} />
+        <BtnFilter
+          onSelectType={setSelectedType}
+          onSelectSort={sort => {
+            fetch(`api/exp?sort=${sort}`);
+          }}
+        />
       </div>
 
       {!data || data.length === 0 ? (
@@ -51,6 +56,7 @@ export default function ExpList({ data }: ExpListProps) {
               id={exp.id}
               title={exp.title}
               type={exp.experienceType}
+              draftTime={exp.draftTime}
               status={exp.status}
               keywords={exp.keywords}
             />
