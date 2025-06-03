@@ -38,7 +38,12 @@ export default function ExpList({ data }: ExpListProps) {
       <h1 className="text-[25px] font-bold mb-6">내 경험</h1>
       <div className="flex justify-between mb-7">
         <SearchBar onSearch={setSearchTerm} />
-        <BtnFilter onSelectType={setSelectedType} />
+        <BtnFilter
+          onSelectType={setSelectedType}
+          onSelectSort={sort => {
+            fetch(`api/exp?sort=${sort}`);
+          }}
+        />
       </div>
 
       {!data || data.length === 0 ? (
