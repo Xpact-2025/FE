@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import FormInput from '../../components/InputCheckBox';
-import { loginUser } from '@/apis/auth';
+import { getMyInfo, loginUser } from '@/apis/auth';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -57,18 +57,38 @@ export default function LoginForm() {
 
     if (hasError) return;
 
-    const data = await loginUser({ email, password });
-    if (data.httpStatus === 200) {
-      alert('로그인 성공!');
-      router.push('/profile');
-    } else {
-      setEmailError('아이디 또는 비밀번호가 일치하지 않습니다.');
-      setPasswordError('아이디 또는 비밀번호가 일치하지 않습니다.');
+    try {
+      const loginRes = await loginUser({ email, password });
+
+      if (loginRes.httpStatus === 200) {
+        try {
+          const userInfo = await getMyInfo();
+
+          if (userInfo.success === true) {
+            router.push('/'); // 메인으로 이동
+          } else {
+            router.push('/profile');
+          }
+        } catch (err) {
+          console.error('회원 정보 조회 실패:', err);
+          router.push('/profile');
+        }
+      } else {
+        setEmailError('아이디 또는 비밀번호가 일치하지 않습니다.');
+        setPasswordError('아이디 또는 비밀번호가 일치하지 않습니다.');
+      }
+    } catch (err) {
+      console.error('로그인 실패:', err);
+      alert('로그인 중 문제가 발생했습니다.');
     }
+  };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleLogin();
   };
 
   return (
-    <div className="w-[448px] space-y-5">
+    <form onSubmit={handleSubmit} className="w-[448px] space-y-5">
       <div>
         <div className="text-[18px] mb-[2%] ml-[1%]">아이디</div>
         <FormInput
@@ -91,11 +111,11 @@ export default function LoginForm() {
       </div>
 
       <button
-        onClick={handleLogin}
+        type="submit"
         className="w-full mt-[8%] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded cursor-pointer"
       >
         로그인
       </button>
-    </div>
+    </form>
   );
 }

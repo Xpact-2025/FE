@@ -94,42 +94,6 @@ export default function ProfileForm() {
     }
   };
 
-  // const mapDegree = (kor: string) => {
-  //   switch (kor) {
-  //     case '고등학교':
-  //       return 'HIGH';
-  //     case '전문대학':
-  //       return 'COLLEGE';
-  //     case '대학교':
-  //       return 'UNIV';
-  //     case '대학원(석사)':
-  //       return 'MASTER';
-  //     case '대학원(박사)':
-  //       return 'DOCTOR';
-  //     default:
-  //       return '';
-  //   }
-  // };
-
-  // const mapSchoolStatus = (kor: string) => {
-  //   switch (kor) {
-  //     case '재학':
-  //       return 'CURRENT';
-  //     case '휴학':
-  //       return 'SUSPENDED';
-  //     case '졸업':
-  //       return 'GRADUATION';
-  //     case '졸업예정':
-  //       return 'EXPECTED_GRADUATION';
-  //     case '수료':
-  //       return 'COMPLETED';
-  //     case '중퇴':
-  //       return 'WITHDRAWN';
-  //     default:
-  //       return '';
-  //   }
-  // };
-
   const handleSubmit = async () => {
     try {
       await saveProfileInfo(
@@ -204,6 +168,20 @@ export default function ProfileForm() {
             placeholder="학교명"
             value={selectedSchool}
             onChange={e => setSelectedSchool(e.target.value)}
+            onFocus={async () => {
+              setIsSchoolModalOpen(true);
+              setSchoolSearchInput('');
+              try {
+                setIsSchoolLoading(true);
+                const data = await fetchSchools();
+                setSchoolList(data || []);
+              } catch (error) {
+                console.error('학교 전체 조회 실패:', error);
+                setSchoolList([]);
+              } finally {
+                setIsSchoolLoading(false);
+              }
+            }}
             onSearch={handleSchoolSearch}
           />
         </div>
@@ -213,6 +191,20 @@ export default function ProfileForm() {
             value={selectedMajor}
             onChange={e => setSelectedMajor(e.target.value)}
             onSearch={handleMajorSearch}
+            onFocus={async () => {
+              setIsMajorModalOpen(true);
+              setMajorSearchInput('');
+              try {
+                setIsMajorLoading(true);
+                const data = await fetchMajors(selectedSchool);
+                setMajorList(data || []);
+              } catch (error) {
+                console.error('학과 전체 조회 실패:', error);
+                setMajorList([]);
+              } finally {
+                setIsMajorLoading(false);
+              }
+            }}
           />
         </div>
         <div>
@@ -235,6 +227,20 @@ export default function ProfileForm() {
               value={industrySearchValue}
               onChange={e => setIndustrySearchValue(e.target.value)}
               onSearch={handleIndustrySearch}
+              onFocus={async () => {
+                setIsIndustryModalOpen(true);
+                setIndustrySearchValue('');
+                try {
+                  setIsIndustryLoading(true);
+                  const data = await fetchIndustryList();
+                  setIndustryList(data || []);
+                } catch (error) {
+                  console.error('산업군 전체 조회 실패:', error);
+                  setIndustryList([]);
+                } finally {
+                  setIsIndustryLoading(false);
+                }
+              }}
             />
           </div>
           <div className="flex flex-wrap gap-2">
