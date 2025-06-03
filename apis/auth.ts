@@ -38,6 +38,19 @@ interface SignupResponse {
   };
 }
 
+interface MemberInfoResponse {
+  httpStatus: number;
+  message: string;
+  data: {
+    name: string;
+    imgurl: string;
+    age: number;
+    educationName: string;
+    desiredDetailRecruit: string;
+  };
+  success: boolean;
+}
+
 export async function setAccessTokenCookie(token: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7일 후 만료
 
@@ -140,4 +153,15 @@ export async function refreshAccessToken(): Promise<string> {
 
   const data = await res.json();
   return data.data; // 토큰만 리턴
+}
+
+export async function getMyInfo(): Promise<MemberInfoResponse> {
+  try {
+    const res = await API.get<MemberInfoResponse>('/api/members');
+    return res.data;
+  } catch (error) {
+    console.error('[getMyInfo 에러]', error);
+    // 예외 발생 시 프로필 설정 페이지로 리디렉션
+    redirect('/profile');
+  }
 }

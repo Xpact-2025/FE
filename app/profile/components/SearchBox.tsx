@@ -14,6 +14,7 @@ export default function SearchInput({
   onSearch,
   value,
   onChange,
+  onFocus,
 }: SearchInputProps) {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -30,7 +31,9 @@ export default function SearchInput({
         value={value}
         onChange={onChange}
         onKeyDown={handleKeyDown}
-        className="w-full h-[44px] px-4 py-2 bg-[#161616] text-white rounded border border-gray-700"
+        onFocus={onFocus}
+        readOnly
+        className="w-full h-[44px] px-4 py-2 bg-[#161616] text-white rounded border border-gray-700 cursor-pointer"
       />
       <button
         type="button"
