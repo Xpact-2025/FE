@@ -1,6 +1,6 @@
 export default function SkeletonBox({ title }: { title: string }) {
   return (
-    <div className="flex-1 bg-gray-800 rounded-[23px] py-8 px-10 h-[270px] flex flex-col w-full">
+    <div className="flex-[38] bg-gray-800 rounded-[23px] py-8 px-10 h-[270px] flex flex-col">
       <div className="flex mb-3">
         <span className="body-16-sb mr-2">{title}</span>
       </div>

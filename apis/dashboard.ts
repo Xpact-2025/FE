@@ -55,7 +55,6 @@ export interface CoreSkillMapResponse {
 
 export async function getJobRatio(): Promise<JobRatioResponse | null> {
   try {
-    //await new Promise(resolve => setTimeout(resolve, 10000));
     const res = await API.get<JobRatioResponse>('/api/dashboard/ratio');
     return res.data;
   } catch (error) {
@@ -65,6 +64,7 @@ export async function getJobRatio(): Promise<JobRatioResponse | null> {
 }
 
 export async function getCoreSkillMap(): Promise<CoreSkillMapResponse | null> {
+  await new Promise(resolve => setTimeout(resolve, 10000));
   const res = await API.post<CoreSkillMapResponse>(`/api/dashboard/skills`);
 
   if (!res.status) {
@@ -73,7 +73,7 @@ export async function getCoreSkillMap(): Promise<CoreSkillMapResponse | null> {
   }
 
   if (!res.data.data) {
-    console.error('핵심 역량 맵 data 불러오기 실패:', res.data.message);
+    console.error('핵심 역량 맵 data 불러오기 실패:', res.data);
     return null;
   }
   return res.data;
