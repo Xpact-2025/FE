@@ -16,7 +16,7 @@ import StarForm from './StarForm';
 import SimpleForm from './SimpleForm';
 
 interface ExpFormProps {
-  data: ExpPayload & { subExperiencesResponseDto: SubExperience[] };
+  data?: ExpPayload & { subExperiencesResponseDto: SubExperience[] };
 }
 
 const getInitialForm = (

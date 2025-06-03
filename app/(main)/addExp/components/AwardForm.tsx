@@ -1,13 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { type ExpPayload } from '@/apis/exp';
+import { type ExpPayload, SubExperience } from '@/apis/exp';
 import { ExpType } from '@/types/exp';
 import ExpInputBox from './ExpInputBox';
 
 interface AwardFormProps {
   experienceType?: ExpType;
-  data?: ExpPayload;
+  data?: ExpPayload & { subExperiencesResponseDto: SubExperience[] };
   onChange: (key: string, value: string) => void;
 }
 
@@ -16,11 +16,12 @@ export default function AwardForm({
   data,
   onChange,
 }: AwardFormProps) {
+  const sub = data?.subExperiencesResponseDto?.[0];
   const [form, setForm] = useState({
     qualification: data?.qualification || '',
     publisher: data?.publisher || '',
     issueDate: String(data?.issueDate) || '',
-    simpleDescription: data?.simpleDescription || '',
+    simpleDescription: sub?.simpleDescription || '',
   });
 
   const handleChange = (key: keyof typeof form, value: string) => {
