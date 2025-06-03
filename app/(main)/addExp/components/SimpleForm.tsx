@@ -1,25 +1,26 @@
 'use client';
 
 import { useState } from 'react';
-import { type ExpPayload } from '@/apis/exp';
+import { type ExpPayload, SubExperience } from '@/apis/exp';
 import ExpInputBox from './ExpInputBox';
 import KeywordInput from './KeywordInput';
 import FileInput from './FileInput';
 
 interface SimpleFormProps {
-  data?: ExpPayload;
+  data?: ExpPayload & { subExperiencesResponseDto: SubExperience[] };
   onChange: (key: string, value: string | string[]) => void;
 }
 
 export default function SimpleForm({ data, onChange }: SimpleFormProps) {
+  const sub = data?.subExperiencesResponseDto?.[0];
   const [form, setForm] = useState({
     title: data?.title || '',
     startDate: String(data?.startDate) || '',
     endDate: String(data?.endDate) || '',
-    role: data?.role || '',
-    perform: data?.perform || '',
-    files: data?.files || [],
-    keywords: data?.keywords || [],
+    role: sub?.role || '',
+    perform: sub?.perform || '',
+    files: sub?.files || [],
+    keywords: sub?.keywords || [],
   });
 
   const handleChange = (key: keyof typeof form, value: string | string[]) => {

@@ -1,7 +1,6 @@
 'use client';
 
 import { CoreSkillMapResponse } from '@/apis/dashboard';
-import HelpIcon from '@/public/icons/Circle_Help.svg';
 import {
   RadarChart,
   PolarGrid,
@@ -19,11 +18,6 @@ export default function SkillMap({
 
   return (
     <>
-      <div className="flex mb-3">
-        <span className="body-16-sb mr-2">핵심 스킬 맵</span>
-        <HelpIcon className="stroke-gray-600" />
-      </div>
-
       <div className="mt-10 group flex w-full overflow-hidden relative h-[200px]">
         {/* 차트 영역 */}
         <div
