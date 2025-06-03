@@ -22,8 +22,11 @@ export interface ExpHisoryResponse {
   httpStatus: number;
   message: string;
   data: {
-    dateCounts: DateCount[];
+    dateCounts: {
+      [month: string]: DateCount[];
+    };
   };
+  success: boolean;
 }
 
 export type CoreSkillMapType = {
@@ -61,73 +64,30 @@ export async function getJobRatio(): Promise<JobRatioResponse | null> {
 }
 
 export async function getCoreSkillMap(): Promise<CoreSkillMapResponse | null> {
-  return {
-    httpStatus: 200,
-    message: 'success',
-    data: {
-      coreSkillMaps: [
-        {
-          coreSkillName: '서버사이드프로그래밍',
-          score: 8.5,
-        },
-        {
-          coreSkillName: '데이터베이스관리',
-          score: 7.2,
-        },
-        {
-          coreSkillName: 'API설계',
-          score: 7,
-        },
-        {
-          coreSkillName: '문제해결능력',
-          score: 9,
-        },
-        {
-          coreSkillName: '성능최적화',
-          score: 8.8,
-        },
-      ],
-      strengthFeedback: {
-        strengthName: '문제해결능력',
-        reason: '다양한 프로젝트를 통해 문제를 해결한 경험이 많아서',
-        careerSuggestion: '시스템 아키텍트 또는 기술 컨설턴트에 적합합니다.',
-      },
-      weaknessFeedback: {
-        weaknessName: 'API설계',
-        reason: 'API 설계 관련 직접적인 경험을 언급하지 않음',
-        improvementSuggestion: 'API 설계 공부 및 작은 프로젝트 참여',
-      },
-    },
-    success: true,
-  };
+  await new Promise(resolve => setTimeout(resolve, 10000));
+  const res = await API.post<CoreSkillMapResponse>(`/api/dashboard/skills`);
+
+  if (!res.status) {
+    console.error('핵심 역량 맵 불러오기 실패:', res.statusText);
+    return null;
+  }
+
+  if (!res.data.data) {
+    console.error('핵심 역량 맵 data 불러오기 실패:', res.data);
+    return null;
+  }
+  return res.data;
 }
 
 export async function getExpHistory(
   year: number,
   month: number
 ): Promise<ExpHisoryResponse> {
-  const months = [
-    { year: year, month: month - 1 },
-    { year: year, month },
-    { year: year, month: month + 1 },
-  ];
-
-  const res = await Promise.all(
-    months.map(({ year, month }) =>
-      API.get<ExpHisoryResponse>(
-        `/api/dashboard/history?${new URLSearchParams({
-          year: year.toString(),
-          month: month.toString(),
-        })}`
-      )
-    )
+  const res = await API.get<ExpHisoryResponse>(
+    `/api/dashboard/history-new?${new URLSearchParams({
+      year: year.toString(),
+      month: month.toString(),
+    })}`
   );
-
-  return {
-    httpStatus: res[0].data.httpStatus,
-    message: res[0].data.message,
-    data: {
-      dateCounts: res.flatMap(res => res.data.data.dateCounts),
-    },
-  };
+  return res.data;
 }
