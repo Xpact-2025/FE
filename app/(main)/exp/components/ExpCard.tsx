@@ -48,6 +48,7 @@ export default function ExpCard({
             hour12: true,
           });
         } else {
+          // 연-월-일 포맷
           const yyyy = date.getFullYear();
           const mm = String(date.getMonth() + 1).padStart(2, '0');
           const dd = String(date.getDate()).padStart(2, '0');
