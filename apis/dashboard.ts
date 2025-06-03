@@ -64,7 +64,6 @@ export async function getJobRatio(): Promise<JobRatioResponse | null> {
 }
 
 export async function getCoreSkillMap(): Promise<CoreSkillMapResponse | null> {
-  await new Promise(resolve => setTimeout(resolve, 10000));
   const res = await API.post<CoreSkillMapResponse>(`/api/dashboard/skills`);
 
   if (!res.status) {
