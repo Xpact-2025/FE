@@ -29,7 +29,7 @@ export default function AddExpBtn() {
           router.push('/addExp');
         }}
       >
-        <EditPencilIcon className="stroke-gray-1100" />
+        <EditPencilIcon className="stroke-gray-1100 w-[30px] h-[30px]" />
       </div>
     </div>
   );
