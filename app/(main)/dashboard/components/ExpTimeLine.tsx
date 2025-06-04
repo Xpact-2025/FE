@@ -46,7 +46,7 @@ export default function ExpTimeLine() {
     <>
       <div className="flex mb-3">
         <span className="body-16-sb mr-2">경험 타임 라인</span>
-        <HelpIcon className="stroke-gray-600" />
+        <HelpIcon className="stroke-gray-600 w-[24px] h-[24px]" />
       </div>
       <Timeline width={380} experiences={sampleExperiences} />
     </>
