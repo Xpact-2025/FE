@@ -43,7 +43,7 @@ API.interceptors.response.use(
       }
     }
 
-    return Promise.reject(error);
+    return error.response;
   }
 );
 

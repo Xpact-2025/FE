@@ -2,6 +2,31 @@
 
 import API from './config';
 
+export interface ProfileInfoResponse {
+  httpStatus: number;
+  message: string;
+  data: ProfileInfo;
+  success: boolean;
+}
+
+export interface ProfileInfo {
+  name: string;
+  imgurl: string;
+  age: number;
+  educationName: string;
+  desiredDetailRecruit: string;
+}
+
+export async function getProfileInfo(): Promise<ProfileInfoResponse> {
+  const res = await API.get('/api/members');
+
+  if (res.status !== 200) {
+    console.log('프로필 정보 불러오기 실패', res.data);
+  }
+
+  return res.data;
+}
+
 export async function saveProfileInfo(
   name: string,
   imgUrl: string,

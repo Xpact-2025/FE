@@ -12,7 +12,12 @@ export default function Profile() {
   return (
     <div className="flex justify-end relative">
       <div className="flex items-center justify-center gap-1.5 text-gray-50 font-semibold">
-        <Image src="/images/profile.svg" alt="profile" width={36} height={36} />
+        <Image
+          src="/images/mainprofile.svg"
+          alt="profile"
+          width={36}
+          height={36}
+        />
         <p className="whitespace-nowrap">김잇타</p>
         <ArrowDownIcon
           onClick={() => setIsOpen(!isOpen)}
