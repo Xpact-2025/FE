@@ -234,7 +234,7 @@ export default function FileInput() {
         onClick={addNewItem}
         className="flex gap-2.5 w-full h-14 items-center justify-center bg-gray-700 rounded mt-7 p-2 text-gray-50 text-xl"
       >
-        <PlusIcon /> 항목 추가
+        <PlusIcon className="w-[25px] h-[25px]" /> 항목 추가
       </button>
     </div>
   );
