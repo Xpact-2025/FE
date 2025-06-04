@@ -1,6 +1,7 @@
 'use server';
 
 import API from './config';
+import { redirect } from 'next/navigation';
 
 export interface ProfileInfoResponse {
   httpStatus: number;
@@ -22,6 +23,7 @@ export async function getProfileInfo(): Promise<ProfileInfoResponse> {
 
   if (res.status !== 200) {
     console.log('프로필 정보 불러오기 실패', res.data);
+    redirect('/profile');
   }
 
   return res.data;
