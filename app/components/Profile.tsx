@@ -5,20 +5,21 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ArrowDownIcon from '@/public/icons/Arrow_Down.svg';
 import { logout } from '@/apis/auth';
+import { ProfileInfo } from '@/apis/profile';
 
-export default function Profile() {
+export default function Profile({ profileInfo }: { profileInfo: ProfileInfo }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="flex justify-end relative">
       <div className="flex items-center justify-center gap-1.5 text-gray-50 font-semibold">
         <Image
-          src="/images/mainprofile.svg"
+          src={profileInfo.imgurl || '/images/mainprofile.svg'}
           alt="profile"
           width={36}
           height={36}
         />
-        <p className="whitespace-nowrap">김잇타</p>
+        <p className="whitespace-nowrap">{profileInfo.name}</p>
         <ArrowDownIcon
           onClick={() => setIsOpen(!isOpen)}
           className="w-[24px] h-[24px]"

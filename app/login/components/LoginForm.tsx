@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import FormInput from '../../components/InputCheckBox';
-import { getMyInfo, loginUser } from '@/apis/auth';
+import { loginUser } from '@/apis/auth';
 
 export default function LoginForm() {
   const router = useRouter();

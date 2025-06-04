@@ -22,7 +22,7 @@ export default function SkillMapContainer({
         {skillMap?.data ? (
           <SkillMap skillMapData={skillMap?.data} />
         ) : (
-          skillMap?.message || '경험 정보를 추가해주세요.'
+          '경험 정보를 추가해주세요.'
         )}
       </div>
     </div>

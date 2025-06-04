@@ -9,7 +9,7 @@ export default function ProfileCard({
   return (
     <div className="flex flex-col items-center justify-center p-4 min-w-[120px] h-[270px]">
       <Image
-        src={profileInfo.imgurl}
+        src={profileInfo.imgurl || '/images/mainprofile.svg'}
         alt="profile"
         width={110}
         height={110}
