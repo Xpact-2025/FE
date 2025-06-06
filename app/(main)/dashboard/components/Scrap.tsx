@@ -37,7 +37,7 @@ export default function Scrap() {
     <>
       <div className="flex mb-6">
         <span className="body-16-sb mr-2">스크랩</span>
-        <HelpIcon className="stroke-gray-600" />
+        <HelpIcon className="stroke-gray-600 w-[24px] h-[24px]" />
       </div>
       <div className="flex flex-col gap-3">
         {scrapItems.map((item, idx) => (

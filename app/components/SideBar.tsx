@@ -15,7 +15,7 @@ const SideBar = () => {
   const pathname = usePathname();
 
   const iconStyle = (currentPath: string) => {
-    return `${currentPath === pathname ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`;
+    return `${currentPath === pathname ? 'stroke-gray-50' : 'stroke-gray-300'} w-[24px] h-[24px] transition-colors group-hover:stroke-gray-50`;
   };
 
   return (
@@ -35,27 +35,29 @@ const SideBar = () => {
             href="/dashboard"
             icon={
               <VectorIcon
-                className={`${pathname === '/dashboard' || pathname === '/' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
+                className={`${pathname.startsWith('/dashboard') || pathname === '/' ? 'stroke-gray-50' : 'stroke-gray-300'} w-[24px] h-[24px] transition-colors group-hover:stroke-gray-50`}
               />
             }
             text="대시보드"
-            isActive={pathname === '/dashboard' || pathname === '/'}
+            isActive={pathname.startsWith('/dashboard') || pathname === '/'}
           />
           <SideBarMenu
             href="/exp"
             icon={
               <BookIcon
-                className={`${pathname === '/exp' || pathname === '/addExp' ? 'stroke-gray-50' : 'stroke-gray-300'} transition-colors group-hover:stroke-gray-50`}
+                className={`${pathname.startsWith('/exp') || pathname.startsWith('/addExp') ? 'stroke-gray-50' : 'stroke-gray-300'} w-[24px] h-[24px] transition-colors group-hover:stroke-gray-50`}
               />
             }
             text="내 경험"
-            isActive={pathname === '/exp' || pathname === '/addExp'}
+            isActive={
+              pathname.startsWith('/exp') || pathname.startsWith('/addExp')
+            }
           />
           <SideBarMenu
             href="/exp"
             icon={<CopyIcon className={iconStyle('/growth-guide')} />}
             text="성장 가이드"
-            isActive={pathname === '/growth-guide'}
+            isActive={pathname.startsWith('/growth-guide')}
           />
           <SideBarMenu
             href="/ai-self-introduction"
@@ -65,19 +67,19 @@ const SideBar = () => {
               />
             }
             text="AI 자기소개서"
-            isActive={pathname === '/ai-self-introduction'}
+            isActive={pathname.startsWith('/ai-self-introduction')}
           />
           <SideBarMenu
             href="/bookmark"
             icon={<BookmarkIcon className={iconStyle('/bookmark')} />}
             text="북마크"
-            isActive={pathname === '/bookmark'}
+            isActive={pathname.startsWith('/bookmark')}
           />
           <SideBarMenu
             href="/my-page"
             icon={<UserCircleIcon className={iconStyle('/my-page')} />}
             text="마이페이지"
-            isActive={pathname === '/my-page'}
+            isActive={pathname.startsWith('/my-page')}
           />
         </ul>
       </nav>

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import FormInput from '../../components/InputCheckBox';
-import { getMyInfo, loginUser } from '@/apis/auth';
+import { loginUser } from '@/apis/auth';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -61,18 +61,7 @@ export default function LoginForm() {
       const loginRes = await loginUser({ email, password });
 
       if (loginRes.httpStatus === 200) {
-        try {
-          const userInfo = await getMyInfo();
-
-          if (userInfo.success === true) {
-            router.push('/'); // 메인으로 이동
-          } else {
-            router.push('/profile');
-          }
-        } catch (err) {
-          console.error('회원 정보 조회 실패:', err);
-          router.push('/profile');
-        }
+        router.push('/'); // 메인으로 이동
       } else {
         setEmailError('아이디 또는 비밀번호가 일치하지 않습니다.');
         setPasswordError('아이디 또는 비밀번호가 일치하지 않습니다.');

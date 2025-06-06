@@ -10,8 +10,10 @@ import {
 } from './components/LazyChartContainer';
 import SkeletonBox from './components/SkeletonBox';
 import { Suspense } from 'react';
+import { getProfileInfo } from '@/apis/profile';
 
 export default async function DashboardPage() {
+  const profileInfo = await getProfileInfo();
   const expHistory = await getExpHistory(
     new Date().getFullYear(),
     new Date().getMonth() + 1
@@ -22,7 +24,7 @@ export default async function DashboardPage() {
       <div className="flex flex-col gap-4">
         <div className="flex flex-grow flex-wrap lg:flex-nowrap gap-4 h-auto">
           <div className="flex-[1] bg-gray-800 rounded-[23px]">
-            <ProfileCard />
+            <ProfileCard profileInfo={profileInfo.data} />
           </div>
           <div className="flex-[7]">
             <div className="flex flex-grow flex-wrap lg:flex-nowrap gap-4 h-auto">

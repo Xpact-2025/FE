@@ -255,7 +255,7 @@ export default function ExpForm({ data }: ExpFormProps) {
               <FormTab onChange={handleTabChange} selectedTab={tab} />
               <div className="flex items-center gap-[12px]">
                 <button type="button" onClick={() => setIsModalOpen(true)}>
-                  <HelpIcon className="stroke-gray-300" />
+                  <HelpIcon className="stroke-gray-300 w-[24px] h-[24px]" />
                 </button>
                 <div className="text-neutral-400 font-medium p-2">
                   양식 활용 가이드
