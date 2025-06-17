@@ -40,8 +40,8 @@ export default function ExpList({ data }: ExpListProps) {
         <SearchBar onSearch={setSearchTerm} />
         <BtnFilter
           onSelectType={setSelectedType}
-          onSelectSort={sort => {
-            fetch(`api/exp?sort=${sort}`);
+          onSelectOrder={order => {
+            fetch(`/api/exp?order=${order}`);
           }}
         />
       </div>

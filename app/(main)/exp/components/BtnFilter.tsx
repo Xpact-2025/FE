@@ -9,17 +9,17 @@ import { ExpType } from '@/types/exp';
 
 interface BtnFilterProps {
   onSelectType: (type: ExpType | null) => void;
-  onSelectSort: (sort: 'latest' | 'oldest') => void;
+  onSelectOrder: (order: 'latest' | 'oldest') => void;
 }
 
 export default function BtnFilter({
   onSelectType,
-  onSelectSort,
+  onSelectOrder,
 }: BtnFilterProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedType, setSelectedType] = useState<ExpType | null>(null);
   const options = Object.values(EXP_OPTIONS);
-  const [sortOrder, setSortOrder] = useState<'latest' | 'oldest'>('latest');
+  const [order, setOrder] = useState<'latest' | 'oldest'>('latest');
 
   const handleSelectType = (type: ExpType) => {
     if (type === null) {
@@ -30,9 +30,9 @@ export default function BtnFilter({
     onSelectType(type);
   };
 
-  const handleSelectSort = (sort: 'latest' | 'oldest') => {
-    setSortOrder(sort);
-    onSelectSort(sort);
+  const handleSelectOrder = (order: 'latest' | 'oldest') => {
+    setOrder(order);
+    onSelectOrder(order);
   };
 
   return (
@@ -73,13 +73,13 @@ export default function BtnFilter({
             <div className="flex gap-4">
               <BtnExpType
                 label="최신순"
-                selected={sortOrder === 'latest'}
-                onClick={() => handleSelectSort('latest')}
+                selected={order === 'latest'}
+                onClick={() => handleSelectOrder('latest')}
               />
               <BtnExpType
                 label="과거순"
-                selected={sortOrder === 'oldest'}
-                onClick={() => handleSelectSort('oldest')}
+                selected={order === 'oldest'}
+                onClick={() => handleSelectOrder('oldest')}
               />
             </div>
           </div>
