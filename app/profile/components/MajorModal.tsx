@@ -25,6 +25,13 @@ export default function MajorModal({
 }: MajorModalProps) {
   if (!isOpen) return null;
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      onSearch();
+    }
+  };
+
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex items-center justify-center z-50"
@@ -57,6 +64,7 @@ export default function MajorModal({
             placeholder="학과명"
             value={searchValue}
             onChange={onChange}
+            onKeyDown={handleKeyDown}
             className="flex-1 h-[44px] px-4 py-2 bg-gray-600 text-white rounded border border-gray-400"
           />
           <button
@@ -68,7 +76,7 @@ export default function MajorModal({
         </div>
 
         {/* 결과 목록 */}
-        <div className="bg-[#2b2b2b] rounded-md max-h-[250px] overflow-y-auto px-2 py-3">
+        <div className="bg-gray-600 rounded-md max-h-[250px] overflow-y-auto px-2 py-3">
           {isLoading ? (
             <div className="text-center py-4 text-gray-300">로딩 중...</div>
           ) : (
@@ -86,17 +94,20 @@ export default function MajorModal({
             ))
           )}
           {!isLoading && majors.length === 0 && (
-            <div className="text-center py-4 text-gray-400">
-              검색 결과가 없습니다.
-              <div
-                className="mt-2 px-4 py-2 bg-orange-500 text-white font-semibold rounded cursor-pointer inline-block"
-                onClick={() => {
-                  onSelect(searchValue); // 직접 입력된 학과명 사용
-                  onClose();
-                }}
-              >
-                {searchValue} 직접 추가하기
+            <div className="px-4 py-2">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-gray-50 font-medium">{searchValue}</span>
+                <button
+                  onClick={() => {
+                    onSelect(searchValue);
+                    onClose();
+                  }}
+                  className="text-sm bg-gray-600 text-white px-2 py-[2px] rounded cursor-pointer"
+                >
+                  직접 추가하기
+                </button>
               </div>
+              <div className="text-gray-400 text-sm">검색 결과가 없습니다.</div>
             </div>
           )}
         </div>
