@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Exp } from '@/apis/exp';
+import { Exp, ExpPayload } from '@/apis/exp';
 import { ExpType } from '@/types/exp';
 import ExpCard from './ExpCard';
 import BtnFilter from '@/app/(main)/exp/components/BtnFilter';
@@ -13,9 +13,25 @@ interface ExpListProps {
 }
 
 export default function ExpList({ data }: ExpListProps) {
-  console.log('ExpList data:', data);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<ExpType | null>(null);
+
+  const [form, setForm] = useState<ExpPayload>({
+    experienceType: '' as ExpType,
+    qualification: '',
+    publisher: '',
+    title: '',
+    startDate: '',
+    endDate: '',
+    issueDate: '',
+  });
+
+  const handleChange = (key: string, value: string) => {
+    setForm(prev => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
 
   const filteredSearch = data.filter(exp => {
     return (
@@ -33,7 +49,7 @@ export default function ExpList({ data }: ExpListProps) {
   return (
     <main className="flex-1 flex-col items-start py-16 px-[80px]">
       <div className="fixed top-[75vh] right-[49px] z-50">
-        <AddExpBtn />
+        <AddExpBtn form={form} onChange={handleChange} />
       </div>
       <h1 className="text-[25px] font-bold mb-6">내 경험</h1>
       <div className="flex justify-between mb-7">
