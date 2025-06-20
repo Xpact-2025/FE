@@ -88,7 +88,7 @@ export default function AddExpModal({
         {['CERTIFICATES', 'PRIZE'].includes(form.experienceType) ? (
           <div className="py-10">
             <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-              기간
+              날짜
             </div>
             <ExpInputBox
               type="date"
