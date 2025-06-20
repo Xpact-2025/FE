@@ -17,13 +17,13 @@ export default function FormTab({ onChange, selectedTab }: FormTabProps) {
   };
 
   return (
-    <div className="flex w-[340px] px-0.5 py-0.5 bg-gray-700 rounded-3xl gap-2">
+    <div className="flex justify-between gap-2.5">
       <button
         type="button"
-        className={`w-[170px] rounded-3xl font-medium py-2 transition all ${
+        className={`w-[460px] rounded-lg text-sm font-semibold py-3.5 transition all ${
           selectedTab === 'star'
-            ? 'bg-gray-300 text-gray-1100'
-            : 'bg-gray-700 font-medium text-gray-300'
+            ? 'bg-primary-50 text-gray-800'
+            : 'bg-gray-800 text-gray-300 outline outline-gray-50-10'
         }`}
         onClick={() => handleTabChange('star')}
       >
@@ -31,10 +31,10 @@ export default function FormTab({ onChange, selectedTab }: FormTabProps) {
       </button>
       <button
         type="button"
-        className={`w-[170px] rounded-3xl font-medium py-2 transition all ${
+        className={`w-[460px] rounded-lg text-sm font-semibold py-3.5 transition all ${
           selectedTab === 'simple'
-            ? 'bg-gray-300 text-gray-1100'
-            : 'bg-gray-700 font-medium text-gray-300'
+            ? 'bg-primary-50 text-gray-800'
+            : 'bg-gray-800 text-gray-300 outline outline-gray-50-10'
         }`}
         onClick={() => handleTabChange('simple')}
       >

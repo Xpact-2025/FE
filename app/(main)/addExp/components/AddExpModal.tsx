@@ -123,6 +123,7 @@ export default function AddExpModal({
             type="button"
             className="flex justify-center w-72 px-52 py-4 bg-primary-50 font-body-23-b font-bold rounded-lg whitespace-nowrap"
             onClick={() => {
+              localStorage.setItem('draftForm', JSON.stringify(form));
               router.push('/addExp');
             }}
           >

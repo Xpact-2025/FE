@@ -1,12 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { editExp, saveExp, SubExperience, type ExpPayload } from '@/apis/exp';
 import FormTab from './FormTab';
 import Popup from '@/app/components/Popup';
 import GuideModal from './GuideModal';
-import ExpInputBox from './ExpInputBox';
 import Footer from '@/app/components/Footer';
 import BackIcon from '@/public/icons/Chevron_Left.svg';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
@@ -14,6 +13,7 @@ import { ExpFormType, ExpType } from '@/types/exp';
 import AwardForm from './AwardForm';
 import StarForm from './StarForm';
 import SimpleForm from './SimpleForm';
+import PlusGrayIcon from '@/public/icons/PlusIcon_gray.svg';
 
 interface ExpFormProps {
   data?: ExpPayload & { subExperiencesResponseDto: SubExperience[] };
@@ -43,6 +43,7 @@ const getInitialForm = (
     title: data?.title || '',
     startDate: data?.startDate || '',
     endDate: data?.endDate || '',
+    subTitle: sub?.subTitle || '',
     role: sub?.role || '',
     perform: sub?.perform || '',
     situation: sub?.situation || '',
@@ -60,12 +61,20 @@ export default function ExpForm({ data }: ExpFormProps) {
   const router = useRouter();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isTabVisible, setIsTabVisible] = useState(true);
   const [pendingFormType, setPendingFormType] = useState<ExpFormType | null>(
     null
   );
 
   const [form, setForm] = useState(getInitialForm(data));
+  useEffect(() => {
+    const saved = localStorage.getItem('draftForm');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setForm(getInitialForm(parsed));
+      localStorage.removeItem('draftForm'); // 선택적
+    }
+  }, []);
+
   const [tab, setTab] = useState<'star' | 'simple'>('star');
 
   const isFormChanged = () => {
@@ -180,12 +189,7 @@ export default function ExpForm({ data }: ExpFormProps) {
       form.experienceType === 'CERTIFICATES' ||
       form.experienceType === 'PRIZE'
     ) {
-      return (
-        <AwardForm
-          experienceType={form.experienceType}
-          onChange={handleChange}
-        />
-      );
+      return <AwardForm onChange={handleChange} />;
     }
     if (form.formType === 'STAR_FORM') {
       return <StarForm onChange={handleChange} />;
@@ -195,32 +199,104 @@ export default function ExpForm({ data }: ExpFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="p-20">
-      <div className="flex justify-between w-full">
-        <div className="flex items-center">
-          <button
-            type="button"
-            onClick={() => {
-              setPendingFormType(null);
-              setIsPopupOpen(true);
+      <div className="flex items-center pb-[50px]">
+        <button
+          type="button"
+          onClick={() => {
+            setPendingFormType(null);
+            setIsPopupOpen(true);
+          }}
+        >
+          <BackIcon className="stroke-gray-50 w-[35px] h-[35px]" />
+        </button>
+        {isPopupOpen && !pendingFormType && (
+          <Popup
+            title="작성취소"
+            content={`경험 작성을 취소하시겠습니까?\n취소하시면 입력하신 내용은 저장되지 않습니다.`}
+            confirmText="작성 취소"
+            cancelText="계속 작성"
+            onConfirm={() => router.push('/exp')}
+            onCancel={() => {
+              setIsPopupOpen(false);
             }}
-          >
-            <BackIcon className="stroke-gray-50 w-[35px] h-[35px]" />
-          </button>
-          {isPopupOpen && !pendingFormType && (
-            <Popup
-              title="작성취소"
-              content={`경험 작성을 취소하시겠습니까?\n취소하시면 입력하신 내용은 저장되지 않습니다.`}
-              confirmText="작성 취소"
-              cancelText="계속 작성"
-              onConfirm={() => router.push('/exp')}
-              onCancel={() => {
-                setIsPopupOpen(false);
-              }}
-            />
-          )}
-          <div className="text-gray-50 text-2xl font-medium">경험 입력</div>
+          />
+        )}
+        <div className="text-gray-50 text-2xl font-medium">경험 입력</div>
+      </div>
+
+      <div className="w-[1025px] px-12">
+        {/*항목탭*/}
+        <div className="flex mb-[-14px]">
+          <div className="w-48 h-18 bg-gray-700 rounded-tl-2xl rounded-tr-2xl border-t-2 border-primary-50">
+            <div className="flex h-full justify-center items-center text-lg">
+              경험 1
+            </div>
+          </div>
+          {/*세부 항목*/}
+          <div className="flex px-19 pt-4">
+            <PlusGrayIcon className="w-[26px] h-[27px]" />
+          </div>
         </div>
-        <div className="flex items-center gap-[9px]">
+        {/*회색 배경*/}
+        <div className="bg-gray-700 rounded-2xl px-12">
+          {/*작성양식 탭*/}
+
+          <div className="pb-[60px]">
+            {form.experienceType !== 'PRIZE' &&
+              form.experienceType !== 'CERTIFICATES' && (
+                <>
+                  <div className="flex items-center justify-between w-full pt-7.5 pb-6.5">
+                    <div className="text-gray-50 text-xl font-medium ml-[1%]">
+                      작성 양식
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setIsModalOpen(true)}
+                      >
+                        <HelpIcon className="stroke-gray-300 w-[24px] h-[24px]" />
+                      </button>
+                      <span className="text-neutral-400 font-medium p-2">
+                        양식 활용 가이드
+                      </span>
+                    </div>
+                  </div>
+                  <FormTab onChange={handleTabChange} selectedTab={tab} />
+                  {isPopupOpen && pendingFormType && (
+                    <Popup
+                      title="양식 변경"
+                      content={`${
+                        pendingFormType === 'STAR_FORM'
+                          ? 'STAR 양식'
+                          : '간결 양식'
+                      }으로 변경하시겠습니까?\n변경하시면 입력하신 내용은 저장되지 않습니다.`}
+                      confirmText="양식 변경"
+                      cancelText="계속 작성"
+                      onConfirm={confirmTabChange}
+                      onCancel={() => setIsPopupOpen(false)}
+                    />
+                  )}
+                </>
+              )}
+            {isModalOpen && (
+              <GuideModal
+                title={
+                  form.selectedTab === 'star'
+                    ? 'STAR양식 작성 가이드'
+                    : '간결 양식 작성 가이드'
+                }
+                type={tab}
+                closeRequest={() => setIsModalOpen(false)}
+              />
+            )}
+          </div>
+
+          {/*제목부터 입력*/}
+          {renderForm()}
+        </div>
+
+        {/*저장 버튼*/}
+        <div className="flex justify-between pt-15 gap-2.5">
           <button
             type="submit"
             onClick={() => {
@@ -229,7 +305,7 @@ export default function ExpForm({ data }: ExpFormProps) {
                 status: 'DRAFT',
               }));
             }}
-            className="w-20 py-3 bg-gray-1000 text-sm text-gray-300 font-semibold border border-gray-50-20 rounded-lg"
+            className="w-[502px] h-14 py-5 bg-gray-800 text-sm text-gray-300 font-semibold border border-gray-50-10 rounded-lg"
           >
             임시저장
           </button>
@@ -241,68 +317,11 @@ export default function ExpForm({ data }: ExpFormProps) {
                 status: 'SAVE',
               }));
             }}
-            className="w-20 py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg"
+            className="w-[502px] h-14 py-5 bg-primary-50 text-sm text-gray-1000 font-semibold rounded-lg"
           >
             작성완료
           </button>
         </div>
-      </div>
-
-      <div className="py-10">
-        <div className="flex items-center justify-between w-full">
-          {isTabVisible && (
-            <>
-              <FormTab onChange={handleTabChange} selectedTab={tab} />
-              <div className="flex items-center gap-[12px]">
-                <button type="button" onClick={() => setIsModalOpen(true)}>
-                  <HelpIcon className="stroke-gray-300 w-[24px] h-[24px]" />
-                </button>
-                <div className="text-neutral-400 font-medium p-2">
-                  양식 활용 가이드
-                </div>
-              </div>
-              {isPopupOpen && pendingFormType && (
-                <Popup
-                  title="양식 변경"
-                  content={`${pendingFormType === 'STAR_FORM' ? 'STAR 양식' : '간결 양식'}으로 변경하시겠습니까?\n변경하시면 입력하신 내용은 저장되지 않습니다.`}
-                  confirmText="양식 변경"
-                  cancelText="계속 작성"
-                  onConfirm={confirmTabChange}
-                  onCancel={() => setIsPopupOpen(false)}
-                />
-              )}
-            </>
-          )}
-        </div>
-        {isModalOpen && (
-          <GuideModal
-            title={
-              form.selectedTab === 'star'
-                ? 'STAR양식 작성 가이드'
-                : '간결 양식 작성 가이드'
-            }
-            type={tab}
-            closeRequest={() => setIsModalOpen(false)}
-          />
-        )}
-      </div>
-
-      <div className="px-12">
-        <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-          경험 유형
-        </div>
-        <ExpInputBox
-          type="select"
-          value={form.experienceType}
-          onChange={e => {
-            const newType = e.target.value;
-            handleChange('experienceType', newType);
-            setIsTabVisible(
-              !(newType === 'CERTIFICATES' || newType === 'PRIZE')
-            );
-          }}
-        />
-        {renderForm()}
       </div>
       <Footer />
     </form>
