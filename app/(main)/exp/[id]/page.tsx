@@ -25,6 +25,27 @@ export default function ExpDetailPage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [editTitle, setEditTitle] = useState('');
+  const [editQualification, setEditQualification] = useState('');
+  const [editPublisher, setEditPublisher] = useState('');
+  const [editStartDate, setEditStartDate] = useState('');
+  const [editEndDate, setEditEndDate] = useState('');
+  const [editIssueDate, setEditIssueDate] = useState('');
+
+  const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
+
+  const handleDeleteSubExp = (indexToDelete: number) => {
+    const newList = subDataList.filter((_, i) => i !== indexToDelete);
+    setSubDataList(newList);
+
+    if (selectedTabIndex >= newList.length) {
+      setSelectedTabIndex(Math.max(0, newList.length - 1));
+    }
+
+    setDeleteIndex(null); // 모달 닫기
+  };
+
   const currentSubData = subDataList[selectedTabIndex] ?? null;
 
   useEffect(() => {
@@ -39,7 +60,15 @@ export default function ExpDetailPage() {
         const res = await getExpById(expId);
         setData(res.data);
         setSubDataList(res.data.subExperiencesResponseDto ?? []);
+
+        setEditTitle(res.data.title || '');
+        setEditQualification(res.data.qualification || '');
+        setEditPublisher(res.data.publisher || '');
+        setEditStartDate(res.data.startDate || '');
+        setEditEndDate(res.data.endDate || '');
+        setEditIssueDate(res.data.issueDate || '');
       } catch (e) {
+        console.error('경험 데이터를 불러오는 데 실패했습니다.', e);
         setError('경험 데이터를 불러오는 데 실패했습니다.');
       }
     };
@@ -66,12 +95,21 @@ export default function ExpDetailPage() {
       {/* 헤더 정보 */}
       <ExpHeader
         experienceType={data.experienceType}
-        title={data.title as string}
-        qualification={data.qualification}
-        publisher={data.publisher}
-        issueDate={data.issueDate}
-        startDate={data.startDate ?? ''}
-        endDate={data.endDate ?? ''}
+        title={editTitle}
+        qualification={editQualification}
+        publisher={editPublisher}
+        issueDate={editIssueDate}
+        startDate={editStartDate}
+        endDate={editEndDate}
+        isEditing={isEditing}
+        onChange={{
+          title: setEditTitle,
+          qualification: setEditQualification,
+          publisher: setEditPublisher,
+          issueDate: setEditIssueDate,
+          startDate: setEditStartDate,
+          endDate: setEditEndDate,
+        }}
       />
 
       {/* 탭 영역 */}
@@ -79,10 +117,57 @@ export default function ExpDetailPage() {
         subDataList={subDataList}
         selectedIndex={selectedTabIndex}
         onSelect={setSelectedTabIndex}
+        isEditing={isEditing}
+        onRemoveClick={index => {
+          if (subDataList.length === 1) {
+            setIsPopupOpen(true); // 1개면 전체 경험 삭제로 연결
+          } else {
+            setDeleteIndex(index); // 여러 개면 세부 경험 삭제
+          }
+        }}
       />
 
+      {/* 세부 경험 삭제 모달 */}
+      {deleteIndex !== null && (
+        <Popup
+          title="세부 경험 삭제"
+          content="이 세부 경험 내용을 정말 삭제하시겠습니까?"
+          confirmText="삭제"
+          cancelText="취소"
+          onConfirm={() => handleDeleteSubExp(deleteIndex)}
+          onCancel={() => setDeleteIndex(null)}
+        />
+      )}
+
+      {/* 전체 경험 삭제 모달 */}
+      {isPopupOpen && (
+        <Popup
+          title="전체 경험 삭제"
+          content={`해당 경험 카드의 모든 내용이 삭제됩니다. \n세부 경험만 삭제하려면 ‘수정’에서 개별 삭제해 주세요.`}
+          confirmText="삭제"
+          cancelText="취소"
+          onConfirm={async () => {
+            await deleteExp(Number(params?.id));
+            router.push('/exp');
+          }}
+          onCancel={() => setIsPopupOpen(false)}
+        />
+      )}
+
       {/* 세부 내용 */}
-      <ExpDetailContent data={data} subData={currentSubData} />
+      <ExpDetailContent
+        data={data}
+        subData={currentSubData}
+        isEditing={isEditing}
+        onChange={(field, value) => {
+          const updated = [...subDataList];
+          updated[selectedTabIndex] = {
+            ...updated[selectedTabIndex],
+            [field]: value,
+          };
+          setSubDataList(updated);
+        }}
+      />
 
       {/* 하단 버튼 */}
       <div className="flex items-center gap-[9px] mt-8">
@@ -96,8 +181,8 @@ export default function ExpDetailPage() {
 
         {isPopupOpen && (
           <Popup
-            title="경험 삭제"
-            content={`경험을 삭제하시겠습니까?\n삭제하시면 다시 복구할 수 없습니다.`}
+            title="전체 경험 삭제"
+            content={`해당 경험 카드의 모든 내용이 삭제됩니다. \n세부 경험만 삭제하려면 ‘수정’에서 개별 삭제해 주세요.`}
             confirmText="삭제"
             cancelText="취소"
             onConfirm={async () => {
@@ -108,18 +193,36 @@ export default function ExpDetailPage() {
           />
         )}
 
-        <button
-          type="button"
-          onClick={async () => {
-            await editExp(Number(params?.id), {
-              ...data,
-              subExperiences: subDataList,
-            });
-          }}
-          className="w-[50%] py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg"
-        >
-          수정
-        </button>
+        {isEditing ? (
+          <button
+            type="button"
+            onClick={async () => {
+              await editExp(Number(params?.id), {
+                ...data,
+                title: editTitle,
+                qualification: editQualification,
+                publisher: editPublisher,
+                startDate: editStartDate,
+                endDate: editEndDate,
+                issueDate: editIssueDate,
+                subExperiences: subDataList,
+              });
+              alert('수정 완료');
+              setIsEditing(false);
+            }}
+            className="w-[50%] py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg"
+          >
+            저장
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setIsEditing(true)}
+            className="w-[50%] py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg"
+          >
+            수정
+          </button>
+        )}
       </div>
     </div>
   );
