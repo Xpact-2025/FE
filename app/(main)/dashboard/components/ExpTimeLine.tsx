@@ -1,42 +1,37 @@
 import HelpIcon from '@/public/icons/Circle_Help.svg';
 import Timeline from '@/app/components/commons/Timeline';
+import { getExpTimeline } from '@/apis/dashboard';
 
-interface Experience {
-  startDate: string;
-  endDate: string;
-  title: string;
-  experienceType: string;
+function getStartAndEndLines(): { startLine: string; endLine: string } {
+  const now = new Date();
+
+  // endLine: 이번 달의 마지막 날
+  const end = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  console.log('end', end);
+
+  // startLine: 두 달 전의 첫째 날
+  const start = new Date(now.getFullYear(), now.getMonth() - 3, 2);
+  console.log('start', start);
+
+  const toString = (date: Date) => date.toISOString().split('T')[0]; // yyyy-mm-dd 형식
+
+  return {
+    startLine: toString(start),
+    endLine: toString(end),
+  };
 }
 
-const sampleExperiences: Experience[] = [
-  {
-    startDate: '2025-03-27',
-    endDate: '2025-05-29',
-    title: '프로젝트3',
-    experienceType: 'PROJECT',
-  },
-  {
-    startDate: '2025-04-01',
-    endDate: '2025-06-29',
-    title: '인턴',
-    experienceType: 'INTERN',
-  },
-  {
-    startDate: '2025-06-11',
-    endDate: '2025-06-12',
-    title: 'dd공모전',
-    experienceType: 'CONTEST',
-  },
-];
+export default async function ExpTimeLine() {
+  const { startLine, endLine } = getStartAndEndLines();
+  const Exp = await getExpTimeline(startLine, endLine);
 
-export default function ExpTimeLine() {
   return (
     <>
       <div className="flex mb-3">
         <span className="body-16-sb mr-2">경험 타임 라인</span>
         <HelpIcon className="stroke-gray-600 w-[24px] h-[24px]" />
       </div>
-      <Timeline experiences={sampleExperiences} />
+      <Timeline experiences={Exp.data} />
     </>
   );
 }

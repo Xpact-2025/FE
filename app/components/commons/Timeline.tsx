@@ -5,15 +5,9 @@ import useResponsiveWidth from '@/hooks/useResponsiveWidth';
 import { EXP_COLORS } from '@/constants/expColors';
 import BtnPrev from './BtnPrev';
 import BtnNext from './BtnNext';
+import { TimelineExp } from '@/apis/dashboard';
 
-interface Experience {
-  startDate: string;
-  endDate: string;
-  title: string;
-  experienceType: string;
-}
-
-interface ParsedExperience extends Experience {
+interface ParsedExperience extends TimelineExp {
   _start: Date;
   _end: Date;
 }
@@ -27,7 +21,7 @@ interface Row {
 }
 
 interface TimelineProps {
-  experiences: Experience[];
+  experiences: TimelineExp[];
   width?: number | string;
   height?: number;
   minDate?: Date;
