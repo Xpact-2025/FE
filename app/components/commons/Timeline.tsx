@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef, useEffect, useState } from 'react';
+import { useMemo, useRef, useEffect } from 'react';
 import useResponsiveWidth from '@/hooks/useResponsiveWidth';
 import { EXP_COLORS } from '@/constants/expColors';
 import BtnPrev from './BtnPrev';
@@ -37,7 +37,7 @@ export default function Timeline({
   experiences = [],
   width = '100%',
   height = 200,
-  padding = 40,
+  padding = 10,
 }: TimelineProps) {
   const parseISO = (dateStr: string): Date => new Date(dateStr);
   const differenceInDays = (date1: Date, date2: Date): number =>
@@ -90,7 +90,7 @@ export default function Timeline({
     };
   }, [placedBar]);
 
-  const gap = 3;
+  const gap = 1;
   const rowHeight = (height - padding * 2 - gap * (rowsCount - 1)) / rowsCount;
 
   const monthLabels = useMemo(() => {
@@ -103,7 +103,7 @@ export default function Timeline({
     return labels;
   }, [minDate, maxDate]);
 
-  const [textWidths, setTextWidths] = useState<number[]>([]);
+  //const [textWidths, setTextWidths] = useState<number[]>([]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -111,12 +111,13 @@ export default function Timeline({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     ctx.font = '14px sans-serif';
-    setTextWidths(placedBar.map(exp => ctx.measureText(exp.title).width));
+    //setTextWidths(placedBar.map(exp => ctx.measureText(exp.title).width));
   }, [placedBar]);
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center gap-2 mb-3">
+      <div className="mb-3">2025</div>
+      <div className="flex items-center mb-3 gap-2">
         <BtnPrev movePrev={() => {}} />
         <div className="flex-1 flex gap-2" ref={containerRef}>
           {monthLabels.map(label => (
@@ -148,49 +149,45 @@ export default function Timeline({
               (differenceInDays(exp._end, minDate) / totalDays) *
                 (numericWidth - padding * 2);
             const y = padding + exp.rowIndex * (rowHeight + gap);
-            const thinH = 6,
-              thickH = 24;
-            const textW = textWidths[idx] || 0;
-            const highlightW = Math.max(Math.min(80, x2 - x1), textW + 24);
+            const h = 30;
+            //const textW = textWidths[idx] || 0;
+
+            //기간이 짧을 때 원 반환
             if (x2 - x1 < 40)
               return (
                 <circle
                   key={idx}
                   cx={x1 + 1}
-                  cy={y + thickH / 2}
+                  cy={y + h / 2}
                   r={12}
                   fill={EXP_COLORS[exp.experienceType] || '#666'}
                 />
               );
             return (
               <g key={idx}>
-                <circle
-                  cx={x1 + (x2 - x1) - 9}
-                  cy={y + thickH / 2 - 2}
-                  r={9}
-                  fill={EXP_COLORS[exp.experienceType] || '#666'}
-                />
                 <rect
                   x={x1}
-                  y={y + thickH / 2 - 5}
-                  width={Math.max(x2 - x1, 1)}
-                  height={thinH}
+                  y={y}
+                  width={3}
+                  height={h}
                   rx={2}
                   fill={EXP_COLORS[exp.experienceType] || '#666'}
                 />
                 <rect
                   x={x1}
                   y={y}
-                  width={highlightW}
-                  height={thickH}
+                  width={Math.max(x2 - x1, 1)}
+                  height={h}
                   rx={4}
                   fill={EXP_COLORS[exp.experienceType] || '#666'}
+                  fillOpacity={0.2}
                 />
                 <text
                   x={x1 + 15}
-                  y={y + thickH / 2 + 6}
+                  y={y + h / 2 + 6}
                   fontSize={14}
-                  fill="#000"
+                  fontWeight={400}
+                  fill="#fff"
                 >
                   {exp.title}
                 </text>

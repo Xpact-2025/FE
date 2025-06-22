@@ -36,7 +36,7 @@ export default function CalendarDays({
           return (
             <div
               key={i}
-              className="text-center pt-2 h-[40px] text-gray-300 body-11-m relative select-none"
+              className="text-center pt-2 h-[30px] text-gray-300 body-11-m relative select-none"
             >
               {day}
               {count && <DateMark count={count} />}
