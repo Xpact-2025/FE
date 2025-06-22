@@ -10,16 +10,16 @@ interface Experience {
 
 const sampleExperiences: Experience[] = [
   {
-    startDate: '2025-03-01',
-    endDate: '2025-06-29',
-    title: '인턴',
-    experienceType: 'INTERN',
-  },
-  {
     startDate: '2025-03-27',
     endDate: '2025-05-29',
     title: '프로젝트3',
     experienceType: 'PROJECT',
+  },
+  {
+    startDate: '2025-04-01',
+    endDate: '2025-06-29',
+    title: '인턴',
+    experienceType: 'INTERN',
   },
   {
     startDate: '2025-06-11',

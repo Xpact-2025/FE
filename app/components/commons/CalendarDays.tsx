@@ -18,7 +18,7 @@ export default function CalendarDays({
 }: CalendarDaysProps) {
   return (
     <>
-      <div className="grid grid-cols-7 my-2 gap-0.5">
+      <div className="grid grid-cols-7 gap-0.5">
         {WEEK_DAYS.map(day => (
           <div
             key={day}

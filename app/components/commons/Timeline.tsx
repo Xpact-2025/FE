@@ -30,14 +30,16 @@ interface TimelineProps {
   experiences: Experience[];
   width?: number | string;
   height?: number;
-  padding?: number;
+  minDate?: Date;
+  maxDate?: Date;
 }
 
 export default function Timeline({
   experiences = [],
   width = '100%',
-  height = 200,
-  padding = 10,
+  height = 170,
+  minDate = new Date('2025-03-01'),
+  maxDate = new Date('2025-06-30'),
 }: TimelineProps) {
   const parseISO = (dateStr: string): Date => new Date(dateStr);
   const differenceInDays = (date1: Date, date2: Date): number =>
@@ -71,27 +73,19 @@ export default function Timeline({
   }, [parsed]);
 
   interface DateRange {
-    minDate: Date;
-    maxDate: Date;
     totalDays: number;
     rowsCount: number;
   }
-  const { minDate, maxDate, totalDays, rowsCount } = useMemo<DateRange>(() => {
-    const all = placedBar.flatMap(e => [e._start, e._end]);
-    const minD = new Date(Math.min(...all.map(d => d.getTime())));
-    const maxD = new Date(Math.max(...all.map(d => d.getTime())));
-    const days = differenceInDays(maxD, minD) || 1;
+  const { totalDays } = useMemo<DateRange>(() => {
+    const days = differenceInDays(maxDate, minDate) || 1;
 
     return {
-      minDate: minD,
-      maxDate: maxD,
       totalDays: days,
       rowsCount: Math.max(1, ...placedBar.map(e => e.rowIndex + 1)),
     };
-  }, [placedBar]);
+  }, [maxDate, minDate, placedBar]);
 
-  const gap = 1;
-  const rowHeight = (height - padding * 2 - gap * (rowsCount - 1)) / rowsCount;
+  const gap = 10;
 
   const monthLabels = useMemo(() => {
     const labels: string[] = [];
@@ -103,15 +97,12 @@ export default function Timeline({
     return labels;
   }, [minDate, maxDate]);
 
-  //const [textWidths, setTextWidths] = useState<number[]>([]);
-
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     ctx.font = '14px sans-serif';
-    //setTextWidths(placedBar.map(exp => ctx.measureText(exp.title).width));
   }, [placedBar]);
 
   return (
@@ -133,7 +124,7 @@ export default function Timeline({
       </div>
 
       {/* Timeline SVG */}
-      <div className="flex justify-center">
+      <div className="flex justify-center mx-[30px] pt-[10px] bg-gray-600-20 rounded-lg overflow-hidden">
         <svg
           width={numericWidth}
           height={height}
@@ -141,27 +132,36 @@ export default function Timeline({
         >
           {placedBar.map((exp, idx) => {
             const x1 =
-              padding +
               (differenceInDays(exp._start, minDate) / totalDays) *
-                (numericWidth - padding * 2);
+              numericWidth;
             const x2 =
-              padding +
-              (differenceInDays(exp._end, minDate) / totalDays) *
-                (numericWidth - padding * 2);
-            const y = padding + exp.rowIndex * (rowHeight + gap);
+              (differenceInDays(exp._end, minDate) / totalDays) * numericWidth;
             const h = 30;
+            const y = exp.rowIndex * (h + gap);
             //const textW = textWidths[idx] || 0;
 
-            //기간이 짧을 때 원 반환
+            //기간이 짧을 때 텍스트 미표시
             if (x2 - x1 < 40)
               return (
-                <circle
-                  key={idx}
-                  cx={x1 + 1}
-                  cy={y + h / 2}
-                  r={12}
-                  fill={EXP_COLORS[exp.experienceType] || '#666'}
-                />
+                <g key={idx}>
+                  <rect
+                    x={x1}
+                    y={y}
+                    width={3}
+                    height={h}
+                    rx={2}
+                    fill={EXP_COLORS[exp.experienceType] || '#666'}
+                  />
+                  <rect
+                    x={x1}
+                    y={y}
+                    width={Math.max(x2 - x1, 1)}
+                    height={h}
+                    rx={4}
+                    fill={EXP_COLORS[exp.experienceType] || '#666'}
+                    fillOpacity={0.2}
+                  />
+                </g>
               );
             return (
               <g key={idx}>
