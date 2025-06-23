@@ -66,7 +66,7 @@ export default function Timeline({
     return { totalDays: days };
   }, [maxDate, minDate]);
 
-  const gap = 10;
+  const gap = 20;
 
   return (
     <div className="flex justify-center mx-[30px] pt-[10px] bg-gray-600-20 rounded-lg overflow-hidden">
