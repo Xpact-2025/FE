@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { EXP_COLORS } from '@/constants/expColors';
 
 type TimelineLabelProps = {
@@ -9,6 +10,8 @@ type TimelineLabelProps = {
   exp: {
     experienceType: string;
     title: string;
+    startDate: string;
+    endDate: string;
   };
 };
 
@@ -20,56 +23,66 @@ export default function TimelineLabel({
   h,
   exp,
 }: TimelineLabelProps) {
-  if (x2 - x1 < 40) {
-    return (
-      <g key={idx}>
-        <rect
-          x={x1}
-          y={y}
-          width={3}
-          height={h}
-          rx={2}
-          fill={EXP_COLORS[exp.experienceType] || '#666'}
-        />
-        <rect
-          x={x1}
-          y={y}
-          width={Math.max(x2 - x1, 1)}
-          height={h}
-          rx={4}
-          fill={EXP_COLORS[exp.experienceType] || '#666'}
-          fillOpacity={0.2}
-        />
-      </g>
-    );
-  }
+  const [isHovered, setIsHovered] = useState(false);
+
+  const barHeight = isHovered ? h * 1.5 : h;
+  const textX = x1 < 0 && x2 > 0 ? 15 : x1 + 15;
+
+  const fillColor = EXP_COLORS[exp.experienceType] || '#666';
+
   return (
-    <g key={idx}>
+    <g
+      key={idx}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <rect
         x={x1}
         y={y}
         width={3}
-        height={h}
+        height={barHeight}
         rx={2}
-        fill={EXP_COLORS[exp.experienceType] || '#666'}
+        fill={fillColor}
+        style={{
+          transition: 'all 0.3s ease',
+        }}
       />
       <rect
         x={x1}
         y={y}
         width={Math.max(x2 - x1, 1)}
-        height={h}
+        height={barHeight}
         rx={4}
-        fill={EXP_COLORS[exp.experienceType] || '#666'}
+        fill={fillColor}
         fillOpacity={0.2}
+        style={{
+          transition: 'all 0.3s ease',
+        }}
       />
       <text
-        x={x1 + 15}
-        y={y + h / 2 + 6}
+        x={textX}
+        y={y + h / 2 + 5}
         fontSize={14}
         fontWeight={400}
         fill="#fff"
+        style={{
+          transition: 'all 0.3s ease',
+        }}
       >
         {exp.title}
+      </text>
+      <text
+        x={textX}
+        y={y + h / 2 + 23}
+        fontSize={12}
+        fontWeight={400}
+        fill="#fff"
+        style={{
+          opacity: isHovered ? 0.5 : 0,
+          transition: 'all 0.3s ease',
+        }}
+      >
+        {exp.startDate}-{exp.endDate}
       </text>
     </g>
   );

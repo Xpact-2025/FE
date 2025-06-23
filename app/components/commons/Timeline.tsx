@@ -54,15 +54,32 @@ export default function Timeline({
     async function fetchTimelineExp() {
       try {
         // TODO: 날짜를 yyyy-mm-dd 형식으로 변환하여 API 호출
-        const response = await getExpTimeline(String(newMin), String(newMax));
+        const response = await getExpTimeline(
+          newMin.toISOString().split('T')[0],
+          newMax.toISOString().split('T')[0]
+        );
         const timeline = response.data;
+        console.log('경험 타임라인:', timeline);
 
         if (!Array.isArray(timeline) || timeline.length === 0) {
-          setExperiences([]);
           return;
         }
 
-        setExperiences(timeline);
+        setExperiences(prev => {
+          // 중복을 제거한 새로운 경험만 필터링
+          const newItems = timeline.filter(
+            newItem =>
+              !prev.some(
+                prevItem =>
+                  prevItem.startDate === newItem.startDate &&
+                  prevItem.endDate === newItem.endDate &&
+                  prevItem.title === newItem.title &&
+                  prevItem.experienceType === newItem.experienceType
+              )
+          );
+
+          return [...prev, ...newItems];
+        });
       } catch (error) {
         console.error('경험 타임라인 불러오기 실패:', error);
         setExperiences([]);
@@ -165,14 +182,17 @@ export default function Timeline({
             const h = 30;
             const y = exp.rowIndex * (h + gap);
 
-            return TimelineLabel({
-              idx,
-              x1,
-              x2,
-              y,
-              h,
-              exp,
-            });
+            return (
+              <TimelineLabel
+                key={idx}
+                idx={idx}
+                x1={x1}
+                x2={x2}
+                y={y}
+                h={h}
+                exp={exp}
+              />
+            );
           })}
         </svg>
       </div>
