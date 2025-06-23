@@ -1,42 +1,120 @@
+'use client';
+
 import HelpIcon from '@/public/icons/Circle_Help.svg';
 import Timeline from '@/app/components/commons/Timeline';
-import { getExpTimeline } from '@/apis/dashboard';
+import {
+  ExpTimelineResponse,
+  getExpTimeline,
+  TimelineExp,
+} from '@/apis/dashboard';
+import BtnNext from '@/app/components/commons/BtnNext';
+import BtnPrev from '@/app/components/commons/BtnPrev';
+import { useMemo, useState } from 'react';
 
-function getStartAndEndLines(): {
+export default function ExpTimeLine({
+  start,
+  end,
+  expTimeline,
+}: {
   start: Date;
   end: Date;
-  startLine: string;
-  endLine: string;
-} {
-  const now = new Date();
+  expTimeline: ExpTimelineResponse;
+}) {
+  const [minDate, setMinDate] = useState(start);
+  const [maxDate, setMaxDate] = useState(end);
+  const [experiences, setExperiences] = useState<TimelineExp[]>(
+    expTimeline.data
+  );
 
-  // endLine: 이번 달의 마지막 날
-  const end = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  const monthLabels = useMemo(() => {
+    const labels: string[] = [];
+    const dt = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
+    while (dt < maxDate) {
+      labels.push(`${dt.getMonth() + 1}월`);
+      dt.setMonth(dt.getMonth() + 1);
+    }
+    return labels;
+  }, [minDate, maxDate]);
 
-  // startLine: 두 달 전의 첫째 날
-  const start = new Date(now.getFullYear(), now.getMonth() - 3, 2);
+  // 1달 이전으로 이동
+  const handlePrev = () => {
+    const newMin = new Date(minDate);
+    newMin.setMonth(minDate.getMonth() - 1);
+    const newMax = new Date(maxDate);
+    newMax.setMonth(maxDate.getMonth() - 1);
+    setMinDate(newMin);
+    setMaxDate(newMax);
 
-  const toString = (date: Date) => date.toISOString().split('T')[0]; // yyyy-mm-dd 형식
+    async function fetchTimelineExp() {
+      try {
+        const response = await getExpTimeline(
+          newMin.toISOString().split('T')[0],
+          newMax.toISOString().split('T')[0]
+        );
+        const timeline = response.data;
+        console.log('경험 타임라인:', timeline);
 
-  return {
-    start: start,
-    end: end,
-    startLine: toString(start),
-    endLine: toString(end),
+        if (!Array.isArray(timeline) || timeline.length === 0) {
+          return;
+        }
+
+        setExperiences(prev => {
+          // 중복을 제거한 새로운 경험만 필터링
+          const newItems = timeline.filter(
+            newItem =>
+              !prev.some(
+                prevItem =>
+                  prevItem.startDate === newItem.startDate &&
+                  prevItem.endDate === newItem.endDate &&
+                  prevItem.title === newItem.title &&
+                  prevItem.experienceType === newItem.experienceType
+              )
+          );
+
+          return [...prev, ...newItems];
+        });
+      } catch (error) {
+        console.error('경험 타임라인 불러오기 실패:', error);
+        setExperiences([]);
+      }
+    }
+
+    fetchTimelineExp();
   };
-}
 
-export default async function ExpTimeLine() {
-  const { start, end, startLine, endLine } = getStartAndEndLines();
-  const Exp = await getExpTimeline(startLine, endLine);
-
+  // 1달 이후로 이동
+  const handleNext = () => {
+    const newMin = new Date(minDate);
+    newMin.setMonth(minDate.getMonth() + 1);
+    const newMax = new Date(maxDate);
+    newMax.setMonth(maxDate.getMonth() + 1);
+    setMinDate(newMin);
+    setMaxDate(newMax);
+  };
   return (
     <>
       <div className="flex mb-3">
         <span className="body-16-sb mr-2">경험 타임 라인</span>
         <HelpIcon className="stroke-gray-600 w-[24px] h-[24px]" />
       </div>
-      <Timeline initialMinDate={start} initialMaxDate={end} exps={Exp.data} />
+      <div className="flex flex-col">
+        <div className="mb-3">{start.getFullYear()}</div>
+        <div className="flex items-center mb-3 gap-2">
+          <BtnPrev movePrev={handlePrev} />
+          <div className="flex-1 flex gap-2 overflow-x-auto no-scrollbar">
+            {monthLabels.map(label => (
+              <div
+                key={label}
+                className="flex-1 min-w-0 py-2 flex items-center justify-center bg-gray-700 rounded-lg body-12-m"
+              >
+                {label}
+              </div>
+            ))}
+          </div>
+          <BtnNext moveNext={handleNext} />
+        </div>
+      </div>
+      <Timeline minDate={minDate} maxDate={maxDate} exps={experiences} />
     </>
   );
 }
