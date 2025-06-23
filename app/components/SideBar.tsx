@@ -60,26 +60,16 @@ const SideBar = () => {
             isActive={pathname.startsWith('/growth-guide')}
           />
           <SideBarMenu
-            href="/ai-self-introduction"
-            icon={
-              <FileDocumentIcon
-                className={iconStyle('/ai-self-introduction')}
-              />
-            }
-            text="AI 자기소개서"
-            isActive={pathname.startsWith('/ai-self-introduction')}
-          />
-          <SideBarMenu
-            href="/bookmark"
+            href="/scrap"
             icon={<BookmarkIcon className={iconStyle('/bookmark')} />}
-            text="북마크"
+            text="스크랩"
             isActive={pathname.startsWith('/bookmark')}
           />
           <SideBarMenu
-            href="/my-page"
-            icon={<UserCircleIcon className={iconStyle('/my-page')} />}
+            href="/profile"
+            icon={<UserCircleIcon className={iconStyle('/profile')} />}
             text="마이페이지"
-            isActive={pathname.startsWith('/my-page')}
+            isActive={pathname.startsWith('/profile')}
           />
         </ul>
       </nav>
