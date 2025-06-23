@@ -7,11 +7,10 @@ import { usePathname } from 'next/navigation';
 import VectorIcon from '@/public/icons/Vector.svg';
 import BookIcon from '@/public/icons/Book.svg';
 import CopyIcon from '@/public/icons/Copy.svg';
-import FileDocumentIcon from '@/public/icons/File_Document.svg';
 import BookmarkIcon from '@/public/icons/Bookmark.svg';
 import UserCircleIcon from '@/public/icons/User_Circle.svg';
 
-const SideBar = () => {
+export default function SideBar() {
   const pathname = usePathname();
 
   const iconStyle = (currentPath: string) => {
@@ -75,6 +74,4 @@ const SideBar = () => {
       </nav>
     </aside>
   );
-};
-
-export default SideBar;
+}

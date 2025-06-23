@@ -60,26 +60,28 @@ export default function TimelineLabel({
         }}
       />
       <text
-        x={textX}
+        x={0}
         y={y + h / 2 + 5}
         fontSize={14}
         fontWeight={400}
         fill="#fff"
+        transform={`translate(${textX}, 0)`}
         style={{
-          transition: 'all 0.3s ease',
+          transition: 'transform 0.3s ease',
         }}
       >
         {exp.title}
       </text>
       <text
-        x={textX}
+        x={0}
         y={y + h / 2 + 23}
         fontSize={12}
         fontWeight={400}
         fill="#fff"
+        transform={`translate(${textX}, 0)`}
         style={{
           opacity: isHovered ? 0.5 : 0,
-          transition: 'all 0.3s ease',
+          transition: 'transform 0.3s ease',
         }}
       >
         {exp.startDate}-{exp.endDate}
