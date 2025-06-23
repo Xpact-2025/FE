@@ -1,33 +1,21 @@
-'use client';
-
-import { useState } from 'react';
-import { SubExperience } from '@/apis/exp';
 import ExpInputBox from './ExpInputBox';
 import KeywordInput from './KeywordInput';
 import FileInput from './FileInput';
 
 interface StarFormProps {
-  data?: { subExperiencesResponseDto: SubExperience[] };
+  data: {
+    subTitle: string;
+    situation: string;
+    task: string;
+    action: string;
+    result: string;
+    keywords: string[];
+  };
   onChange: (key: string, value: string | string[]) => void;
 }
 
 export default function StarForm({ data, onChange }: StarFormProps) {
-  const sub = data?.subExperiencesResponseDto?.[0];
-  const [form, setForm] = useState({
-    subTitle: sub?.subTitle || '',
-    situation: sub?.situation || '',
-    task: sub?.task || '',
-    action: sub?.action || '',
-    result: sub?.result || '',
-    files: sub?.files || [],
-    keywords: sub?.keywords || [],
-  });
-
-  const handleChange = (key: keyof typeof form, value: string | string[]) => {
-    setForm(prev => ({
-      ...prev,
-      [key]: value,
-    }));
+  const handleChange = (key: string, value: string | string[]) => {
     onChange(key, value);
   };
 
@@ -39,7 +27,7 @@ export default function StarForm({ data, onChange }: StarFormProps) {
       <ExpInputBox
         type="string"
         placeholder="제목"
-        value={form.subTitle}
+        value={data.subTitle}
         onChange={e => handleChange('subTitle', e.target.value)}
       />
 
@@ -50,7 +38,7 @@ export default function StarForm({ data, onChange }: StarFormProps) {
         <ExpInputBox
           type="textarea"
           placeholder="어떤 배경에서 활동을 하게 되었나요?"
-          value={form.situation}
+          value={data.situation}
           onChange={e => handleChange('situation', e.target.value)}
         />
       </div>
@@ -61,7 +49,7 @@ export default function StarForm({ data, onChange }: StarFormProps) {
       <ExpInputBox
         type="textarea"
         placeholder="그 안에서 실제로 겪은 문제나 과제는 무엇이 있었나요?"
-        value={form.task}
+        value={data.task}
         onChange={e => handleChange('task', e.target.value)}
       />
 
@@ -72,7 +60,7 @@ export default function StarForm({ data, onChange }: StarFormProps) {
         <ExpInputBox
           type="textarea"
           placeholder="그 안에서 실제로 겪은 문제나 과제는 무엇이 있었나요?"
-          value={form.action}
+          value={data.action}
           onChange={e => handleChange('action', e.target.value)}
         />
       </div>
@@ -83,7 +71,7 @@ export default function StarForm({ data, onChange }: StarFormProps) {
       <ExpInputBox
         type="textarea"
         placeholder="그 안에서 실제로 겪은 문제나 과제는 무엇이 있었나요?"
-        value={form.result}
+        value={data.result}
         onChange={e => handleChange('result', e.target.value)}
       />
 
@@ -98,7 +86,7 @@ export default function StarForm({ data, onChange }: StarFormProps) {
         키워드
       </div>
       <KeywordInput
-        value={form.keywords}
+        value={data.keywords}
         onChange={newTags => handleChange('keywords', newTags)}
       />
     </div>

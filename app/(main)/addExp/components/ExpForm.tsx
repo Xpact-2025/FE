@@ -53,29 +53,63 @@ const getInitialForm = (
     files: sub?.files || [],
     keywords: sub?.keywords || [],
     id: data?.id,
-    subId: sub?.id,
+    subId: sub?.subExperienceId,
   };
 };
 
 export default function ExpForm({ data }: ExpFormProps) {
   const router = useRouter();
+  const [forms, setForms] = useState([getInitialForm(data)]);
+  const [tab, setTab] = useState<'star' | 'simple'>('star');
+  const [activeFormIndex, setActiveFormIndex] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pendingFormType, setPendingFormType] = useState<ExpFormType | null>(
     null
   );
 
-  const [form, setForm] = useState(getInitialForm(data));
+  const form = forms[activeFormIndex];
   useEffect(() => {
     const saved = localStorage.getItem('draftForm');
     if (saved) {
       const parsed = JSON.parse(saved);
-      setForm(getInitialForm(parsed));
-      localStorage.removeItem('draftForm'); // 선택적
+      setForms([getInitialForm(parsed)]);
+      setActiveFormIndex(0);
+      localStorage.removeItem('draftForm');
     }
   }, []);
 
-  const [tab, setTab] = useState<'star' | 'simple'>('star');
+  const handleAddExperienceTab = (currentExperienceType: ExpType) => {
+    const newForm = {
+      ...getInitialForm(undefined),
+      formType: 'STAR_FORM' as ExpFormType,
+      selectedTab: 'star',
+      experienceType: currentExperienceType,
+      qualification: '',
+      publisher: '',
+      issueDate: '',
+      simpleDescription: '',
+      title: '',
+      startDate: '',
+      endDate: '',
+      subTitle: '',
+      role: '',
+      perform: '',
+      situation: '',
+      task: '',
+      action: '',
+      result: '',
+      files: [],
+      keywords: [],
+      subId: undefined,
+    };
+    setForms(prev => {
+      const updatedForms = [...prev, newForm];
+      setActiveFormIndex(updatedForms.length - 1);
+      return updatedForms;
+    });
+    setTab('star');
+  };
 
   const isFormChanged = () => {
     const keysToCompare = [
@@ -117,10 +151,14 @@ export default function ExpForm({ data }: ExpFormProps) {
 
   const confirmTabChange = () => {
     if (pendingFormType) {
-      setForm({
-        ...getInitialForm(undefined),
-        formType: pendingFormType,
-        selectedTab: pendingFormType === 'STAR_FORM' ? 'star' : 'simple',
+      setForms(prev => {
+        const updated = [...prev];
+        updated[activeFormIndex] = {
+          ...updated[activeFormIndex],
+          formType: pendingFormType,
+          selectedTab: pendingFormType === 'STAR_FORM' ? 'star' : 'simple',
+        };
+        return updated;
       });
       setPendingFormType(null);
       setIsPopupOpen(false);
@@ -135,20 +173,25 @@ export default function ExpForm({ data }: ExpFormProps) {
       setPendingFormType(value.formType);
       setIsPopupOpen(true);
     } else {
-      setForm(prev => ({
-        ...prev,
-        formType: value.formType,
-        selectedTab: value.selectedTab,
-      }));
+      setForms(prev => {
+        const updated = [...prev];
+        updated[activeFormIndex] = {
+          ...updated[activeFormIndex],
+          formType: value.formType,
+          selectedTab: value.selectedTab,
+        };
+        return updated;
+      });
       setTab(value.selectedTab);
     }
   };
 
   const handleChange = (key: string, value: string | string[]) => {
-    setForm(prev => ({
-      ...prev,
-      [key]: value,
-    }));
+    setForms(prev => {
+      const updated = [...prev];
+      updated[activeFormIndex] = { ...updated[activeFormIndex], [key]: value };
+      return updated;
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -163,6 +206,7 @@ export default function ExpForm({ data }: ExpFormProps) {
         ? new Date(form.startDate).toISOString()
         : undefined,
       endDate: form.endDate ? new Date(form.endDate).toISOString() : undefined,
+      subExperiences: forms.map(f => ({ ...f })),
     };
 
     const { httpStatus, message } = form.id
@@ -189,12 +233,12 @@ export default function ExpForm({ data }: ExpFormProps) {
       form.experienceType === 'CERTIFICATES' ||
       form.experienceType === 'PRIZE'
     ) {
-      return <AwardForm onChange={handleChange} />;
+      return <AwardForm data={form} onChange={handleChange} />;
     }
     if (form.formType === 'STAR_FORM') {
-      return <StarForm onChange={handleChange} />;
+      return <StarForm data={form} onChange={handleChange} />;
     }
-    return <SimpleForm onChange={handleChange} />;
+    return <SimpleForm data={form} onChange={handleChange} />;
   };
 
   return (
@@ -225,20 +269,29 @@ export default function ExpForm({ data }: ExpFormProps) {
       </div>
 
       <div className="w-[1025px] px-12">
-        {/*항목탭*/}
+        {/*경험탭*/}
         <div className="flex mb-[-14px]">
-          <div className="w-48 h-18 bg-gray-700 rounded-tl-2xl rounded-tr-2xl border-t-2 border-primary-50">
-            <div className="flex h-full justify-center items-center text-lg">
-              경험 1
+          {forms.map((_, index) => (
+            <div
+              key={index}
+              className={`w-48 h-20 ${activeFormIndex === index ? 'bg-gray-700 border-primary-50 ' : 'bg-black border-gray-300 text-gray-400'} rounded-tl-2xl rounded-tr-2xl border-t-2`}
+              onClick={() => setActiveFormIndex(index)}
+            >
+              <div className="flex h-full justify-center items-center text-lg mt-[-5px]">
+                경험 {index + 1}
+              </div>
             </div>
-          </div>
-          {/*세부 항목*/}
-          <div className="flex px-19 pt-4">
+          ))}
+          {/*경험 항목*/}
+          <div
+            className="flex px-19 pt-4 cursor-pointer"
+            onClick={() => handleAddExperienceTab(form.experienceType)}
+          >
             <PlusGrayIcon className="w-[26px] h-[27px]" />
           </div>
         </div>
         {/*회색 배경*/}
-        <div className="bg-gray-700 rounded-2xl px-12">
+        <div className="pt-[14px] z-0 relative bg-gray-700 rounded-2xl px-12">
           {/*작성양식 탭*/}
 
           <div className="pb-[60px]">
@@ -300,7 +353,7 @@ export default function ExpForm({ data }: ExpFormProps) {
           <button
             type="submit"
             onClick={() => {
-              setForm(prev => ({
+              setForms(prev => ({
                 ...prev,
                 status: 'DRAFT',
               }));
@@ -312,7 +365,7 @@ export default function ExpForm({ data }: ExpFormProps) {
           <button
             type="submit"
             onClick={() => {
-              setForm(prev => ({
+              setForms(prev => ({
                 ...prev,
                 status: 'SAVE',
               }));

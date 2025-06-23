@@ -1,31 +1,19 @@
-'use client';
-
-import { useState } from 'react';
-import { SubExperience } from '@/apis/exp';
 import ExpInputBox from './ExpInputBox';
 import KeywordInput from './KeywordInput';
 import FileInput from './FileInput';
 
 interface SimpleFormProps {
-  data?: { subExperiencesResponseDto: SubExperience[] };
+  data: {
+    subTitle: string;
+    role: string;
+    perform: string;
+    keywords: string[];
+  };
   onChange: (key: string, value: string | string[]) => void;
 }
 
 export default function SimpleForm({ data, onChange }: SimpleFormProps) {
-  const sub = data?.subExperiencesResponseDto?.[0];
-  const [form, setForm] = useState({
-    subTitle: sub?.subTitle || '',
-    role: sub?.role || '',
-    perform: sub?.perform || '',
-    files: sub?.files || [],
-    keywords: sub?.keywords || [],
-  });
-
-  const handleChange = (key: keyof typeof form, value: string | string[]) => {
-    setForm(prev => ({
-      ...prev,
-      [key]: value,
-    }));
+  const handleChange = (key: string, value: string | string[]) => {
     onChange(key, value);
   };
 
@@ -37,7 +25,7 @@ export default function SimpleForm({ data, onChange }: SimpleFormProps) {
       <ExpInputBox
         type="string"
         placeholder="제목"
-        value={form.subTitle}
+        value={data.subTitle}
         onChange={e => handleChange('subTitle', e.target.value)}
       />
 
@@ -48,7 +36,7 @@ export default function SimpleForm({ data, onChange }: SimpleFormProps) {
         <ExpInputBox
           type="textarea"
           placeholder="본인이 맡은 역할이나 담당한 업무는 무엇이었나요?"
-          value={form.role}
+          value={data.role}
           onChange={e => handleChange('role', e.target.value)}
         />
       </div>
@@ -59,7 +47,7 @@ export default function SimpleForm({ data, onChange }: SimpleFormProps) {
       <ExpInputBox
         type="textarea"
         placeholder="해당 경험에서 달성한 결과나 성과는 무엇이었나요?"
-        value={form.perform}
+        value={data.perform}
         onChange={e => handleChange('perform', e.target.value)}
       />
 
@@ -74,7 +62,7 @@ export default function SimpleForm({ data, onChange }: SimpleFormProps) {
         키워드
       </div>
       <KeywordInput
-        value={form.keywords}
+        value={data.keywords}
         onChange={newTags => handleChange('keywords', newTags)}
       />
     </div>
