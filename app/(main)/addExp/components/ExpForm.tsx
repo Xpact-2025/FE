@@ -45,6 +45,7 @@ const getInitialForm = (
     startDate: data?.startDate || '',
     endDate: data?.endDate || '',
     subTitle: sub?.subTitle || '',
+    tabName: sub?.tabName || '',
     role: sub?.role || '',
     perform: sub?.perform || '',
     situation: sub?.situation || '',
@@ -63,6 +64,8 @@ export default function ExpForm({ data }: ExpFormProps) {
   const [forms, setForms] = useState([getInitialForm(data)]);
   const [tab, setTab] = useState<'star' | 'simple'>('star');
   const [activeFormIndex, setActiveFormIndex] = useState(0);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editingValue, setEditingValue] = useState('');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pendingFormType, setPendingFormType] = useState<ExpFormType | null>(
@@ -128,6 +131,26 @@ export default function ExpForm({ data }: ExpFormProps) {
 
       return updatedForms;
     });
+  };
+
+  const handleDoubleClickTab = (index: number) => {
+    setEditingIndex(index);
+    setEditingValue(forms[index].tabName || `경험 ${index + 1}`);
+  };
+
+  const handleSaveTabName = (index: number) => {
+    setForms(prev => {
+      const updated = [...prev];
+      updated[index] = {
+        ...updated[index],
+        tabName:
+          editingValue.trim() === ''
+            ? `경험 ${index + 1}`
+            : editingValue.trim(),
+      };
+      return updated;
+    });
+    setEditingIndex(null);
   };
 
   const isFormChanged = () => {
@@ -308,8 +331,28 @@ export default function ExpForm({ data }: ExpFormProps) {
                 className={`flex h-full justify-center text-lg ${
                   forms.length > 1 ? 'mt-[-10px]' : 'mt-[22px]'
                 }`}
+                onDoubleClick={e => {
+                  e.stopPropagation();
+                  handleDoubleClickTab(index);
+                }}
               >
-                경험 {index + 1}
+                {editingIndex === index ? (
+                  <input
+                    type="text"
+                    className="w-[100px] h-[30px] bg-[#5B5B5B] px-2 py-1"
+                    value={editingValue}
+                    autoFocus
+                    onChange={e => setEditingValue(e.target.value)}
+                    onBlur={() => handleSaveTabName(index)}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter') {
+                        handleSaveTabName(index);
+                      }
+                    }}
+                  />
+                ) : (
+                  forms[index].tabName || `경험 ${index + 1}`
+                )}
               </div>
             </div>
           ))}
@@ -389,10 +432,14 @@ export default function ExpForm({ data }: ExpFormProps) {
           <button
             type="submit"
             onClick={() => {
-              setForms(prev => ({
-                ...prev,
-                status: 'DRAFT',
-              }));
+              setForms(prev => {
+                const updated = [...prev];
+                updated[activeFormIndex] = {
+                  ...updated[activeFormIndex],
+                  status: 'DRAFT',
+                };
+                return updated;
+              });
             }}
             className="w-[502px] h-14 py-5 bg-gray-800 text-sm text-gray-300 font-semibold border border-gray-50-10 rounded-lg"
           >
@@ -401,10 +448,14 @@ export default function ExpForm({ data }: ExpFormProps) {
           <button
             type="submit"
             onClick={() => {
-              setForms(prev => ({
-                ...prev,
-                status: 'SAVE',
-              }));
+              setForms(prev => {
+                const updated = [...prev];
+                updated[activeFormIndex] = {
+                  ...updated[activeFormIndex],
+                  status: 'SAVE',
+                };
+                return updated;
+              });
             }}
             className="w-[502px] h-14 py-5 bg-primary-50 text-sm text-gray-1000 font-semibold rounded-lg"
           >
