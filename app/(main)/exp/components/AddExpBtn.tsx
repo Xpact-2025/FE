@@ -1,13 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { clsx } from 'clsx';
 import EditPencilIcon from '@/public/icons/Edit_Pencil_01.svg';
+import AddExpModal from '../../addExp/components/AddExpModal';
+import { ExpPayload } from '@/apis/exp';
 
-export default function AddExpBtn() {
+interface AddExpBtnProps {
+  form: ExpPayload;
+  onChange: (key: string, value: string) => void;
+}
+
+export default function AddExpBtn({ form, onChange }: AddExpBtnProps) {
   const [hovered, setHovered] = useState(false);
-  const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div
@@ -25,12 +31,17 @@ export default function AddExpBtn() {
       </div>
       <div
         className="absolute flex items-center justify-center top-0 right-0 w-20 h-20 bg-primary-50 rounded-full z-20"
-        onClick={() => {
-          router.push('/addExp');
-        }}
+        onClick={() => setIsModalOpen(true)}
       >
         <EditPencilIcon className="stroke-gray-1100 w-[30px] h-[30px]" />
       </div>
+      {isModalOpen && (
+        <AddExpModal
+          form={form}
+          onChange={onChange}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 }

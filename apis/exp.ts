@@ -17,6 +17,7 @@ export interface ExpPayload {
 
 export interface SubExperience {
   subExperienceId?: number;
+  tabName?: string;
   status: ExpStatus;
   formType?: ExpFormType;
   uploadType?: UploadType;
