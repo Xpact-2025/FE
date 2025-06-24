@@ -182,7 +182,6 @@ export default function ExpForm({ data }: ExpFormProps) {
         };
         return updated;
       });
-      setTab(value.selectedTab);
     }
   };
 
@@ -314,7 +313,12 @@ export default function ExpForm({ data }: ExpFormProps) {
                       </span>
                     </div>
                   </div>
-                  <FormTab onChange={handleTabChange} selectedTab={tab} />
+                  <FormTab
+                    onChange={handleTabChange}
+                    selectedTab={
+                      forms[activeFormIndex].selectedTab as 'star' | 'simple'
+                    }
+                  />
                   {isPopupOpen && pendingFormType && (
                     <Popup
                       title="양식 변경"
