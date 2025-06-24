@@ -22,7 +22,7 @@ export default function AwardForm({
   };
 
   return (
-    <div>
+    <div className="mt-[-30px]">
       <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
         {experienceType === 'CERTIFICATES' ? '자격증명' : '수상명'}
       </div>
