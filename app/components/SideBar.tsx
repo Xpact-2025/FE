@@ -7,11 +7,10 @@ import { usePathname } from 'next/navigation';
 import VectorIcon from '@/public/icons/Vector.svg';
 import BookIcon from '@/public/icons/Book.svg';
 import CopyIcon from '@/public/icons/Copy.svg';
-import FileDocumentIcon from '@/public/icons/File_Document.svg';
 import BookmarkIcon from '@/public/icons/Bookmark.svg';
 import UserCircleIcon from '@/public/icons/User_Circle.svg';
 
-const SideBar = () => {
+export default function SideBar() {
   const pathname = usePathname();
 
   const iconStyle = (currentPath: string) => {
@@ -60,31 +59,19 @@ const SideBar = () => {
             isActive={pathname.startsWith('/growth-guide')}
           />
           <SideBarMenu
-            href="/ai-self-introduction"
-            icon={
-              <FileDocumentIcon
-                className={iconStyle('/ai-self-introduction')}
-              />
-            }
-            text="AI 자기소개서"
-            isActive={pathname.startsWith('/ai-self-introduction')}
-          />
-          <SideBarMenu
-            href="/bookmark"
+            href="/scrap"
             icon={<BookmarkIcon className={iconStyle('/bookmark')} />}
-            text="북마크"
+            text="스크랩"
             isActive={pathname.startsWith('/bookmark')}
           />
           <SideBarMenu
-            href="/my-page"
-            icon={<UserCircleIcon className={iconStyle('/my-page')} />}
+            href="/profile"
+            icon={<UserCircleIcon className={iconStyle('/profile')} />}
             text="마이페이지"
-            isActive={pathname.startsWith('/my-page')}
+            isActive={pathname.startsWith('/profile')}
           />
         </ul>
       </nav>
     </aside>
   );
-};
-
-export default SideBar;
+}

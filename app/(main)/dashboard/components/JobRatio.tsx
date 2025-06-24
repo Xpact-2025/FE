@@ -14,13 +14,13 @@ export default function JobRatio({
     <>
       <div className="flex flex-row items-center justify-center">
         {/* 차트 */}
-        <PieChart width={170} height={170}>
+        <PieChart width={180} height={190}>
           <Pie
             data={data}
             cx={85}
             cy={85}
-            innerRadius={50}
-            outerRadius={70}
+            innerRadius={60}
+            outerRadius={85}
             fill="#FF6D01"
             dataKey="value"
             stroke="none"
@@ -43,7 +43,7 @@ export default function JobRatio({
           </Pie>
         </PieChart>
         {/* 범례 */}
-        <div className="ml-10 flex flex-col justify-center">
+        <div className="ml-5 flex flex-col justify-center">
           <ul>
             {data.map((item, idx) => (
               <li key={item.name} className="flex items-center mb-3 last:mb-0">
