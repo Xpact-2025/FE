@@ -14,6 +14,7 @@ import AwardForm from './AwardForm';
 import StarForm from './StarForm';
 import SimpleForm from './SimpleForm';
 import PlusGrayIcon from '@/public/icons/PlusIcon_gray.svg';
+import CloseIcon from '@/public/icons/Close_small.svg';
 
 interface ExpFormProps {
   data?: ExpPayload & { subExperiencesResponseDto: SubExperience[] };
@@ -109,6 +110,24 @@ export default function ExpForm({ data }: ExpFormProps) {
       return updatedForms;
     });
     setTab('star');
+  };
+
+  const handleRemoveExperienceTab = (indexToRemove: number) => {
+    setForms(prev => {
+      const updatedForms = prev.filter((_, idx) => idx !== indexToRemove);
+
+      if (activeFormIndex === indexToRemove) {
+        if (indexToRemove === prev.length - 1) {
+          setActiveFormIndex(indexToRemove - 1 >= 0 ? indexToRemove - 1 : 0);
+        } else {
+          setActiveFormIndex(indexToRemove);
+        }
+      } else if (activeFormIndex > indexToRemove) {
+        setActiveFormIndex(activeFormIndex - 1);
+      }
+
+      return updatedForms;
+    });
   };
 
   const isFormChanged = () => {
@@ -273,20 +292,33 @@ export default function ExpForm({ data }: ExpFormProps) {
           {forms.map((_, index) => (
             <div
               key={index}
-              className={`w-48 h-20 ${activeFormIndex === index ? 'bg-gray-700 border-primary-50 ' : 'bg-black border-gray-300 text-gray-400'} rounded-tl-2xl rounded-tr-2xl border-t-2`}
+              className={`w-48 h-20 ${activeFormIndex === index ? 'bg-gray-700 border-primary-50 border-t-2' : 'bg-black border border-gray-700 text-gray-400'} rounded-tl-2xl rounded-tr-2xl `}
               onClick={() => setActiveFormIndex(index)}
             >
-              <div className="flex h-full justify-center items-center text-lg mt-[-5px]">
+              {forms.length > 1 && (
+                <CloseIcon
+                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                    e.stopPropagation();
+                    handleRemoveExperienceTab(index);
+                  }}
+                  className="mx-41 my-2.5 w-4 h-4"
+                />
+              )}
+              <div
+                className={`flex h-full justify-center text-lg ${
+                  forms.length > 1 ? 'mt-[-10px]' : 'mt-[22px]'
+                }`}
+              >
                 경험 {index + 1}
               </div>
             </div>
           ))}
           {/*경험 항목*/}
           <div
-            className="flex px-19 pt-4 cursor-pointer"
+            className="w-48 h-20 'bg-black border border-gray-700 rounded-tl-2xl rounded-tr-2xl"
             onClick={() => handleAddExperienceTab(form.experienceType)}
           >
-            <PlusGrayIcon className="w-[26px] h-[27px]" />
+            <PlusGrayIcon className="flex mx-19.5 my-4.5 w-[27px] h-[27px] cursor-pointer" />
           </div>
         </div>
         {/*회색 배경*/}
