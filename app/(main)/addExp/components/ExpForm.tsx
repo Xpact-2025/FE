@@ -351,7 +351,9 @@ export default function ExpForm({ data }: ExpFormProps) {
                     }}
                   />
                 ) : (
-                  forms[index].tabName || `경험 ${index + 1}`
+                  <div className="truncate max-w-[10ch]">
+                    {forms[index].tabName || `경험 ${index + 1}`}
+                  </div>
                 )}
               </div>
             </div>
