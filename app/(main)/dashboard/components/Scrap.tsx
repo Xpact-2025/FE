@@ -1,4 +1,4 @@
-import HelpIcon from '@/public/icons/Circle_Help.svg';
+import DashboardHeader from './DashboardHeader';
 
 const scrapItems = [
   {
@@ -35,10 +35,14 @@ function ScrapCard({ title, dday }: { title: string; dday: number }) {
 export default function Scrap() {
   return (
     <>
-      <div className="flex mb-6">
+      <DashboardHeader
+        title="스크랩"
+        info={`스크랩한 공고를\n마감일 순으로 보여줘요.`}
+      />
+      {/* <div className="flex mb-6">
         <span className="body-16-sb mr-2">스크랩</span>
         <HelpIcon className="stroke-gray-600 w-[24px] h-[24px]" />
-      </div>
+      </div> */}
       <div className="flex flex-col gap-3">
         {scrapItems.map((item, idx) => (
           <ScrapCard key={idx} title={item.title} dday={item.dday} />

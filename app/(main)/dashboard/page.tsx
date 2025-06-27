@@ -55,12 +55,14 @@ export default async function DashboardPage() {
           </div>
           <div className="flex-[7]">
             <div className="flex flex-grow flex-wrap lg:flex-nowrap gap-4 h-auto">
-              <Suspense fallback={<SkeletonBox title="직무 비율" />}>
+              <SkeletonBox title="직무 비율" />
+              {/* <Suspense fallback={<SkeletonBox title="직무 비율" />}>
                 <LazyJobRatioContainer />
-              </Suspense>
-              <Suspense fallback={<SkeletonBox title="핵심 스킬맵" />}>
+              </Suspense> */}
+              <SkeletonBox title="핵심 스킬맵" />
+              {/* <Suspense fallback={<SkeletonBox title="핵심 스킬맵" />}>
                 <LazySkillMapContainer />
-              </Suspense>
+              </Suspense> */}
             </div>
           </div>
         </div>
