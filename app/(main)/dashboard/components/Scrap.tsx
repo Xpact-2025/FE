@@ -1,3 +1,4 @@
+import { DASHBOARD_INFO } from '@/constants/dashboardInfo';
 import DashboardHeader from './DashboardHeader';
 
 const scrapItems = [
@@ -21,7 +22,7 @@ const scrapItems = [
 
 function ScrapCard({ title, dday }: { title: string; dday: number }) {
   return (
-    <div className="flex justify-between items-center border-b border-gray-50-20 py-[10px]">
+    <div className="flex justify-between items-center border-b border-gray-50-20 py-[10px] gap-1">
       <div className="body-12-m text-gray-50 whitespace-pre-line">{title}</div>
       <div
         className={`body-14-m whitespace-nowrap ${dday <= 7 ? 'text-gray-50' : 'text-gray-500'}`}
@@ -36,13 +37,9 @@ export default function Scrap() {
   return (
     <>
       <DashboardHeader
-        title="스크랩"
-        info={`스크랩한 공고를\n마감일 순으로 보여줘요.`}
+        title={DASHBOARD_INFO.SCRAP.title}
+        info={DASHBOARD_INFO.SCRAP.info}
       />
-      {/* <div className="flex mb-6">
-        <span className="body-16-sb mr-2">스크랩</span>
-        <HelpIcon className="stroke-gray-600 w-[24px] h-[24px]" />
-      </div> */}
       <div className="flex flex-col gap-3">
         {scrapItems.map((item, idx) => (
           <ScrapCard key={idx} title={item.title} dday={item.dday} />

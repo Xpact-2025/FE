@@ -11,6 +11,8 @@ import {
 import SkeletonBox from './components/SkeletonBox';
 import { Suspense } from 'react';
 import { getProfileInfo } from '@/apis/profile';
+import { DASHBOARD_INFO } from '@/constants/dashboardInfo';
+import DashboardHeader from './components/DashboardHeader';
 
 export default async function DashboardPage() {
   const profileInfo = await getProfileInfo();
@@ -55,14 +57,25 @@ export default async function DashboardPage() {
           </div>
           <div className="flex-[7]">
             <div className="flex flex-grow flex-wrap lg:flex-nowrap gap-4 h-auto">
-              <SkeletonBox title="직무 비율" />
-              {/* <Suspense fallback={<SkeletonBox title="직무 비율" />}>
-                <LazyJobRatioContainer />
-              </Suspense> */}
-              <SkeletonBox title="핵심 스킬맵" />
-              {/* <Suspense fallback={<SkeletonBox title="핵심 스킬맵" />}>
-                <LazySkillMapContainer />
-              </Suspense> */}
+              <div className="flex-[38] bg-gray-800 rounded-[23px] py-8 px-10 h-[270px] flex flex-col">
+                <DashboardHeader
+                  title={DASHBOARD_INFO.JOB_RATIO.title}
+                  info={DASHBOARD_INFO.JOB_RATIO.info}
+                />
+                <Suspense fallback={<SkeletonBox />}>
+                  <LazyJobRatioContainer />
+                </Suspense>
+              </div>
+              <div className="flex-[47] bg-gray-800 rounded-[23px] py-8 px-10 h-[270px] flex flex-col">
+                <DashboardHeader
+                  title={DASHBOARD_INFO.SKILL_MAP.title}
+                  info={DASHBOARD_INFO.SKILL_MAP.info}
+                />
+                {/* <SkeletonBox /> */}
+                <Suspense fallback={<SkeletonBox />}>
+                  <LazySkillMapContainer />
+                </Suspense>
+              </div>
             </div>
           </div>
         </div>

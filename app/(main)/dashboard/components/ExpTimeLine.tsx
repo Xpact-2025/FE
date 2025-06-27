@@ -1,6 +1,5 @@
 'use client';
 
-import HelpIcon from '@/public/icons/Circle_Help.svg';
 import Timeline from '@/app/components/commons/Timeline';
 import {
   ExpTimelineResponse,
@@ -10,6 +9,8 @@ import {
 import BtnNext from '@/app/components/commons/BtnNext';
 import BtnPrev from '@/app/components/commons/BtnPrev';
 import { useMemo, useState } from 'react';
+import DashboardHeader from './DashboardHeader';
+import { DASHBOARD_INFO } from '@/constants/dashboardInfo';
 
 export default function ExpTimeLine({
   start,
@@ -93,10 +94,10 @@ export default function ExpTimeLine({
   };
   return (
     <>
-      <div className="flex mb-3">
-        <span className="body-16-sb mr-2">경험 타임 라인</span>
-        <HelpIcon className="stroke-gray-600 w-[24px] h-[24px]" />
-      </div>
+      <DashboardHeader
+        title={DASHBOARD_INFO.EXP_TIMELINE.title}
+        info={DASHBOARD_INFO.EXP_TIMELINE.info}
+      />
       <div className="flex flex-col">
         <div className="mb-3">{start.getFullYear()}</div>
         <div className="flex items-center mb-3 gap-2">
