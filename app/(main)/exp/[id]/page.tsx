@@ -81,12 +81,12 @@ export default function ExpDetailPage() {
     return <div className="text-gray-400 p-10">로딩 중...</div>;
 
   return (
-    <div className="p-20">
+    <div className="pr-20 pl-20 pb-20">
       {/* 상단 버튼 */}
       <div className="flex justify-between w-full mb-6">
         <div className="flex items-center">
           <button type="button" onClick={() => router.push('/exp')}>
-            <BackIcon className="stroke-gray-50 w-[35px] h-[35px]" />
+            <BackIcon className="stroke-gray-50 w-[35px] h-[35px] cursor-pointer" />
           </button>
           <div className="text-3xl font-bold ml-2 text-white">경험 상세</div>
         </div>
@@ -119,12 +119,9 @@ export default function ExpDetailPage() {
         onSelect={setSelectedTabIndex}
         isEditing={isEditing}
         onRemoveClick={index => {
-          if (subDataList.length === 1) {
-            setIsPopupOpen(true); // 1개면 전체 경험 삭제로 연결
-          } else {
-            setDeleteIndex(index); // 여러 개면 세부 경험 삭제
-          }
+          setDeleteIndex(index); // 기본: 세부 경험 삭제
         }}
+        onRequestFullDelete={() => setIsPopupOpen(true)}
       />
 
       {/* 세부 경험 삭제 모달 */}
@@ -174,7 +171,7 @@ export default function ExpDetailPage() {
         <button
           type="button"
           onClick={() => setIsPopupOpen(true)}
-          className="w-[50%] py-3 bg-gray-1000 text-sm text-gray-300 font-semibold border border-gray-50-20 rounded-lg"
+          className="w-[50%] py-3 bg-gray-1000 text-sm text-gray-300 font-semibold border border-gray-50-20 rounded-lg cursor-pointer"
         >
           삭제
         </button>
@@ -210,7 +207,7 @@ export default function ExpDetailPage() {
               alert('수정 완료');
               setIsEditing(false);
             }}
-            className="w-[50%] py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg"
+            className="w-[50%] py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg cursor-pointer"
           >
             저장
           </button>
@@ -218,7 +215,7 @@ export default function ExpDetailPage() {
           <button
             type="button"
             onClick={() => setIsEditing(true)}
-            className="w-[50%] py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg"
+            className="w-[50%] py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg cursor-pointer"
           >
             수정
           </button>
