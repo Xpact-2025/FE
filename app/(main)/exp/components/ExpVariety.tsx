@@ -8,7 +8,7 @@ export default function ExpVariety({ type }: { type: ExpType }) {
 
   return (
     <div
-      className={`body-14-sb py-1 text-center font-semibold rounded-full ${expTypeStyle} w-[79px] h-[24px] flex items-center justify-center`}
+      className={`body-12-r py-0.5 px-3 text-center rounded-full w-fit ${expTypeStyle} flex items-center justify-center`}
     >
       {label}
     </div>

@@ -2,8 +2,9 @@
 
 import React from 'react';
 import Calendar from '@/app/components/commons/Calendar';
-import HelpIcon from '@/public/icons/Circle_Help.svg';
 import { ExpHisoryResponse } from '@/apis/dashboard';
+import DashboardHeader from './DashboardHeader';
+import { DASHBOARD_INFO } from '@/constants/dashboardInfo';
 
 export default function ExpHistory({
   expHistory,
@@ -14,10 +15,10 @@ export default function ExpHistory({
 
   return (
     <>
-      <div className="flex mb-6">
-        <span className="body-16-sb mr-2">경험 히스토리</span>
-        <HelpIcon className="stroke-gray-600 w-[24px] h-[24px]" />
-      </div>
+      <DashboardHeader
+        title={DASHBOARD_INFO.EXP_HISTORY.title}
+        info={DASHBOARD_INFO.EXP_HISTORY.info}
+      />
       <Calendar dateCounts={dateCounts} />
     </>
   );

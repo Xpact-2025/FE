@@ -47,7 +47,7 @@ export default function ExpList({ data }: ExpListProps) {
     : filteredSearch;
 
   return (
-    <main className="flex-1 flex-col items-start py-16 px-[80px]">
+    <main className="flex-1 flex-col items-start py-3 px-7">
       <div className="fixed top-[75vh] right-[49px] z-50">
         <AddExpBtn form={form} onChange={handleChange} />
       </div>
@@ -74,6 +74,7 @@ export default function ExpList({ data }: ExpListProps) {
               type={exp.experienceType}
               draftTime={exp.draftTime}
               status={exp.status}
+              subTitles={exp.subTitles}
               keywords={exp.keywords}
             />
           ))}
