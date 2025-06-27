@@ -49,7 +49,7 @@ export default async function DashboardPage() {
   const expTimeline = await getExpTimeline(startLine, endLine);
 
   return (
-    <div className="min-h-screen py-6 px-14">
+    <div className="min-h-screen py-3 px-7">
       <div className="flex flex-col gap-4">
         <div className="flex flex-grow flex-wrap lg:flex-nowrap gap-4 h-auto">
           <div className="flex-[1] bg-gray-800 rounded-[23px]">
@@ -71,7 +71,6 @@ export default async function DashboardPage() {
                   title={DASHBOARD_INFO.SKILL_MAP.title}
                   info={DASHBOARD_INFO.SKILL_MAP.info}
                 />
-                {/* <SkeletonBox /> */}
                 <Suspense fallback={<SkeletonBox />}>
                   <LazySkillMapContainer />
                 </Suspense>
