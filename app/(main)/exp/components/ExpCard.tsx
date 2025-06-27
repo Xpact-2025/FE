@@ -14,6 +14,7 @@ interface ExpCardProps {
   type: ExpType;
   draftTime?: string;
   status: ExpStatus;
+  subTitles: string[];
   keywords: string[];
 }
 
@@ -23,6 +24,7 @@ export default function ExpCard({
   type,
   draftTime,
   status,
+  subTitles,
 }: ExpCardProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const isTemp = status === 'DRAFT';
@@ -62,12 +64,18 @@ export default function ExpCard({
           bg-gray-800 border-gray-50-10
        rounded-[14px] flex flex-col justify-between py-[20px] px-[23px]"
     >
-      <div
-        onClick={handleClick}
-        className="flex flex-col gap-[15px] cursor-pointer"
-      >
+      <div onClick={handleClick} className="flex flex-col cursor-pointer">
         <ExpVariety type={type} />
-        <div className="body-16-sb text-gray-50">{title}</div>
+        <div className="body-16-sb text-gray-50 mt-[15px] mb-[5px]">
+          {title}
+        </div>
+        <ol className="flex flex-col gap-1.5 list-disc ml-4">
+          {subTitles.map((subTitle, index) => (
+            <li key={index} className="body-9-r text-gray-300">
+              {subTitle}
+            </li>
+          ))}
+        </ol>
       </div>
       <div className="flex flex-row justify-between items-center relative">
         {isTemp && draftTime && (

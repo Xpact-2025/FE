@@ -39,6 +39,7 @@ export interface Exp {
   experienceType: ExpType;
   draftTime?: string;
   status: ExpStatus;
+  subTitles: string[];
   keywords: string[];
 }
 
