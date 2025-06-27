@@ -45,7 +45,7 @@ export default function ExpDetailContent({
   const renderSpecial = () => (
     <div className="bg-[#161616] p-3 rounded-[4px] space-y-4">
       {isEditing
-        ? renderInput('간단 설명', 'simpleDescription', true)
+        ? renderInput('', 'simpleDescription', true)
         : subData.simpleDescription && <p>{subData.simpleDescription}</p>}
     </div>
   );
@@ -111,7 +111,7 @@ export default function ExpDetailContent({
   );
 
   return (
-    <div className="bg-gray-700 mt-0 rounded-b-[14px] rounded-tr-[14px] border border-t-0 border-gray-600 p-6 space-y-4 leading-relaxed">
+    <div className="bg-gray-700 mt-0 rounded-b-[14px] rounded-tr-[14px] border border-t-0 border-gray-600 p-6 space-y-4 leading-relaxed relative z-10">
       {isEditing ? (
         <>
           <div className="text-[21px] font-semibold text-white mb-4">
