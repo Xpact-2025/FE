@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Xpact',
-  description: '작은 경험도 강력한 임팩트로, Xpact',
+  title: 'XPact',
+  description: '작은 경험도 강력한 임팩트로, XPact',
   icons: {
     icon: '/images/favicon.png',
   },
