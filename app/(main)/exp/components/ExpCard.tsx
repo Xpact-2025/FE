@@ -58,16 +58,16 @@ export default function ExpCard({
 
   return (
     <div
-      className="relative w-[322px] h-[224px] border 
-          bg-exp-gradient-un-s border-gray-700
-       rounded-[14px] flex flex-col justify-between p-[16px]"
+      className="relative min-w-[260px] h-[224px] border 
+          bg-gray-800 border-gray-50-10
+       rounded-[14px] flex flex-col justify-between py-[20px] px-[23px]"
     >
       <div
         onClick={handleClick}
         className="flex flex-col gap-[15px] cursor-pointer"
       >
         <ExpVariety type={type} />
-        <div className="body-20-r text-gray-50">{title}</div>
+        <div className="body-16-sb text-gray-50">{title}</div>
       </div>
       <div className="flex flex-row justify-between items-center relative">
         {isTemp && draftTime && (
