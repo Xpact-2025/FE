@@ -94,3 +94,8 @@ export async function deleteExp(exp_id: number): Promise<DeleteExpResponse> {
   const res = await API.delete(`/api/exp/${exp_id}`);
   return res.data;
 }
+
+export async function sortExp(order: string) {
+  const res = await API.get(`/api/exp?order=${order}`);
+  return res.data;
+}
