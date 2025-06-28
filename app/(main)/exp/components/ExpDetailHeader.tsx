@@ -93,13 +93,13 @@ export default function ExpHeader({
                 type="date"
                 value={startDate}
                 onChange={e => onChange.startDate?.(e.target.value)}
-                className="bg-gray-800 text-white p-2 rounded mr-2"
+                className="bg-gray-800 text-white p-2 rounded mr-2 appearance-none [&::-webkit-calendar-picker-indicator]:invert"
               />
               <input
                 type="date"
                 value={endDate}
                 onChange={e => onChange.endDate?.(e.target.value)}
-                className="bg-gray-800 text-white p-2 rounded"
+                className="bg-gray-800 text-white p-2 rounded appearance-none [&::-webkit-calendar-picker-indicator]:invert"
               />
             </>
           ) : (
