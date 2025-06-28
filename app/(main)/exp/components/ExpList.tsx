@@ -24,6 +24,7 @@ export default function ExpList({ data }: ExpListProps) {
     startDate: '',
     endDate: '',
     issueDate: '',
+    subExperiences: [],
   });
 
   const handleChange = (key: string, value: string) => {
