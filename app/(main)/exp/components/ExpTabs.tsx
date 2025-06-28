@@ -1,5 +1,9 @@
+'use client';
+
+import { useState } from 'react';
 import { SubExperience } from '@/apis/exp';
 import { X } from 'lucide-react';
+import PlusGrayIcon from '@/public/icons/PlusIcon_gray.svg';
 
 interface ExpTabsProps {
   subDataList: SubExperience[];
@@ -8,6 +12,8 @@ interface ExpTabsProps {
   isEditing?: boolean;
   onRemoveClick?: (index: number) => void;
   onRequestFullDelete?: () => void;
+  onAddClick?: () => void;
+  onTabNameChange?: (index: number, newName: string) => void;
 }
 
 export default function ExpTabs({
@@ -17,16 +23,35 @@ export default function ExpTabs({
   isEditing = false,
   onRemoveClick,
   onRequestFullDelete,
+  onAddClick,
+  onTabNameChange,
 }: ExpTabsProps) {
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editingValue, setEditingValue] = useState('');
+
   if (subDataList.length === 0) return null;
+
+  const handleStartEditing = (index: number) => {
+    setEditingIndex(index);
+    setEditingValue(subDataList[index].tabName || `세부 경험 ${index + 1}`);
+  };
+
+  const handleSave = (index: number) => {
+    const trimmed = editingValue.trim();
+    const newName = trimmed === '' ? `세부 경험 ${index + 1}` : trimmed;
+    onTabNameChange?.(index, newName);
+    setEditingIndex(null);
+  };
 
   return (
     <div className="flex mb-[-10px]">
       {subDataList.map((sub, index) => {
         const isSelected = selectedIndex === index;
+        const isEditingTab = editingIndex === index;
+
         return (
           <button
-            key={sub.subExperienceId}
+            key={sub.subExperienceId ?? index}
             onClick={() => onSelect(index)}
             className={`w-48 h-20 px-4 py-2 text-lg font-semibold transition-colors duration-150 
               rounded-tl-2xl rounded-tr-2xl flex items-center justify-center relative
@@ -37,9 +62,31 @@ export default function ExpTabs({
               }
             `}
           >
-            <span className="truncate max-w-[10ch]">
-              {sub.tabName || `세부 경험 ${index + 1}`}
-            </span>
+            <div
+              className="truncate max-w-[10ch]"
+              onClick={e => {
+                if (isEditing) {
+                  e.stopPropagation();
+                  handleStartEditing(index);
+                }
+              }}
+            >
+              {isEditingTab ? (
+                <input
+                  value={editingValue}
+                  autoFocus
+                  onChange={e => setEditingValue(e.target.value)}
+                  onBlur={() => handleSave(index)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') handleSave(index);
+                  }}
+                  className="w-[100px] h-[30px] bg-black px-2 py-1 rounded"
+                />
+              ) : (
+                sub.tabName || `세부 경험 ${index + 1}`
+              )}
+            </div>
+
             {isEditing && subDataList.length > 1 && (
               <X
                 size={16}
@@ -57,6 +104,16 @@ export default function ExpTabs({
           </button>
         );
       })}
+
+      {isEditing && (
+        <button
+          type="button"
+          onClick={onAddClick}
+          className="w-48 h-20 bg-black border border-gray-700 rounded-tl-2xl rounded-tr-2xl flex items-center justify-center"
+        >
+          <PlusGrayIcon className="w-[27px] h-[27px]" />
+        </button>
+      )}
     </div>
   );
 }
