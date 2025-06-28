@@ -246,7 +246,7 @@ export default function ProfileForm() {
           <div className="flex flex-wrap gap-2">
             {recruitName && detailRecruitName && (
               <div className="flex items-center px-4 py-2 h-[44px] rounded bg-gray-500 text-white text-sm whitespace-nowrap">
-                <span className="mr-2">{`${recruitName} / ${detailRecruitName}`}</span>
+                <span className="mr-2">{detailRecruitName}</span>
                 <button
                   onClick={() => {
                     setRecruitName('');
