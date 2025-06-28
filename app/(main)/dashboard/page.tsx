@@ -66,11 +66,7 @@ export default async function DashboardPage() {
                   <LazyJobRatioContainer />
                 </Suspense>
               </div>
-              <div className="flex-[47] bg-gray-800 rounded-[23px] py-8 px-10 h-[270px] flex flex-col">
-                <DashboardHeader
-                  title={DASHBOARD_INFO.SKILL_MAP.title}
-                  info={DASHBOARD_INFO.SKILL_MAP.info}
-                />
+              <div className="flex-[47] bg-gray-800 rounded-[23px] h-[270px] flex flex-col">
                 <Suspense fallback={<SkeletonBox />}>
                   <LazySkillMapContainer />
                 </Suspense>
