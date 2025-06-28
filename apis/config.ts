@@ -42,8 +42,7 @@ API.interceptors.response.use(
         redirect('/login');
       }
     }
-
-    return error.response;
+    return Promise.reject(error);
   }
 );
 
