@@ -1,59 +1,30 @@
-import { ExpType } from '@/types/exp';
 import ExpInputBox from './ExpInputBox';
+import KeywordInput from './KeywordInput';
 
 interface AwardFormProps {
-  experienceType?: ExpType;
   data: {
-    qualification: string;
-    publisher: string;
-    issueDate: string;
+    subTitle: string;
     simpleDescription: string;
+    keywords: string[];
   };
-  onChange: (key: string, value: string) => void;
+  onChange: (key: string, value: string | string[]) => void;
 }
 
-export default function AwardForm({
-  experienceType,
-  data,
-  onChange,
-}: AwardFormProps) {
-  const handleChange = (key: string, value: string) => {
+export default function AwardForm({ data, onChange }: AwardFormProps) {
+  const handleChange = (key: string, value: string | string[]) => {
     onChange(key, value);
   };
 
   return (
     <div className="mt-[-30px]">
       <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-        {experienceType === 'CERTIFICATES' ? '자격증명' : '수상명'}
+        세부 경험 제목
       </div>
       <ExpInputBox
         type="string"
-        placeholder={experienceType === 'CERTIFICATES' ? '자격증명' : '수상명'}
-        value={data.qualification}
-        onChange={e => handleChange('qualification', e.target.value)}
-      />
-
-      <div className="py-10">
-        <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-          {experienceType === 'CERTIFICATES' ? '발행처' : '대회명 / 주최기관'}
-        </div>
-        <ExpInputBox
-          type="string"
-          placeholder={
-            experienceType === 'CERTIFICATES' ? '발행처' : '대회명 / 주최기관'
-          }
-          value={data.publisher}
-          onChange={e => handleChange('publisher', e.target.value)}
-        />
-      </div>
-
-      <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-        {experienceType === 'CERTIFICATES' ? '취득일' : '수상일'}
-      </div>
-      <ExpInputBox
-        type="date"
-        value={data.issueDate}
-        onChange={e => handleChange('issueDate', e.target.value)}
+        placeholder="제목"
+        value={data.subTitle}
+        onChange={e => handleChange('subTitle', e.target.value)}
       />
 
       <div className="py-10">
@@ -65,6 +36,16 @@ export default function AwardForm({
           placeholder="간단 설명"
           value={data.simpleDescription}
           onChange={e => handleChange('simpleDescription', e.target.value)}
+        />
+      </div>
+
+      <div className="pb-10">
+        <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
+          키워드
+        </div>
+        <KeywordInput
+          value={data.keywords}
+          onChange={newTags => handleChange('keywords', newTags)}
         />
       </div>
     </div>
