@@ -18,19 +18,9 @@ export default function SkillMap({
 
   return (
     <>
-      <div className="mt-10 group flex w-full overflow-hidden relative h-[200px]">
+      <div className="mt-10 group flex w-full h-[200px]">
         {/* 차트 영역 */}
-        <div
-          className="
-            transition-all duration-500 
-            transform 
-            translate-x-0 
-            opacity-100 
-            group-hover:-translate-x-full 
-            group-hover:opacity-0
-            group-hover:absolute group-hover:left-0
-          "
-        >
+        <div>
           <RadarChart
             width={300}
             height={150}
@@ -58,11 +48,8 @@ export default function SkillMap({
         {/* 설명 영역 */}
         <div
           className={`
-            pl-4 transition-all duration-500 
+            pl-4
             flex flex-col gap-4 
-            group-hover:justify-center
-            group-hover:-translate-x-full
-            group-hover:absolute group-hover:left-30
           `}
         >
           <div>
@@ -82,46 +69,6 @@ export default function SkillMap({
                 {weaknessFeedback.weaknessName}
               </span>
             </div>
-          </div>
-        </div>
-        <div
-          className={`
-            w-2/3 transition-all duration-500
-            flex-col gap-4
-            hidden group-hover:block
-            group-hover:justify-right
-            group-hover:absolute group-hover:right-0
-          `}
-        >
-          <div
-            className="text-gray-500 body-11-m text-left
-              hidden group-hover:block
-              group-hover:text-center"
-          >
-            <p className="mb-2">
-              강점 이유:
-              <span className="text-gray-300 body-10-m">
-                {strengthFeedback.reason}
-              </span>
-            </p>
-            <p className="mb-2">
-              강점 커리어 제안:
-              <span className="text-gray-300 body-10-m">
-                {strengthFeedback.careerSuggestion}
-              </span>
-            </p>
-            <p className="mb-2">
-              보완 필요 이유:
-              <span className="text-gray-300 body-10-m">
-                {weaknessFeedback.reason}
-              </span>
-            </p>
-            <p className="mb-2">
-              보완 활동 제안:
-              <span className="text-gray-300 body-10-m">
-                {weaknessFeedback.improvementSuggestion}
-              </span>
-            </p>
           </div>
         </div>
       </div>
