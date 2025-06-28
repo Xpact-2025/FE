@@ -204,7 +204,7 @@ export default function ExpDetailPage() {
                 issueDate: editIssueDate,
                 subExperiences: subDataList,
               });
-              alert('수정 완료');
+              alert('수정이 완료되었습니다.');
               setIsEditing(false);
             }}
             className="w-[50%] py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg cursor-pointer"
