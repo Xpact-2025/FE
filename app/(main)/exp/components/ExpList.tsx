@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Exp, ExpPayload } from '@/apis/exp';
+import { Exp, ExpPayload, sortExp } from '@/apis/exp';
 import { ExpType } from '@/types/exp';
 import ExpCard from './ExpCard';
 import BtnFilter from '@/app/(main)/exp/components/BtnFilter';
@@ -15,6 +15,16 @@ interface ExpListProps {
 export default function ExpList({ data }: ExpListProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<ExpType | null>(null);
+  const [expList, setExpList] = useState<Exp[]>(data || []);
+
+  const handleOrderChange = async (order: 'latest' | 'oldest') => {
+    try {
+      const data = await sortExp(order);
+      setExpList(data.data);
+    } catch (error) {
+      console.error('경험 가져오기 실패:', error);
+    }
+  };
 
   const [form, setForm] = useState<ExpPayload>({
     experienceType: '' as ExpType,
@@ -34,7 +44,7 @@ export default function ExpList({ data }: ExpListProps) {
     }));
   };
 
-  const filteredSearch = data.filter(exp => {
+  const filteredSearch = expList.filter(exp => {
     return (
       exp.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       exp.keywords?.some(keyword =>
@@ -58,7 +68,7 @@ export default function ExpList({ data }: ExpListProps) {
         <BtnFilter
           onSelectType={setSelectedType}
           onSelectOrder={order => {
-            fetch(`/api/exp?order=${order}`);
+            handleOrderChange(order);
           }}
         />
       </div>
