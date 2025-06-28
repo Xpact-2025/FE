@@ -93,8 +93,12 @@ export default function AddExpModal({
             <ExpInputBox
               type="date"
               value={form.issueDate ?? ''}
-              max={form.endDate}
-              onChange={e => onChange('startDate', e.target.value)}
+              onChange={e => {
+                const date = e.target.value;
+                onChange('issueDate', date);
+                onChange('startDate', date);
+                onChange('endDate', date);
+              }}
             />
           </div>
         ) : (

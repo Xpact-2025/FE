@@ -28,13 +28,20 @@ const getInitialForm = (
   return {
     subExperiences: data?.subExperiencesResponseDto || [],
     selectedTab:
-      sub?.formType === 'STAR_FORM'
-        ? 'star'
-        : sub?.formType === 'SIMPLE_FORM'
-          ? 'simple'
-          : 'star',
-    status: sub?.status || 'SAVE',
-    formType: sub?.formType || 'STAR_FORM',
+      data?.experienceType === 'PRIZE' ||
+      data?.experienceType === 'CERTIFICATES'
+        ? undefined
+        : sub?.formType === 'STAR_FORM'
+          ? 'star'
+          : sub?.formType === 'SIMPLE_FORM'
+            ? 'simple'
+            : 'star',
+    formType:
+      data?.experienceType === 'PRIZE' ||
+      data?.experienceType === 'CERTIFICATES'
+        ? undefined
+        : sub?.formType || 'STAR_FORM',
+    status: sub?.status,
     uploadType: sub?.uploadType || 'FILE',
     experienceType: data?.experienceType || ('' as ExpType),
     qualification: data?.qualification || '',
@@ -84,10 +91,14 @@ export default function ExpForm({ data }: ExpFormProps) {
   }, []);
 
   const handleAddExperienceTab = (currentExperienceType: ExpType) => {
+    const isAward =
+      currentExperienceType === 'PRIZE' ||
+      currentExperienceType === 'CERTIFICATES';
+
     const newForm = {
       ...getInitialForm(undefined),
-      formType: 'STAR_FORM' as ExpFormType,
-      selectedTab: 'star',
+      formType: isAward ? undefined : ('STAR_FORM' as ExpFormType),
+      selectedTab: isAward ? undefined : 'star',
       experienceType: currentExperienceType,
       qualification: '',
       publisher: '',
@@ -112,7 +123,7 @@ export default function ExpForm({ data }: ExpFormProps) {
       setActiveFormIndex(updatedForms.length - 1);
       return updatedForms;
     });
-    setTab('star');
+    if (!isAward) setTab('star');
   };
 
   const handleRemoveExperienceTab = (indexToRemove: number) => {
@@ -247,7 +258,22 @@ export default function ExpForm({ data }: ExpFormProps) {
         ? new Date(form.startDate).toISOString()
         : undefined,
       endDate: form.endDate ? new Date(form.endDate).toISOString() : undefined,
-      subExperiences: forms.map(f => ({ ...f })),
+      subExperiences: forms.map(f => ({
+        status: f.status ?? 'SAVE',
+        formType: f.formType,
+        uploadType: f.uploadType ?? 'FILE',
+        tabName: f.tabName ?? '',
+        subTitle: f.subTitle ?? '',
+        situation: f.situation ?? '',
+        task: f.task ?? '',
+        action: f.action ?? '',
+        result: f.result ?? '',
+        role: f.role ?? '',
+        perform: f.perform ?? '',
+        simpleDescription: f.simpleDescription ?? '',
+        files: f.files ?? [],
+        keywords: f.keywords ?? [],
+      })),
     };
 
     const { httpStatus, message } = form.id

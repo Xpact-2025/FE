@@ -12,7 +12,7 @@ export interface ExpPayload {
   title?: string;
   startDate?: string;
   endDate?: string;
-  subExperiences?: SubExperience[];
+  subExperiences: SubExperience[];
 }
 
 export interface SubExperience {
