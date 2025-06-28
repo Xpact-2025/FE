@@ -108,9 +108,9 @@ const GuideModal: React.FC<GuideModalProps> = ({
           alt="profile"
           width={74}
           height={42}
-          className="absolute top-[305px] right-[78px]"
+          className="absolute top-[80px] right-[35px]"
         />
-        <div className="absolute bg-gray-700 p-6 rounded-2xl top-[325px] right-[78px] w-[758px]">
+        <div className="absolute bg-gray-600 p-6 rounded-2xl top-[100px] right-[35px] w-[758px]">
           <h2 className="text-3xl font-semibold mb-4">{title}</h2>
           {renderContent()}
         </div>

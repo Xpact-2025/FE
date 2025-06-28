@@ -9,7 +9,7 @@ export default function BtnPrev({ movePrev }: BtnPrevProps) {
     <button
       onClick={() => movePrev(-1)}
       type="button"
-      className="flex items-center justify-center bg-gray-700 rounded-lg w-[28px] h-[28px] cursor-pointer mx-1.5 hover:bg-gray-600 transition"
+      className="flex items-center justify-center bg-gray-700 rounded-lg w-[28px] h-[28px] cursor-pointer hover:bg-gray-600 transition"
       aria-label="이전 달"
     >
       <BackIcon className="stroke-gray-100" width={15} height={15} />

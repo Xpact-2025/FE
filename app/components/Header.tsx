@@ -6,7 +6,7 @@ import HeaderToggle from './HeaderToggle';
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 w-full z-50 px-[130px] py-[2%] bg-gray-1000 body-16-r">
+    <header className="fixed top-0 left-0 w-full z-50 px-[130px] py-[2%] bg-gray-1000 body-16-sb">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-[103px]">
           <Link href="/">
@@ -22,8 +22,8 @@ export default function Header() {
             <BtnMenu title="대시보드" menu="dashboard" />
             <BtnMenu title="내 경험" menu="exp" />
             <BtnMenu title="성장 가이드" menu="guide" />
-            <BtnMenu title="AI 자기소개서" menu="ai-intro" />
-            <BtnMenu title="마이페이지" menu="mypage" />
+            <BtnMenu title="스크랩" menu="scrap" />
+            <BtnMenu title="마이페이지" menu="myPage" />
           </nav>
         </div>
 

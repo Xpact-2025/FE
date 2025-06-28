@@ -12,11 +12,12 @@ export interface ExpPayload {
   title?: string;
   startDate?: string;
   endDate?: string;
-  subExperiences?: SubExperience[];
+  subExperiences: SubExperience[];
 }
 
 export interface SubExperience {
-  id?: number;
+  subExperienceId?: number;
+  tabName?: string;
   status: ExpStatus;
   formType?: ExpFormType;
   uploadType?: UploadType;
@@ -38,6 +39,7 @@ export interface Exp {
   experienceType: ExpType;
   draftTime?: string;
   status: ExpStatus;
+  subTitles: string[];
   keywords: string[];
 }
 
@@ -90,5 +92,10 @@ export async function getMyExp(): Promise<GetExpResponse> {
 
 export async function deleteExp(exp_id: number): Promise<DeleteExpResponse> {
   const res = await API.delete(`/api/exp/${exp_id}`);
+  return res.data;
+}
+
+export async function sortExp(order: string) {
+  const res = await API.get(`/api/exp?order=${order}`);
   return res.data;
 }

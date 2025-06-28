@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { fetchJobsByIndustry, searchDetailJobs } from '@/apis/industry';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 
 interface IndustryModalProps {
   isOpen: boolean;
@@ -57,6 +58,13 @@ export default function IndustryModal({
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleDetailSearch();
+    }
+  };
+
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
@@ -91,6 +99,7 @@ export default function IndustryModal({
               placeholder="희망 직무 검색"
               value={searchValue}
               onChange={onChange}
+              onKeyDown={handleKeyDown}
               className="flex-1 h-[44px] px-4 py-2 bg-gray-600 text-white rounded border border-gray-400"
             />
             <button
@@ -113,7 +122,7 @@ export default function IndustryModal({
               setSubJobs([]);
             }}
           >
-            <div className="">산업군</div>
+            산업군
           </button>
           <button
             className={`ml-2 w-1/5 py-2 text-center font-medium rounded-t-[6px] ${
@@ -121,7 +130,7 @@ export default function IndustryModal({
             }`}
             disabled={!selectedIndustry}
           >
-            <div className="">직무</div>
+            직무
           </button>
         </div>
 
@@ -129,7 +138,7 @@ export default function IndustryModal({
         <div className="bg-gray-600 rounded-tr-md rounded-br-md rounded-bl-md max-h-[250px] overflow-y-auto px-2 py-3 border border-gray-400">
           {!selectedIndustry &&
             (isLoading ? (
-              <div className="text-center py-4 text-gray-300">로딩 중...</div>
+              <LoadingSpinner />
             ) : (
               industries.map((industry, index) => (
                 <div
@@ -148,8 +157,10 @@ export default function IndustryModal({
                 {selectedIndustry} 상세 직무 선택
               </div>
               {loadingSubJobs ? (
-                <div className="text-center py-4">로딩 중...</div>
-              ) : (
+                <div className="text-center py-4">
+                  <LoadingSpinner />
+                </div>
+              ) : subJobs.length > 0 ? (
                 subJobs.map((job, index) => (
                   <div
                     key={index}
@@ -164,6 +175,28 @@ export default function IndustryModal({
                     {job}
                   </div>
                 ))
+              ) : (
+                <div className="px-4 py-2">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-white font-medium">
+                      {searchValue}
+                    </span>
+                    <button
+                      onClick={() => {
+                        onSelect(selectedIndustry, searchValue);
+                        setSelectedIndustry('');
+                        setSubJobs([]);
+                        onClose();
+                      }}
+                      className="text-sm bg-black text-white px-2 py-[2px] rounded cursor-pointer"
+                    >
+                      직접 추가하기
+                    </button>
+                  </div>
+                  <div className="text-gray-400 text-sm">
+                    검색 결과가 없습니다.
+                  </div>
+                </div>
               )}
             </>
           )}

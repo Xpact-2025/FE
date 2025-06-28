@@ -1,6 +1,6 @@
 import React from 'react';
 import ExpForm from './components/ExpForm';
-import { getExpById } from '@/apis/exp';
+import { getExpById, ExpPayload, SubExperience } from '@/apis/exp';
 
 export default async function page({
   searchParams,
@@ -15,5 +15,9 @@ export default async function page({
 
   if (httpStatus !== 200) return <div>오류가 발생했습니다.</div>;
 
-  return <ExpForm data={data} />;
+  return (
+    <ExpForm
+      data={data as ExpPayload & { subExperiencesResponseDto: SubExperience[] }}
+    />
+  );
 }

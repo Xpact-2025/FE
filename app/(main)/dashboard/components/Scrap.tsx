@@ -1,4 +1,5 @@
-import HelpIcon from '@/public/icons/Circle_Help.svg';
+import { DASHBOARD_INFO } from '@/constants/dashboardInfo';
+import DashboardHeader from './DashboardHeader';
 
 const scrapItems = [
   {
@@ -21,10 +22,10 @@ const scrapItems = [
 
 function ScrapCard({ title, dday }: { title: string; dday: number }) {
   return (
-    <div className="flex justify-between items-center border-b border-gray-50-20 py-[10px]">
+    <div className="flex justify-between items-center border-b border-gray-50-20 py-[10px] gap-1">
       <div className="body-12-m text-gray-50 whitespace-pre-line">{title}</div>
       <div
-        className={`body-14-m ${dday <= 7 ? 'text-gray-50' : 'text-gray-500'}`}
+        className={`body-14-m whitespace-nowrap ${dday <= 7 ? 'text-gray-50' : 'text-gray-500'}`}
       >
         D-{dday}
       </div>
@@ -35,10 +36,10 @@ function ScrapCard({ title, dday }: { title: string; dday: number }) {
 export default function Scrap() {
   return (
     <>
-      <div className="flex mb-6">
-        <span className="body-16-sb mr-2">스크랩</span>
-        <HelpIcon className="stroke-gray-600" />
-      </div>
+      <DashboardHeader
+        title={DASHBOARD_INFO.SCRAP.title}
+        info={DASHBOARD_INFO.SCRAP.info}
+      />
       <div className="flex flex-col gap-3">
         {scrapItems.map((item, idx) => (
           <ScrapCard key={idx} title={item.title} dday={item.dday} />

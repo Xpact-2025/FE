@@ -23,7 +23,7 @@ export default function MainCard({ title, description }: MainCardProps) {
         {description}
       </p>
       <div className="flex justify-end">
-        <ArrowDownRightIcon className="stroke-gray-50" />
+        <ArrowDownRightIcon className="stroke-gray-50 w-[70px] h-[70px]" />
       </div>
     </div>
   );

@@ -152,7 +152,7 @@ export default function ProfileForm() {
         <div>
           <SelectBox
             value={degree}
-            onChange={e => setDegree(e.target.value)}
+            onChange={setDegree}
             options={[
               '고등학교',
               '전문대학',
@@ -165,7 +165,7 @@ export default function ProfileForm() {
         </div>
         <div>
           <SearchInput
-            placeholder="학교명"
+            placeholder="학교명 검색"
             value={selectedSchool}
             onChange={e => setSelectedSchool(e.target.value)}
             onFocus={async () => {
@@ -187,7 +187,7 @@ export default function ProfileForm() {
         </div>
         <div>
           <SearchInput
-            placeholder="학과명"
+            placeholder="학과명 검색"
             value={selectedMajor}
             onChange={e => setSelectedMajor(e.target.value)}
             onSearch={handleMajorSearch}
@@ -210,7 +210,7 @@ export default function ProfileForm() {
         <div>
           <SelectBox
             value={graduation}
-            onChange={e => setGraduation(e.target.value)}
+            onChange={setGraduation}
             options={['재학', '휴학', '졸업', '졸업예정', '수료', '중퇴']}
             placeholder="졸업 구분"
           />
@@ -223,7 +223,7 @@ export default function ProfileForm() {
         <div className="flex gap-2 items-center">
           <div className="w-[350px]">
             <SearchInput
-              placeholder="산업군 검색"
+              placeholder="직무명 검색"
               value={industrySearchValue}
               onChange={e => setIndustrySearchValue(e.target.value)}
               onSearch={handleIndustrySearch}
@@ -246,7 +246,7 @@ export default function ProfileForm() {
           <div className="flex flex-wrap gap-2">
             {recruitName && detailRecruitName && (
               <div className="flex items-center px-4 py-2 h-[44px] rounded bg-gray-500 text-white text-sm whitespace-nowrap">
-                <span className="mr-2">{`${recruitName} / ${detailRecruitName}`}</span>
+                <span className="mr-2">{detailRecruitName}</span>
                 <button
                   onClick={() => {
                     setRecruitName('');

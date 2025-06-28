@@ -53,28 +53,42 @@ export interface CoreSkillMapResponse {
   success: boolean;
 }
 
-export async function getJobRatio(): Promise<JobRatioResponse | null> {
-  try {
-    const res = await API.get<JobRatioResponse>('/api/dashboard/ratio');
-    return res.data;
-  } catch (error) {
-    console.error('직무 비율 불러오기 실패:', error);
-    return null;
-  }
+export interface TimelineExp {
+  startDate: string;
+  endDate: string;
+  title: string;
+  experienceType: string;
 }
 
-export async function getCoreSkillMap(): Promise<CoreSkillMapResponse | null> {
+export interface ExpTimelineResponse {
+  httpStatus: number;
+  message: string;
+  data: TimelineExp[];
+  success: boolean;
+}
+
+export async function getJobRatio(): Promise<JobRatioResponse> {
+  const res = await API.get<JobRatioResponse>('/api/dashboard/ratio');
+
+  if (res.status !== 200) {
+    console.error('직무 비율 불러오기 실패:', res.data);
+    return res.data;
+  }
+
+  return res.data;
+}
+
+export async function getCoreSkillMap(): Promise<CoreSkillMapResponse> {
   const res = await API.post<CoreSkillMapResponse>(`/api/dashboard/skills`);
 
-  if (!res.status) {
-    console.error('핵심 역량 맵 불러오기 실패:', res.statusText);
-    return null;
+  if (res.status !== 200) {
+    console.error('핵심 역량 맵 불러오기 실패:', res.data);
   }
 
-  if (!res.data.data) {
+  if (res.data.data === null) {
     console.error('핵심 역량 맵 data 불러오기 실패:', res.data);
-    return null;
   }
+
   return res.data;
 }
 
@@ -86,6 +100,19 @@ export async function getExpHistory(
     `/api/dashboard/history-new?${new URLSearchParams({
       year: year.toString(),
       month: month.toString(),
+    })}`
+  );
+  return res.data;
+}
+
+export async function getExpTimeline(
+  startLine: string,
+  endLine: string
+): Promise<ExpTimelineResponse> {
+  const res = await API.get<ExpTimelineResponse>(
+    `/api/dashboard/timeline?${new URLSearchParams({
+      startLine,
+      endLine,
     })}`
   );
   return res.data;

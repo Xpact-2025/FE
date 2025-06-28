@@ -1,5 +1,6 @@
 'use client';
 
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 import React from 'react';
 
 interface SchoolModalProps {
@@ -24,6 +25,13 @@ export default function SchoolModal({
   isLoading,
 }: SchoolModalProps) {
   if (!isOpen) return null;
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      onSearch();
+    }
+  };
 
   return (
     <div
@@ -57,6 +65,7 @@ export default function SchoolModal({
             placeholder="학교명"
             value={searchValue}
             onChange={onChange}
+            onKeyDown={handleKeyDown}
             className="flex-1 w-[613px] h-[44px] px-4 py-2 bg-gray-600 text-white rounded border border-gray-400"
           />
           <button
@@ -68,10 +77,10 @@ export default function SchoolModal({
         </div>
 
         {/* 결과 목록 */}
-        <div className="bg-[#2b2b2b] rounded-md max-h-[250px] overflow-y-auto px-2 py-3">
+        <div className="bg-gray-600 rounded-md max-h-[250px] overflow-y-auto px-2 py-3">
           {isLoading ? (
-            <div className="text-center py-4 text-gray-300">로딩 중...</div>
-          ) : (
+            <LoadingSpinner />
+          ) : schools.length > 0 ? (
             schools.map((school, index) => (
               <div
                 key={index}
@@ -84,19 +93,21 @@ export default function SchoolModal({
                 {school}
               </div>
             ))
-          )}
-          {!isLoading && schools.length === 0 && (
-            <div className="text-center py-4 text-gray-300">
-              검색 결과가 없습니다.
-              <button
-                onClick={() => {
-                  onSelect(searchValue); // 직접 추가
-                  onClose();
-                }}
-                className="mt-2 underline text-primary-50"
-              >
-                {searchValue} 직접 추가하기
-              </button>
+          ) : (
+            <div className="px-4 py-2">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-gray-50 font-medium">{searchValue}</span>
+                <button
+                  onClick={() => {
+                    onSelect(searchValue);
+                    onClose();
+                  }}
+                  className="text-sm bg-gray-700 text-gray-300 px-2 py-[2px] rounded cursor-pointer"
+                >
+                  직접 추가하기
+                </button>
+              </div>
+              <div className="text-gray-100 text-sm">검색 결과가 없습니다.</div>
             </div>
           )}
         </div>

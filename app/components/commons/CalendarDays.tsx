@@ -18,7 +18,7 @@ export default function CalendarDays({
 }: CalendarDaysProps) {
   return (
     <>
-      <div className="grid grid-cols-7 my-2 gap-0.5">
+      <div className="grid grid-cols-7 gap-0.5">
         {WEEK_DAYS.map(day => (
           <div
             key={day}
@@ -36,7 +36,7 @@ export default function CalendarDays({
           return (
             <div
               key={i}
-              className="text-center pt-2 h-[40px] text-gray-300 body-11-m relative select-none"
+              className="text-center pt-2 h-[30px] text-gray-300 body-11-m relative select-none"
             >
               {day}
               {count && <DateMark count={count} />}
