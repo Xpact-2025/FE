@@ -1,5 +1,6 @@
 'use client';
 
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 import React from 'react';
 
 interface SchoolModalProps {
@@ -78,7 +79,7 @@ export default function SchoolModal({
         {/* 결과 목록 */}
         <div className="bg-gray-600 rounded-md max-h-[250px] overflow-y-auto px-2 py-3">
           {isLoading ? (
-            <div className="text-center py-4 text-gray-300">로딩 중...</div>
+            <LoadingSpinner />
           ) : schools.length > 0 ? (
             schools.map((school, index) => (
               <div

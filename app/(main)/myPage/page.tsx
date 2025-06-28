@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { getMemberInfo, MemberResponse } from '../../../apis/mypage';
 import ProfileItem from './components/MypageItem';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 
 export default function MyPage() {
   const [member, setMember] = useState<MemberResponse['data'] | null>(null);
@@ -16,7 +17,13 @@ export default function MyPage() {
     fetch();
   }, []);
 
-  if (!member) return <div className="text-white">로딩 중...</div>;
+  if (!member) {
+    return (
+      <div className="h-[80%] flex justify-center items-center bg-black">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-black text-gray-50 w-full flex flex-col items-center py-12 px-4">
