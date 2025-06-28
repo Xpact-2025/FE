@@ -2,12 +2,13 @@
 
 import { ExpPayload, SubExperience } from '@/apis/exp';
 import Image from 'next/image';
+import KeywordInput from '../../addExp/components/KeywordInput';
 
 interface ExpDetailContentProps {
   data: ExpPayload;
   subData: SubExperience;
   isEditing?: boolean;
-  onChange?: (field: keyof SubExperience, value: string) => void;
+  onChange?: (field: keyof SubExperience, value: string | string[]) => void;
 }
 
 export default function ExpDetailContent({
@@ -146,17 +147,16 @@ export default function ExpDetailContent({
           ? renderSimple()
           : renderSTAR()}
 
-      {/* 자료 첨부 및 키워드는 수정 미포함 (원하면 추가 구현 가능) */}
       {Array.isArray(subData.files) && subData.files.length > 0 && (
         <div className="mt-10">
           <h3 className="text-[21px] font-semibold text-white mb-4 mt-10">
             자료 첨부
           </h3>
-          <div className="bg-gray-600 p-3 rounded-[4px] border border-gray-600 space-y-2">
+          <div className="bg-gray-700 rounded-[4px] space-y-3">
             {subData.files.map((file, idx) => (
               <div
                 key={idx}
-                className="text-sm text-gray-200 flex items-center gap-2"
+                className=" bg-gray-600 rounded-md px-3 py-2 text-sm text-gray-200 flex items-center gap-2"
               >
                 <Image
                   src="/images/file.svg"
@@ -170,23 +170,29 @@ export default function ExpDetailContent({
           </div>
         </div>
       )}
-
-      {Array.isArray(subData.keywords) && subData.keywords.length > 0 && (
+      {Array.isArray(subData.keywords) && (
         <div className="mt-10">
           <h3 className="text-[21px] font-semibold text-white mb-4 mt-10">
             키워드
           </h3>
           <div className="bg-[#161616] p-3 rounded-[4px]">
-            <div className="flex flex-wrap gap-2">
-              {subData.keywords.map((keyword, idx) => (
-                <span
-                  key={idx}
-                  className="px-4 py-1 bg-gray-300 text-sm rounded-full text-gray-1100"
-                >
-                  #{keyword}
-                </span>
-              ))}
-            </div>
+            {isEditing ? (
+              <KeywordInput
+                value={subData.keywords}
+                onChange={newKeywords => onChange('keywords', newKeywords)}
+              />
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                {subData.keywords.map((keyword, idx) => (
+                  <span
+                    key={idx}
+                    className="px-4 py-1 bg-gray-300 text-sm rounded-full text-gray-1100"
+                  >
+                    #{keyword}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}

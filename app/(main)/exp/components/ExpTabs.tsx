@@ -38,9 +38,9 @@ export default function ExpTabs({
             `}
           >
             <span className="truncate max-w-[10ch]">
-              {sub.subTitle || `세부 경험 ${index + 1}`}
+              {sub.tabName || `세부 경험 ${index + 1}`}
             </span>
-            {isEditing && (
+            {isEditing && subDataList.length > 1 && (
               <X
                 size={16}
                 className="absolute top-2 right-2 hover:text-red-500"
