@@ -6,6 +6,8 @@ import RadioFillIcon from '@/public/icons/Radio_Fill.svg';
 import RadioNotFillIcon from '@/public/icons/Radio_NOT_Fill.svg';
 import PlusIcon from '@/public/icons/PlusIcon.svg';
 import { UploadType } from '@/types/exp';
+import { MinusIcon } from 'lucide-react';
+import Image from 'next/image';
 
 interface UploadItem {
   id: number;
@@ -114,16 +116,12 @@ export default function FileInput() {
   return (
     <div>
       {items.map((item, index) => (
-        <div key={item.id} className="relative">
+        <div key={item.id} className="whitespace-nowrap">
           {items.length > 1 && index > 0 && (
-            <button
-              onClick={() => removeItem(item.id)}
-              className="flex w-full justify-end pb-5"
-            >
-              <CloseIcon />
-            </button>
+            <div className="w-[100%] h-0 border border-gray-600 mb-6.5"></div>
           )}
-          <div className="flex justify-end mb-2">
+          <div className="flex mb-4">
+            {/*라디오 버튼*/}
             <div className="flex gap-9 text-gray-200">
               <div className="flex gap-3">
                 <div
@@ -152,6 +150,14 @@ export default function FileInput() {
                 링크
               </div>
             </div>
+            {items.length > 1 && index > 0 && (
+              <button
+                onClick={() => removeItem(item.id)}
+                className="flex w-full justify-end"
+              >
+                <MinusIcon className="w-[44px] h-6 bg-gray-400 rounded-[4px]" />
+              </button>
+            )}
           </div>
 
           {item.uploadType === 'FILE' ? (
@@ -163,27 +169,32 @@ export default function FileInput() {
                 onDragOver={e => e.preventDefault()}
               >
                 이곳에 파일을 올려주세요
-                {item.files.length > 0 && (
-                  <ul className="pt-2">
-                    {item.files.map((file, index) => (
-                      <li
-                        key={index}
-                        className="w-fit flex justify-between gap-2 text-[15px] font-semibold bg-gray-300 px-3 py-1 rounded-[16px] text-gray-600"
-                      >
-                        <a href={file.url}>{file.name}</a>
-                        <button
-                          onClick={() => handleRemoveFile(item.id, index)}
-                        >
-                          <CloseIcon />
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
               </div>
-              <p className="text-gray-200 text-xs pt-2">
+              <p className="text-gray-200 text-xs pt-4.5 mb-6.5">
                 * 파일 첨부 시, PDF로 변환하여 업로드해주세요.
               </p>
+
+              {item.files.length > 0 && (
+                <ul className="pt-2">
+                  {item.files.map((file, index) => (
+                    <li
+                      key={index}
+                      className="w-fit flex justify-between gap-2 text-[15px] bg-gray-600 px-5 py-2.5 rounded mb-6.5"
+                    >
+                      <Image
+                        src="/images/file.svg"
+                        alt="file"
+                        width={14}
+                        height={18}
+                      />
+                      <a href={file.url}>{file.name}</a>
+                      <button onClick={() => handleRemoveFile(item.id, index)}>
+                        <CloseIcon />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           ) : (
             <div>
@@ -192,19 +203,20 @@ export default function FileInput() {
                   type="text"
                   value={item.newLink}
                   onChange={e => handleLinkChange(e, item.id)}
-                  placeholder="PDF 파일 링크를 입력하세요"
+                  placeholder="이곳에 링크 주소를 입력하고 엔터를 눌러주세요."
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      if (item.links.length < 1) {
+                        handleAddLink(item.id);
+                      }
+                    }
+                  }}
                   className="w-full px-4 py-3 bg-gray-800
-        border border-gray-700 placeholder:text-gray-300"
+      border border-gray-700 pb-5 placeholder-gray-300"
                 />
-                <button
-                  onClick={() => handleAddLink(item.id)}
-                  className="w-[60px] bg-gray-600 text-white px-3 py-2 rounded-[20px]"
-                  disabled={item.links.length >= 1}
-                >
-                  추가
-                </button>
               </div>
-              <p className="text-gray-200 text-xs pt-2">
+              <p className="text-gray-200 text-xs pt-2 mb-6.5">
                 * 링크 첨부 시, 열람 가능한 주소를 입력해주세요. (예: 구글
                 드라이브, 노션 등)
               </p>
@@ -214,8 +226,14 @@ export default function FileInput() {
                   {item.links.map((link, index) => (
                     <li
                       key={index}
-                      className="w-fit flex justify-between gap-2 text-[15px] font-semibold bg-gray-300 px-3 py-1 rounded-[16px] text-gray-600"
+                      className="w-fit flex justify-between gap-2 text-[15px] bg-gray-600 px-5 py-2.5 rounded mb-6.5"
                     >
+                      <Image
+                        src="/images/link.svg"
+                        alt="link"
+                        width={24}
+                        height={24}
+                      />
                       <a href={link}>{link}</a>
                       <button onClick={() => handleRemoveLink(item.id, index)}>
                         <CloseIcon />
