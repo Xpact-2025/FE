@@ -265,7 +265,7 @@ export default function FileInput() {
               <div className="flex gap-2 pb-5">
                 <input
                   type="text"
-                  value={item.newLink}
+                  value={item.newLink ?? ''}
                   onChange={e => handleLinkChange(e, item.id)}
                   placeholder="이곳에 링크 주소를 입력하고 엔터를 눌러주세요."
                   onKeyDown={e => {
