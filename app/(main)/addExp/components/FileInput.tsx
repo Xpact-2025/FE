@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import CloseIcon from '@/public/icons/Close.svg';
 import RadioFillIcon from '@/public/icons/Radio_Fill.svg';
 import RadioNotFillIcon from '@/public/icons/Radio_NOT_Fill.svg';
@@ -19,6 +19,7 @@ interface UploadItem {
 }
 
 export default function FileInput() {
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [items, setItems] = useState<UploadItem[]>([
     { id: Date.now(), uploadType: 'FILE', files: null, links: [], newLink: '' },
   ]);
@@ -33,6 +34,28 @@ export default function FileInput() {
     );
   };
 
+  const uploadPresignedUrl = async (file: File) => {
+    if (file.type !== 'application/pdf') {
+      alert('PDF 파일만 업로드할 수 있습니다.');
+      return null;
+    }
+    const response = await saveFile(file.name);
+    const { preSignedUrl, fileUrl } = response.data;
+
+    await fetch(preSignedUrl, {
+      method: 'PUT',
+      body: file,
+      headers: {
+        'Content-Type': 'application/pdf',
+      },
+    });
+
+    return {
+      name: file.name,
+      url: fileUrl,
+    };
+  };
+
   const handleDrop = useCallback(
     async (e: React.DragEvent<HTMLDivElement>, id: number) => {
       e.preventDefault();
@@ -45,23 +68,10 @@ export default function FileInput() {
         alert('PDF 파일만 업로드할 수 있습니다.');
         return;
       }
+
       try {
-        const response = await saveFile(pdfFile.name);
-        console.log('response:', response);
-        const { preSignedUrl, fileUrl } = response.data;
-
-        await fetch(preSignedUrl, {
-          method: 'PUT',
-          body: pdfFile,
-          headers: {
-            'Content-Type': 'application/pdf',
-          },
-        });
-
-        const fileData = {
-          name: pdfFile.name,
-          url: fileUrl,
-        };
+        const fileData = await uploadPresignedUrl(pdfFile);
+        if (!fileData) return;
 
         setItems(prevItems =>
           prevItems.map(item =>
@@ -70,13 +80,33 @@ export default function FileInput() {
               : item
           )
         );
-      } catch (err) {
-        console.error('파일 업로드 실패:', err);
+      } catch {
         alert('파일 업로드에 실패했습니다.');
       }
     },
     []
   );
+
+  const handleAddFile = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: number
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const fileData = await uploadPresignedUrl(file);
+      if (!fileData) return;
+
+      setItems(prevItems =>
+        prevItems.map(item =>
+          item.id === id ? { ...item, files: fileData } : item
+        )
+      );
+    } catch {
+      alert('파일 업로드에 실패했습니다.');
+    }
+  };
 
   const handleRemoveFile = (id: number) => {
     setItems(prevItems =>
@@ -171,24 +201,40 @@ export default function FileInput() {
               </div>
             </div>
             {items.length > 1 && index > 0 && (
-              <button
-                onClick={() => removeItem(item.id)}
-                className="flex w-full justify-end"
-              >
-                <MinusIcon className="w-[44px] h-6 bg-gray-400 rounded-[4px]" />
-              </button>
+              <div className="flex w-full justify-end">
+                <MinusIcon
+                  className="w-[44px] h-6 bg-gray-400 rounded-[4px]"
+                  onClick={() => removeItem(item.id)}
+                />
+              </div>
             )}
           </div>
 
           {item.uploadType === 'FILE' ? (
             <div className="">
-              <div
-                className="w-full px-4 py-3 bg-gray-800
+              <div className="flex justify-between items-center gap-2.5">
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  className="hidden"
+                  ref={fileInputRef}
+                  onChange={e => handleAddFile(e, item.id)}
+                />
+                <button
+                  type="button"
+                  className="w-32 h-11 px-5 rounded bg-gray-600 text-gray-50"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  첨부파일 추가
+                </button>
+                <div
+                  className="flex w-full h-11 rounded px-4 py-2.5 bg-gray-800
       border border-gray-700 text-gray-300 pb-5"
-                onDrop={e => handleDrop(e, item.id)}
-                onDragOver={e => e.preventDefault()}
-              >
-                이곳에 파일을 올려주세요
+                  onDrop={e => handleDrop(e, item.id)}
+                  onDragOver={e => e.preventDefault()}
+                >
+                  이곳에 파일을 올리거나 첨부 버튼을 이용해 주세요.
+                </div>
               </div>
               <p className="text-gray-200 text-xs pt-4.5 mb-6.5">
                 * 파일 첨부 시, PDF로 변환하여 업로드해주세요.
@@ -230,7 +276,7 @@ export default function FileInput() {
                       }
                     }
                   }}
-                  className="w-full px-4 py-3 bg-gray-800
+                  className="w-full rounded h-11 px-4 py-5 bg-gray-800
       border border-gray-700 pb-5 placeholder-gray-300"
                 />
               </div>
