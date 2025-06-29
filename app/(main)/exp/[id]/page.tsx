@@ -43,7 +43,32 @@ export default function ExpDetailPage() {
       setSelectedTabIndex(Math.max(0, newList.length - 1));
     }
 
-    setDeleteIndex(null); // 모달 닫기
+    setDeleteIndex(null);
+  };
+
+  const handleAddSubExperience = () => {
+    const newSub: SubExperience = {
+      formType: 'STAR_FORM',
+      uploadType: 'FILE',
+      tabName: '',
+      subTitle: '',
+      role: '',
+      perform: '',
+      situation: '',
+      task: '',
+      action: '',
+      result: '',
+      simpleDescription: '',
+      keywords: [],
+      files: [],
+      status: 'SAVE',
+    };
+
+    setSubDataList(prev => {
+      const updated = [...prev, newSub];
+      setSelectedTabIndex(updated.length - 1);
+      return updated;
+    });
   };
 
   const currentSubData = subDataList[selectedTabIndex] ?? null;
@@ -113,16 +138,22 @@ export default function ExpDetailPage() {
       />
 
       {/* 탭 영역 */}
-      <ExpTabs
-        subDataList={subDataList}
-        selectedIndex={selectedTabIndex}
-        onSelect={setSelectedTabIndex}
-        isEditing={isEditing}
-        onRemoveClick={index => {
-          setDeleteIndex(index); // 기본: 세부 경험 삭제
-        }}
-        onRequestFullDelete={() => setIsPopupOpen(true)}
-      />
+      <div className="flex">
+        <ExpTabs
+          subDataList={subDataList}
+          selectedIndex={selectedTabIndex}
+          onSelect={setSelectedTabIndex}
+          isEditing={isEditing}
+          onRemoveClick={index => setDeleteIndex(index)}
+          onRequestFullDelete={() => setIsPopupOpen(true)}
+          onAddClick={handleAddSubExperience}
+          onTabNameChange={(index, newName) => {
+            const updated = [...subDataList];
+            updated[index] = { ...updated[index], tabName: newName };
+            setSubDataList(updated);
+          }}
+        />
+      </div>
 
       {/* 세부 경험 삭제 모달 */}
       {deleteIndex !== null && (
@@ -140,7 +171,9 @@ export default function ExpDetailPage() {
       {isPopupOpen && (
         <Popup
           title="전체 경험 삭제"
-          content={`해당 경험 카드의 모든 내용이 삭제됩니다. \n세부 경험만 삭제하려면 ‘수정’에서 개별 삭제해 주세요.`}
+          content={
+            '해당 경험 카드의 모든 내용이 삭제됩니다. \n세부 경험만 삭제하려면 ‘수정’에서 개별 삭제해 주세요.'
+          }
           confirmText="삭제"
           cancelText="취소"
           onConfirm={async () => {
@@ -176,20 +209,6 @@ export default function ExpDetailPage() {
           삭제
         </button>
 
-        {isPopupOpen && (
-          <Popup
-            title="전체 경험 삭제"
-            content={`해당 경험 카드의 모든 내용이 삭제됩니다. \n세부 경험만 삭제하려면 ‘수정’에서 개별 삭제해 주세요.`}
-            confirmText="삭제"
-            cancelText="취소"
-            onConfirm={async () => {
-              await deleteExp(Number(params?.id));
-              router.push('/exp');
-            }}
-            onCancel={() => setIsPopupOpen(false)}
-          />
-        )}
-
         {isEditing ? (
           <button
             type="button"
@@ -204,7 +223,7 @@ export default function ExpDetailPage() {
                 issueDate: editIssueDate,
                 subExperiences: subDataList,
               });
-              alert('수정 완료');
+              alert('수정이 완료되었습니다.');
               setIsEditing(false);
             }}
             className="w-[50%] py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg cursor-pointer"

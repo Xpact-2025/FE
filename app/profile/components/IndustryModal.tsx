@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { fetchJobsByIndustry, searchDetailJobs } from '@/apis/industry';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 
 interface IndustryModalProps {
   isOpen: boolean;
@@ -137,7 +138,7 @@ export default function IndustryModal({
         <div className="bg-gray-600 rounded-tr-md rounded-br-md rounded-bl-md max-h-[250px] overflow-y-auto px-2 py-3 border border-gray-400">
           {!selectedIndustry &&
             (isLoading ? (
-              <div className="text-center py-4 text-gray-300">로딩 중...</div>
+              <LoadingSpinner />
             ) : (
               industries.map((industry, index) => (
                 <div
@@ -156,7 +157,9 @@ export default function IndustryModal({
                 {selectedIndustry} 상세 직무 선택
               </div>
               {loadingSubJobs ? (
-                <div className="text-center py-4">로딩 중...</div>
+                <div className="text-center py-4">
+                  <LoadingSpinner />
+                </div>
               ) : subJobs.length > 0 ? (
                 subJobs.map((job, index) => (
                   <div
