@@ -58,11 +58,19 @@ export default function MyPage() {
       </div>
 
       {/* 프로필 정보 */}
-      <div className="w-full">
-        <div className="flex flex-col space-y-8 max-w-lg mx-auto">
+      <div className="w-full flex flex-col items-center">
+        <div className="flex flex-col space-y-8 mx-auto">
           <div className="flex gap-4">
-            <ProfileItem label="이름" value={member.name} />
-            <ProfileItem label="나이" value={member.age} />
+            <ProfileItem
+              label="이름"
+              value={
+                <div className="flex">
+                  <span className="mr-23">{member.name}</span>
+                  <span className="text-gray-400 w-20">나이</span>
+                  <span className="text-white">{member.age}</span>
+                </div>
+              }
+            />
           </div>
           <ProfileItem label="학력" value={member.educationName} />
           <ProfileItem label="희망 직무" value={member.desiredDetailRecruit} />

@@ -65,10 +65,10 @@ export default function SideBar() {
             isActive={pathname.startsWith('/bookmark')}
           />
           <SideBarMenu
-            href="/profile"
+            href="/myPage"
             icon={<UserCircleIcon className={iconStyle('/profile')} />}
             text="마이페이지"
-            isActive={pathname.startsWith('/profile')}
+            isActive={pathname.startsWith('/myPage')}
           />
         </ul>
       </nav>
