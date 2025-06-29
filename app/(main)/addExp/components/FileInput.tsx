@@ -8,32 +8,33 @@ import PlusIcon from '@/public/icons/PlusIcon.svg';
 import { UploadType } from '@/types/exp';
 import { MinusIcon } from 'lucide-react';
 import Image from 'next/image';
+import { saveFile } from '@/apis/exp';
 
 interface UploadItem {
   id: number;
   uploadType: UploadType;
-  files: { name: string; url: string }[];
+  files: { name: string; url: string } | null;
   links: string[];
   newLink: string;
 }
 
 export default function FileInput() {
   const [items, setItems] = useState<UploadItem[]>([
-    { id: Date.now(), uploadType: 'FILE', files: [], links: [], newLink: '' },
+    { id: Date.now(), uploadType: 'FILE', files: null, links: [], newLink: '' },
   ]);
 
   const handleUploadTypeChange = (id: number, type: UploadType) => {
     setItems(prevItems =>
       prevItems.map(item =>
         item.id === id
-          ? { ...item, uploadType: type, files: [], links: [], newLink: '' }
+          ? { ...item, uploadType: type, files: null, links: [], newLink: '' }
           : item
       )
     );
   };
 
   const handleDrop = useCallback(
-    (e: React.DragEvent<HTMLDivElement>, id: number) => {
+    async (e: React.DragEvent<HTMLDivElement>, id: number) => {
       e.preventDefault();
       const droppedFiles = Array.from(e.dataTransfer.files);
       const pdfFile = droppedFiles.find(
@@ -44,29 +45,42 @@ export default function FileInput() {
         alert('PDF 파일만 업로드할 수 있습니다.');
         return;
       }
+      try {
+        const response = await saveFile(pdfFile.name);
+        console.log('response:', response);
+        const { preSignedUrl, fileUrl } = response.data;
 
-      const fileData = {
-        name: pdfFile.name,
-        url: URL.createObjectURL(pdfFile),
-      };
+        await fetch(preSignedUrl, {
+          method: 'PUT',
+          body: pdfFile,
+          headers: {
+            'Content-Type': 'application/pdf',
+          },
+        });
 
-      setItems(prevItems =>
-        prevItems.map(item =>
-          item.id === id
-            ? { ...item, files: [fileData], newLink: item.newLink || '' }
-            : item
-        )
-      );
+        const fileData = {
+          name: pdfFile.name,
+          url: fileUrl,
+        };
+
+        setItems(prevItems =>
+          prevItems.map(item =>
+            item.id === id
+              ? { ...item, files: fileData, newLink: item.newLink || '' }
+              : item
+          )
+        );
+      } catch (err) {
+        console.error('파일 업로드 실패:', err);
+        alert('파일 업로드에 실패했습니다.');
+      }
     },
     []
   );
-  const handleRemoveFile = (id: number, index: number) => {
+
+  const handleRemoveFile = (id: number) => {
     setItems(prevItems =>
-      prevItems.map(item =>
-        item.id === id
-          ? { ...item, files: item.files.filter((_, i) => i !== index) }
-          : item
-      )
+      prevItems.map(item => (item.id === id ? { ...item, files: null } : item))
     );
   };
 
@@ -105,7 +119,13 @@ export default function FileInput() {
   const addNewItem = () => {
     setItems(prevItems => [
       ...prevItems,
-      { id: Date.now(), uploadType: 'FILE', files: [], links: [], newLink: '' },
+      {
+        id: Date.now(),
+        uploadType: 'FILE',
+        files: null,
+        links: [],
+        newLink: '',
+      },
     ]);
   };
 
@@ -174,25 +194,23 @@ export default function FileInput() {
                 * 파일 첨부 시, PDF로 변환하여 업로드해주세요.
               </p>
 
-              {item.files.length > 0 && (
+              {item.files && (
                 <ul className="pt-2">
-                  {item.files.map((file, index) => (
-                    <li
-                      key={index}
-                      className="w-fit flex justify-between gap-2 text-[15px] bg-gray-600 px-5 py-2.5 rounded mb-6.5"
-                    >
-                      <Image
-                        src="/images/file.svg"
-                        alt="file"
-                        width={14}
-                        height={18}
-                      />
-                      <a href={file.url}>{file.name}</a>
-                      <button onClick={() => handleRemoveFile(item.id, index)}>
-                        <CloseIcon />
-                      </button>
-                    </li>
-                  ))}
+                  <li
+                    key={index}
+                    className="w-fit flex justify-between gap-2 text-[15px] bg-gray-600 px-5 py-2.5 rounded mb-6.5"
+                  >
+                    <Image
+                      src="/images/file.svg"
+                      alt="file"
+                      width={14}
+                      height={18}
+                    />
+                    <a href={item.files.url}>{item.files.name}</a>
+                    <button onClick={() => handleRemoveFile(item.id)}>
+                      <CloseIcon />
+                    </button>
+                  </li>
                 </ul>
               )}
             </div>
