@@ -277,17 +277,13 @@ export default function ExpForm({ data }: ExpFormProps) {
     };
 
     const { httpStatus, message } = form.id
-      ? await editExp(form.id, {
-          ...payload,
-          subExperiences: form.subExperiences,
-        })
-      : await saveExp({
-          ...payload,
-          subExperiences: form.subExperiences || [],
-        });
+      ? await editExp(form.id, payload)
+      : await saveExp(payload);
 
     if (httpStatus == 200) {
       alert('성공적으로 저장되었습니다!');
+
+      console.log('보내는 payload:', payload);
       router.push('/exp');
     } else {
       alert(`저장 실패: ${message}`);
