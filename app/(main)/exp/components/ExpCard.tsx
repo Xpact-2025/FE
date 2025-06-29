@@ -16,6 +16,7 @@ interface ExpCardProps {
   status: ExpStatus;
   subTitles: string[];
   keywords: string[];
+  onDelete: (id: number) => void;
 }
 
 export default function ExpCard({
@@ -25,6 +26,7 @@ export default function ExpCard({
   draftTime,
   status,
   subTitles,
+  onDelete,
 }: ExpCardProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const isTemp = status === 'DRAFT';
@@ -92,7 +94,11 @@ export default function ExpCard({
           <MoreVerticalIcon className=" stroke-gray-50 " />
         </button>
         {isDropdownOpen && (
-          <DropdownMenu id={id} onClose={() => setIsDropdownOpen(false)} />
+          <DropdownMenu
+            id={id}
+            onClose={() => setIsDropdownOpen(false)}
+            onDelete={onDelete}
+          />
         )}
       </div>
     </div>

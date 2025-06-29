@@ -33,12 +33,12 @@ export default function ExpTabs({
 
   const handleStartEditing = (index: number) => {
     setEditingIndex(index);
-    setEditingValue(subDataList[index].tabName || `세부 경험 ${index + 1}`);
+    setEditingValue(subDataList[index].tabName || `경험 ${index + 1}`);
   };
 
   const handleSave = (index: number) => {
     const trimmed = editingValue.trim();
-    const newName = trimmed === '' ? `세부 경험 ${index + 1}` : trimmed;
+    const newName = trimmed === '' ? `경험 ${index + 1}` : trimmed;
     onTabNameChange?.(index, newName);
     setEditingIndex(null);
   };
@@ -83,7 +83,7 @@ export default function ExpTabs({
                   className="w-[100px] h-[30px] bg-black px-2 py-1 rounded"
                 />
               ) : (
-                sub.tabName || `세부 경험 ${index + 1}`
+                sub.tabName || `경험 ${index + 1}`
               )}
             </div>
 
