@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import FormInput from '../../components/InputCheckBox';
-import { loginUser } from '@/apis/auth';
+import { getMyInfo, loginUser } from '@/apis/auth';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -60,17 +60,41 @@ export default function LoginForm() {
     try {
       const loginRes = await loginUser({ email, password });
 
-      if (loginRes.httpStatus === 200) {
-        router.push('/'); // 메인으로 이동
-      } else {
-        setEmailError('아이디 또는 비밀번호가 일치하지 않습니다.');
-        setPasswordError('아이디 또는 비밀번호가 일치하지 않습니다.');
+      if (loginRes.httpStatus !== 200) {
+        if (loginRes.code === 'PWD001') {
+          alert('비밀번호가 일치하지 않습니다.');
+        } else if (loginRes.code === 'MEMBER001') {
+          alert('존재하지 않는 이메일입니다.');
+        } else {
+          alert('아이디 또는 비밀번호가 일치하지 않습니다.');
+        }
+        return;
+      }
+
+      //로그인 성공 시 유저 정보 요청
+      try {
+        const userInfo = await getMyInfo();
+
+        if (!userInfo?.data?.desiredDetailRecruit) {
+          alert('프로필 설정을 먼저 완료해주세요.');
+          router.push('/profile');
+        } else {
+          router.push('/');
+        }
+      } catch (err) {
+        if (err instanceof Error && err.message === 'NO_PROFILE') {
+          alert('프로필 설정을 먼저 완료해주세요.');
+          router.push('/profile');
+        } else {
+          alert('로그인 중 문제가 발생했습니다.');
+        }
       }
     } catch (err) {
       console.error('로그인 실패:', err);
       alert('로그인 중 문제가 발생했습니다.');
     }
   };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     handleLogin();

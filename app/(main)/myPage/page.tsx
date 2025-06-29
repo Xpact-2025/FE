@@ -5,9 +5,11 @@ import Image from 'next/image';
 import { getMemberInfo, MemberResponse } from '../../../apis/mypage';
 import ProfileItem from './components/MypageItem';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
+import ProfileForm from '@/app/profile/components/ProfileForm';
 
 export default function MyPage() {
   const [member, setMember] = useState<MemberResponse['data'] | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
@@ -25,14 +27,36 @@ export default function MyPage() {
     );
   }
 
+  //수정 폼
+  if (isEditing) {
+    return (
+      <div className="bg-black text-white min-h-screen">
+        <ProfileForm
+          initialData={{
+            name: member.name,
+            age: String(member.age),
+            educationName: member.educationName,
+            desiredDetailRecruit: member.desiredDetailRecruit,
+            imgurl: member.imgurl,
+          }}
+          isEditMode={true}
+          onCancel={() => setIsEditing(false)}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-black text-gray-50 w-full flex flex-col items-center py-12 px-4">
       <h2 className="text-2xl font-semibold mb-8 flex items-center gap-2">
         프로필 정보{' '}
-        <span className="text-sm cursor-pointer">
+        <span
+          className="text-sm cursor-pointer"
+          onClick={() => setIsEditing(true)}
+        >
           <Image
             src="/images/Edit_Pencil.svg"
-            alt="Xpact"
+            alt="프로필 수정"
             width={22}
             height={22}
           />
