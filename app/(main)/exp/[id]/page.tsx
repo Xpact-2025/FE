@@ -14,6 +14,7 @@ import {
 import ExpHeader from '../components/ExpDetailHeader';
 import ExpTabs from '../components/ExpTabs';
 import ExpDetailContent from '../components/ExpDetailContent';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 
 export default function ExpDetailPage() {
   const params = useParams();
@@ -103,7 +104,11 @@ export default function ExpDetailPage() {
 
   if (error) return <div className="text-red-500 p-10">{error}</div>;
   if (!data || !currentSubData)
-    return <div className="text-gray-400 p-10">로딩 중...</div>;
+    return (
+      <div className="h-[80%] flex justify-center items-center bg-black">
+        <LoadingSpinner />
+      </div>
+    );
 
   return (
     <div className="pr-20 pl-20 pb-20">
