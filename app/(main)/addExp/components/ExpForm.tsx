@@ -171,6 +171,7 @@ export default function ExpForm({ data }: ExpFormProps) {
       'issueDate',
       'simpleDescription',
       'title',
+      'subTitle',
       'startDate',
       'endDate',
       'role',
