@@ -3,6 +3,7 @@
 import { ExpPayload, SubExperience } from '@/apis/exp';
 import Image from 'next/image';
 import KeywordInput from '../../addExp/components/KeywordInput';
+import FileInput from '../../addExp/components/FileInput';
 
 interface ExpDetailContentProps {
   data: ExpPayload;
@@ -170,6 +171,16 @@ export default function ExpDetailContent({
           </div>
         </div>
       )}
+
+      {isEditing && (
+        <div className="mt-10">
+          <h3 className="text-[21px] font-semibold text-white mb-4">
+            파일 추가
+          </h3>
+          <FileInput />
+        </div>
+      )}
+
       {Array.isArray(subData.keywords) && (
         <div className="mt-10">
           <h3 className="text-[21px] font-semibold text-white mb-4 mt-10">

@@ -1,5 +1,6 @@
 'use server';
 
+import { AxiosError } from 'axios';
 import API from './config';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -51,6 +52,11 @@ interface MemberInfoResponse {
   success: boolean;
 }
 
+interface ErrorResponse {
+  code?: string;
+  message?: string;
+}
+
 export async function setAccessTokenCookie(token: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7일 후 만료
 
@@ -65,11 +71,21 @@ export async function setAccessTokenCookie(token: string) {
 }
 
 export async function loginUser(payload: LoginPayload): Promise<LoginResponse> {
-  const res = await API.post<LoginResponse>('/auth/login/form', payload);
+  try {
+    const res = await API.post<LoginResponse>('/auth/login/form', payload);
 
-  if (res.status == 200) setAccessTokenCookie(res.data.data.accessToken);
+    if (res.status === 200) {
+      await setAccessTokenCookie(res.data.data.accessToken);
+    }
 
-  return res.data;
+    return res.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<LoginResponse>;
+    if (axiosError.response?.data) {
+      return axiosError.response.data;
+    }
+    throw error;
+  }
 }
 
 export async function signupUser(
@@ -160,8 +176,19 @@ export async function getMyInfo(): Promise<MemberInfoResponse> {
     const res = await API.get<MemberInfoResponse>('/api/members');
     return res.data;
   } catch (error) {
-    console.error('[getMyInfo 에러]', error);
-    // 예외 발생 시 프로필 설정 페이지로 리디렉션
-    redirect('/profile');
+    const axiosError = error as AxiosError<ErrorResponse>;
+
+    const status = axiosError.response?.status;
+    const code = axiosError.response?.data?.code;
+
+    if (
+      status === 404 ||
+      status === 401 ||
+      (status === 500 && code === 'SE001')
+    ) {
+      throw new Error('NO_PROFILE');
+    }
+
+    throw new Error('UNKNOWN_ERROR');
   }
 }

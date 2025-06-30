@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation'; // ✅ 수정
 import Popup from '@/app/components/Popup';
 import BackIcon from '@/public/icons/Chevron_Left.svg';
 import {
@@ -14,9 +14,11 @@ import {
 import ExpHeader from '../components/ExpDetailHeader';
 import ExpTabs from '../components/ExpTabs';
 import ExpDetailContent from '../components/ExpDetailContent';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 
 export default function ExpDetailPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const router = useRouter();
 
   const [data, setData] = useState<ExpPayload | null>(null);
@@ -25,7 +27,9 @@ export default function ExpDetailPage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(
+    () => searchParams.get('edit') === 'true'
+  );
   const [editTitle, setEditTitle] = useState('');
   const [editQualification, setEditQualification] = useState('');
   const [editPublisher, setEditPublisher] = useState('');
@@ -38,11 +42,9 @@ export default function ExpDetailPage() {
   const handleDeleteSubExp = (indexToDelete: number) => {
     const newList = subDataList.filter((_, i) => i !== indexToDelete);
     setSubDataList(newList);
-
     if (selectedTabIndex >= newList.length) {
       setSelectedTabIndex(Math.max(0, newList.length - 1));
     }
-
     setDeleteIndex(null);
   };
 
@@ -85,7 +87,6 @@ export default function ExpDetailPage() {
         const res = await getExpById(expId);
         setData(res.data);
         setSubDataList(res.data.subExperiencesResponseDto ?? []);
-
         setEditTitle(res.data.title || '');
         setEditQualification(res.data.qualification || '');
         setEditPublisher(res.data.publisher || '');
@@ -103,7 +104,11 @@ export default function ExpDetailPage() {
 
   if (error) return <div className="text-red-500 p-10">{error}</div>;
   if (!data || !currentSubData)
-    return <div className="text-gray-400 p-10">로딩 중...</div>;
+    return (
+      <div className="h-[80%] flex justify-center items-center bg-black">
+        <LoadingSpinner />
+      </div>
+    );
 
   return (
     <div className="pr-20 pl-20 pb-20">
@@ -138,22 +143,20 @@ export default function ExpDetailPage() {
       />
 
       {/* 탭 영역 */}
-      <div className="flex">
-        <ExpTabs
-          subDataList={subDataList}
-          selectedIndex={selectedTabIndex}
-          onSelect={setSelectedTabIndex}
-          isEditing={isEditing}
-          onRemoveClick={index => setDeleteIndex(index)}
-          onRequestFullDelete={() => setIsPopupOpen(true)}
-          onAddClick={handleAddSubExperience}
-          onTabNameChange={(index, newName) => {
-            const updated = [...subDataList];
-            updated[index] = { ...updated[index], tabName: newName };
-            setSubDataList(updated);
-          }}
-        />
-      </div>
+      <ExpTabs
+        subDataList={subDataList}
+        selectedIndex={selectedTabIndex}
+        onSelect={setSelectedTabIndex}
+        isEditing={isEditing}
+        onRemoveClick={index => setDeleteIndex(index)}
+        onRequestFullDelete={() => setIsPopupOpen(true)}
+        onAddClick={handleAddSubExperience}
+        onTabNameChange={(index, newName) => {
+          const updated = [...subDataList];
+          updated[index] = { ...updated[index], tabName: newName };
+          setSubDataList(updated);
+        }}
+      />
 
       {/* 세부 경험 삭제 모달 */}
       {deleteIndex !== null && (
@@ -225,6 +228,7 @@ export default function ExpDetailPage() {
               });
               alert('수정이 완료되었습니다.');
               setIsEditing(false);
+              router.replace(`/exp/${params?.id}`);
             }}
             className="w-[50%] py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg cursor-pointer"
           >
