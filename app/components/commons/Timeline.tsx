@@ -26,6 +26,10 @@ interface TimelineProps {
   maxDate?: Date;
 }
 
+function formatDate(dateStr: string): string {
+  return dateStr.replace(/-/g, '.');
+}
+
 export default function Timeline({
   exps,
   width = '100%',
@@ -91,7 +95,11 @@ export default function Timeline({
               x2={x2}
               y={y}
               h={h}
-              exp={exp}
+              exp={{
+                ...exp,
+                startDate: formatDate(exp.startDate),
+                endDate: formatDate(exp.endDate),
+              }}
             />
           );
         })}
