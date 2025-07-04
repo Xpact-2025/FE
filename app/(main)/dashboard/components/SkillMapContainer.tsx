@@ -13,21 +13,26 @@ export default function SkillMapContainer({
 }: {
   skillMap: CoreSkillMapResponse;
 }) {
+  if (skillMap.data) {
+    return (
+      <div className="w-full h-full">
+        <SkillMap skillMapData={skillMap.data} />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full h-full">
-      {skillMap?.data ? (
-        <SkillMap skillMapData={skillMap?.data} />
-      ) : (
-        <div className="py-8 px-10 flex flex-col h-full">
-          <DashboardHeader
-            title={DASHBOARD_INFO.SKILL_MAP.title}
-            info={DASHBOARD_INFO.SKILL_MAP.info}
-          />
-          <div className="flex flex-1 h-full items-center justify-center text-gray-500">
-            경험 정보를 추가해주세요.
-          </div>
+      <div className="py-8 px-10 flex flex-col h-full">
+        <DashboardHeader
+          title={DASHBOARD_INFO.SKILL_MAP.title}
+          info={DASHBOARD_INFO.SKILL_MAP.info}
+        />
+        <div className="flex flex-1 h-full items-center justify-center text-gray-500">
+          {skillMap.message ||
+            '핵심 역량 맵을 불러오는 데 실패했습니다. 잠시 후 다시 시도해주세요.'}
         </div>
-      )}
+      </div>
     </div>
   );
 }
