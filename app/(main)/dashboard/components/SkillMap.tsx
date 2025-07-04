@@ -38,7 +38,7 @@ export default function SkillMap({
   const [showWeaknessFeedback, setShowWeaknessFeedback] = useState(false);
 
   return (
-    <div className="relative py-8 px-10">
+    <div className="relative pt-8 px-10">
       <DashboardHeader
         title={DASHBOARD_INFO.SKILL_MAP.title}
         info={DASHBOARD_INFO.SKILL_MAP.info}
