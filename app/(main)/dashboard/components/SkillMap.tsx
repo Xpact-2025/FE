@@ -23,31 +23,8 @@ export default function SkillMap({
   const [showStrengthFeedback, setShowStrengthFeedback] = useState(false);
   const [showWeaknessFeedback, setShowWeaknessFeedback] = useState(false);
 
-  if (showStrengthFeedback) {
-    return (
-      <SkillMapReport
-        feedbackType={SKILLMAP_REPORT.STRENGTH.type}
-        feedbackDescription={SKILLMAP_REPORT.STRENGTH.description}
-        feedbackName={strengthFeedback.strengthName}
-        suggestion={strengthFeedback.careerSuggestion}
-        onClose={() => setShowStrengthFeedback(false)}
-      />
-    );
-  }
-  if (showWeaknessFeedback) {
-    return (
-      <SkillMapReport
-        feedbackType={SKILLMAP_REPORT.WEEKNESS.type}
-        feedbackDescription={SKILLMAP_REPORT.WEEKNESS.description}
-        feedbackName={weaknessFeedback.weaknessName}
-        suggestion={weaknessFeedback.improvementSuggestion}
-        onClose={() => setShowWeaknessFeedback(false)}
-      />
-    );
-  }
-
   return (
-    <div className="relative py-8 px-10">
+    <div className="relative pt-8 px-10">
       <DashboardHeader
         title={DASHBOARD_INFO.SKILL_MAP.title}
         info={DASHBOARD_INFO.SKILL_MAP.info}
@@ -101,7 +78,7 @@ export default function SkillMap({
           </button>
         </div>
       </div>
-      {/* {showStrengthFeedback && (
+      {showStrengthFeedback && (
         <SkillMapReport
           feedbackType={SKILLMAP_REPORT.STRENGTH.type}
           feedbackDescription={SKILLMAP_REPORT.STRENGTH.description}
@@ -118,7 +95,7 @@ export default function SkillMap({
           suggestion={weaknessFeedback.improvementSuggestion}
           onClose={() => setShowWeaknessFeedback(false)}
         />
-      )} */}
+      )}
     </div>
   );
 }
