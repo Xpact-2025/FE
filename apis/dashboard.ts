@@ -1,5 +1,6 @@
 'use server';
 
+import { AxiosError } from 'axios';
 import API from './config';
 
 export type JobRatioType = {
@@ -37,7 +38,7 @@ export type CoreSkillMapType = {
 export interface CoreSkillMapResponse {
   httpStatus: number;
   message: string;
-  data: {
+  data?: {
     coreSkillMaps: CoreSkillMapType[];
     strengthFeedback: {
       strengthName: string;
@@ -50,7 +51,7 @@ export interface CoreSkillMapResponse {
       improvementSuggestion: string;
     };
   };
-  success: boolean;
+  success?: boolean;
 }
 
 export interface TimelineExp {
@@ -78,18 +79,27 @@ export async function getJobRatio(): Promise<JobRatioResponse> {
   return res.data;
 }
 
-export async function getCoreSkillMap(): Promise<CoreSkillMapResponse> {
-  const res = await API.post<CoreSkillMapResponse>(`/api/dashboard/skills`);
+export async function getCoreSkillMap(): Promise<CoreSkillMapResponse | null> {
+  try {
+    const res = await API.post<CoreSkillMapResponse>(`/api/dashboard/skills`);
 
-  if (res.status !== 200) {
-    console.error('핵심 역량 맵 불러오기 실패:', res.data);
+    if (res.status !== 200) {
+      console.error('핵심 역량 맵 불러오기 실패', res.status, res.data);
+    }
+
+    if (res.data.data === null) {
+      console.error('핵심 역량 맵 data 불러오기 실패', res.data);
+    }
+
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      console.error('핵심 역량 맵 불러오기 실패', error.response?.data);
+
+      return error.response?.data;
+    }
+    return null;
   }
-
-  if (res.data.data === null) {
-    console.error('핵심 역량 맵 data 불러오기 실패:', res.data);
-  }
-
-  return res.data;
 }
 
 export async function getExpHistory(
