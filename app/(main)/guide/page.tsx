@@ -1,13 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
 import SkillCircle from './components/SkillCircle';
+import AIList from './components/AIList';
+import { AIActivity, getAIActivity } from '@/apis/guide';
 
 export default function GuidePage() {
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
-
   const skills = ['데이터 분석', '사용자 리서치', '문제정의 능력'];
+
+  const [data, setData] = useState<AIActivity[]>([]);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { httpStatus, data = [] } = await getAIActivity();
+      if (httpStatus !== 200) {
+        setError(true);
+        return;
+      }
+      setData(data);
+    };
+
+    fetchData();
+  }, []);
+
+  if (error) {
+    return <div>오류가 발생했습니다.</div>;
+  }
 
   return (
     <div className="flex flex-col px-7 py-3">
@@ -46,6 +67,14 @@ export default function GuidePage() {
               />
             ))}
         </div>
+      </div>
+
+      <div className="flex items-center gap-5 pt-27.5">
+        <div className="text-gray-50 text-2xl font-bold">AI 추천 활동</div>
+        <HelpIcon className="stroke-gray-600 w-[24px] h-[24px] cursor-pointer" />
+      </div>
+      <div>
+        <AIList data={data} />
       </div>
     </div>
   );
