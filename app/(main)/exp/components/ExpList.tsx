@@ -17,6 +17,10 @@ export default function ExpList({ data }: ExpListProps) {
   const [selectedType, setSelectedType] = useState<ExpType | null>(null);
   const [expList, setExpList] = useState<Exp[]>(data || []);
 
+  const handleDelete = (id: number) => {
+    setExpList(prev => prev.filter(exp => exp.id !== id));
+  };
+
   const handleOrderChange = async (order: 'latest' | 'oldest') => {
     try {
       const data = await sortExp(order);
@@ -87,6 +91,7 @@ export default function ExpList({ data }: ExpListProps) {
               status={exp.status}
               subTitles={exp.subTitles}
               keywords={exp.keywords}
+              onDelete={handleDelete}
             />
           ))}
         </div>

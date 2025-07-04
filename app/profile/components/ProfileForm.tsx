@@ -18,35 +18,92 @@ import IndustryModal from './IndustryModal';
 import { saveProfileInfo } from '@/apis/profile';
 import { useRouter } from 'next/navigation';
 import { DEGREE_MAP, SCHOOL_STATUS_MAP } from '@/constants/education';
+import BackIcon from '@/public/icons/Chevron_Left.svg';
 
-export default function ProfileForm() {
+function parseEducationName(raw: string) {
+  const degreeOptions = [
+    '고등학교',
+    '전문대학',
+    '대학교',
+    '대학원(석사)',
+    '대학원(박사)',
+  ];
+  const graduationOptions = [
+    '재학',
+    '휴학',
+    '졸업',
+    '졸업예정',
+    '수료',
+    '중퇴',
+  ];
+
+  const graduationMatch = graduationOptions.find(g => raw.includes(`(${g})`));
+  const graduation = graduationMatch || '';
+
+  const withoutGraduation = raw.replace(/\s*\(.*?\)\s*/g, '').trim(); // 괄호 제거
+  const parts = withoutGraduation.split(' ');
+  const school = parts[0] || '';
+  const major = parts.slice(1).join(' ') || '';
+
+  return {
+    school,
+    major,
+    graduation,
+    degree: degreeOptions.find(d => raw.includes(d)) || '',
+  };
+}
+
+interface ProfileFormProps {
+  initialData?: {
+    name: string;
+    age: string;
+    educationName: string;
+    desiredDetailRecruit: string;
+    imgurl: string;
+  };
+  isEditMode?: boolean;
+  onCancel?: () => void;
+}
+
+export default function ProfileForm({
+  initialData,
+  isEditMode = false,
+  onCancel,
+}: ProfileFormProps) {
   const router = useRouter();
 
-  const [degree, setDegree] = useState('');
-  const [graduation, setGraduation] = useState('');
+  const parsedEdu = initialData?.educationName
+    ? parseEducationName(initialData.educationName)
+    : { school: '', major: '', graduation: '', degree: '' };
+
+  const [name, setName] = useState(initialData?.name || '');
+  const [age, setAge] = useState(initialData?.age || '');
+  const [degree, setDegree] = useState(parsedEdu.degree || '');
+  const [graduation, setGraduation] = useState(parsedEdu.graduation);
+  const [selectedSchool, setSelectedSchool] = useState(parsedEdu.school);
+  const [selectedMajor, setSelectedMajor] = useState(parsedEdu.major);
+  const [recruitName, setRecruitName] = useState(
+    initialData?.desiredDetailRecruit ? 'IT/개발' : ''
+  );
+  const [detailRecruitName, setDetailRecruitName] = useState(
+    initialData?.desiredDetailRecruit || ''
+  );
+  const [imgUrl] = useState(initialData?.imgurl || '/images/mainporfile.svg');
+
   const [isSchoolModalOpen, setIsSchoolModalOpen] = useState(false);
-  const [selectedSchool, setSelectedSchool] = useState('');
   const [schoolList, setSchoolList] = useState<string[]>([]);
   const [schoolSearchInput, setSchoolSearchInput] = useState('');
   const [isMajorModalOpen, setIsMajorModalOpen] = useState(false);
   const [majorList, setMajorList] = useState<string[]>([]);
-  const [selectedMajor, setSelectedMajor] = useState('');
   const [majorSearchInput, setMajorSearchInput] = useState('');
 
   const [isIndustryModalOpen, setIsIndustryModalOpen] = useState(false);
   const [industryList, setIndustryList] = useState<string[]>([]);
   const [industrySearchValue, setIndustrySearchValue] = useState('');
-  const [recruitName, setRecruitName] = useState('');
-  const [detailRecruitName, setDetailRecruitName] = useState('');
 
   const [isSchoolLoading, setIsSchoolLoading] = useState(false);
   const [isMajorLoading, setIsMajorLoading] = useState(false);
   const [isIndustryLoading, setIsIndustryLoading] = useState(false);
-
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
-
-  const [imgUrl] = useState('/images/mainporfile.svg');
 
   const handleSchoolSearch = async () => {
     setIsSchoolModalOpen(true);
@@ -117,12 +174,31 @@ export default function ProfileForm() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center py-[120px] px-4">
+    <main
+      className={`flex flex-col items-center justify-center px-4 ${
+        isEditMode ? 'pt-0' : 'py-[120px]'
+      }`}
+    >
+      {' '}
+      <div className="relative w-full flex justify-center items-center mb-[40px]">
+        {/* 뒤로가기 버튼 - 왼쪽에 배치 */}
+        {isEditMode && (
+          <button
+            onClick={onCancel}
+            className="absolute left-0"
+            aria-label="뒤로가기"
+          >
+            <BackIcon className="stroke-gray-50 w-[35px] h-[35px] cursor-pointer" />
+          </button>
+        )}
+        {/* 가운데 정렬된 텍스트 */}
+        <h1 className="text-[35px] font-semibold">
+          {isEditMode ? '프로필 수정' : '프로필 설정'}
+        </h1>
+      </div>
       <div className="flex flex-col items-center mb-10">
-        <h1 className="text-[35px] font-semibold mb-[40px]">프로필 설정</h1>
         <ProfileImage />
       </div>
-
       {/* 이름 & 나이 */}
       <div className="flex flex-wrap gap-5 w-full max-w-[50%] mb-10">
         <div className="w-[318px] min-w-[300px]">
@@ -144,7 +220,6 @@ export default function ProfileForm() {
           />
         </div>
       </div>
-
       <label className="text-[18px] justify-items-start w-full max-w-[50%] mb-2">
         학력
       </label>
@@ -216,7 +291,6 @@ export default function ProfileForm() {
           />
         </div>
       </div>
-
       {/* 희망 직무 */}
       <div className="w-full max-w-[50%] mb-10 text-left">
         <div className="text-[18px] mb-2">희망 직무</div>
@@ -262,14 +336,14 @@ export default function ProfileForm() {
           </div>
         </div>
       </div>
-
       <button
         onClick={handleSubmit}
-        className="w-[448px] mt-[3%] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded cursor-pointer"
+        className={`w-[448px] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded cursor-pointer ${
+          isEditMode ? 'mt-[3%] mb-10' : 'mt-[3%]'
+        }`}
       >
-        입력 완료
+        {isEditMode ? '수정 완료' : '입력 완료'}
       </button>
-
       <SchoolModal
         isOpen={isSchoolModalOpen}
         onClose={() => setIsSchoolModalOpen(false)}
@@ -283,7 +357,6 @@ export default function ProfileForm() {
         onSearch={handleSchoolSearch}
         isLoading={isSchoolLoading}
       />
-
       <MajorModal
         isOpen={isMajorModalOpen}
         onClose={() => setIsMajorModalOpen(false)}
@@ -294,7 +367,6 @@ export default function ProfileForm() {
         onSearch={handleMajorSearch}
         isLoading={isMajorLoading}
       />
-
       <IndustryModal
         isOpen={isIndustryModalOpen}
         onClose={() => setIsIndustryModalOpen(false)}

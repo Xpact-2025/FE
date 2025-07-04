@@ -10,9 +10,14 @@ import { deleteExp } from '@/apis/exp';
 interface DropdownMenuProps {
   id: number;
   onClose: () => void;
+  onDelete: (id: number) => void;
 }
 
-export default function DropdownMenu({ id, onClose }: DropdownMenuProps) {
+export default function DropdownMenu({
+  id,
+  onClose,
+  onDelete,
+}: DropdownMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const router = useRouter();
@@ -38,7 +43,7 @@ export default function DropdownMenu({ id, onClose }: DropdownMenuProps) {
       <button
         onClick={() => {
           onClose();
-          router.push(`/addExp?id=${id}`);
+          router.push(`/exp/${id}?edit=true`);
         }}
         className="w-full text-left px-4 py-2 hover:bg-gray-300 flex items-center gap-2"
       >
@@ -61,7 +66,7 @@ export default function DropdownMenu({ id, onClose }: DropdownMenuProps) {
           onConfirm={async () => {
             await deleteExp(id);
             onClose();
-            router.refresh();
+            onDelete(id);
           }}
           onCancel={() => setIsPopupOpen(false)}
         />

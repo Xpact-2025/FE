@@ -43,6 +43,11 @@ export interface Exp {
   keywords: string[];
 }
 
+export interface File {
+  preSignedUrl: string;
+  fileUrl: string;
+}
+
 interface SaveExpResponse {
   httpStatus: number;
   message: string;
@@ -63,6 +68,12 @@ interface GetExpByIdResponse {
 interface DeleteExpResponse {
   httpStatus: number;
   message: string;
+}
+
+interface SaveFileResponse {
+  httpStatus: number;
+  message: string;
+  data: File;
 }
 
 export async function saveExp(
@@ -97,5 +108,17 @@ export async function deleteExp(exp_id: number): Promise<DeleteExpResponse> {
 
 export async function sortExp(order: string) {
   const res = await API.get(`/api/exp?order=${order}`);
+  return res.data;
+}
+
+export async function saveFile(fileName: string): Promise<SaveFileResponse> {
+  const res = await API.get(`/uploads`, {
+    params: { fileName },
+  });
+  return res.data;
+}
+
+export async function downloadFile(id: number) {
+  const res = await API.get(`/downloads/${id}`);
   return res.data;
 }
