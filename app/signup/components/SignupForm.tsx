@@ -4,6 +4,7 @@ import { useState } from 'react';
 import FormInput from '../../components/InputCheckBox';
 import { signupUser } from '@/apis/auth';
 import { useRouter } from 'next/navigation';
+import AgreementList from '@/app/components/AgreementList';
 
 export default function SignupForm() {
   const [email, setEmail] = useState('');
@@ -66,6 +67,11 @@ export default function SignupForm() {
   const handleSignup = async () => {
     let hasError = false;
 
+    if (!requiredAgreementsChecked) {
+      alert('필수 약관에 모두 동의해주세요.');
+      return;
+    }
+
     if (!name.trim()) {
       setNameError('이름을 입력해주세요.');
       hasError = true;
@@ -110,6 +116,34 @@ export default function SignupForm() {
       alert(`회원가입 실패: ${data.message}`);
     }
   };
+
+  const agreements = [
+    {
+      id: 'terms',
+      label: '이용약관 동의',
+      required: true,
+      showDetail: () => alert('이용약관 보기'),
+    },
+    {
+      id: 'privacy',
+      label: '개인정보 수집 및 이용 동의',
+      required: true,
+      showDetail: () => alert('개인정보 처리방침 보기'),
+    },
+  ];
+
+  const [checkedAgreements, setCheckedAgreements] = useState<{
+    [id: string]: boolean;
+  }>({});
+
+  const handleAgreementChange = (checked: { [id: string]: boolean }) => {
+    setCheckedAgreements(checked);
+  };
+
+  const requiredAgreementsChecked = agreements
+    .filter(a => a.required)
+    .every(a => checkedAgreements[a.id]);
+
   return (
     <div className="w-[448px] space-y-5">
       <div>
@@ -162,6 +196,7 @@ export default function SignupForm() {
       >
         회원가입
       </button>
+      <AgreementList agreements={agreements} onChange={handleAgreementChange} />
     </div>
   );
 }
