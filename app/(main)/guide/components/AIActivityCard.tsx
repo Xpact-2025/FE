@@ -1,7 +1,6 @@
 'use client';
 
 import { AIActivity } from '@/apis/guide';
-import ExpVariety from '../../exp/components/ExpVariety';
 import BookmarkIcon from '@/public/icons/Bookmark.svg';
 
 interface AIActivityProps {

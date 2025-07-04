@@ -5,13 +5,15 @@ import HelpIcon from '@/public/icons/Circle_Help.svg';
 import SkillCircle from './components/SkillCircle';
 import AIList from './components/AIList';
 import { AIActivity, getAIActivity } from '@/apis/guide';
+import ActivityFilter from './components/ActivityFilter';
 
 export default function GuidePage() {
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
-  const skills = ['데이터 분석', '사용자 리서치', '문제정의 능력'];
+  const [selectedFilter, setSelectedFilter] = useState<string[] | null>(null);
 
   const [data, setData] = useState<AIActivity[]>([]);
   const [error, setError] = useState(false);
+  const skills = ['데이터 분석', '사용자 리서치', '문제정의 능력'];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,6 +31,11 @@ export default function GuidePage() {
   if (error) {
     return <div>오류가 발생했습니다.</div>;
   }
+
+  const filteredData =
+    selectedFilter && selectedFilter.length > 0
+      ? data.filter(item => selectedFilter.includes(item.weakness))
+      : data;
 
   return (
     <div className="flex flex-col px-7 py-3">
@@ -52,7 +59,7 @@ export default function GuidePage() {
         )}
 
         <div
-          className={`flex gap-5 transition-all duration-1000 ${
+          className={`flex gap-5 transition-all duration-1000 ease-in-out ${
             selectedSkill ? 'ml-5' : 'ml-auto'
           }`}
         >
@@ -69,13 +76,16 @@ export default function GuidePage() {
         </div>
       </div>
 
-      <div className="flex items-center gap-5 pt-27.5">
+      <div className="flex items-center gap-5 pt-15">
         <div className="text-gray-50 text-2xl font-bold">AI 추천 활동</div>
         <HelpIcon className="stroke-gray-600 w-[24px] h-[24px] cursor-pointer" />
       </div>
-      <div>
-        <AIList data={data} />
+      <div className="pt-10 pb-6.5">
+        <ActivityFilter
+          onSelectFilter={weakness => setSelectedFilter(weakness)}
+        />
       </div>
+      <AIList data={filteredData} />
     </div>
   );
 }
