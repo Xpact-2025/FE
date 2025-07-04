@@ -29,10 +29,10 @@ export default async function DashboardPage() {
   } {
     const now = new Date();
 
-    // endLine: 이번 달의 마지막 날
+    // end: 이번 달의 마지막 날
     const end = new Date(now.getFullYear(), now.getMonth() + 1, 1);
 
-    // startLine: 두 달 전의 첫째 날
+    // start: 두 달 전의 첫째 날
     const start = new Date(now.getFullYear(), now.getMonth() - 3, 2);
 
     const toString = (date: Date) => date.toISOString().split('T')[0]; // yyyy-mm-dd 형식
@@ -40,8 +40,8 @@ export default async function DashboardPage() {
     return {
       start: start,
       end: end,
-      startLine: toString(start),
-      endLine: toString(end),
+      startLine: toString(new Date(now.getFullYear(), 0, 1)),
+      endLine: toString(new Date(now.getFullYear(), 11, 31)),
     };
   }
 

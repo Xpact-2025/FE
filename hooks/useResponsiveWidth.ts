@@ -10,7 +10,7 @@ export default function useResponsiveWidth(
   );
 
   useEffect(() => {
-    if (typeof width === 'string' && ref.current) {
+    if (ref.current) {
       const handleResize = () => {
         if (ref.current) {
           setMeasuredWidth(ref.current.clientWidth);

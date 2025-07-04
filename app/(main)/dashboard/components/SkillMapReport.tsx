@@ -16,7 +16,7 @@ export default function SkillMapReport({
   onClose,
 }: SkillMapReportProps) {
   return (
-    <div className="absolute top-0 left-0 w-full h-[214px] py-8 px-10 rounded-[23px] bg-gray-800 flex flex-col z-10">
+    <div className="absolute top-0 left-0 w-full h-full py-8 px-10 rounded-[23px] bg-gray-800 flex flex-col z-10">
       <div className="flex justify-between items-center">
         <div className="body-16-sb">
           <span className="text-gray-50">{feedbackType}: </span>
