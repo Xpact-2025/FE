@@ -1,6 +1,6 @@
 'use client';
 
-import { CoreSkillMapResponse } from '@/apis/dashboard';
+import { CoreSkillMapType } from '@/apis/dashboard';
 import { useState } from 'react';
 import {
   RadarChart,
@@ -14,10 +14,24 @@ import { DASHBOARD_INFO } from '@/constants/dashboardInfo';
 import SkillMapReport from './SkillMapReport';
 import { SKILLMAP_REPORT } from '@/constants/skillmapReport';
 
+interface CoreSkillMap {
+  coreSkillMaps: CoreSkillMapType[];
+  strengthFeedback: {
+    strengthName: string;
+    reason: string;
+    careerSuggestion: string;
+  };
+  weaknessFeedback: {
+    weaknessName: string;
+    reason: string;
+    improvementSuggestion: string;
+  };
+}
+
 export default function SkillMap({
   skillMapData,
 }: {
-  skillMapData: CoreSkillMapResponse['data'];
+  skillMapData: CoreSkillMap;
 }) {
   const { coreSkillMaps, strengthFeedback, weaknessFeedback } = skillMapData;
   const [showStrengthFeedback, setShowStrengthFeedback] = useState(false);
