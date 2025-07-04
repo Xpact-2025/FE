@@ -93,7 +93,7 @@ export default function ExpTimeLine({
     setMaxDate(newMax);
   };
   return (
-    <>
+    <div className="w-full">
       <div className="flex flex-row justify-between">
         <DashboardHeader
           title={DASHBOARD_INFO.EXP_TIMELINE.title}
@@ -120,6 +120,6 @@ export default function ExpTimeLine({
         </div>
       </div>
       <Timeline minDate={minDate} maxDate={maxDate} exps={experiences} />
-    </>
+    </div>
   );
 }

@@ -53,25 +53,27 @@ export default function TimelineLabel({
     >
       {/* 작은 세로 막대 */}
       <rect
-        x={x1}
+        x={0}
         y={y}
         width={3}
         height={barHeight}
         rx={2}
         fill={fillColor}
-        style={{ transition: 'all 0.3s ease' }}
+        transform={`translate(${x1}, 0)`}
+        style={{ transition: 'transform 0.3s ease' }}
       />
 
       {/* 길이 막대 */}
       <rect
-        x={x1}
+        x={0}
         y={y}
         width={barWidth}
         height={barHeight}
         rx={4}
         fill={fillColor}
         fillOpacity={0.2}
-        style={{ transition: 'all 0.3s ease' }}
+        transform={`translate(${x1}, 0)`}
+        style={{ transition: 'transform 0.3s ease' }}
       />
 
       {/* 텍스트 */}
