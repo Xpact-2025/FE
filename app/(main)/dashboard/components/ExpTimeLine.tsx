@@ -94,12 +94,16 @@ export default function ExpTimeLine({
   };
   return (
     <>
-      <DashboardHeader
-        title={DASHBOARD_INFO.EXP_TIMELINE.title}
-        info={DASHBOARD_INFO.EXP_TIMELINE.info}
-      />
+      <div className="flex flex-row justify-between">
+        <DashboardHeader
+          title={DASHBOARD_INFO.EXP_TIMELINE.title}
+          info={DASHBOARD_INFO.EXP_TIMELINE.info}
+        />
+        <div className="mb-3 body-14-m text-gray-400">
+          {maxDate.getFullYear()}
+        </div>
+      </div>
       <div className="flex flex-col">
-        <div className="mb-3">{start.getFullYear()}</div>
         <div className="flex items-center mb-3 gap-2">
           <BtnPrev movePrev={handlePrev} />
           <div className="flex-1 flex gap-2 overflow-x-auto no-scrollbar">

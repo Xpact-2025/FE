@@ -33,12 +33,13 @@ function formatDate(dateStr: string): string {
 export default function Timeline({
   exps,
   width = '100%',
-  height = 170,
+  height = 205,
   minDate = new Date('2025-03-01'),
   maxDate = new Date('2025-06-30'),
 }: TimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const numericWidth = useResponsiveWidth(containerRef, width, 500);
+  console.log('Timeline width:', numericWidth);
 
   const differenceInDays = (date1: Date, date2: Date): number =>
     Math.floor((date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24));
@@ -73,7 +74,10 @@ export default function Timeline({
   const gap = 20;
 
   return (
-    <div className="flex justify-center mx-[30px] pt-[10px] bg-gray-600-20 rounded-lg overflow-hidden">
+    <div
+      ref={containerRef}
+      className="flex justify-center mx-[30px] pt-[10px] bg-gray-600-20 rounded-lg overflow-hidden"
+    >
       <svg
         width={numericWidth}
         height={height}
