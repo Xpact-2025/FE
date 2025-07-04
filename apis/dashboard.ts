@@ -36,7 +36,7 @@ export type CoreSkillMapType = {
 };
 
 export interface CoreSkillMapResponse {
-  httpStatus: number;
+  httpStatus?: number;
   message: string;
   data?: {
     coreSkillMaps: CoreSkillMapType[];
@@ -79,7 +79,7 @@ export async function getJobRatio(): Promise<JobRatioResponse> {
   return res.data;
 }
 
-export async function getCoreSkillMap(): Promise<CoreSkillMapResponse | null> {
+export async function getCoreSkillMap(): Promise<CoreSkillMapResponse> {
   try {
     const res = await API.post<CoreSkillMapResponse>(`/api/dashboard/skills`);
 
@@ -98,7 +98,11 @@ export async function getCoreSkillMap(): Promise<CoreSkillMapResponse | null> {
 
       return error.response?.data;
     }
-    return null;
+    return {
+      message:
+        '핵심 역량 맵을 불러오는 데 실패했습니다. 잠시 후 다시 시도해주세요.',
+      success: false,
+    };
   }
 }
 
