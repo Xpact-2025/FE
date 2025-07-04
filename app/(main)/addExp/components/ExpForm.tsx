@@ -406,7 +406,7 @@ export default function ExpForm({ data }: ExpFormProps) {
                         type="button"
                         onClick={() => setIsModalOpen(true)}
                       >
-                        <HelpIcon className="stroke-gray-300 w-[24px] h-[24px]" />
+                        <HelpIcon className="stroke-gray-300 w-[24px] h-[24px] cursor-pointer" />
                       </button>
                       <span className="text-neutral-400 font-medium p-2">
                         양식 활용 가이드

@@ -53,10 +53,14 @@ export default function SideBar() {
             }
           />
           <SideBarMenu
-            href="/exp"
-            icon={<CopyIcon className={iconStyle('/growth-guide')} />}
+            href="/guide"
+            icon={
+              <CopyIcon
+                className={`${pathname.startsWith('/guide') || pathname === '/' ? 'stroke-gray-50' : 'stroke-gray-300'} w-[24px] h-[24px] transition-colors group-hover:stroke-gray-50`}
+              />
+            }
             text="성장 가이드"
-            isActive={pathname.startsWith('/growth-guide')}
+            isActive={pathname.startsWith('/guide')}
           />
           <SideBarMenu
             href="/scrap"
