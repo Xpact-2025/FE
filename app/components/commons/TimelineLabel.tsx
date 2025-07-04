@@ -56,11 +56,13 @@ export default function TimelineLabel({
         x={0}
         y={y}
         width={3}
-        height={barHeight}
         rx={2}
         fill={fillColor}
         transform={`translate(${x1}, 0)`}
-        style={{ transition: 'transform 0.3s ease' }}
+        style={{
+          height: barHeight,
+          transition: 'height 0.3s ease, transform 0.3s ease',
+        }}
       />
 
       {/* 길이 막대 */}
@@ -68,12 +70,14 @@ export default function TimelineLabel({
         x={0}
         y={y}
         width={barWidth}
-        height={barHeight}
         rx={4}
         fill={fillColor}
         fillOpacity={0.2}
         transform={`translate(${x1}, 0)`}
-        style={{ transition: 'transform 0.3s ease' }}
+        style={{
+          height: barHeight,
+          transition: 'height 0.3s ease, transform 0.3s ease',
+        }}
       />
 
       {/* 텍스트 */}
@@ -112,7 +116,7 @@ export default function TimelineLabel({
         transform={`translate(${textX}, 0)`}
         style={{
           opacity: isHovered ? 0.5 : 0,
-          transition: 'transform 0.3s ease',
+          transition: 'opacity 0.3s ease, transform 0.3s ease',
         }}
       >
         {exp.startDate}-{exp.endDate}
