@@ -35,7 +35,7 @@ export default function Profile({ profileInfo }: { profileInfo: ProfileInfo }) {
             <form action={logout}>
               <button
                 type="submit"
-                className="flex bg-gray-800 w-44 px-5 py-2.5 text-gray-50 text-xs"
+                className="cursor-pointer flex bg-gray-800 w-44 px-5 py-2.5 text-gray-50 text-xs"
               >
                 로그아웃
               </button>

@@ -20,13 +20,10 @@ export interface ProfileInfo {
 
 export async function getProfileInfo(): Promise<ProfileInfoResponse> {
   const res = await API.get('/api/members');
-  console.log('프로필 정보 불러오기', res.data);
 
-  if (
-    res.status !== 200 ||
-    !res.data.desiredDetailRecruit ||
-    !res.data.educationName
-  ) {
+  const { desiredDetailRecruit, educationName } = res.data.data;
+
+  if (res.status !== 200 || !desiredDetailRecruit || !educationName) {
     console.log('프로필 정보 불러오기 실패', res.data);
     redirect('/profile');
   }
