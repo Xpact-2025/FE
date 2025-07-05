@@ -2,24 +2,53 @@
 
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { kakaoLogin, getKakaoAuthUrl } from '../../apis/auth';
+import {
+  kakaoLogin,
+  getKakaoAuthUrl,
+  getNaverAuthUrl,
+  naverLogin,
+} from '../../apis/auth';
 import Image from 'next/image';
-import Link from 'next/link';
 
 export default function SocialLogin() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  // useEffect(() => {
+  //   const code = searchParams.get('code');
+  //   if (!code) return;
+
+  //   const login = async () => {
+  //     try {
+  //       await kakaoLogin(code);
+  //       router.push('/');
+  //     } catch (err) {
+  //       console.error('로그인 실패:', err);
+  //     }
+  //   };
+
+  //   login();
+  // }, [searchParams, router]);
+
   useEffect(() => {
     const code = searchParams.get('code');
+    const state = searchParams.get('state'); // 네이버 로그인일 경우 존재
+
     if (!code) return;
 
     const login = async () => {
       try {
-        await kakaoLogin(code);
-        router.push('/');
+        if (state) {
+          // 네이버 로그인
+          await naverLogin(code, state);
+        } else {
+          // 카카오 로그인
+          await kakaoLogin(code);
+        }
+
+        window.location.href = '/';
       } catch (err) {
-        console.error('로그인 실패:', err);
+        console.error('소셜 로그인 실패:', err);
       }
     };
 
@@ -33,6 +62,15 @@ export default function SocialLogin() {
       window.location.href = url;
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const handleNaverLogin = async () => {
+    try {
+      const url = await getNaverAuthUrl();
+      window.location.href = url;
+    } catch (e) {
+      console.error('네이버 인증 URL 요청 실패:', e);
     }
   };
 
@@ -50,9 +88,9 @@ export default function SocialLogin() {
         <button onClick={handleKakaoLogin} className="cursor-pointer">
           <Image src="/images/kakao.svg" alt="kakao" width={48} height={48} />
         </button>
-        <Link href="#">
+        <button onClick={handleNaverLogin} className="cursor-pointer">
           <Image src="/images/naver.svg" alt="naver" width={48} height={48} />
-        </Link>
+        </button>
       </div>
     </div>
   );

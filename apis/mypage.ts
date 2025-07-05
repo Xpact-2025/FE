@@ -9,6 +9,7 @@ export interface MemberResponse {
     name: string;
     imgurl: string;
     age: number;
+    educationDegree: string;
     educationName: string;
     desiredDetailRecruit: string;
   };
