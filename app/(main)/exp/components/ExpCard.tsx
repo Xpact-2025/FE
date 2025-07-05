@@ -68,15 +68,17 @@ export default function ExpCard({
     >
       <div onClick={handleClick} className="flex flex-col cursor-pointer">
         <ExpVariety type={type} />
-        <div className="body-16-sb text-gray-50 mt-[15px] mb-[5px]">
+        <div className="body-16-sb text-gray-50 mt-[15px] mb-[5px] truncate max-w-[24ch]">
           {title}
         </div>
         <ol className="flex flex-col gap-1.5 list-disc ml-4">
-          {subTitles.map((subTitle, index) => (
-            <li key={index} className="body-9-r text-gray-300">
-              {subTitle}
-            </li>
-          ))}
+          {subTitles
+            .filter(subTitle => subTitle)
+            .map((subTitle, index) => (
+              <li key={index} className="text-[13px] text-gray-300">
+                {subTitle}
+              </li>
+            ))}
         </ol>
       </div>
       <div className="flex flex-row justify-between items-center relative">

@@ -9,7 +9,7 @@ import GuideModal from './GuideModal';
 import Footer from '@/app/components/Footer';
 import BackIcon from '@/public/icons/Chevron_Left.svg';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
-import { ExpFormType, ExpType } from '@/types/exp';
+import { ExpFormType, ExpStatus, ExpType } from '@/types/exp';
 import AwardForm from './AwardForm';
 import StarForm from './StarForm';
 import SimpleForm from './SimpleForm';
@@ -49,8 +49,8 @@ const getInitialForm = (
     issueDate: data?.issueDate || '',
     simpleDescription: sub?.simpleDescription || '',
     title: data?.title || '',
-    startDate: data?.startDate || '',
-    endDate: data?.endDate || '',
+    startDate: data?.startDate || data?.issueDate || '',
+    endDate: data?.endDate || data?.issueDate || '',
     subTitle: sub?.subTitle || '',
     tabName: sub?.tabName || '',
     role: sub?.role || '',
@@ -69,7 +69,6 @@ const getInitialForm = (
 export default function ExpForm({ data }: ExpFormProps) {
   const router = useRouter();
   const [forms, setForms] = useState([getInitialForm(data)]);
-  const [tab, setTab] = useState<'star' | 'simple'>('star');
   const [activeFormIndex, setActiveFormIndex] = useState(0);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editingValue, setEditingValue] = useState('');
@@ -123,7 +122,6 @@ export default function ExpForm({ data }: ExpFormProps) {
       setActiveFormIndex(updatedForms.length - 1);
       return updatedForms;
     });
-    if (!isAward) setTab('star');
   };
 
   const handleRemoveExperienceTab = (indexToRemove: number) => {
@@ -208,9 +206,10 @@ export default function ExpForm({ data }: ExpFormProps) {
       setForms(prev => {
         const updated = [...prev];
         updated[activeFormIndex] = {
-          ...updated[activeFormIndex],
+          ...getInitialForm(undefined),
           formType: pendingFormType,
           selectedTab: pendingFormType === 'STAR_FORM' ? 'star' : 'simple',
+          experienceType: forms[activeFormIndex].experienceType,
         };
         return updated;
       });
@@ -251,6 +250,13 @@ export default function ExpForm({ data }: ExpFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const allSavedForms = forms.map(f => ({
+      ...f,
+      status: 'SAVE' as ExpStatus,
+    }));
+
+    setForms(allSavedForms);
+
     const payload: ExpPayload = {
       ...form,
       issueDate: form.issueDate
@@ -260,9 +266,9 @@ export default function ExpForm({ data }: ExpFormProps) {
         ? new Date(form.startDate).toISOString()
         : undefined,
       endDate: form.endDate ? new Date(form.endDate).toISOString() : undefined,
-      subExperiences: forms.map(f => ({
+      subExperiences: allSavedForms.map(f => ({
         status: f.status ?? 'SAVE',
-        formType: f.formType,
+        formType: f.formType ?? 'STAR_FORM',
         uploadType: f.uploadType ?? 'FILE',
         tabName: f.tabName ?? '',
         subTitle: f.subTitle ?? '',
@@ -440,10 +446,10 @@ export default function ExpForm({ data }: ExpFormProps) {
               <GuideModal
                 title={
                   form.selectedTab === 'star'
-                    ? 'STAR양식 작성 가이드'
+                    ? 'STAR 양식 작성 가이드'
                     : '간결 양식 작성 가이드'
                 }
-                type={tab}
+                type={(form.selectedTab ?? 'star') as 'star' | 'simple'}
                 closeRequest={() => setIsModalOpen(false)}
               />
             )}

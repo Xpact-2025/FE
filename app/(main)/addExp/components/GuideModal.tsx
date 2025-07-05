@@ -52,9 +52,9 @@ const GuideModal: React.FC<GuideModalProps> = ({
 
           <p>결과(R): 행동의 결과, 변화 또는 배운 점을 정리해 주세요.</p>
           <p>
-            → 예:
-            {` "감성 클러스터별 평점 분포를 비교해 ‘배송’ 관련 이슈가 저평점의 핵심 요인임을 정량적으로 입증했으며, 
-데이터 기반 가설 설정의 중요성을 배웠습니다."`}
+            → 예: &quot;감성 클러스터별 평점 분포를 비교해 ‘배송’ 관련 이슈가
+            저평점의 핵심 요인임을 정량적으로 입증했으며, <br />
+            데이터 기반 가설 설정의 중요성을 배웠습니다.&quot;
           </p>
         </div>
       );
@@ -110,7 +110,7 @@ const GuideModal: React.FC<GuideModalProps> = ({
           height={42}
           className="absolute top-[80px] right-[35px]"
         />
-        <div className="absolute bg-gray-600 p-6 rounded-2xl top-[100px] right-[35px] w-[758px]">
+        <div className="absolute bg-gray-600 px-12 py-8 rounded-2xl top-[100px] right-[35px] w-[858px]">
           <h2 className="text-3xl font-semibold mb-4">{title}</h2>
           {renderContent()}
         </div>
