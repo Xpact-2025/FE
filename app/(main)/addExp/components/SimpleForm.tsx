@@ -7,6 +7,7 @@ interface SimpleFormProps {
     subTitle: string;
     role: string;
     perform: string;
+    files: string[];
     keywords: string[];
   };
   onChange: (key: string, value: string | string[]) => void;
@@ -55,7 +56,10 @@ export default function SimpleForm({ data, onChange }: SimpleFormProps) {
         <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
           자료 첨부(선택)
         </div>
-        <FileInput />
+        <FileInput
+          onFileChange={newFiles => handleChange('files', newFiles)}
+          //onLinkChange={newLinks => handleChange('links', newLinks)}
+        />
       </div>
 
       <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">

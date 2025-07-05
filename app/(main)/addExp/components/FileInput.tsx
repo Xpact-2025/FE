@@ -18,11 +18,31 @@ interface UploadItem {
   newLink: string;
 }
 
-export default function FileInput() {
+interface FileInputProps {
+  onFileChange: (files: string[]) => void;
+  //onLinkChange: (links: string[]) => void;
+}
+
+export default function FileInput({
+  onFileChange,
+  //onLinkChange,
+}: FileInputProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [items, setItems] = useState<UploadItem[]>([
     { id: Date.now(), uploadType: 'FILE', file: null, link: '', newLink: '' },
   ]);
+
+  const extractFilesAndLinks = (items: UploadItem[]) => {
+    const files = items
+      .filter(item => item.uploadType === 'FILE' && item.file)
+      .map(item => item.file!.url);
+
+    const links = items
+      .filter(item => item.uploadType === 'LINK' && item.link)
+      .map(item => item.link);
+
+    return [...files, ...links];
+  };
 
   const handleUploadTypeChange = (id: number, type: UploadType) => {
     setItems(prevItems =>
@@ -73,16 +93,17 @@ export default function FileInput() {
         const fileData = await uploadPresignedUrl(pdfFile);
         if (!fileData) return;
 
-        setItems(prevItems =>
-          prevItems.map(item =>
-            item.id === id ? { ...item, file: fileData } : item
-          )
+        const nextItems = items.map(item =>
+          item.id === id ? { ...item, file: fileData } : item
         );
+
+        setItems(nextItems);
+        onFileChange(extractFilesAndLinks(nextItems));
       } catch {
         alert('파일 업로드에 실패했습니다.');
       }
     },
-    []
+    [items]
   );
 
   const handleAddFile = async (
@@ -96,21 +117,24 @@ export default function FileInput() {
       const fileData = await uploadPresignedUrl(file);
       if (!fileData) return;
 
-      setItems(prevItems =>
-        prevItems.map(item =>
-          item.id === id ? { ...item, file: fileData } : item
-        )
+      const nextItems = items.map(item =>
+        item.id === id ? { ...item, file: fileData } : item
       );
-      console.log('파일 업로드 성공:', fileData, items);
+
+      setItems(nextItems);
+      onFileChange(extractFilesAndLinks(nextItems));
     } catch {
       alert('파일 업로드에 실패했습니다.');
     }
   };
 
   const handleRemoveFile = (id: number) => {
-    setItems(prevItems =>
-      prevItems.map(item => (item.id === id ? { ...item, file: null } : item))
+    const nextItems = items.map(item =>
+      item.id === id ? { ...item, file: null } : item
     );
+
+    setItems(nextItems);
+    onFileChange(extractFilesAndLinks(nextItems));
   };
 
   const handleLinkChange = (
@@ -126,15 +150,26 @@ export default function FileInput() {
   };
 
   const handleAddLink = (id: number, newLink: string) => {
-    setItems(prevItems =>
-      prevItems.map(item =>
-        item.id === id ? { ...item, link: newLink } : item
-      )
+    const nextItems = items.map(item =>
+      item.id === id ? { ...item, link: newLink } : item
     );
+
+    setItems(nextItems);
+    onFileChange(extractFilesAndLinks(nextItems));
   };
 
   const handleRemoveLink = (id: number) => {
-    setItems(prevItems => prevItems.filter(item => item.id !== id));
+    const nextItems = items.filter(item => item.id !== id);
+
+    setItems(nextItems);
+    onFileChange(extractFilesAndLinks(nextItems));
+  };
+
+  const removeItem = (id: number) => {
+    const nextItems = items.filter(item => item.id !== id);
+
+    setItems(nextItems);
+    onFileChange(extractFilesAndLinks(nextItems));
   };
 
   const addNewItem = () => {
@@ -148,10 +183,6 @@ export default function FileInput() {
         newLink: '',
       },
     ]);
-  };
-
-  const removeItem = (id: number) => {
-    setItems(prevItems => prevItems.filter(item => item.id !== id));
   };
 
   return (
