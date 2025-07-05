@@ -75,7 +75,7 @@ export default function ExpCard({
           {subTitles
             .filter(subTitle => subTitle)
             .map((subTitle, index) => (
-              <li key={index} className="body-9-r text-gray-300">
+              <li key={index} className="text-[13px] text-gray-300">
                 {subTitle}
               </li>
             ))}

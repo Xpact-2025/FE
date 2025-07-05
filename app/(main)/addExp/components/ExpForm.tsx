@@ -9,7 +9,7 @@ import GuideModal from './GuideModal';
 import Footer from '@/app/components/Footer';
 import BackIcon from '@/public/icons/Chevron_Left.svg';
 import HelpIcon from '@/public/icons/Circle_Help.svg';
-import { ExpFormType, ExpType } from '@/types/exp';
+import { ExpFormType, ExpStatus, ExpType } from '@/types/exp';
 import AwardForm from './AwardForm';
 import StarForm from './StarForm';
 import SimpleForm from './SimpleForm';
@@ -250,6 +250,13 @@ export default function ExpForm({ data }: ExpFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const allSavedForms = forms.map(f => ({
+      ...f,
+      status: 'SAVE' as ExpStatus,
+    }));
+
+    setForms(allSavedForms);
+
     const payload: ExpPayload = {
       ...form,
       issueDate: form.issueDate
@@ -259,7 +266,7 @@ export default function ExpForm({ data }: ExpFormProps) {
         ? new Date(form.startDate).toISOString()
         : undefined,
       endDate: form.endDate ? new Date(form.endDate).toISOString() : undefined,
-      subExperiences: forms.map(f => ({
+      subExperiences: allSavedForms.map(f => ({
         status: f.status ?? 'SAVE',
         formType: f.formType ?? 'STAR_FORM',
         uploadType: f.uploadType ?? 'FILE',
