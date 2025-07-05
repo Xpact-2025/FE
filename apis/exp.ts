@@ -30,6 +30,7 @@ export interface SubExperience {
   perform?: string;
   simpleDescription?: string;
   files?: string[];
+  links?: string[];
   keywords?: string[];
 }
 
@@ -79,6 +80,7 @@ interface SaveFileResponse {
 export async function saveExp(
   payload: ExpPayload & { subExperiences: SubExperience[] }
 ): Promise<SaveExpResponse> {
+  console.log('saveExp payload: ', payload);
   const res = await API.post<SaveExpResponse>('/api/exp', payload);
   return res.data;
 }
@@ -93,6 +95,7 @@ export async function editExp(
 
 export async function getExpById(exp_id: number): Promise<GetExpByIdResponse> {
   const res = await API.get<GetExpByIdResponse>(`/api/exp/${exp_id}`);
+  console.log(res.data.data.subExperiencesResponseDto);
   return res.data;
 }
 
