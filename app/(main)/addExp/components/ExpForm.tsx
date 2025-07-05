@@ -113,7 +113,7 @@ export default function ExpForm({ data }: ExpFormProps) {
       task: '',
       action: '',
       result: '',
-      files: [],
+      //files: [],
       keywords: [],
       subId: undefined,
     };
@@ -178,7 +178,7 @@ export default function ExpForm({ data }: ExpFormProps) {
       'task',
       'action',
       'result',
-      'files',
+      //'files',
       'keywords',
     ] as (keyof ExpPayload)[];
 
@@ -242,6 +242,7 @@ export default function ExpForm({ data }: ExpFormProps) {
     setForms(prev => {
       const updated = [...prev];
       updated[activeFormIndex] = { ...updated[activeFormIndex], [key]: value };
+      console.log('변경된 폼:', updated[activeFormIndex]);
       return updated;
     });
   };

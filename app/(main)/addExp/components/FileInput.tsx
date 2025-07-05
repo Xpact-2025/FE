@@ -13,22 +13,42 @@ import { saveFile } from '@/apis/exp';
 interface UploadItem {
   id: number;
   uploadType: UploadType;
-  files: { name: string; url: string } | null;
-  links: string[];
+  file: { name: string; url: string } | null;
+  link: string;
   newLink: string;
 }
 
-export default function FileInput() {
+interface FileInputProps {
+  onFileChange: (files: string[]) => void;
+  //onLinkChange: (links: string[]) => void;
+}
+
+export default function FileInput({
+  onFileChange,
+  //onLinkChange,
+}: FileInputProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [items, setItems] = useState<UploadItem[]>([
-    { id: Date.now(), uploadType: 'FILE', files: null, links: [], newLink: '' },
+    { id: Date.now(), uploadType: 'FILE', file: null, link: '', newLink: '' },
   ]);
+
+  const extractFilesAndLinks = (items: UploadItem[]) => {
+    const files = items
+      .filter(item => item.uploadType === 'FILE' && item.file)
+      .map(item => item.file!.url);
+
+    const links = items
+      .filter(item => item.uploadType === 'LINK' && item.link)
+      .map(item => item.link);
+
+    return [...files, ...links];
+  };
 
   const handleUploadTypeChange = (id: number, type: UploadType) => {
     setItems(prevItems =>
       prevItems.map(item =>
         item.id === id
-          ? { ...item, uploadType: type, files: null, links: [], newLink: '' }
+          ? { ...item, uploadType: type, file: null, link: '', newLink: '' }
           : item
       )
     );
@@ -73,18 +93,17 @@ export default function FileInput() {
         const fileData = await uploadPresignedUrl(pdfFile);
         if (!fileData) return;
 
-        setItems(prevItems =>
-          prevItems.map(item =>
-            item.id === id
-              ? { ...item, files: fileData, newLink: item.newLink || '' }
-              : item
-          )
+        const nextItems = items.map(item =>
+          item.id === id ? { ...item, file: fileData } : item
         );
+
+        setItems(nextItems);
+        onFileChange(extractFilesAndLinks(nextItems));
       } catch {
         alert('파일 업로드에 실패했습니다.');
       }
     },
-    []
+    [items]
   );
 
   const handleAddFile = async (
@@ -98,20 +117,24 @@ export default function FileInput() {
       const fileData = await uploadPresignedUrl(file);
       if (!fileData) return;
 
-      setItems(prevItems =>
-        prevItems.map(item =>
-          item.id === id ? { ...item, files: fileData } : item
-        )
+      const nextItems = items.map(item =>
+        item.id === id ? { ...item, file: fileData } : item
       );
+
+      setItems(nextItems);
+      onFileChange(extractFilesAndLinks(nextItems));
     } catch {
       alert('파일 업로드에 실패했습니다.');
     }
   };
 
   const handleRemoveFile = (id: number) => {
-    setItems(prevItems =>
-      prevItems.map(item => (item.id === id ? { ...item, files: null } : item))
+    const nextItems = items.map(item =>
+      item.id === id ? { ...item, file: null } : item
     );
+
+    setItems(nextItems);
+    onFileChange(extractFilesAndLinks(nextItems));
   };
 
   const handleLinkChange = (
@@ -126,24 +149,27 @@ export default function FileInput() {
     );
   };
 
-  const handleAddLink = (id: number) => {
-    setItems(prevItems =>
-      prevItems.map(item =>
-        item.id === id && item.newLink && item.links.length === 0
-          ? { ...item, links: [item.newLink], newLink: '' }
-          : item
-      )
+  const handleAddLink = (id: number, newLink: string) => {
+    const nextItems = items.map(item =>
+      item.id === id ? { ...item, link: newLink } : item
     );
+
+    setItems(nextItems);
+    onFileChange(extractFilesAndLinks(nextItems));
   };
 
-  const handleRemoveLink = (id: number, index: number) => {
-    setItems(prevItems =>
-      prevItems.map(item =>
-        item.id === id
-          ? { ...item, links: item.links.filter((_, i) => i !== index) }
-          : item
-      )
-    );
+  const handleRemoveLink = (id: number) => {
+    const nextItems = items.filter(item => item.id !== id);
+
+    setItems(nextItems);
+    onFileChange(extractFilesAndLinks(nextItems));
+  };
+
+  const removeItem = (id: number) => {
+    const nextItems = items.filter(item => item.id !== id);
+
+    setItems(nextItems);
+    onFileChange(extractFilesAndLinks(nextItems));
   };
 
   const addNewItem = () => {
@@ -152,15 +178,11 @@ export default function FileInput() {
       {
         id: Date.now(),
         uploadType: 'FILE',
-        files: null,
-        links: [],
+        file: null,
+        link: '',
         newLink: '',
       },
     ]);
-  };
-
-  const removeItem = (id: number) => {
-    setItems(prevItems => prevItems.filter(item => item.id !== id));
   };
 
   return (
@@ -211,12 +233,13 @@ export default function FileInput() {
           </div>
 
           {item.uploadType === 'FILE' ? (
-            <div className="">
+            <div>
               <div className="flex justify-between items-center gap-2.5">
                 <input
                   type="file"
                   accept="application/pdf"
                   className="hidden"
+                  value={fileInputRef.current?.value || ''}
                   ref={fileInputRef}
                   onChange={e => handleAddFile(e, item.id)}
                 />
@@ -240,7 +263,7 @@ export default function FileInput() {
                 * 파일 첨부 시, PDF로 변환하여 업로드해주세요.
               </p>
 
-              {item.files && (
+              {item.file && (
                 <ul className="pt-2">
                   <li
                     key={index}
@@ -252,7 +275,7 @@ export default function FileInput() {
                       width={14}
                       height={18}
                     />
-                    <a href={item.files.url}>{item.files.name}</a>
+                    <a href={item.file.url}>{item.file.name}</a>
                     <button onClick={() => handleRemoveFile(item.id)}>
                       <CloseIcon />
                     </button>
@@ -265,15 +288,13 @@ export default function FileInput() {
               <div className="flex gap-2 pb-5">
                 <input
                   type="text"
-                  value={item.newLink ?? ''}
+                  value={item.newLink}
                   onChange={e => handleLinkChange(e, item.id)}
                   placeholder="이곳에 링크 주소를 입력하고 엔터를 눌러주세요."
                   onKeyDown={e => {
                     if (e.key === 'Enter') {
                       e.preventDefault();
-                      if (item.links.length < 1) {
-                        handleAddLink(item.id);
-                      }
+                      handleAddLink(item.id, item.newLink);
                     }
                   }}
                   className="w-full rounded h-11 px-4 py-5 bg-gray-800
@@ -285,25 +306,23 @@ export default function FileInput() {
                 드라이브, 노션 등)
               </p>
 
-              {item.links.length > 0 && (
+              {item.link && (
                 <ul className="pt-2 space-y-2">
-                  {item.links.map((link, index) => (
-                    <li
-                      key={index}
-                      className="w-fit flex justify-between gap-2 text-[15px] bg-gray-600 px-5 py-2.5 rounded mb-6.5"
-                    >
-                      <Image
-                        src="/images/link.svg"
-                        alt="link"
-                        width={24}
-                        height={24}
-                      />
-                      <a href={link}>{link}</a>
-                      <button onClick={() => handleRemoveLink(item.id, index)}>
-                        <CloseIcon />
-                      </button>
-                    </li>
-                  ))}
+                  <li
+                    key={item.id}
+                    className="w-fit flex justify-between gap-2 text-[15px] bg-gray-600 px-5 py-2.5 rounded mb-6.5"
+                  >
+                    <Image
+                      src="/images/link.svg"
+                      alt="link"
+                      width={24}
+                      height={24}
+                    />
+                    <a href={item.link}>{item.link}</a>
+                    <button onClick={() => handleRemoveLink(item.id)}>
+                      <CloseIcon />
+                    </button>
+                  </li>
                 </ul>
               )}
             </div>
