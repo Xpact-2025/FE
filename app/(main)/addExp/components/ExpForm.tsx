@@ -69,7 +69,6 @@ const getInitialForm = (
 export default function ExpForm({ data }: ExpFormProps) {
   const router = useRouter();
   const [forms, setForms] = useState([getInitialForm(data)]);
-  const [tab, setTab] = useState<'star' | 'simple'>('star');
   const [activeFormIndex, setActiveFormIndex] = useState(0);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editingValue, setEditingValue] = useState('');
@@ -123,7 +122,6 @@ export default function ExpForm({ data }: ExpFormProps) {
       setActiveFormIndex(updatedForms.length - 1);
       return updatedForms;
     });
-    if (!isAward) setTab('star');
   };
 
   const handleRemoveExperienceTab = (indexToRemove: number) => {
@@ -446,10 +444,10 @@ export default function ExpForm({ data }: ExpFormProps) {
               <GuideModal
                 title={
                   form.selectedTab === 'star'
-                    ? 'STAR양식 작성 가이드'
+                    ? 'STAR 양식 작성 가이드'
                     : '간결 양식 작성 가이드'
                 }
-                type={tab}
+                type={(form.selectedTab ?? 'star') as 'star' | 'simple'}
                 closeRequest={() => setIsModalOpen(false)}
               />
             )}
