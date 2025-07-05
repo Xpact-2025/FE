@@ -59,9 +59,12 @@ export default function GuidePage() {
         )}
 
         <div
-          className={`flex gap-5 transition-all duration-1000 ease-in-out ${
-            selectedSkill ? 'ml-5' : 'ml-auto'
-          }`}
+          className="flex gap-5"
+          style={{
+            transform: selectedSkill ? 'translateX(20px)' : 'translateX(30px)',
+            opacity: 1,
+            transition: 'transform 0.5s ease-in-out, opacity 0.5s ease',
+          }}
         >
           {skills
             .filter(skill => !selectedSkill || selectedSkill === skill)

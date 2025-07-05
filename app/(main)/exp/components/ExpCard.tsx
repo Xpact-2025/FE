@@ -72,11 +72,13 @@ export default function ExpCard({
           {title}
         </div>
         <ol className="flex flex-col gap-1.5 list-disc ml-4">
-          {subTitles.map((subTitle, index) => (
-            <li key={index} className="body-9-r text-gray-300">
-              {subTitle}
-            </li>
-          ))}
+          {subTitles
+            .filter(subTitle => subTitle)
+            .map((subTitle, index) => (
+              <li key={index} className="body-9-r text-gray-300">
+                {subTitle}
+              </li>
+            ))}
         </ol>
       </div>
       <div className="flex flex-row justify-between items-center relative">
