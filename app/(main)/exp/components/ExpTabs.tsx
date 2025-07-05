@@ -53,24 +53,24 @@ export default function ExpTabs({
           <button
             key={sub.subExperienceId ?? index}
             onClick={() => onSelect(index)}
+            onDoubleClick={e => {
+              if (isEditing) {
+                e.stopPropagation();
+                handleStartEditing(index);
+              }
+            }}
             className={`w-48 h-20 px-4 py-2 text-lg font-semibold transition-colors duration-150 
               rounded-tl-2xl rounded-tr-2xl flex items-center justify-center relative
               ${
-                isSelected
+                isEditingTab
                   ? 'bg-gray-700 border-t-2 border-primary-50 text-white'
-                  : 'bg-black border border-gray-700 text-gray-400'
+                  : isSelected
+                    ? 'bg-gray-700 border-t-2 border-primary-50 text-white'
+                    : 'bg-black border border-gray-700 text-gray-400'
               }
             `}
           >
-            <div
-              className="truncate max-w-[10ch]"
-              onClick={e => {
-                if (isEditing) {
-                  e.stopPropagation();
-                  handleStartEditing(index);
-                }
-              }}
-            >
+            <div className="truncate max-w-[10ch]">
               {isEditingTab ? (
                 <input
                   value={editingValue}
@@ -80,7 +80,7 @@ export default function ExpTabs({
                   onKeyDown={e => {
                     if (e.key === 'Enter') handleSave(index);
                   }}
-                  className="w-[100px] h-[30px] bg-black px-2 py-1 rounded"
+                  className="w-[100px] h-[30px] bg-[#5B5B5B] px-2 py-1 rounded"
                 />
               ) : (
                 sub.tabName || `경험 ${index + 1}`
