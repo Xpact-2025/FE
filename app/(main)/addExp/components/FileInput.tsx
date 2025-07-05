@@ -179,9 +179,9 @@ export default function FileInput() {
                   className="cursor-pointer"
                 >
                   {item.uploadType === 'FILE' ? (
-                    <RadioFillIcon />
+                    <RadioFillIcon className="w-[24px] h-[24px]" />
                   ) : (
-                    <RadioNotFillIcon />
+                    <RadioNotFillIcon className="w-[24px] h-[24px]" />
                   )}
                 </div>
                 파일
@@ -192,9 +192,9 @@ export default function FileInput() {
                   className="cursor-pointer"
                 >
                   {item.uploadType === 'LINK' ? (
-                    <RadioFillIcon />
+                    <RadioFillIcon className="w-[24px] h-[24px]" />
                   ) : (
-                    <RadioNotFillIcon />
+                    <RadioNotFillIcon className="w-[24px] h-[24px]" />
                   )}
                 </div>
                 링크
