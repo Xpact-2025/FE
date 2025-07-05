@@ -206,9 +206,10 @@ export default function ExpForm({ data }: ExpFormProps) {
       setForms(prev => {
         const updated = [...prev];
         updated[activeFormIndex] = {
-          ...updated[activeFormIndex],
+          ...getInitialForm(undefined),
           formType: pendingFormType,
           selectedTab: pendingFormType === 'STAR_FORM' ? 'star' : 'simple',
+          experienceType: forms[activeFormIndex].experienceType,
         };
         return updated;
       });
