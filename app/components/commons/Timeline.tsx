@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import useResponsiveWidth from '@/hooks/useResponsiveWidth';
 import { TimelineExp } from '@/apis/dashboard';
 import TimelineLabel from './TimelineLabel';
@@ -18,7 +18,7 @@ interface PlacedExperience extends ParsedExperience {
 }
 
 interface Row {
-  end: number; // x 좌표 기준
+  end: number;
 }
 
 interface TimelineProps {
@@ -33,9 +33,7 @@ function formatDate(dateStr: string): string {
   return dateStr.replace(/-/g, '.');
 }
 
-// 텍스트 너비 측정 함수
 function measureTextWidth(text: string, font = '14px sans-serif'): number {
-  if (typeof window === 'undefined') return 0; // SSR 방어
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
   if (!context) return 0;
@@ -52,30 +50,27 @@ export default function Timeline({
 }: TimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const numericWidth = useResponsiveWidth(containerRef, width, 500);
+  const [placedBar, setPlacedBar] = useState<PlacedExperience[]>([]);
 
   const differenceInDays = (date1: Date, date2: Date): number =>
     Math.floor((date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24));
 
-  const { totalDays } = useMemo(() => {
-    const days = differenceInDays(maxDate, minDate) || 1;
-    return { totalDays: days };
-  }, [maxDate, minDate]);
-
+  const totalDays = Math.max(differenceInDays(maxDate, minDate), 1);
   const gap = 20;
 
-  const placedBar = useMemo<PlacedExperience[]>(() => {
-    if (typeof window === 'undefined') return [];
+  useEffect(() => {
+    if (!numericWidth) return;
 
     const rows: Row[] = [];
 
-    return exps
+    const parsed = exps
       .map(exp => {
         const _start = new Date(exp.startDate);
         const _end = new Date(exp.endDate);
         const x1 =
           (differenceInDays(_start, minDate) / totalDays) * numericWidth;
         const x2 = (differenceInDays(_end, minDate) / totalDays) * numericWidth;
-        const textWidth = measureTextWidth(exp.title); // title 너비 측정
+        const textWidth = measureTextWidth(exp.title);
         return { ...exp, _start, _end, x1, x2, textWidth };
       })
       .sort((a, b) => a.x1 - b.x1)
@@ -93,6 +88,8 @@ export default function Timeline({
 
         return { ...exp, rowIndex };
       });
+
+    setPlacedBar(parsed);
   }, [exps, numericWidth, totalDays, minDate]);
 
   return (
