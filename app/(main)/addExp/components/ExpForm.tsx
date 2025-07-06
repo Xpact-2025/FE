@@ -15,9 +15,12 @@ import StarForm from './StarForm';
 import SimpleForm from './SimpleForm';
 import PlusGrayIcon from '@/public/icons/PlusIcon_gray.svg';
 import CloseIcon from '@/public/icons/Close_small.svg';
+import ExpHeader from '../../exp/components/ExpDetailHeader';
 
 interface ExpFormProps {
   data?: ExpPayload & { subExperiencesResponseDto: SubExperience[] };
+  onSuccess?: () => void;
+  isEditMode?: boolean;
 }
 
 const getInitialForm = (
@@ -66,9 +69,21 @@ const getInitialForm = (
   };
 };
 
-export default function ExpForm({ data }: ExpFormProps) {
+export default function ExpForm({
+  data,
+  onSuccess,
+  isEditMode = false,
+}: ExpFormProps) {
   const router = useRouter();
-  const [forms, setForms] = useState([getInitialForm(data)]);
+  const [forms, setForms] = useState(() => {
+    if (data?.subExperiencesResponseDto?.length) {
+      return data.subExperiencesResponseDto.map(sub => ({
+        ...getInitialForm({ ...data, subExperiencesResponseDto: [sub] }),
+        subId: sub.subExperienceId,
+      }));
+    }
+    return [getInitialForm(data)];
+  });
   const [activeFormIndex, setActiveFormIndex] = useState(0);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editingValue, setEditingValue] = useState('');
@@ -96,16 +111,18 @@ export default function ExpForm({ data }: ExpFormProps) {
 
     const newForm = {
       ...getInitialForm(undefined),
+      id: forms[0].id, // ✅ 기존 경험 ID 유지
       formType: isAward ? undefined : ('STAR_FORM' as ExpFormType),
       selectedTab: isAward ? undefined : 'star',
       experienceType: currentExperienceType,
-      qualification: '',
-      publisher: '',
-      issueDate: '',
-      simpleDescription: '',
-      title: '',
-      startDate: '',
-      endDate: '',
+      qualification: forms[0].qualification, // 기존 데이터도 복사해줘야 함
+      publisher: forms[0].publisher,
+      issueDate: forms[0].issueDate,
+      startDate: forms[0].startDate,
+      endDate: forms[0].endDate,
+      title: forms[0].title,
+      subId: undefined, // 새로운 서브 경험이므로 subId는 없음
+      tabName: '',
       subTitle: '',
       role: '',
       perform: '',
@@ -113,10 +130,11 @@ export default function ExpForm({ data }: ExpFormProps) {
       task: '',
       action: '',
       result: '',
-      //files: [],
+      simpleDescription: '',
       keywords: [],
-      subId: undefined,
+      // files: [], // 필요 시 추가
     };
+
     setForms(prev => {
       const updatedForms = [...prev, newForm];
       setActiveFormIndex(updatedForms.length - 1);
@@ -281,6 +299,7 @@ export default function ExpForm({ data }: ExpFormProps) {
         simpleDescription: f.simpleDescription ?? '',
         files: f.files ?? [],
         keywords: f.keywords ?? [],
+        subExperienceId: f.subId,
       })),
     };
 
@@ -288,11 +307,17 @@ export default function ExpForm({ data }: ExpFormProps) {
       ? await editExp(form.id, payload)
       : await saveExp(payload);
 
-    if (httpStatus == 200) {
+    if (httpStatus === 200) {
       alert('성공적으로 저장되었습니다!');
-
       console.log('보내는 payload:', payload);
-      router.push('/exp');
+
+      if (form.id) {
+        // 수정일 때
+        onSuccess?.(); // 상세페이지 내에서 갱신 처리
+      } else {
+        // 생성일 때
+        router.push('/exp'); // 목록으로 이동
+      }
     } else {
       alert(`저장 실패: ${message}`);
       console.log('보내는 payload:', payload);
@@ -314,32 +339,55 @@ export default function ExpForm({ data }: ExpFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="p-20">
-      <div className="flex items-center pb-[50px]">
-        <button
-          type="button"
-          onClick={() => {
-            setPendingFormType(null);
-            setIsPopupOpen(true);
-          }}
-        >
-          <BackIcon className="stroke-gray-50 w-[35px] h-[35px]" />
-        </button>
-        {isPopupOpen && !pendingFormType && (
-          <Popup
-            title="작성취소"
-            content={`경험 작성을 취소하시겠습니까?\n취소하시면 입력하신 내용은 저장되지 않습니다.`}
-            confirmText="작성 취소"
-            cancelText="계속 작성"
-            onConfirm={() => router.push('/exp')}
-            onCancel={() => {
-              setIsPopupOpen(false);
+      {!isEditMode && (
+        <div className="flex items-center pb-[50px]">
+          <button
+            type="button"
+            onClick={() => {
+              setPendingFormType(null);
+              setIsPopupOpen(true);
+            }}
+          >
+            <BackIcon className="stroke-gray-50 w-[35px] h-[35px]" />
+          </button>
+
+          {isPopupOpen && !pendingFormType && (
+            <Popup
+              title="작성취소"
+              content={`경험 작성을 취소하시겠습니까?\n취소하시면 입력하신 내용은 저장되지 않습니다.`}
+              confirmText="작성 취소"
+              cancelText="계속 작성"
+              onConfirm={() => router.push('/exp')}
+              onCancel={() => {
+                setIsPopupOpen(false);
+              }}
+            />
+          )}
+          <div className="text-gray-50 text-2xl font-medium">경험 입력</div>
+        </div>
+      )}
+
+      <div className="w-[1025px] px-12">
+        {isEditMode && (
+          <ExpHeader
+            experienceType={form.experienceType}
+            title={form.title}
+            qualification={form.qualification}
+            publisher={form.publisher}
+            issueDate={form.issueDate}
+            startDate={form.startDate}
+            endDate={form.endDate}
+            isEditing={true}
+            onChange={{
+              title: val => handleChange('title', val),
+              qualification: val => handleChange('qualification', val),
+              publisher: val => handleChange('publisher', val),
+              issueDate: val => handleChange('issueDate', val),
+              startDate: val => handleChange('startDate', val),
+              endDate: val => handleChange('endDate', val),
             }}
           />
         )}
-        <div className="text-gray-50 text-2xl font-medium">경험 입력</div>
-      </div>
-
-      <div className="w-[1025px] px-12">
         {/*경험탭*/}
         <div className="flex mb-[-14px]">
           {forms.map((_, index) => (
