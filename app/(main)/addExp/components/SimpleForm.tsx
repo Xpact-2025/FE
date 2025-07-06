@@ -59,6 +59,7 @@ export default function SimpleForm({ data, onChange }: SimpleFormProps) {
         <FileInput
           onFileChange={newFiles => handleChange('files', newFiles)}
           //onLinkChange={newLinks => handleChange('links', newLinks)}
+          initialFiles={data.files}
         />
       </div>
 

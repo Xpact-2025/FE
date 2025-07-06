@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import CloseIcon from '@/public/icons/Close.svg';
 import RadioFillIcon from '@/public/icons/Radio_Fill.svg';
 import RadioNotFillIcon from '@/public/icons/Radio_NOT_Fill.svg';
@@ -21,16 +21,50 @@ interface UploadItem {
 interface FileInputProps {
   onFileChange: (files: string[]) => void;
   //onLinkChange: (links: string[]) => void;
+  initialFiles?: string[];
 }
 
 export default function FileInput({
   onFileChange,
-  //onLinkChange,
+  initialFiles = [],
 }: FileInputProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [items, setItems] = useState<UploadItem[]>([
-    { id: Date.now(), uploadType: 'FILE', file: null, link: '', newLink: '' },
-  ]);
+  const [items, setItems] = useState<UploadItem[]>([]);
+
+  useEffect(() => {
+    // 초기 파일이 있을 경우 설정
+    if (initialFiles.length > 0) {
+      const initialItems = initialFiles.map(fileUrl => ({
+        id: Date.now() + Math.random(),
+        uploadType: 'FILE' as UploadType,
+        file: {
+          name: extractFileName(fileUrl), // 파일명 추출 함수 필요
+          url: fileUrl,
+        },
+        link: '',
+        newLink: '',
+      }));
+      setItems(initialItems);
+    } else {
+      setItems([
+        {
+          id: Date.now(),
+          uploadType: 'FILE',
+          file: null,
+          link: '',
+          newLink: '',
+        },
+      ]);
+    }
+  }, [initialFiles]);
+
+  const extractFileName = (url: string) => {
+    try {
+      return decodeURIComponent(url.split('/').pop() || '파일명 없음');
+    } catch {
+      return '파일명 없음';
+    }
+  };
 
   const extractFilesAndLinks = (items: UploadItem[]) => {
     const files = items
@@ -103,7 +137,7 @@ export default function FileInput({
         alert('파일 업로드에 실패했습니다.');
       }
     },
-    [items]
+    [items, onFileChange]
   );
 
   const handleAddFile = async (

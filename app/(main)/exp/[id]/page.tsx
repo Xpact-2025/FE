@@ -32,7 +32,7 @@ export default function ExpDetailPage() {
   const [editIssueDate, setEditIssueDate] = useState('');
 
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
-  const [localFiles, setLocalFiles] = useState<string[]>([]);
+  const [, setLocalFiles] = useState<string[]>([]);
 
   const handleDeleteSubExp = (indexToDelete: number) => {
     const newList = subDataList.filter((_, i) => i !== indexToDelete);
@@ -209,8 +209,6 @@ export default function ExpDetailPage() {
             data={data}
             subData={currentSubData}
             isEditing={false}
-            localFiles={localFiles}
-            setLocalFiles={setLocalFiles}
             onChange={(field, value) => {
               const updated = [...subDataList];
               updated[selectedTabIndex] = {
