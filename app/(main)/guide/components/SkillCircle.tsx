@@ -3,6 +3,7 @@ interface SkillCircleProps {
   isSelected: boolean;
   onMouseEnter: () => void;
   explanation: string;
+  memberName: string;
 }
 
 export default function SkillCircle({
@@ -10,6 +11,7 @@ export default function SkillCircle({
   isSelected,
   onMouseEnter,
   explanation,
+  memberName,
 }: SkillCircleProps) {
   return (
     <div
@@ -27,7 +29,7 @@ export default function SkillCircle({
       {isSelected && (
         <div className="pl-12.5 pr-6">
           <div className="body-20-r">
-            김잇타님의 핵심 스킬맵 분석 결과,
+            {memberName}님의 핵심 스킬맵 분석 결과,
             <span className="text-primary-50">{label}</span> 역량을 보완하면
             좋아요.
           </div>

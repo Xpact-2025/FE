@@ -10,6 +10,8 @@ import {
   getAIActivityByIndex,
   type AIActivity,
 } from '@/apis/guide';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
+import { getMemberInfo } from '@/apis/mypage';
 
 interface Weakness {
   weaknessName: string;
@@ -22,8 +24,19 @@ export default function GuidePage() {
   const [weaknesses, setWeaknesses] = useState<Weakness[]>([]);
   const [activities, setActivities] = useState<AIActivity[]>([]);
   const [, setError] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [isActivityLoading, setIsActivityLoading] = useState(false);
+  const [memberName, setMemberName] = useState<string | null>(null);
 
   useEffect(() => {
+    const fetchMemberInfo = async () => {
+      const res = await getMemberInfo();
+      if (res.httpStatus === 200) {
+        setMemberName(res.data.name);
+      }
+    };
+    fetchMemberInfo();
+
     const fetchWeaknesses = async () => {
       const weakRes = await getWeakness();
       if (weakRes.httpStatus !== 200) {
@@ -31,41 +44,44 @@ export default function GuidePage() {
         return;
       }
       setWeaknesses(weakRes.data);
+      setInitialLoading(false);
     };
     fetchWeaknesses();
   }, []);
 
   useEffect(() => {
+    if (weaknesses.length === 0) return; // 데이터 준비 안 됐으면 실행 안함
+
     const fetchActivities = async () => {
-      if (!selectedFilter || selectedFilter.length !== 1) {
-        const res = await getAIActivityByIndex(0);
-        console.log('전체 보기 응답:', res);
-
-        if (res.httpStatus === 200) {
-          setActivities(res.data.content);
-        } else {
-          setActivities([]);
+      setIsActivityLoading(true);
+      try {
+        if (!selectedFilter || selectedFilter.length !== 1) {
+          const res = await getAIActivityByIndex(0);
+          setActivities(res.httpStatus === 200 ? res.data.content : []);
+          return;
         }
-        return;
-      }
 
-      const selected = selectedFilter[0];
-      const index = weaknesses.findIndex(w => w.weaknessName === selected);
-      if (index === -1) return;
+        const selected = selectedFilter[0];
+        const index = weaknesses.findIndex(w => w.weaknessName === selected);
+        if (index === -1) return;
 
-      const res = await getAIActivityByIndex(index + 1);
-      if (res.httpStatus === 200) {
-        setActivities(res.data.content);
-      } else {
-        setActivities([]);
+        const res = await getAIActivityByIndex(index + 1);
+        setActivities(res.httpStatus === 200 ? res.data.content : []);
+      } finally {
+        setIsActivityLoading(false);
       }
     };
 
     fetchActivities();
   }, [selectedFilter, weaknesses]);
 
-  // const selectedExplanation =
-  //   weaknesses.find(w => w.weaknessName === selectedSkill)?.explanation ?? '';
+  if (initialLoading) {
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col px-7 py-3">
@@ -81,7 +97,7 @@ export default function GuidePage() {
       >
         {!selectedSkill && (
           <div className="flex flex-col body-20-r min-w-[343px]">
-            <div>김잇타님의 핵심 스킬맵 분석 결과, </div>
+            <div>{memberName}님의 핵심 스킬맵 분석 결과, </div>
             <div className="text-primary-50">
               {weaknesses.map(w => w.weaknessName).join(', ')}
             </div>
@@ -106,6 +122,7 @@ export default function GuidePage() {
                 isSelected={selectedSkill === w.weaknessName}
                 onMouseEnter={() => setSelectedSkill(w.weaknessName)}
                 explanation={w.explanation}
+                memberName={memberName || '회원'} // 👈 여기 추가
               />
             ))}
         </div>
@@ -124,7 +141,7 @@ export default function GuidePage() {
         />
       </div>
 
-      <AIList data={activities} />
+      {isActivityLoading ? <LoadingSpinner /> : <AIList data={activities} />}
     </div>
   );
 }
