@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import useResponsiveWidth from '@/hooks/useResponsiveWidth';
 import { TimelineExp } from '@/apis/dashboard';
 import TimelineLabel from './TimelineLabel';
@@ -8,6 +8,9 @@ import TimelineLabel from './TimelineLabel';
 interface ParsedExperience extends TimelineExp {
   _start: Date;
   _end: Date;
+  x1: number;
+  x2: number;
+  textWidth: number;
 }
 
 interface PlacedExperience extends ParsedExperience {
@@ -15,7 +18,7 @@ interface PlacedExperience extends ParsedExperience {
 }
 
 interface Row {
-  end: Date;
+  end: number;
 }
 
 interface TimelineProps {
@@ -30,6 +33,14 @@ function formatDate(dateStr: string): string {
   return dateStr.replace(/-/g, '.');
 }
 
+function measureTextWidth(text: string, font = '14px sans-serif'): number {
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  if (!context) return 0;
+  context.font = font;
+  return context.measureText(text).width;
+}
+
 export default function Timeline({
   exps,
   width = '100%',
@@ -39,39 +50,47 @@ export default function Timeline({
 }: TimelineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const numericWidth = useResponsiveWidth(containerRef, width, 500);
-  console.log('Timeline width:', numericWidth);
+  const [placedBar, setPlacedBar] = useState<PlacedExperience[]>([]);
 
   const differenceInDays = (date1: Date, date2: Date): number =>
     Math.floor((date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24));
 
-  const placedBar = useMemo<PlacedExperience[]>(() => {
+  const totalDays = Math.max(differenceInDays(maxDate, minDate), 1);
+  const gap = 20;
+
+  useEffect(() => {
+    if (!numericWidth) return;
+
     const rows: Row[] = [];
 
-    return exps
-      .map(exp => ({
-        ...exp,
-        _start: new Date(exp.startDate),
-        _end: new Date(exp.endDate),
-      }))
-      .sort((a, b) => a._start.getTime() - b._start.getTime())
+    const parsed = exps
       .map(exp => {
-        let rowIndex = rows.findIndex(row => exp._start > row.end);
+        const _start = new Date(exp.startDate);
+        const _end = new Date(exp.endDate);
+        const x1 =
+          (differenceInDays(_start, minDate) / totalDays) * numericWidth;
+        const x2 = (differenceInDays(_end, minDate) / totalDays) * numericWidth;
+        const textWidth = measureTextWidth(exp.title);
+        return { ...exp, _start, _end, x1, x2, textWidth };
+      })
+      .sort((a, b) => a.x1 - b.x1)
+      .map(exp => {
+        const padding = 20;
+        const expEndX = Math.max(exp.x1 + exp.textWidth + padding, exp.x2);
+
+        let rowIndex = rows.findIndex(row => exp.x1 > row.end);
         if (rowIndex === -1) {
-          rows.push({ end: exp._end });
+          rows.push({ end: expEndX });
           rowIndex = rows.length - 1;
         } else {
-          rows[rowIndex].end = exp._end;
+          rows[rowIndex].end = expEndX;
         }
+
         return { ...exp, rowIndex };
       });
-  }, [exps]);
 
-  const { totalDays } = useMemo(() => {
-    const days = differenceInDays(maxDate, minDate) || 1;
-    return { totalDays: days };
-  }, [maxDate, minDate]);
-
-  const gap = 20;
+    setPlacedBar(parsed);
+  }, [exps, numericWidth, totalDays, minDate]);
 
   return (
     <div
@@ -84,10 +103,6 @@ export default function Timeline({
         style={{ background: 'transparent', width: `${numericWidth}px` }}
       >
         {placedBar.map((exp, idx) => {
-          const x1 =
-            (differenceInDays(exp._start, minDate) / totalDays) * numericWidth;
-          const x2 =
-            (differenceInDays(exp._end, minDate) / totalDays) * numericWidth;
           const h = 30;
           const y = exp.rowIndex * (h + gap);
 
@@ -95,8 +110,8 @@ export default function Timeline({
             <TimelineLabel
               key={idx}
               idx={idx}
-              x1={x1}
-              x2={x2}
+              x1={exp.x1}
+              x2={exp.x2}
               y={y}
               h={h}
               exp={{
