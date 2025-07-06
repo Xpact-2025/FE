@@ -57,7 +57,7 @@ export default async function DashboardPage() {
           </div>
           <div className="flex-[7]">
             <div className="flex flex-grow flex-wrap lg:flex-nowrap gap-4 h-auto">
-              <div className="flex-[38] bg-gray-800 rounded-[23px] py-8 px-10 h-[270px] flex flex-col">
+              <div className="flex-[38] bg-gray-800 rounded-[23px] py-6 px-8 h-[270px] flex flex-col">
                 <DashboardHeader
                   title={DASHBOARD_INFO.JOB_RATIO.title}
                   info={DASHBOARD_INFO.JOB_RATIO.info}
@@ -75,13 +75,13 @@ export default async function DashboardPage() {
           </div>
         </div>
         <div className="flex flex-grow flex-wrap lg:flex-nowrap gap-4 h-auto">
-          <div className="flex-[2.5] bg-gray-800 rounded-[23px] pt-8 pb-4 px-8">
+          <div className="flex-[2.5] bg-gray-800 rounded-[23px] pt-6 pb-4 px-8">
             <ExpTimeLine start={start} end={end} expTimeline={expTimeline} />
           </div>
-          <div className="flex-[1] bg-gray-800 rounded-[23px] pt-8 pb-4 px-8">
+          <div className="flex-[1] bg-gray-800 rounded-[23px] pt-6 pb-4 px-8">
             <ExpHistory expHistory={expHistory} />
           </div>
-          <div className="flex-[1] bg-gray-800 rounded-[23px] pt-8 pb-4 px-8">
+          <div className="flex-[1] bg-gray-800 rounded-[23px] pt-6 pb-4 px-8">
             <Scrap />
           </div>
         </div>
