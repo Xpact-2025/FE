@@ -62,14 +62,16 @@ export default function ExpDetailContent({
       ) : (
         <>
           {subData.role && (
-            <p className="mb-6">
-              역할 <br /> {subData.role}
-            </p>
+            <>
+              <p className="mb-6 font-semibold">역할</p>
+              <p className="mb-6">{subData.role}</p>
+            </>
           )}
           {subData.perform && (
-            <p>
-              주요 성과 <br /> {subData.perform}
-            </p>
+            <>
+              <p className="font-semibold text-[18px]">주요 성과</p>
+              <p className="mb-2 mt-2">{subData.perform}</p>
+            </>
           )}
         </>
       )}
@@ -88,24 +90,28 @@ export default function ExpDetailContent({
       ) : (
         <>
           {subData.situation && (
-            <p className="mb-6">
-              상황 <br /> {subData.situation}
-            </p>
+            <>
+              <p className="font-semibold text-[18px]">상황 (Situation)</p>
+              <p className="mb-6 mt-2">{subData.situation}</p>
+            </>
           )}
           {subData.task && (
-            <p className="mb-6">
-              문제 <br /> {subData.task}
-            </p>
+            <>
+              <p className="font-semibold text-[18px]">문제 (Task)</p>
+              <p className="mb-6 mt-2">{subData.task}</p>
+            </>
           )}
           {subData.action && (
-            <p className="mb-6">
-              해결 방법 <br /> {subData.action}
-            </p>
+            <>
+              <p className="font-semibold text-[18px]">행동 (Action)</p>
+              <p className="mb-6 mt-2">{subData.action}</p>
+            </>
           )}
           {subData.result && (
-            <p>
-              결과 <br /> {subData.result}
-            </p>
+            <>
+              <p className="font-semibold text-[18px]">결과 (Result)</p>
+              <p className="mb-2 mt-2">{subData.result}</p>
+            </>
           )}
         </>
       )}
@@ -113,7 +119,7 @@ export default function ExpDetailContent({
   );
 
   return (
-    <div className="bg-gray-700 mt-0 rounded-b-[14px] rounded-tr-[14px] border border-t-0 border-gray-600 p-6 space-y-4 leading-relaxed relative z-10">
+    <div className="bg-gray-700 mt-0 rounded-b-[14px] rounded-tr-[14px]  p-6 space-y-4 leading-relaxed relative z-10">
       {isEditing ? (
         <>
           <div className="text-[21px] font-semibold text-white mb-4">
@@ -177,7 +183,7 @@ export default function ExpDetailContent({
           <h3 className="text-[21px] font-semibold text-white mb-4">
             파일 추가
           </h3>
-          <FileInput />
+          <FileInput onFileChange={newFiles => onChange('files', newFiles)} />
         </div>
       )}
 

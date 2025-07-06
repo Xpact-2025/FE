@@ -19,7 +19,7 @@ export default function Section2() {
             description={`입력한 경험을 시각화하고, \n 직무 역량을 분석해줍니다`}
           />
         </Link>
-        <Link href="/">
+        <Link href="/guide">
           <MainCard
             title="성장 가이드"
             description={`부족한 역량을 파악하고, \n부족한 경험을 추천해줍니다`}

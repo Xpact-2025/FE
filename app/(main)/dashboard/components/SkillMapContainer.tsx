@@ -23,7 +23,7 @@ export default function SkillMapContainer({
 
   return (
     <div className="w-full h-full">
-      <div className="py-8 px-10 flex flex-col h-full">
+      <div className="py-5 px-10 flex flex-col h-full">
         <DashboardHeader
           title={DASHBOARD_INFO.SKILL_MAP.title}
           info={DASHBOARD_INFO.SKILL_MAP.info}

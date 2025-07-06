@@ -57,6 +57,7 @@ interface ProfileFormProps {
   initialData?: {
     name: string;
     age: string;
+    educationDegree: string;
     educationName: string;
     desiredDetailRecruit: string;
     imgurl: string;
@@ -78,7 +79,7 @@ export default function ProfileForm({
 
   const [name, setName] = useState(initialData?.name || '');
   const [age, setAge] = useState(initialData?.age || '');
-  const [degree, setDegree] = useState(parsedEdu.degree || '');
+  // const [degree, setDegree] = useState(parsedEdu.degree || '');
   const [graduation, setGraduation] = useState(parsedEdu.graduation);
   const [selectedSchool, setSelectedSchool] = useState(parsedEdu.school);
   const [selectedMajor, setSelectedMajor] = useState(parsedEdu.major);
@@ -104,6 +105,10 @@ export default function ProfileForm({
   const [isSchoolLoading, setIsSchoolLoading] = useState(false);
   const [isMajorLoading, setIsMajorLoading] = useState(false);
   const [isIndustryLoading, setIsIndustryLoading] = useState(false);
+
+  const [degree, setDegree] = useState(
+    initialData?.educationDegree || parsedEdu.degree || ''
+  );
 
   const handleSchoolSearch = async () => {
     setIsSchoolModalOpen(true);

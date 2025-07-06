@@ -46,6 +46,7 @@ interface MemberInfoResponse {
     name: string;
     imgurl: string;
     age: number;
+    educationDegree: string;
     educationName: string;
     desiredDetailRecruit: string;
   };
@@ -55,6 +56,16 @@ interface MemberInfoResponse {
 interface ErrorResponse {
   code?: string;
   message?: string;
+}
+
+interface NaverLoginResponse {
+  httpStatus?: number;
+  code?: string;
+  message: string;
+  data: {
+    accessToken: string;
+    refreshToken?: string;
+  };
 }
 
 export async function setAccessTokenCookie(token: string) {
@@ -169,6 +180,35 @@ export async function refreshAccessToken(): Promise<string> {
 
   const data = await res.json();
   return data.data; // 토큰만 리턴
+}
+
+export async function getNaverAuthUrl(): Promise<string> {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/url/naver`);
+  if (!res.ok) throw new Error('네이버 인증 URL 요청 실패');
+  return await res.text();
+}
+
+export async function naverLogin(
+  code: string,
+  state: string
+): Promise<NaverLoginResponse> {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/login/naver?code=${code}&state=${state}`;
+  console.log('네이버 로그인 요청:', url);
+
+  const res = await fetch(url, {
+    method: 'POST',
+    credentials: 'include', // 혹시 백엔드에서 쿠키 기반 인증 시
+  });
+
+  const text = await res.text();
+  console.log('응답 상태코드:', res.status);
+  console.log('응답 본문:', text);
+
+  if (!res.ok) throw new Error('네이버 로그인 실패');
+
+  const data = JSON.parse(text);
+  if (res.status === 200) await setAccessTokenCookie(data.data.accessToken);
+  return data;
 }
 
 export async function getMyInfo(): Promise<MemberInfoResponse> {

@@ -38,20 +38,20 @@ export default function SkillMap({
   const [showWeaknessFeedback, setShowWeaknessFeedback] = useState(false);
 
   return (
-    <div className="relative py-8 px-10">
+    <div className="relative pt-6 px-8">
       <DashboardHeader
         title={DASHBOARD_INFO.SKILL_MAP.title}
         info={DASHBOARD_INFO.SKILL_MAP.info}
       />
-      <div className="mt-10 flex w-full h-full">
+      <div className="mt-5 flex w-full h-full">
         {/* 차트 영역 */}
         <div>
           <RadarChart
-            width={300}
-            height={150}
+            width={330}
+            height={160}
             cx="50%"
-            cy="50%"
-            outerRadius="80%"
+            cy="60%"
+            outerRadius="90%"
             data={coreSkillMaps}
           >
             <PolarGrid stroke="#444" />
@@ -71,20 +71,27 @@ export default function SkillMap({
         </div>
 
         {/* 설명 영역 */}
-        <div className="pl-4 flex flex-col gap-4 text-left">
-          <button onClick={() => setShowStrengthFeedback(true)}>
+        <div className="pl-4 flex flex-col gap-4 text-left self-end mx-auto">
+          <button
+            onClick={() => setShowStrengthFeedback(true)}
+            className="text-left flex flex-col items-start"
+          >
             <div className="text-gray-300 body-10-m mb-2">강점 역량</div>
             <div className="flex items-center">
-              <div className="inline-block w-3.5 h-3 border-2 border-gray-200 rounded-md mr-2" />
+              <div className="inline-block w-3 h-3 border-2 border-gray-200 rounded-md mr-2" />
               <span className="text-primary body-12-m">
                 {strengthFeedback.strengthName}
               </span>
             </div>
           </button>
-          <button onClick={() => setShowWeaknessFeedback(true)}>
+
+          <button
+            onClick={() => setShowWeaknessFeedback(true)}
+            className="text-left flex flex-col items-start"
+          >
             <div className="text-gray-300 body-10-m mb-2">보완 필요 역량</div>
             <div className="flex items-center">
-              <div className="inline-block w-3.5 h-3 border-2 border-gray-200 rounded-md mr-2" />
+              <div className="inline-block w-3 h-3 border-2 border-gray-200 rounded-md mr-2" />
               <span className="text-primary body-12-m">
                 {weaknessFeedback.weaknessName}
               </span>
