@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 import { getScrapActivities } from '@/apis/scrap';
 import { AIActivity } from '@/apis/guide';
 import AIActivityCard from '../guide/components/AIActivityCard';
+import LoadingSpinner from '@/app/components/LoadingSpinner';
 
 export default function ScarpPage() {
   const [scrapList, setScrapList] = useState<AIActivity[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -34,6 +36,8 @@ export default function ScarpPage() {
       } catch (e) {
         console.error(e);
         setError(true);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -44,7 +48,15 @@ export default function ScarpPage() {
     setScrapList(prev => prev.filter(item => item.id !== id));
   };
 
-  if (error) {
+  if (isLoading) {
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (error || scrapList.length === 0) {
     return (
       <div className="text-center text-gray-400 mt-10">
         스크랩된 활동이 없습니다.

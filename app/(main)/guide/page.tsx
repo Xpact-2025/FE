@@ -92,7 +92,7 @@ export default function GuidePage() {
       </div>
 
       <div
-        className="flex items-center w-[100%] h-full bg-gray-700 rounded-[12px] border border-gray-600 mt-6 pl-9 pr-13 py-5.5"
+        className="flex items-center justify-around w-[100%] h-full bg-gray-700 rounded-[12px] border border-gray-600 mt-6 pl-9 pr-13 py-5.5"
         onMouseLeave={() => setSelectedSkill(null)}
       >
         {!selectedSkill && (
