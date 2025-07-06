@@ -15,25 +15,29 @@ export default function ProfileCard({
         height={110}
         className="rounded-full my-3 w-[110px] h-[110px]"
       />
-      <div
-        className={
-          `px-4 py-1 bg-primary rounded-full text-gray-1000 ` +
-          (profileInfo.desiredDetailRecruit?.length > 7
-            ? 'body-10-m'
-            : 'body-12-m')
-        }
-      >
-        {profileInfo.desiredDetailRecruit
-          ? profileInfo.desiredDetailRecruit
-          : '희망 직무를 입력해주세요'}
-      </div>
-      <h2 className="my-2 body-16-sb">{profileInfo.name}</h2>
-      <div className="body-9-r text-gray-300 stroke-gray-300 flex flex-col">
-        <p className="break-keep">
-          {profileInfo.educationName
-            ? profileInfo.educationName
-            : '학력 정보를 입력해주세요'}
-        </p>
+      <div className="flex flex-col items-center text-center">
+        <div
+          className={
+            `px-4 py-1 bg-primary rounded-full text-gray-1000 ` +
+            (profileInfo.desiredDetailRecruit?.length > 7
+              ? 'body-10-m'
+              : 'body-12-m')
+          }
+        >
+          {profileInfo.desiredDetailRecruit
+            ? profileInfo.desiredDetailRecruit
+            : '희망 직무를 입력해주세요'}
+        </div>
+
+        <h2 className="my-2 body-16-sb">{profileInfo.name}</h2>
+
+        <div className="body-9-r text-gray-300 stroke-gray-300 flex flex-col items-center text-center">
+          <p className="break-keep">
+            {profileInfo.educationName
+              ? profileInfo.educationName
+              : '학력 정보를 입력해주세요'}
+          </p>
+        </div>
       </div>
     </div>
   );
