@@ -90,6 +90,11 @@ export default function ExpForm({ data }: ExpFormProps) {
   }, []);
 
   const handleAddExperienceTab = (currentExperienceType: ExpType) => {
+    if (forms.length >= 4) {
+      alert('경험은 최대 4개까지 추가할 수 있습니다.');
+      return;
+    }
+
     const isAward =
       currentExperienceType === 'PRIZE' ||
       currentExperienceType === 'CERTIFICATES';
@@ -389,12 +394,14 @@ export default function ExpForm({ data }: ExpFormProps) {
             </div>
           ))}
           {/*경험 항목*/}
-          <div
-            className="w-48 h-20 'bg-black border border-gray-700 rounded-tl-2xl rounded-tr-2xl"
-            onClick={() => handleAddExperienceTab(form.experienceType)}
-          >
-            <PlusGrayIcon className="flex mx-19.5 my-4.5 w-[27px] h-[27px] cursor-pointer" />
-          </div>
+          {forms.length < 4 && (
+            <div
+              className="w-48 h-20 'bg-black border border-gray-700 rounded-tl-2xl rounded-tr-2xl"
+              onClick={() => handleAddExperienceTab(form.experienceType)}
+            >
+              <PlusGrayIcon className="flex mx-19.5 my-4.5 w-[27px] h-[27px] cursor-pointer" />
+            </div>
+          )}
         </div>
         {/*회색 배경*/}
         <div className="pt-[14px] z-0 relative bg-gray-700 rounded-2xl px-12">
