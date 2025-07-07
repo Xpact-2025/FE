@@ -1,6 +1,8 @@
 'use server';
 
+import { redirect } from 'next/navigation';
 import API from './config';
+import { AxiosError } from 'axios';
 
 export interface MemberResponse {
   httpStatus: number;
@@ -17,11 +19,20 @@ export interface MemberResponse {
 }
 
 export async function getMemberInfo(): Promise<MemberResponse> {
-  const res = await API.get<MemberResponse>('/api/members');
+  try {
+    const res = await API.get('/api/members');
 
-  if (res.status !== 200) {
-    console.error('멤버 정보 불러오기 실패:', res.data);
+    if (res.status !== 200) {
+      console.log('프로필 정보 불러오기 실패', res.data);
+      redirect('/profile');
+    }
+
+    return res.data;
+  } catch (err) {
+    console.error('프로필 정보 불러오기 실패', err);
+    if (err instanceof AxiosError && err?.response?.status === 500) {
+      redirect('/profile');
+    }
+    redirect('/login');
   }
-
-  return res.data;
 }
