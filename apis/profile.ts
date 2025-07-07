@@ -19,16 +19,21 @@ export interface ProfileInfo {
 }
 
 export async function getProfileInfo(): Promise<ProfileInfoResponse> {
-  const res = await API.get('/api/members');
+  try {
+    const res = await API.get('/api/members');
 
-  const { desiredDetailRecruit, educationName } = res.data.data;
+    const { desiredDetailRecruit, educationName } = res.data.data;
 
-  if (res.status !== 200 || !desiredDetailRecruit || !educationName) {
-    console.log('프로필 정보 불러오기 실패', res.data);
+    if (res.status !== 200 || !desiredDetailRecruit || !educationName) {
+      console.log('프로필 정보 불러오기 실패', res.data);
+      redirect('/profile');
+    }
+
+    return res.data;
+  } catch (err) {
+    console.error('프로필 정보 불러오기 실패', err);
     redirect('/profile');
   }
-
-  return res.data;
 }
 
 export async function saveProfileInfo(
