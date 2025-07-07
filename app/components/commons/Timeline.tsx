@@ -33,14 +33,6 @@ function formatDate(dateStr: string): string {
   return dateStr.replace(/-/g, '.');
 }
 
-function measureTextWidth(text: string, font = '14px sans-serif'): number {
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
-  if (!context) return 0;
-  context.font = font;
-  return context.measureText(text).width;
-}
-
 export default function Timeline({
   exps,
   width = '100%',
@@ -70,7 +62,8 @@ export default function Timeline({
         const x1 =
           (differenceInDays(_start, minDate) / totalDays) * numericWidth;
         const x2 = (differenceInDays(_end, minDate) / totalDays) * numericWidth;
-        const textWidth = measureTextWidth(exp.title);
+        const textWidth = (exp.title?.length || 0) * 7.5;
+
         return { ...exp, _start, _end, x1, x2, textWidth };
       })
       .sort((a, b) => a.x1 - b.x1)
