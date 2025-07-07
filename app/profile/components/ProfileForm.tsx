@@ -355,6 +355,7 @@ export default function ProfileForm({
         schools={schoolList}
         onSelect={school => {
           setSelectedSchool(school);
+          setSelectedMajor('');
           setSchoolSearchInput('');
         }}
         searchValue={schoolSearchInput}
