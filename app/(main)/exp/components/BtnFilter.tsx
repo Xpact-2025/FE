@@ -19,6 +19,7 @@ export default function BtnFilter({
   const [isOpen, setIsOpen] = useState(false);
   const [selectedType, setSelectedType] = useState<ExpType | null>(null);
   const options = Object.values(EXP_OPTIONS);
+  const selectedOption = options.find(o => o.value === selectedType);
   const [order, setOrder] = useState<'latest' | 'oldest'>('latest');
 
   const handleSelectType = (type: ExpType) => {
@@ -38,10 +39,11 @@ export default function BtnFilter({
   return (
     <div className="flex justify-end relative">
       <div
-        className="flex items-center justify-center w-[125px] h-[40px] bg-gray-1000 border border-gray-50-20 rounded-lg text-gray-300 text-sm"
+        className="flex items-center justify-center px-4 h-[40px] bg-gray-1000 border border-gray-50-20 rounded-lg text-gray-300 text-sm"
         onClick={() => setIsOpen(true)}
       >
-        전체•최신순
+        {selectedOption?.label || '전체'}•
+        {order === 'latest' ? '최신순' : '과거순'}
         <ArrowDownIcon className="w-[24px] h-[24px]" />
       </div>
       {isOpen && (

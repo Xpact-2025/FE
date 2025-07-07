@@ -62,14 +62,14 @@ export default function ExpCard({
 
   return (
     <div
-      className="relative min-w-[260px] h-[224px] border 
+      className="relative w-[260px] h-[224px] border 
           bg-gray-800 border-gray-50-10
        rounded-[14px] flex flex-col justify-between py-[20px] px-[23px]"
       onClick={handleClick}
     >
       <div className="flex flex-col cursor-pointer">
         <ExpVariety type={type} />
-        <div className="body-16-sb text-gray-50 mt-[15px] mb-[5px] truncate max-w-[24ch]">
+        <div className="body-16-sb text-gray-50 mt-[15px] mb-[5px] truncate">
           {title}
         </div>
         <ol className="flex flex-col gap-1.5 list-disc ml-4">
@@ -77,7 +77,9 @@ export default function ExpCard({
             .filter(subTitle => subTitle)
             .map((subTitle, index) => (
               <li key={index} className="text-[13px] text-gray-300">
-                {subTitle}
+                <div className="flex">
+                  <span className="truncate">{subTitle}</span>
+                </div>
               </li>
             ))}
         </ol>
