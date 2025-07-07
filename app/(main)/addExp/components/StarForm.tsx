@@ -10,6 +10,7 @@ interface StarFormProps {
     action: string;
     result: string;
     keywords: string[];
+    files: string[];
   };
   onChange: (key: string, value: string | string[]) => void;
 }
@@ -82,6 +83,7 @@ export default function StarForm({ data, onChange }: StarFormProps) {
         <FileInput
           onFileChange={newFiles => handleChange('files', newFiles)}
           //onLinkChange={newLinks => handleChange('links', newLinks)}
+          initialFiles={data.files}
         />
       </div>
 

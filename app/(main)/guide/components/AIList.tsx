@@ -6,15 +6,15 @@ interface AIListProps {
 }
 
 export default function AIList({ data }: AIListProps) {
+  if (!data || data.length === 0) {
+    return <div className="text-gray-400">경험이 존재하지 않습니다.</div>;
+  }
+
   return (
-    <div>
-      {!data || data.length === 0 ? (
-        <div>경험이 존재하지 않습니다.</div>
-      ) : (
-        <div className="w-full flex flex-wrap">
-          {data?.map(data => <AIActivityCard key={data.id} data={data} />)}
-        </div>
-      )}
+    <div className="w-full grid grid-cols-4 gap-6">
+      {data.map(item => (
+        <AIActivityCard key={item.id} data={item} />
+      ))}
     </div>
   );
 }
