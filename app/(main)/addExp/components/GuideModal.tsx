@@ -100,7 +100,7 @@ const GuideModal: React.FC<GuideModalProps> = ({
   return (
     <div
       className="absolute inset-0 z-50 flex items-center justify-end"
-      onClick={closeRequest}
+      onMouseLeave={closeRequest}
     >
       <div className="flex flex-col" onClick={e => e.stopPropagation()}>
         <Image
@@ -108,7 +108,7 @@ const GuideModal: React.FC<GuideModalProps> = ({
           alt="profile"
           width={74}
           height={42}
-          className="absolute top-[80px] right-[35px]"
+          className="absolute top-[80px] right-[134px]"
         />
         <div className="absolute bg-gray-600 px-12 py-8 rounded-2xl top-[100px] right-[35px] w-[858px]">
           <h2 className="text-3xl font-semibold mb-4">{title}</h2>
