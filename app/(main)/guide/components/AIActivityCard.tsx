@@ -2,6 +2,7 @@
 
 import { AIActivity } from '@/apis/guide';
 import { addScrap, removeScrap } from '@/apis/scrap';
+import { EXP_STYLES } from '@/constants/expStyles';
 import BookmarkIcon from '@/public/icons/Bookmark.svg';
 import BookmarkFill from '@/public/icons/Bookmark_fill.svg';
 import Image from 'next/image';
@@ -13,6 +14,20 @@ interface AIActivityProps {
   onScrapToggle?: (id: number) => void;
 }
 
+const SCRAP_TYPE_STYLE_MAP: Record<string, keyof typeof EXP_STYLES> = {
+  ACTIVITY: 'EXTERNAL_ACTIVITIES',
+  INTERN: 'INTERN',
+  COMPETITION: 'CONTEST',
+  EDUCATION: 'EDUCATION',
+};
+
+const SCRAP_TYPE_LABEL_MAP: Record<string, string> = {
+  ACTIVITY: '대외활동',
+  INTERN: '인턴',
+  COMPETITION: '공모전',
+  EDUCATION: '교육',
+};
+
 export default function AIActivityCard({
   data,
   onScrapToggle,
@@ -20,6 +35,10 @@ export default function AIActivityCard({
   const [isCliped, setIsCliped] = useState(data.isCliped);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const styleKey = SCRAP_TYPE_STYLE_MAP[data.scrapType] ?? 'ETC';
+  const typeStyle = EXP_STYLES[styleKey];
+  const typeLabel = SCRAP_TYPE_LABEL_MAP?.[data.scrapType] ?? data.scrapType;
 
   const handleToggleScrap = async (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -72,7 +91,9 @@ export default function AIActivityCard({
 
         {/* 스크랩 정보 */}
         <div className="flex items-center justify-between pt-6">
-          <span className="text-sm text-gray-200">{data.scrapType}</span>
+          <span className={`text-xs px-2 py-1 rounded-xl ${typeStyle}`}>
+            {typeLabel}
+          </span>
           <div onClick={handleToggleScrap} className="cursor-pointer">
             {isCliped ? (
               <BookmarkFill className="stroke-gray-100 w-5 h-5" />
