@@ -6,6 +6,7 @@ interface InputBoxProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
   successHighlight?: boolean;
+  showCheckIcon?: boolean;
 }
 
 const InputBox = ({
@@ -15,6 +16,7 @@ const InputBox = ({
   onChange,
   error,
   successHighlight = false,
+  showCheckIcon = true,
 }: InputBoxProps) => {
   const isSuccess = successHighlight && !error && value?.trim();
 
@@ -36,12 +38,14 @@ const InputBox = ({
                   : 'border-[#161616]'
             }`}
         />
-        <span
-          className={`absolute right-4 top-1/2 transform -translate-y-1/2 transition 
-            ${error ? 'text-error' : isSuccess ? 'text-success' : 'text-gray-400'}`}
-        >
-          ✔
-        </span>
+        {showCheckIcon && (
+          <span
+            className={`absolute right-4 top-1/2 transform -translate-y-1/2 transition 
+              ${error ? 'text-error' : isSuccess ? 'text-success' : 'text-gray-400'}`}
+          >
+            ✔
+          </span>
+        )}
       </div>
       {error && <p className="text-error text-[14px] mt-1 ml-1">{error}</p>}
     </>
