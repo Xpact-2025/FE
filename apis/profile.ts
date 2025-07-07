@@ -1,5 +1,6 @@
 'use server';
 
+import { AxiosError } from 'axios';
 import API from './config';
 import { redirect } from 'next/navigation';
 
@@ -32,7 +33,10 @@ export async function getProfileInfo(): Promise<ProfileInfoResponse> {
     return res.data;
   } catch (err) {
     console.error('프로필 정보 불러오기 실패', err);
-    redirect('/profile');
+    if (err instanceof AxiosError && err?.response?.status === 500) {
+      redirect('/profile');
+    }
+    redirect('/login');
   }
 }
 
