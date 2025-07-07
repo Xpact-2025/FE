@@ -53,7 +53,6 @@ export default function ExpTimeLine({
           newMax.toISOString().split('T')[0]
         );
         const timeline = response.data;
-        console.log('경험 타임라인:', timeline);
 
         if (!Array.isArray(timeline) || timeline.length === 0) {
           return;
