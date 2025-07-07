@@ -31,6 +31,22 @@ interface GetAIResponse {
   };
 }
 
+export interface AIActivityDetail {
+  scrapId: number;
+  scrapType: 'ACTIVITY' | 'INTERN' | 'COMPETITION' | 'EDUCATION';
+  title: string;
+  imageUrl: string;
+  referenceUrl: string;
+  jobCategory: string[];
+  startDate: string;
+  endDate: string;
+  eligibility?: string;
+  benefits?: string;
+  enterpriseType?: string;
+  region?: string;
+  onOffLine?: string;
+}
+
 export async function getWeakness(): Promise<GetWeakResponse> {
   try {
     const res = await API.get<GetWeakResponse>('/api/guide/weakness');
@@ -63,5 +79,17 @@ export async function getAIActivityByIndex(
         content: [],
       },
     };
+  }
+}
+
+export async function getAIActivityDetail(
+  id: number
+): Promise<AIActivityDetail | null> {
+  try {
+    const res = await API.get(`/api/guide/activities/${id}`);
+    return res.data?.data ?? null;
+  } catch (e) {
+    console.error('상세 활동 조회 실패:', e);
+    return null;
   }
 }
