@@ -65,8 +65,9 @@ export default function ExpCard({
       className="relative min-w-[260px] h-[224px] border 
           bg-gray-800 border-gray-50-10
        rounded-[14px] flex flex-col justify-between py-[20px] px-[23px]"
+      onClick={handleClick}
     >
-      <div onClick={handleClick} className="flex flex-col cursor-pointer">
+      <div className="flex flex-col cursor-pointer">
         <ExpVariety type={type} />
         <div className="body-16-sb text-gray-50 mt-[15px] mb-[5px] truncate max-w-[24ch]">
           {title}
@@ -89,11 +90,11 @@ export default function ExpCard({
             <span>임시저장</span>
           </div>
         )}
-        <button
-          className="flex w-full justify-end cursor-pointer"
-          onClick={() => setIsDropdownOpen(prev => !prev)}
-        >
-          <MoreVerticalIcon className=" stroke-gray-50 " />
+        <button className="flex w-full justify-end cursor-pointer">
+          <MoreVerticalIcon
+            className=" stroke-gray-50 "
+            onClick={() => setIsDropdownOpen(prev => !prev)}
+          />
         </button>
         {isDropdownOpen && (
           <DropdownMenu
