@@ -33,30 +33,32 @@ export default function FileInput({
 
   useEffect(() => {
     // 초기 파일이 있을 경우 설정
-    if (initialFiles.length > 0) {
-      const initialItems = initialFiles.map(fileUrl => ({
-        id: Date.now() + Math.random(),
-        uploadType: 'FILE' as UploadType,
-        file: {
-          name: extractFileName(fileUrl), // 파일명 추출 함수 필요
-          url: fileUrl,
-        },
-        link: '',
-        newLink: '',
-      }));
-      setItems(initialItems);
-    } else {
-      setItems([
-        {
-          id: Date.now(),
-          uploadType: 'FILE',
-          file: null,
+    if (items.length === 0) {
+      if (initialFiles.length > 0) {
+        const initialItems = initialFiles.map(fileUrl => ({
+          id: Date.now() + Math.random(),
+          uploadType: 'FILE' as UploadType,
+          file: {
+            name: extractFileName(fileUrl), // 파일명 추출 함수 필요
+            url: fileUrl,
+          },
           link: '',
           newLink: '',
-        },
-      ]);
+        }));
+        setItems(initialItems);
+      } else {
+        setItems([
+          {
+            id: Date.now(),
+            uploadType: 'FILE',
+            file: null,
+            link: '',
+            newLink: '',
+          },
+        ]);
+      }
     }
-  }, [initialFiles]);
+  }, [initialFiles, items.length]);
 
   const extractFileName = (url: string) => {
     try {
@@ -193,7 +195,9 @@ export default function FileInput({
   };
 
   const handleRemoveLink = (id: number) => {
-    const nextItems = items.filter(item => item.id !== id);
+    const nextItems = items.map(item =>
+      item.id === id ? { ...item, link: '', newLink: '' } : item
+    );
 
     setItems(nextItems);
     onFileChange(extractFilesAndLinks(nextItems));
