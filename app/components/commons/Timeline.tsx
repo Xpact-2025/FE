@@ -50,6 +50,12 @@ export default function Timeline({
   const totalDays = Math.max(differenceInDays(maxDate, minDate), 1);
   const gap = 20;
 
+  const maxRowIndex =
+    placedBar.length > 0 ? Math.max(...placedBar.map(bar => bar.rowIndex)) : 0;
+
+  const totalSvgHeight =
+    maxRowIndex >= 3 ? maxRowIndex * (30 + gap) + 30 + gap : height;
+
   useEffect(() => {
     if (!numericWidth) return;
 
@@ -88,12 +94,18 @@ export default function Timeline({
   return (
     <div
       ref={containerRef}
-      className="flex justify-center mx-[30px] pt-[10px] bg-gray-600-20 rounded-lg overflow-hidden"
+      className="flex justify-center mx-[30px] bg-gray-600-20 rounded-lg overflow-hidden"
+      style={{ maxHeight: height, overflowY: 'auto' }}
     >
       <svg
         width={numericWidth}
-        height={height}
-        style={{ background: 'transparent', width: `${numericWidth}px` }}
+        height={totalSvgHeight}
+        style={{
+          background: 'transparent',
+          width: `${numericWidth}px`,
+          display: 'block',
+          padding: '10px 0 10px 0',
+        }}
       >
         {placedBar.map((exp, idx) => {
           const h = 30;
