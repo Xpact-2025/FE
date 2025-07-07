@@ -72,6 +72,7 @@ function DateInput({ onChange, value, min, max }: ExpInputBoxProps) {
         {`
       input[type="date"]::-webkit-calendar-picker-indicator {
         filter: invert(1);
+        cursor: pointer;
       }
     `}
       </style>

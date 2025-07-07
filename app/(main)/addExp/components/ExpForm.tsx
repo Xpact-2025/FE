@@ -459,7 +459,7 @@ export default function ExpForm({
                     <div className="flex items-center gap-3">
                       <button
                         type="button"
-                        onClick={() => setIsModalOpen(true)}
+                        onMouseEnter={() => setIsModalOpen(true)}
                       >
                         <HelpIcon className="stroke-gray-300 w-[24px] h-[24px] cursor-pointer" />
                       </button>

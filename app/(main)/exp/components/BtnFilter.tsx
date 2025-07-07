@@ -37,12 +37,12 @@ export default function BtnFilter({
 
   return (
     <div className="flex justify-end relative">
-      <div className="flex items-center justify-center w-[125px] h-[40px] bg-gray-1000 border border-gray-50-20 rounded-lg text-gray-300 text-sm">
+      <div
+        className="flex items-center justify-center w-[125px] h-[40px] bg-gray-1000 border border-gray-50-20 rounded-lg text-gray-300 text-sm"
+        onClick={() => setIsOpen(true)}
+      >
         전체•최신순
-        <ArrowDownIcon
-          onClick={() => setIsOpen(!isOpen)}
-          className="w-[24px] h-[24px]"
-        />
+        <ArrowDownIcon className="w-[24px] h-[24px]" />
       </div>
       {isOpen && (
         <div className="flex flex-col absolute justify-center w-[597px] h-[457px] top-[60px] bg-gray-1000 rounded-lg border border-gray-50-20 z-50 p-4">

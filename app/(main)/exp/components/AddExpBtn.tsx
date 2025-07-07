@@ -29,11 +29,11 @@ export default function AddExpBtn({ form, onChange }: AddExpBtnProps) {
       >
         경험 추가
       </div>
-      <div
-        className="absolute flex items-center justify-center top-0 right-0 w-20 h-20 bg-primary-50 rounded-full z-20"
-        onClick={() => setIsModalOpen(true)}
-      >
-        <EditPencilIcon className="stroke-gray-1100 w-[30px] h-[30px]" />
+      <div className="absolute flex items-center justify-center top-0 right-0 w-20 h-20 bg-primary-50 active:bg-primary-100 rounded-full z-20">
+        <EditPencilIcon
+          className="stroke-gray-1100 w-[30px] h-[30px]"
+          onClick={() => setIsModalOpen(true)}
+        />
       </div>
       {isModalOpen && (
         <AddExpModal
