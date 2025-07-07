@@ -66,7 +66,7 @@ export default function SideBar() {
             href="/scrap"
             icon={<BookmarkIcon className={iconStyle('/bookmark')} />}
             text="스크랩"
-            isActive={pathname.startsWith('/bookmark')}
+            isActive={pathname.startsWith('/scrap')}
           />
           <SideBarMenu
             href="/myPage"

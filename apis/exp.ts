@@ -5,6 +5,7 @@ import API from './config';
 
 export interface ExpPayload {
   id?: number;
+  experienceId?: number;
   experienceType: ExpType;
   qualification?: string;
   publisher?: string;
