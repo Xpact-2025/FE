@@ -16,9 +16,9 @@ export default function LoginForm() {
     const value = e.target.value;
     setEmail(value);
     if (!value.trim()) {
-      setEmailError('아이디를 입력해주세요.');
+      setEmailError('이메일을 입력해주세요.');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-      setEmailError('올바르지 않은 아이디 형식입니다.');
+      setEmailError('올바르지 않은 이메일 형식입니다.');
     } else {
       setEmailError('');
     }
@@ -40,10 +40,10 @@ export default function LoginForm() {
     let hasError = false;
 
     if (!email.trim()) {
-      setEmailError('아이디를 입력해주세요.');
+      setEmailError('이메일을 입력해주세요.');
       hasError = true;
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setEmailError('올바르지 않은 아이디 형식입니다.');
+      setEmailError('올바르지 않은 이메일 형식입니다.');
       hasError = true;
     }
 
@@ -66,7 +66,7 @@ export default function LoginForm() {
         } else if (loginRes.code === 'MEMBER001') {
           alert('존재하지 않는 이메일입니다.');
         } else {
-          alert('아이디 또는 비밀번호가 일치하지 않습니다.');
+          alert('이메일 또는 비밀번호가 일치하지 않습니다.');
         }
         return;
       }
@@ -103,10 +103,10 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="w-[448px] space-y-5">
       <div>
-        <div className="text-[18px] mb-[2%] ml-[1%]">아이디</div>
+        <div className="text-[18px] mb-[2%] ml-[1%]">이메일</div>
         <FormInput
           type="text"
-          placeholder="아이디"
+          placeholder="이메일"
           value={email}
           onChange={handleEmailChange}
           error={emailError}
