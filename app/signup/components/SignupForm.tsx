@@ -158,7 +158,7 @@ export default function SignupForm() {
         />
       </div>
       <div>
-        <div className="text-[18px] mb-[2%] ml-[1%]">아이디 (이메일)</div>
+        <div className="text-[18px] mb-[2%] ml-[1%]">이메일</div>
         <FormInput
           type="email"
           placeholder="example@gmail.com"
