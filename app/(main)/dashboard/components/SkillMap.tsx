@@ -104,6 +104,7 @@ export default function SkillMap({
           feedbackType={SKILLMAP_REPORT.STRENGTH.type}
           feedbackDescription={SKILLMAP_REPORT.STRENGTH.description}
           feedbackName={strengthFeedback.strengthName}
+          feedbackReason={strengthFeedback.reason}
           suggestion={strengthFeedback.careerSuggestion}
           onClose={() => setShowStrengthFeedback(false)}
         />
@@ -113,6 +114,7 @@ export default function SkillMap({
           feedbackType={SKILLMAP_REPORT.WEEKNESS.type}
           feedbackDescription={SKILLMAP_REPORT.WEEKNESS.description}
           feedbackName={weaknessFeedback.weaknessName}
+          feedbackReason={weaknessFeedback.reason}
           suggestion={weaknessFeedback.improvementSuggestion}
           onClose={() => setShowWeaknessFeedback(false)}
         />
