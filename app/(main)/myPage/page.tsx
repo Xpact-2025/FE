@@ -37,6 +37,7 @@ export default function MyPage() {
             age: String(member.age),
             educationName: member.educationName,
             educationDegree: member.educationDegree,
+            schoolState: member.schoolState,
             desiredDetailRecruit: member.desiredDetailRecruit,
             imgurl: member.imgurl,
           }}
