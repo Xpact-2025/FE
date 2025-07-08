@@ -144,7 +144,7 @@ export default function GuidePage() {
                 isSelected={selectedSkill === w.weaknessName}
                 onMouseEnter={() => setSelectedSkill(w.weaknessName)}
                 explanation={w.explanation}
-                memberName={memberName || '회원'} // 👈 여기 추가
+                memberName={memberName || '회원'}
               />
             ))}
         </div>
