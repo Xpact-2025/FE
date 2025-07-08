@@ -45,7 +45,7 @@ export default function KeywordInput({ value, onChange }: KeywordInputProps) {
   return (
     <div className="w-full flex px-4 py-3 bg-gray-800 items-center rounded border border-gray-700 placeholder:text-gray-300 gap-2.5">
       <div className="px-4 py-1 bg-gray-300 text-sm rounded-full text-gray-1100 whitespace-nowrap">
-        #태그
+        #키워드 입력
       </div>
       {value.map((tag, index) => (
         <div
@@ -59,7 +59,7 @@ export default function KeywordInput({ value, onChange }: KeywordInputProps) {
         value={input}
         onChange={onInputChange}
         onKeyDown={onKeyDown}
-        placeholder="#태그 입력 (최대 5개)"
+        placeholder="키워드 입력 (최대 5개)"
         className="w-full"
       />
     </div>
