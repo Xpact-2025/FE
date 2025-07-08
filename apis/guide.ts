@@ -66,7 +66,7 @@ export async function getAIActivityByIndex(
         weaknessOrder,
         page: 0,
         size: 12,
-        sort: 'id,DESC', // ✅ 배열 말고 문자열로!
+        sort: 'id,DESC',
       },
     });
     return res.data;

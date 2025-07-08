@@ -13,6 +13,7 @@ export interface MemberResponse {
     age: number;
     educationDegree: string;
     educationName: string;
+    schoolState: string;
     desiredDetailRecruit: string;
   };
   success: boolean;

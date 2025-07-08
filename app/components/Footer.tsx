@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-black text-gray-300 py-6 px-[10%] font-[Pretendard] text-sm">
+    <footer className="w-full bg-black text-gray-300 py-6 font-[Pretendard] text-sm">
       <div className="flex flex-col gap-4">
         <Image
           src="/images/logo2.svg"

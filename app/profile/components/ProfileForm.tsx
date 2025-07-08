@@ -32,7 +32,7 @@ function parseEducationName(raw: string) {
     '재학',
     '휴학',
     '졸업',
-    '졸업예정',
+    // '졸업예정',
     '수료',
     '중퇴',
   ];
@@ -59,6 +59,7 @@ interface ProfileFormProps {
     age: string;
     educationDegree: string;
     educationName: string;
+    schoolState: string;
     desiredDetailRecruit: string;
     imgurl: string;
   };
@@ -80,7 +81,8 @@ export default function ProfileForm({
   const [name, setName] = useState(initialData?.name || '');
   const [age, setAge] = useState(initialData?.age || '');
   // const [degree, setDegree] = useState(parsedEdu.degree || '');
-  const [graduation, setGraduation] = useState(parsedEdu.graduation);
+  // const [graduation, setGraduation] = useState(initialData?.schoolState || '');
+
   const [selectedSchool, setSelectedSchool] = useState(parsedEdu.school);
   const [selectedMajor, setSelectedMajor] = useState(parsedEdu.major);
   const [recruitName, setRecruitName] = useState(
@@ -89,7 +91,7 @@ export default function ProfileForm({
   const [detailRecruitName, setDetailRecruitName] = useState(
     initialData?.desiredDetailRecruit || ''
   );
-  const [imgUrl] = useState(initialData?.imgurl || '/images/mainporfile.svg');
+  const [imgUrl] = useState(initialData?.imgurl || '/images/mainprofile.svg');
 
   const [isSchoolModalOpen, setIsSchoolModalOpen] = useState(false);
   const [schoolList, setSchoolList] = useState<string[]>([]);
@@ -108,6 +110,10 @@ export default function ProfileForm({
 
   const [degree, setDegree] = useState(
     initialData?.educationDegree || parsedEdu.degree || ''
+  );
+
+  const [graduation, setGraduation] = useState(
+    initialData?.schoolState || parsedEdu.graduation || ''
   );
 
   const handleSchoolSearch = async () => {
@@ -291,7 +297,8 @@ export default function ProfileForm({
           <SelectBox
             value={graduation}
             onChange={setGraduation}
-            options={['재학', '휴학', '졸업', '졸업예정', '수료', '중퇴']}
+            // options={['재학', '휴학', '졸업', '졸업예정', '수료', '중퇴']}
+            options={['재학', '휴학', '졸업', '수료', '중퇴']}
             placeholder="졸업 구분"
           />
         </div>
