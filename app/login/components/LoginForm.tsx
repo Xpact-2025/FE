@@ -110,6 +110,7 @@ export default function LoginForm() {
           value={email}
           onChange={handleEmailChange}
           error={emailError}
+          showCheckIcon={false}
         />
       </div>
       <div>
@@ -120,6 +121,7 @@ export default function LoginForm() {
           value={password}
           onChange={handlePasswordChange}
           error={passwordError}
+          showCheckIcon={false}
         />
       </div>
 

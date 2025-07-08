@@ -15,6 +15,26 @@ export default function AddExpModal({
   onClose,
 }: AddExpModalProps) {
   const router = useRouter();
+
+  const validateForm = () => {
+    if (!form.experienceType) return false;
+
+    if (
+      form.experienceType === 'CERTIFICATES' ||
+      form.experienceType === 'PRIZE'
+    ) {
+      if (!form.qualification || !form.publisher || !form.issueDate) {
+        return false;
+      }
+    } else {
+      if (!form.title || !form.startDate || !form.endDate) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="w-[1025px] bg-gray-700 rounded-[19.5px] outline outline-gray-50-20 p-10">
@@ -127,6 +147,10 @@ export default function AddExpModal({
             type="button"
             className="flex justify-center w-72 px-52 py-4 bg-primary-50 font-body-23-b font-bold rounded-lg whitespace-nowrap"
             onClick={() => {
+              if (!validateForm()) {
+                alert('모든 항목을 입력해주세요.');
+                return;
+              }
               localStorage.setItem('draftForm', JSON.stringify(form));
               router.push('/addExp');
             }}

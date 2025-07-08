@@ -25,6 +25,9 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  images: {
+    domains: ['api.linkareer.com', 'media-cdn.linkareer.com'],
+  },
 };
 
 export default nextConfig;

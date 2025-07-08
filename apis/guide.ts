@@ -12,29 +12,84 @@ export interface AIActivity {
   dday: string;
 }
 
+interface Weakness {
+  weaknessName: string;
+  explanation: string;
+}
+
 interface GetWeakResponse {
   httpStatus: number;
   message: string;
-  data: [];
+  data: Weakness[];
 }
 
 interface GetAIResponse {
   httpStatus: number;
   message: string;
-  data: AIActivity[];
+  data: {
+    content: AIActivity[];
+  };
+}
+
+export interface AIActivityDetail {
+  scrapId: number;
+  scrapType: 'ACTIVITY' | 'INTERN' | 'COMPETITION' | 'EDUCATION';
+  title: string;
+  imageUrl: string;
+  referenceUrl: string;
+  jobCategory: string[];
+  startDate: string;
+  endDate: string;
+  eligibility?: string;
+  benefits?: string;
+  enterpriseType?: string;
+  region?: string;
+  onOffLine?: string;
 }
 
 export async function getWeakness(): Promise<GetWeakResponse> {
-  const res = await API.get<GetWeakResponse>('/api/guide/weakness');
-  return res.data;
+  try {
+    const res = await API.get<GetWeakResponse>('/api/guide/weakness');
+    return res.data;
+  } catch (e) {
+    console.error('약점 목록 조회 실패:', e);
+    return { httpStatus: 500, message: 'fail', data: [] }; // fallback
+  }
 }
 
-export async function getAIActivity(): Promise<GetAIResponse> {
-  const res = await API.get<GetAIResponse>('/api/guide/activities');
-
-  if (res.status !== 200) {
-    console.error('AI 추천 활동 불러오기 실패:', res.data);
+export async function getAIActivityByIndex(
+  weaknessOrder: number
+): Promise<GetAIResponse> {
+  try {
+    const res = await API.get<GetAIResponse>('/api/guide/activities', {
+      params: {
+        weaknessOrder,
+        page: 0,
+        size: 12,
+        sort: 'id,DESC', // ✅ 배열 말고 문자열로!
+      },
+    });
     return res.data;
+  } catch (e) {
+    console.error('AI 활동 조회 실패:', e);
+    return {
+      httpStatus: 500,
+      message: 'fail',
+      data: {
+        content: [],
+      },
+    };
   }
-  return res.data;
+}
+
+export async function getAIActivityDetail(
+  id: number
+): Promise<AIActivityDetail | null> {
+  try {
+    const res = await API.get(`/api/guide/activities/${id}`);
+    return res.data?.data ?? null;
+  } catch (e) {
+    console.error('상세 활동 조회 실패:', e);
+    return null;
+  }
 }

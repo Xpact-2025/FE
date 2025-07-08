@@ -33,14 +33,6 @@ function formatDate(dateStr: string): string {
   return dateStr.replace(/-/g, '.');
 }
 
-function measureTextWidth(text: string, font = '14px sans-serif'): number {
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
-  if (!context) return 0;
-  context.font = font;
-  return context.measureText(text).width;
-}
-
 export default function Timeline({
   exps,
   width = '100%',
@@ -58,6 +50,12 @@ export default function Timeline({
   const totalDays = Math.max(differenceInDays(maxDate, minDate), 1);
   const gap = 20;
 
+  const maxRowIndex =
+    placedBar.length > 0 ? Math.max(...placedBar.map(bar => bar.rowIndex)) : 0;
+
+  const totalSvgHeight =
+    maxRowIndex >= 3 ? maxRowIndex * (30 + gap) + 30 + gap : height;
+
   useEffect(() => {
     if (!numericWidth) return;
 
@@ -70,7 +68,8 @@ export default function Timeline({
         const x1 =
           (differenceInDays(_start, minDate) / totalDays) * numericWidth;
         const x2 = (differenceInDays(_end, minDate) / totalDays) * numericWidth;
-        const textWidth = measureTextWidth(exp.title);
+        const textWidth = (exp.title?.length || 0) * 7.5;
+
         return { ...exp, _start, _end, x1, x2, textWidth };
       })
       .sort((a, b) => a.x1 - b.x1)
@@ -95,12 +94,18 @@ export default function Timeline({
   return (
     <div
       ref={containerRef}
-      className="flex justify-center mx-[30px] pt-[10px] bg-gray-600-20 rounded-lg overflow-hidden"
+      className="flex justify-center mx-[30px] bg-gray-600-20 rounded-lg overflow-hidden"
+      style={{ maxHeight: height, overflowY: 'auto' }}
     >
       <svg
         width={numericWidth}
-        height={height}
-        style={{ background: 'transparent', width: `${numericWidth}px` }}
+        height={totalSvgHeight}
+        style={{
+          background: 'transparent',
+          width: `${numericWidth}px`,
+          display: 'block',
+          padding: '10px 0 10px 0',
+        }}
       >
         {placedBar.map((exp, idx) => {
           const h = 30;

@@ -67,19 +67,20 @@ export default function MyPage() {
       {/* 프로필 이미지 */}
       <div className="relative w-40 h-40 mb-20">
         <Image
-          src={member.imgurl}
+          // src={member.imgurl}
+          src="/images/mainprofile.svg"
           alt="프로필 이미지"
           fill
           className="rounded-full object-cover border border-gray-600"
         />
-        <div className="absolute bottom-1 right-2 bg-black rounded-full w-6 h-6 flex items-center justify-center text-xs">
+        {/* <div className="absolute bottom-1 right-2 bg-black rounded-full w-6 h-6 flex items-center justify-center text-xs">
           <Image
             src="/images/btnProfileImg.svg"
             alt="upload"
             width={40}
             height={40}
           />
-        </div>
+        </div> */}
       </div>
 
       {/* 프로필 정보 */}
