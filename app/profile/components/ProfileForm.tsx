@@ -89,7 +89,7 @@ export default function ProfileForm({
   const [detailRecruitName, setDetailRecruitName] = useState(
     initialData?.desiredDetailRecruit || ''
   );
-  const [imgUrl] = useState(initialData?.imgurl || '/images/mainporfile.svg');
+  const [imgUrl] = useState(initialData?.imgurl || '/images/mainprofile.svg');
 
   const [isSchoolModalOpen, setIsSchoolModalOpen] = useState(false);
   const [schoolList, setSchoolList] = useState<string[]>([]);
