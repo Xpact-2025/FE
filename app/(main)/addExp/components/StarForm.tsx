@@ -34,7 +34,7 @@ export default function StarForm({ data, onChange }: StarFormProps) {
 
       <div className="py-15">
         <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-          상황
+          상황 (Situation)
         </div>
         <ExpInputBox
           type="textarea"
@@ -45,7 +45,7 @@ export default function StarForm({ data, onChange }: StarFormProps) {
       </div>
 
       <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-        문제
+        문제 (Task)
       </div>
       <ExpInputBox
         type="textarea"
@@ -56,7 +56,7 @@ export default function StarForm({ data, onChange }: StarFormProps) {
 
       <div className="py-15">
         <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-          행동
+          행동 (Action)
         </div>
         <ExpInputBox
           type="textarea"
@@ -67,7 +67,7 @@ export default function StarForm({ data, onChange }: StarFormProps) {
       </div>
 
       <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-        결과
+        결과 (Result)
       </div>
       <ExpInputBox
         type="textarea"
