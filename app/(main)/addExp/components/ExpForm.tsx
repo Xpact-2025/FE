@@ -282,6 +282,7 @@ export default function ExpForm({
 
     const payload: ExpPayload = {
       ...form,
+      title: form.title,
       issueDate: form.issueDate
         ? new Date(form.issueDate).toISOString()
         : undefined,

@@ -45,7 +45,7 @@ export default function KeywordInput({ value, onChange }: KeywordInputProps) {
   return (
     <div className="w-full flex px-4 py-3 bg-gray-800 items-center rounded border border-gray-700 placeholder:text-gray-300 gap-2.5">
       <div className="px-4 py-1 bg-gray-300 text-sm rounded-full text-gray-1100 whitespace-nowrap">
-        #키워드 입력
+        #키워드
       </div>
       {value.map((tag, index) => (
         <div
