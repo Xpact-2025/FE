@@ -44,7 +44,7 @@ export default function SideBar() {
             href="/exp"
             icon={
               <BookIcon
-                className={`${pathname.startsWith('/exp') || pathname.startsWith('/addExp') ? 'stroke-gray-50' : 'stroke-gray-300'} w-[24px] h-[24px] transition-colors group-hover:stroke-gray-50`}
+                className={`${pathname.startsWith('/exp') || pathname === '/addExp' ? 'stroke-gray-50' : 'stroke-gray-300'} w-[24px] h-[24px] transition-colors group-hover:stroke-gray-50`}
               />
             }
             text="내 경험"
@@ -54,23 +54,19 @@ export default function SideBar() {
           />
           <SideBarMenu
             href="/guide"
-            icon={
-              <CopyIcon
-                className={`${pathname.startsWith('/guide') || pathname === '/' ? 'stroke-gray-50' : 'stroke-gray-300'} w-[24px] h-[24px] transition-colors group-hover:stroke-gray-50`}
-              />
-            }
+            icon={<CopyIcon className={iconStyle('/guide')} />}
             text="성장 가이드"
             isActive={pathname.startsWith('/guide')}
           />
           <SideBarMenu
             href="/scrap"
-            icon={<BookmarkIcon className={iconStyle('/bookmark')} />}
+            icon={<BookmarkIcon className={iconStyle('/scrap')} />}
             text="스크랩"
             isActive={pathname.startsWith('/scrap')}
           />
           <SideBarMenu
             href="/myPage"
-            icon={<UserCircleIcon className={iconStyle('/profile')} />}
+            icon={<UserCircleIcon className={iconStyle('/myPage')} />}
             text="마이페이지"
             isActive={pathname.startsWith('/myPage')}
           />

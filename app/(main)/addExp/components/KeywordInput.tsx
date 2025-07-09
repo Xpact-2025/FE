@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import CloseIcon from '@/public/icons/Close_gray.svg';
 
 interface KeywordInputProps {
   value: string[];
@@ -35,31 +36,33 @@ export default function KeywordInput({ value, onChange }: KeywordInputProps) {
         onChange([...value, trimmedInput]);
         setInput('');
       }
-    } else if (e.key === 'Backspace' && input === '' && value.length) {
-      const lastTag = value[value.length - 1];
-      onChange(value.slice(0, -1));
-      setInput(lastTag);
     }
+  };
+
+  const handleRemove = (index: number) => {
+    const newTags = [...value];
+    newTags.splice(index, 1);
+    onChange(newTags);
   };
 
   return (
     <div className="w-full flex px-4 py-3 bg-gray-800 items-center rounded border border-gray-700 placeholder:text-gray-300 gap-2.5">
-      <div className="px-4 py-1 bg-gray-300 text-sm rounded-full text-gray-1100 whitespace-nowrap">
-        #키워드
-      </div>
       {value.map((tag, index) => (
         <div
           key={index}
-          className="px-4 py-1 bg-gray-300 rounded-[16px] inline-flex justify-center items-center text-gray-1100 text-sm whitespace-nowrap"
+          className="inline-flex justify-between items-center px-3 py-1 bg-gray-300 rounded-[16px] gap-2 text-gray-1100 body-14-m whitespace-nowrap"
         >
-          #{tag}
+          <span>#{tag}</span>
+          <div>
+            <CloseIcon onClick={() => handleRemove(index)} />
+          </div>
         </div>
       ))}
       <input
         value={input}
         onChange={onInputChange}
         onKeyDown={onKeyDown}
-        placeholder="키워드 입력 (최대 5개)"
+        placeholder="키워드 입력 후 Enter (최대 5개)"
         className="w-full"
       />
     </div>

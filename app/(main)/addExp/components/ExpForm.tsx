@@ -380,7 +380,7 @@ export default function ExpForm({
           {forms.map((_, index) => (
             <div
               key={index}
-              className={`w-48 h-20 ${activeFormIndex === index ? 'bg-gray-700 border-primary-50 border-t-2' : 'bg-black border border-gray-700 text-gray-400'} rounded-tl-2xl rounded-tr-2xl `}
+              className={`relative flex items-center justify-center w-48 h-20 ${activeFormIndex === index ? 'bg-gray-700 border-primary-50 border-t-2' : 'bg-black border border-gray-700 text-gray-400'} rounded-tl-2xl rounded-tr-2xl `}
               onClick={() => setActiveFormIndex(index)}
             >
               {forms.length > 1 && (
@@ -389,33 +389,31 @@ export default function ExpForm({
                     e.stopPropagation();
                     handleRemoveExperienceTab(index);
                   }}
-                  className="mx-41 my-2.5 w-4 h-4"
+                  className="absolute top-2 right-3 w-4 h-4 cursor-pointer"
                 />
               )}
-              <div className="flex h-full justify-center text-lg mt-[10px]">
-                <input
-                  type="text"
-                  className="absolute top-73 w-[100px] h-[30px] bg-[#5B5B5B] px-2 py-1 text-center rounded"
-                  value={forms[index].tabName ?? ''}
-                  placeholder={`경험 ${index + 1}`}
-                  onChange={e => {
-                    const newTabName = e.target.value;
-                    setForms(prev => {
-                      const updated = [...prev];
-                      updated[index] = {
-                        ...updated[index],
-                        tabName: newTabName,
-                      };
-                      return updated;
-                    });
-                  }}
-                  onKeyDown={e => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                    }
-                  }}
-                />
-              </div>
+              <input
+                type="text"
+                className="w-[100px] h-[30px] bg-[#5B5B5B] px-2 py-1 text-center rounded text-lg"
+                value={forms[index].tabName ?? ''}
+                placeholder={`경험 ${index + 1}`}
+                onChange={e => {
+                  const newTabName = e.target.value;
+                  setForms(prev => {
+                    const updated = [...prev];
+                    updated[index] = {
+                      ...updated[index],
+                      tabName: newTabName,
+                    };
+                    return updated;
+                  });
+                }}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                  }
+                }}
+              />
             </div>
           ))}
 
