@@ -229,7 +229,10 @@ export default function ExpForm({
       setForms(prev => {
         const updated = [...prev];
         updated[activeFormIndex] = {
-          ...getInitialForm(undefined),
+          ...getInitialForm({
+            ...forms[activeFormIndex],
+            subExperiencesResponseDto: [],
+          }),
           formType: pendingFormType,
           selectedTab: pendingFormType === 'STAR_FORM' ? 'star' : 'simple',
           experienceType: forms[activeFormIndex].experienceType,
