@@ -78,7 +78,7 @@ export default function StarForm({ data, onChange }: StarFormProps) {
 
       <div className="py-15">
         <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
-          자료 첨부(선택)
+          자료 첨부
         </div>
         <FileInput
           onFileChange={newFiles => handleChange('files', newFiles)}

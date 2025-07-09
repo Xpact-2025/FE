@@ -208,7 +208,7 @@ export default function ExpDetailContent({
                     key={idx}
                     className="px-4 py-1 bg-gray-300 text-sm rounded-full text-gray-1100"
                   >
-                    {keyword}
+                    #{keyword}
                   </span>
                 ))}
               </div>
