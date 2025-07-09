@@ -12,7 +12,9 @@ export default async function ExpMainPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <ExpList data={data} />
-      <Footer />
+      <div className="px-[3%]">
+        <Footer />
+      </div>
     </div>
   );
 }

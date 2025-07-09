@@ -78,7 +78,7 @@ export default function ExpList({ data }: ExpListProps) {
       </div>
 
       {!data || data.length === 0 ? (
-        <div>경험이 존재하지 않습니다.</div>
+        <div>AI 추천활동이 존재하지 않습니다.</div>
       ) : (
         <div className="w-full flex flex-wrap space-x-[28px] space-y-[37px]">
           {filteredData?.map(exp => (

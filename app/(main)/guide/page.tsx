@@ -12,6 +12,7 @@ import {
 } from '@/apis/guide';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
 import { getMemberInfo } from '@/apis/mypage';
+import Footer from '@/app/components/Footer';
 
 interface Weakness {
   weaknessName: string;
@@ -27,6 +28,12 @@ export default function GuidePage() {
   const [initialLoading, setInitialLoading] = useState(true);
   const [isActivityLoading, setIsActivityLoading] = useState(false);
   const [memberName, setMemberName] = useState<string | null>(null);
+  const [isHoveredSkillHelp, setIsHoveredSkillHelp] = useState(false);
+  const skillHelpText =
+    '대시보드의 핵심스킬맵에서 낮게 나타난 \n3가지 역량에 대해 알려줘요.';
+  const [isHoveredActivityHelp, setIsHoveredActivityHelp] = useState(false); // 👈 추가된 부분
+  const activityHelpText =
+    '필요 역량을 키우는 데 도움이 되는 활동을 AI가 추천해줘요.';
 
   useEffect(() => {
     const fetchMemberInfo = async () => {
@@ -50,7 +57,7 @@ export default function GuidePage() {
   }, []);
 
   useEffect(() => {
-    if (weaknesses.length === 0) return; // 데이터 준비 안 됐으면 실행 안함
+    if (weaknesses.length === 0) return;
 
     const fetchActivities = async () => {
       setIsActivityLoading(true);
@@ -88,7 +95,22 @@ export default function GuidePage() {
       {/* 필요 역량 */}
       <div className="flex items-center gap-5">
         <div className="text-gray-50 text-2xl font-bold">필요 역량</div>
-        <HelpIcon className="stroke-gray-600 w-[24px] h-[24px] cursor-pointer" />
+        <div
+          className="relative flex items-center"
+          onMouseEnter={() => setIsHoveredSkillHelp(true)}
+          onMouseLeave={() => setIsHoveredSkillHelp(false)}
+        >
+          <HelpIcon className="stroke-gray-600 w-[24px] h-[24px] cursor-pointer" />
+
+          {isHoveredSkillHelp && (
+            <div className="absolute top-full z-10 mt-3 w-max">
+              <div className="relative rounded-[16px] -translate-x-1/5 bg-gray-200 px-[22px] py-[12px] body-14-m text-gray-700 whitespace-pre-line">
+                {skillHelpText}
+              </div>
+              <div className="absolute -top-[6px] left-[6px] w-3 h-3 rotate-45 bg-gray-200"></div>
+            </div>
+          )}
+        </div>
       </div>
 
       <div
@@ -122,16 +144,31 @@ export default function GuidePage() {
                 isSelected={selectedSkill === w.weaknessName}
                 onMouseEnter={() => setSelectedSkill(w.weaknessName)}
                 explanation={w.explanation}
-                memberName={memberName || '회원'} // 👈 여기 추가
+                memberName={memberName || '회원'}
               />
             ))}
         </div>
       </div>
 
       {/* AI 추천 활동 */}
-      <div className="flex items-center gap-5 pt-15">
+      <div className="relative flex items-center gap-5 pt-15">
         <div className="text-gray-50 text-2xl font-bold">AI 추천 활동</div>
-        <HelpIcon className="stroke-gray-600 w-[24px] h-[24px] cursor-pointer" />
+        <div
+          className="relative flex items-center"
+          onMouseEnter={() => setIsHoveredActivityHelp(true)}
+          onMouseLeave={() => setIsHoveredActivityHelp(false)}
+        >
+          <HelpIcon className="stroke-gray-600 w-[24px] h-[24px] cursor-pointer" />
+
+          {isHoveredActivityHelp && (
+            <div className="absolute top-full z-10 mt-3 w-max">
+              <div className="relative rounded-[16px] -translate-x-1/5 bg-gray-200 px-[22px] py-[12px] body-14-m text-gray-700 whitespace-pre-line">
+                {activityHelpText}
+              </div>
+              <div className="absolute -top-[6px] left-[6px] w-3 h-3 rotate-45 bg-gray-200"></div>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="pt-10 pb-6.5">
@@ -142,6 +179,7 @@ export default function GuidePage() {
       </div>
 
       {isActivityLoading ? <LoadingSpinner /> : <AIList data={activities} />}
+      <Footer />
     </div>
   );
 }

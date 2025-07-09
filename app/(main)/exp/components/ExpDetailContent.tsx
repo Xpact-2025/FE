@@ -63,14 +63,14 @@ export default function ExpDetailContent({
         <>
           {subData.role && (
             <>
-              <p className="mb-6 font-semibold">역할</p>
+              <p className="font-semibold text-[18px]">역할</p>
               <p className="mb-6">{subData.role}</p>
             </>
           )}
           {subData.perform && (
             <>
               <p className="font-semibold text-[18px]">주요 성과</p>
-              <p className="mb-2 mt-2">{subData.perform}</p>
+              <p className="mb-2">{subData.perform}</p>
             </>
           )}
         </>
@@ -208,7 +208,7 @@ export default function ExpDetailContent({
                     key={idx}
                     className="px-4 py-1 bg-gray-300 text-sm rounded-full text-gray-1100"
                   >
-                    {keyword}
+                    #{keyword}
                   </span>
                 ))}
               </div>

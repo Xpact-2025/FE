@@ -4,6 +4,7 @@ interface SkillMapReportProps {
   feedbackType: string;
   feedbackDescription: string;
   feedbackName: string;
+  feedbackReason: string;
   suggestion: string;
   onClose: () => void;
 }
@@ -12,6 +13,7 @@ export default function SkillMapReport({
   feedbackType,
   feedbackDescription,
   feedbackName,
+  feedbackReason,
   suggestion,
   onClose,
 }: SkillMapReportProps) {
@@ -29,9 +31,13 @@ export default function SkillMapReport({
           ✕
         </button>
       </div>
-      <div className="text-gray-400 body-11-m mt-2">{feedbackDescription}</div>
-      <div className="mt-10">
-        <div className="text-primary body-9-r mb-2">{feedbackName}</div>
+      <div className="text-gray-400 body-11-m">{feedbackDescription}</div>
+      <div className="mt-5">
+        <div className="text-primary body-11-m mb-2">{feedbackName}</div>
+        <p className="text-gray-200 body-11-m whitespace-pre-wrap mb-4">
+          {feedbackReason}
+        </p>
+        <div className="text-primary body-11-m mb-2">커리어 연결</div>
         <p className="text-gray-200 body-11-m whitespace-pre-wrap">
           {suggestion}
         </p>
