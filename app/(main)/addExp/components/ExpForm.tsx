@@ -85,8 +85,6 @@ export default function ExpForm({
     return [getInitialForm(data)];
   });
   const [activeFormIndex, setActiveFormIndex] = useState(0);
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
-  const [editingValue, setEditingValue] = useState('');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pendingFormType, setPendingFormType] = useState<ExpFormType | null>(
@@ -163,26 +161,6 @@ export default function ExpForm({
 
       return updatedForms;
     });
-  };
-
-  const handleDoubleClickTab = (index: number) => {
-    setEditingIndex(index);
-    setEditingValue(forms[index].tabName || `경험 ${index + 1}`);
-  };
-
-  const handleSaveTabName = (index: number) => {
-    setForms(prev => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        tabName:
-          editingValue.trim() === ''
-            ? `경험 ${index + 1}`
-            : editingValue.trim(),
-      };
-      return updated;
-    });
-    setEditingIndex(null);
   };
 
   const isFormChanged = () => {
@@ -414,37 +392,33 @@ export default function ExpForm({
                   className="mx-41 my-2.5 w-4 h-4"
                 />
               )}
-              <div
-                className={`flex h-full justify-center text-lg ${
-                  forms.length > 1 ? 'mt-[-10px]' : 'mt-[22px]'
-                }`}
-                onDoubleClick={e => {
-                  e.stopPropagation();
-                  handleDoubleClickTab(index);
-                }}
-              >
-                {editingIndex === index ? (
-                  <input
-                    type="text"
-                    className="w-[100px] h-[30px] bg-[#5B5B5B] px-2 py-1"
-                    value={editingValue}
-                    autoFocus
-                    onChange={e => setEditingValue(e.target.value)}
-                    onBlur={() => handleSaveTabName(index)}
-                    onKeyDown={e => {
-                      if (e.key === 'Enter') {
-                        handleSaveTabName(index);
-                      }
-                    }}
-                  />
-                ) : (
-                  <div className="truncate max-w-[10ch]">
-                    {forms[index].tabName || `경험 ${index + 1}`}
-                  </div>
-                )}
+              <div className="flex h-full justify-center text-lg mt-[10px]">
+                <input
+                  type="text"
+                  className="absolute top-73 w-[100px] h-[30px] bg-[#5B5B5B] px-2 py-1 text-center rounded"
+                  value={forms[index].tabName ?? ''}
+                  placeholder={`경험 ${index + 1}`}
+                  onChange={e => {
+                    const newTabName = e.target.value;
+                    setForms(prev => {
+                      const updated = [...prev];
+                      updated[index] = {
+                        ...updated[index],
+                        tabName: newTabName,
+                      };
+                      return updated;
+                    });
+                  }}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                    }
+                  }}
+                />
               </div>
             </div>
           ))}
+
           {/*경험 항목*/}
           {forms.length < 4 && (
             <div
