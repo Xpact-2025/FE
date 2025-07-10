@@ -121,33 +121,35 @@ export default function ExpDetailPage() {
 
       {isEditing ? (
         <>
-          <ExpForm
-            data={{
-              id: data.experienceId,
-              experienceType: data.experienceType,
-              title: editTitle,
-              qualification: editQualification,
-              publisher: editPublisher,
-              startDate: editStartDate,
-              endDate: editEndDate,
-              issueDate: editIssueDate,
-              subExperiences: subDataList,
-              subExperiencesResponseDto: subDataList,
-            }}
-            isEditMode={true}
-            onSuccess={async () => {
-              setIsEditing(false);
-              const res = await getExpById(Number(params?.id));
-              setData(res.data);
-              setSubDataList(res.data.subExperiencesResponseDto ?? []);
-              setEditTitle(res.data.title || '');
-              setEditQualification(res.data.qualification || '');
-              setEditPublisher(res.data.publisher || '');
-              setEditStartDate(res.data.startDate || '');
-              setEditEndDate(res.data.endDate || '');
-              setEditIssueDate(res.data.issueDate || '');
-            }}
-          />
+          <div className="-mt-15">
+            <ExpForm
+              data={{
+                id: data.experienceId,
+                experienceType: data.experienceType,
+                title: editTitle,
+                qualification: editQualification,
+                publisher: editPublisher,
+                startDate: editStartDate,
+                endDate: editEndDate,
+                issueDate: editIssueDate,
+                subExperiences: subDataList,
+                subExperiencesResponseDto: subDataList,
+              }}
+              isEditMode={true}
+              onSuccess={async () => {
+                setIsEditing(false);
+                const res = await getExpById(Number(params?.id));
+                setData(res.data);
+                setSubDataList(res.data.subExperiencesResponseDto ?? []);
+                setEditTitle(res.data.title || '');
+                setEditQualification(res.data.qualification || '');
+                setEditPublisher(res.data.publisher || '');
+                setEditStartDate(res.data.startDate || '');
+                setEditEndDate(res.data.endDate || '');
+                setEditIssueDate(res.data.issueDate || '');
+              }}
+            />
+          </div>
         </>
       ) : (
         <>
@@ -219,11 +221,11 @@ export default function ExpDetailPage() {
             }}
           />
 
-          <div className="flex items-center gap-[9px] mt-8">
+          <div className="flex items-center gap-4 mt-8">
             <button
               type="button"
               onClick={() => setIsPopupOpen(true)}
-              className="w-[50%] py-3 bg-gray-1000 text-sm text-gray-300 font-semibold border border-gray-50-20 rounded-lg cursor-pointer"
+              className="w-[50%] py-3 bg-gray-1000 hover:bg-gray-700 text-gray-300 font-semibold border border-gray-50-20 rounded-lg cursor-pointer"
             >
               삭제
             </button>
@@ -231,7 +233,7 @@ export default function ExpDetailPage() {
             <button
               type="button"
               onClick={() => setIsEditing(true)}
-              className="w-[50%] py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg cursor-pointer"
+              className="w-[50%] py-3 bg-primary-50 hover:bg-primary-100 text-gray-1100 font-semibold rounded-lg cursor-pointer"
             >
               수정
             </button>

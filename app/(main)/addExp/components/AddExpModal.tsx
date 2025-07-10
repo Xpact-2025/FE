@@ -37,7 +37,7 @@ export default function AddExpModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="w-[1025px] bg-gray-700 rounded-[19.5px] outline outline-gray-50-20 p-10">
+      <div className="w-[1025px] max-h-[90vh] bg-gray-700 rounded-[19.5px] outline outline-gray-50-20 p-10">
         <div className="flex justify-end">
           <CloseIcon onClick={onClose} />
         </div>
@@ -53,7 +53,7 @@ export default function AddExpModal({
           }}
         />
 
-        <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%] pt-10">
+        <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%] pt-7">
           {form.experienceType === 'CERTIFICATES'
             ? '자격증명'
             : form.experienceType === 'PRIZE'
@@ -68,7 +68,7 @@ export default function AddExpModal({
               value={form.qualification ?? ''}
               onChange={e => onChange('qualification', e.target.value)}
             />
-            <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%] pt-10">
+            <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%] pt-7">
               발행처
             </div>
             <ExpInputBox
@@ -86,7 +86,7 @@ export default function AddExpModal({
               value={form.qualification ?? ''}
               onChange={e => onChange('qualification', e.target.value)}
             />
-            <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%] pt-10">
+            <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%] pt-7">
               대회명/주최기관
             </div>
             <ExpInputBox
@@ -106,7 +106,7 @@ export default function AddExpModal({
         )}
 
         {['CERTIFICATES', 'PRIZE'].includes(form.experienceType) ? (
-          <div className="py-10">
+          <div className="py-7">
             <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
               날짜
             </div>
@@ -145,7 +145,7 @@ export default function AddExpModal({
         <div className="flex justify-end">
           <button
             type="button"
-            className="flex justify-center w-72 px-52 py-4 bg-primary-50 font-body-23-b font-bold rounded-lg whitespace-nowrap"
+            className="flex justify-center w-72 px-52 py-4 bg-primary-50 hover:bg-primary-100 font-body-23-b font-bold rounded-lg whitespace-nowrap"
             onClick={() => {
               if (!validateForm()) {
                 alert('모든 항목을 입력해주세요.');
