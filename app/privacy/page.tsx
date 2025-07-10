@@ -6,92 +6,114 @@ export default function privacy() {
     <>
       <Header />
       <div className="max-w-3xl mx-auto px-4 py-10 text-white text-sm leading-6 bg-black mt-[10%]">
-        <h1 className="text-2xl font-bold mb-6">이용약관</h1>
+        <h1 className="text-2xl font-bold mb-6">개인정보처리방침</h1>
 
         <section className="mb-5">
-          <h2 className="font-bold text-lg">제1조 (목적)</h2>
           <p>
-            이 약관은 XPact(이하 ‘서비스’)의 이용조건 및 절차, 이용자와 서비스
-            제공자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.
+            XPact(이하 ‘서비스’)는「개인정보 보호법」등 관련 법령을 준수하며,
+            이용자의 개인정보를 안전하게 보호하기 위해 최선을 다합니다. 본
+            방침은 서비스 이용과 관련하여 수집되는 개인정보의 항목, 수집 목적,
+            보유 기간 및 이용자의 권리 등에 대해 안내합니다.
           </p>
         </section>
 
         <section className="mb-5">
-          <h2 className="font-bold text-lg">제2조 (정의)</h2>
-          <p>① ‘이용자’란 본 약관에 따라 서비스를 이용하는 자를 말합니다.</p>
+          <h2 className="font-bold text-lg">1. 수집하는 개인정보 항목</h2>
+          <p className="text-[16px]">[1] 회원가입 시 수집 항목</p>
+          <li className="px-3">자체 가입: 이름, 이메일, 비밀번호</li>
+          <li className="px-3">소셜 로그인(카카오, 네이버): 이름, 이메일</li>
+
+          <p className="text-[16px]">[2] 프로필 입력 시 수집 항목</p>
+          <li className="px-3">이름, 나이</li>
+          <li className="px-3">학력: 학위, 학교명, 학과명, 졸업 구분</li>
+          <li className="px-3">희망 직무</li>
+
+          <p className="text-[16px]">[3] 서비스 이용 시 자동 수집 항목</p>
+          <li className="px-3">
+            접속 IP, 브라우저 및 기기 정보, 접속 일시, 서비스 이용 기록 등
+          </li>
+        </section>
+
+        <section className="mb-5">
+          <h2 className="font-bold text-lg">2. 개인정보 수집 및 이용 목적</h2>
+          <p>수집된 개인정보는 다음의 목적을 위해 활용됩니다.</p>
+          <li className="px-3">회원 식별 및 로그인 기능 제공</li>
+          <li className="px-3">사용자 맞춤형 경험 분석 및 커리어 시각화 </li>
+          <li className="px-3">활동 추천 및 대시보드 제공</li>
+          <li className="px-3">고객 문의 응대 및 서비스 품질 개선</li>
+          <li className="px-3">서비스 통계 분석 및 운영 관리</li>
+        </section>
+
+        <section className="mb-5">
+          <h2 className="font-bold text-lg">3. 개인정보 보유 및 이용 기간</h2>
           <p>
-            ② ‘서비스’란 사용자의 경험 입력을 기반으로 분석, 시각화, 추천 등을
-            제공하는 웹 기반 서비스입니다.
+            개인정보는 회원 탈퇴 시까지 보관되며, 탈퇴 요청 시 즉시 파기됩니다.
+          </p>
+          <p>※ 현재 탈퇴 기능은 개발 중입니다. 탈퇴를 원하실 경우,</p>
+          <p>
+            [xpact.team@gmail.com] 으로 요청해 주시면, 운영팀이 확인 후 7일
+            이내에 수동으로 탈퇴 및 개인정보 삭제를 진행합니다.
           </p>
         </section>
 
         <section className="mb-5">
-          <h2 className="font-bold text-lg">제3조 (이용계약의 성립)</h2>
+          <h2 className="font-bold text-lg">4. 개인정보의 제3자 제공</h2>
+          <p>XPact는 이용자의 개인정보를 외부에 제공하지 않습니다.</p>
           <p>
-            서비스는 이용자가 약관에 동의하고 서비스 접속 시 자동으로 계약이
-            성립됩니다.
+            단, 관련 법령에 근거하거나 이용자의 사전 동의가 있는 경우에 한해
+            예외적으로 제공될 수 있습니다.
           </p>
         </section>
 
         <section className="mb-5">
-          <h2 className="font-bold text-lg">제4조 (서비스 내용 및 제공)</h2>
+          <h2 className="font-bold text-lg">5. 개인정보 처리 위탁</h2>
           <p>
-            서비스는 사용자 입력 데이터를 바탕으로 커리어 분석, 시각화 및 추천
-            기능을 제공합니다.
+            현재 XPact는 개인정보 처리 업무를 외부에 위탁하고 있지 않습니다.
+          </p>
+          <p>
+            향후 위탁이 발생할 경우, 해당 내용은 본 방침을 통해 사전 공지합니다.
           </p>
         </section>
 
         <section className="mb-5">
-          <h2 className="font-bold text-lg">제5조 (이용자의 의무)</h2>
-          <p>이용자는 다음 행위를 해서는 안 됩니다.</p>
-          <p>① 허위 정보 입력 또는 타인의 정보 도용</p>
-          <p>② 서비스 운영 방해 행위</p>
-          <p>③ 기타 관계 법령에 위반되는 행위</p>
-        </section>
-
-        <section className="mb-5">
-          <h2 className="font-bold text-lg">제6조 (서비스의 변경 및 중단)</h2>
+          <h2 className="font-bold text-lg">6. 이용자의 권리 및 행사 방법</h2>
           <p>
-            서비스는 사전 공지 없이 일부 기능을 수정, 변경 또는 중단할 수
-            있습니다.
+            이용자는 언제든지 본인의 개인정보에 대해 다음과 같은 권리를 행사할
+            수 있습니다.
+          </p>
+          <li className="px-3">열람, 수정, 삭제, 처리 정지 요청</li>
+          <p>
+            요청은 서비스 내 [마이페이지] 또는 이메일(xpact.team@gmail.com)을
+            통해 접수하실 수 있습니다.
           </p>
         </section>
 
         <section className="mb-5">
-          <h2 className="font-bold text-lg">제7조 (개인정보 보호)</h2>
-          <p>
-            서비스는 사용자로부터 직접 입력된 정보 외에 어떠한 개인정보도
-            수집하지 않습니다.
-          </p>
+          <h2 className="font-bold text-lg">7. 개인정보 파기 절차 및 방법</h2>
+          <p>개인정보는 수집 목적이 달성되면 즉시 파기됩니다.</p>
+          <li className="px-3">전자 파일: 복구 불가능한 방식으로 영구 삭제</li>
+          <li className="px-3">출력물: 분쇄 또는 소각</li>
         </section>
 
         <section className="mb-5">
-          <h2 className="font-bold text-lg">제8조 (지식재산권)</h2>
-          <p>
-            서비스에 포함된 콘텐츠 및 결과물의 저작권은 XPact 팀 또는 정당한
-            권리자에게 귀속됩니다.
-          </p>
+          <h2 className="font-bold text-lg">8. 개인정보 보호를 위한 조치</h2>
+          <li className="px-3">개인정보는 암호화되어 안전하게 저장됩니다.</li>
         </section>
 
         <section className="mb-5">
-          <h2 className="font-bold text-lg">제9조 (책임의 한계)</h2>
-          <p>
-            서비스는 참고용 분석 결과를 제공하며, 이용자가 이를 활용해 취한
-            행동에 대해서는 책임을 지지 않습니다.
-          </p>
+          <h2 className="font-bold text-lg">9. 개인정보 보호책임자</h2>
+          <li className="px-3">책임자: XPact 운영팀</li>
+          <li className="px-3">이메일: xpact.team@gmail.com</li>
         </section>
 
         <section className="mb-5">
-          <h2 className="font-bold text-lg">제10조 (분쟁 해결)</h2>
+          <h2 className="font-bold text-lg">10. 고지 및 변경</h2>
           <p>
-            본 약관에 따른 분쟁은 서비스 제공자의 소재지를 관할하는 법원을 제1심
-            관할 법원으로 합니다.
+            본 방침은 시행일로부터 적용되며, 내용 변경 시 사전 고지 후
+            시행됩니다.
           </p>
-        </section>
-
-        <section className="mb-5">
-          <h2 className="font-bold text-lg">부칙</h2>
-          <p>본 약관은 2025년 7월 6일부터 시행합니다.</p>
+          <p>변경 사항은 서비스 내 공지사항을 통해 안내드립니다.</p>
+          <p>시행일: 2025년 7월 6일</p>
         </section>
       </div>
       <div className="px-[10%]">
