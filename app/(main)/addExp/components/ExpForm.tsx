@@ -295,7 +295,11 @@ export default function ExpForm({
       : await saveExp(payload);
 
     if (httpStatus === 200) {
-      alert('성공적으로 저장되었습니다!');
+      if (form.status === 'DRAFT') {
+        alert('경험이 임시저장되었습니다. 나중에 이어서 작성하실 수 있어요.');
+      } else {
+        alert('경험이 저장되었습니다. 내 경험 목록에서 확인해 보세요!');
+      }
       console.log('보내는 payload:', payload);
 
       if (form.id) {
