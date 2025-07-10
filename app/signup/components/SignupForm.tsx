@@ -112,7 +112,7 @@ export default function SignupForm() {
     });
 
     if (data.httpStatus === 200) {
-      alert('회원가입 성공!');
+      alert('회원가입에 성공하셨습니다!');
       router.push('/login');
     } else {
       alert(`회원가입 실패: ${data.message}`);

@@ -119,7 +119,7 @@ export default function AgreementList({ agreements, onChange }: Props) {
             </div>
 
             {/* 동의 문구 */}
-            <div className="flex justify-end items-center mt-4">
+            {/* <div className="flex justify-end items-center mt-4">
               <svg
                 className="w-4 h-4 text-primary-50 mr-1"
                 fill="none"
@@ -135,6 +135,39 @@ export default function AgreementList({ agreements, onChange }: Props) {
               </svg>
               <span className="text-xs text-gray-300">
                 (필수) {agreements.find(a => a.id === popupContentId)?.label}
+              </span>
+            </div> */}
+            <div
+              onClick={() => {
+                if (popupContentId) {
+                  const updated = { ...checkedItems, [popupContentId]: true };
+                  setCheckedItems(updated);
+                  onChange?.(updated);
+                  setPopupContent(null); // 팝업 닫기
+                }
+              }}
+              className="flex justify-end items-center mt-4 cursor-pointer hover:opacity-80"
+            >
+              <svg
+                className={`w-4 h-4 mr-1 ${
+                  checkedItems[popupContentId ?? '']
+                    ? 'text-primary-500'
+                    : 'text-white'
+                }`}
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={3}
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              <span className="text-xs text-gray-300">
+                (필수) {agreements.find(a => a.id === popupContentId)?.label}에
+                동의합니다.
               </span>
             </div>
           </div>
