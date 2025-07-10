@@ -45,7 +45,7 @@ export default function ActivityFilter({
   return (
     <div className="flex gap-2.5">
       <button
-        className={`px-7 py-2.5 rounded-[100px] border text-lg hover:bg-orange-50-20 hover:border-orange-50 hover:text-primary-50 ${
+        className={`px-7 py-2.5 rounded-[100px] border text-lg hover:bg-orange-50-20 hover:border-orange-50 hover:text-primary-50 cursor-pointer ${
           selectedFilter === null
             ? 'bg-orange-50-20 border-orange-50 text-primary-50'
             : 'bg-gray-700 border-gray-600 text-gray-200'
@@ -58,7 +58,7 @@ export default function ActivityFilter({
       {weaknesses.map(option => (
         <button
           key={option}
-          className={`px-7 py-2.5 rounded-[100px] border text-lg hover:bg-orange-50-20 hover:border-orange-50 hover:text-primary-50 ${
+          className={`px-7 py-2.5 rounded-[100px] border text-lg hover:bg-orange-50-20 hover:border-orange-50 hover:text-primary-50 cursor-pointer ${
             selectedFilter?.includes(option)
               ? 'bg-orange-50-20 border-orange-50 text-primary-50'
               : 'bg-gray-700 border-gray-600 text-gray-200'

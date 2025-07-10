@@ -39,7 +39,7 @@ export default function AddExpModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="w-[1025px] max-h-[90vh] bg-gray-700 rounded-[19.5px] outline outline-gray-50-20 p-10">
         <div className="flex justify-end">
-          <CloseIcon onClick={onClose} />
+          <CloseIcon onClick={onClose} className="cursor-pointer" />
         </div>
         <div className="text-gray-50 text-xl font-medium mb-[2%] ml-[1%]">
           경험 유형
@@ -145,7 +145,7 @@ export default function AddExpModal({
         <div className="flex justify-end">
           <button
             type="button"
-            className="flex justify-center w-72 px-52 py-4 bg-primary-50 hover:bg-primary-100 font-body-23-b font-bold rounded-lg whitespace-nowrap"
+            className="flex justify-center w-72 px-52 py-4 bg-primary-50 hover:bg-primary-100 font-body-23-b font-bold rounded-lg whitespace-nowrap cursor-pointer"
             onClick={() => {
               if (!validateForm()) {
                 alert('모든 항목을 입력해주세요.');
