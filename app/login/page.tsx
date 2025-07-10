@@ -36,7 +36,9 @@ export default function LoginPage() {
           </Suspense>
         </div>
       </main>
-      <Footer />
+      <div className="px-[10%]">
+        <Footer />
+      </div>
     </div>
   );
 }

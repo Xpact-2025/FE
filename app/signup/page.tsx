@@ -27,7 +27,9 @@ export default function SignupPage() {
           </Suspense>
         </div>
       </main>
-      <Footer />
+      <div className="px-[10%]">
+        <Footer />
+      </div>
     </div>
   );
 }
