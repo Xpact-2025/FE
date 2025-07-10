@@ -53,7 +53,7 @@ export default function BtnFilter({
   return (
     <div className="flex justify-end relative">
       <div
-        className="flex items-center justify-center px-4 h-[40px] bg-gray-1000 border border-gray-50-20 rounded-lg text-gray-300 text-sm"
+        className="flex items-center justify-center px-4 h-[40px] bg-gray-1000 border border-gray-50-20 rounded-lg text-gray-300 text-sm cursor-pointer"
         onClick={() => setIsOpen(true)}
       >
         {selectedOption?.label || '전체'}•

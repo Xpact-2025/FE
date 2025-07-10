@@ -335,7 +335,7 @@ export default function ExpForm({
               setIsPopupOpen(true);
             }}
           >
-            <BackIcon className="stroke-gray-50 w-[35px] h-[35px]" />
+            <BackIcon className="stroke-gray-50 w-[35px] h-[35px] cursor-pointer" />
           </button>
 
           {isPopupOpen && !pendingFormType && (
@@ -421,10 +421,10 @@ export default function ExpForm({
           {/*경험 항목*/}
           {forms.length < 4 && (
             <div
-              className="w-48 h-20 'bg-black border border-gray-700 rounded-tl-2xl rounded-tr-2xl"
+              className="w-48 h-20 'bg-black border border-gray-700 rounded-tl-2xl rounded-tr-2xl hover:bg-gray-700 cursor-pointer"
               onClick={() => handleAddExperienceTab(form.experienceType)}
             >
-              <PlusGrayIcon className="flex mx-19.5 my-4.5 w-[27px] h-[27px] cursor-pointer" />
+              <PlusGrayIcon className="flex mx-19.5 my-4.5 w-[27px] h-[27px]" />
             </div>
           )}
         </div>
@@ -492,7 +492,7 @@ export default function ExpForm({
         </div>
 
         {/*저장 버튼*/}
-        <div className="flex justify-between pt-15 gap-2.5">
+        <div className="flex justify-between pt-15 gap-4 mb-15">
           <button
             type="submit"
             onClick={() => {
@@ -505,7 +505,7 @@ export default function ExpForm({
                 return updated;
               });
             }}
-            className="w-[502px] h-14 py-5 bg-gray-800 text-sm text-gray-300 font-semibold border border-gray-50-10 rounded-lg"
+            className="w-[502px] h-14 py-5 bg-gray-800 hover:bg-gray-700 text-sm text-gray-300 font-semibold border border-gray-50-10 rounded-lg cursor-pointer"
           >
             임시저장
           </button>
@@ -521,7 +521,7 @@ export default function ExpForm({
                 return updated;
               });
             }}
-            className="w-[502px] h-14 py-5 bg-primary-50 text-sm text-gray-1000 font-semibold rounded-lg"
+            className="w-[502px] h-14 py-5 bg-primary-50 hover:bg-primary-100 text-sm text-gray-1000 font-semibold rounded-lg cursor-pointer"
           >
             작성완료
           </button>

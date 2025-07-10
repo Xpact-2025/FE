@@ -17,10 +17,10 @@ export default function FormTab({ onChange, selectedTab }: FormTabProps) {
   };
 
   return (
-    <div className="flex justify-between gap-2.5">
+    <div className="flex justify-between gap-2.5 text-sm font-semibold">
       <button
         type="button"
-        className={`w-[460px] rounded-lg text-sm font-semibold py-3.5 transition all ${
+        className={`w-[460px] rounded-lg py-3.5 transition all hover:bg-primary-50 hover:text-gray-800 ${
           selectedTab === 'star'
             ? 'bg-primary-50 text-gray-800'
             : 'bg-gray-800 text-gray-300 outline outline-gray-50-10'
@@ -31,7 +31,7 @@ export default function FormTab({ onChange, selectedTab }: FormTabProps) {
       </button>
       <button
         type="button"
-        className={`w-[460px] rounded-lg text-sm font-semibold py-3.5 transition all ${
+        className={`w-[460px] rounded-lg py-3.5 transition all hover:bg-primary-50 hover:text-gray-800 ${
           selectedTab === 'simple'
             ? 'bg-primary-50 text-gray-800'
             : 'bg-gray-800 text-gray-300 outline outline-gray-50-10'
