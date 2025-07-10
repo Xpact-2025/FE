@@ -411,6 +411,7 @@ export default function ExpForm({
                 onKeyDown={e => {
                   if (e.key === 'Enter') {
                     e.preventDefault();
+                    e.currentTarget.blur();
                   }
                 }}
               />
