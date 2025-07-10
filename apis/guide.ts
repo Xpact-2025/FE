@@ -20,6 +20,7 @@ interface Weakness {
 interface GetWeakResponse {
   httpStatus: number;
   message: string;
+  code?: string;
   data: Weakness[];
 }
 

@@ -10,6 +10,7 @@ import ExpTabs from '../components/ExpTabs';
 import ExpDetailContent from '../components/ExpDetailContent';
 import LoadingSpinner from '@/app/components/LoadingSpinner';
 import ExpForm from '../../addExp/components/ExpForm';
+import Footer from '@/app/components/Footer';
 
 export default function ExpDetailPage() {
   const params = useParams();
@@ -33,6 +34,19 @@ export default function ExpDetailPage() {
 
   const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
   const [, setLocalFiles] = useState<string[]>([]);
+
+  const handleCancelEdit = async () => {
+    setIsEditing(false);
+    const res = await getExpById(Number(params?.id));
+    setData(res.data);
+    setSubDataList(res.data.subExperiencesResponseDto ?? []);
+    setEditTitle(res.data.title || '');
+    setEditQualification(res.data.qualification || '');
+    setEditPublisher(res.data.publisher || '');
+    setEditStartDate(res.data.startDate || '');
+    setEditEndDate(res.data.endDate || '');
+    setEditIssueDate(res.data.issueDate || '');
+  };
 
   const handleDeleteSubExp = (indexToDelete: number) => {
     const newList = subDataList.filter((_, i) => i !== indexToDelete);
@@ -109,135 +123,139 @@ export default function ExpDetailPage() {
     );
 
   return (
-    <div className="pr-20 pl-20 pb-20">
-      <div className="flex justify-between w-full mb-6">
-        <div className="flex items-center">
-          <button type="button" onClick={() => router.push('/exp')}>
-            <BackIcon className="stroke-gray-50 w-[35px] h-[35px] cursor-pointer" />
-          </button>
-          <div className="text-3xl font-bold ml-2 text-white">경험 상세</div>
-        </div>
-      </div>
-
-      {isEditing ? (
-        <>
-          <ExpForm
-            data={{
-              id: data.experienceId,
-              experienceType: data.experienceType,
-              title: editTitle,
-              qualification: editQualification,
-              publisher: editPublisher,
-              startDate: editStartDate,
-              endDate: editEndDate,
-              issueDate: editIssueDate,
-              subExperiences: subDataList,
-              subExperiencesResponseDto: subDataList,
-            }}
-            isEditMode={true}
-            onSuccess={async () => {
-              setIsEditing(false);
-              const res = await getExpById(Number(params?.id));
-              setData(res.data);
-              setSubDataList(res.data.subExperiencesResponseDto ?? []);
-              setEditTitle(res.data.title || '');
-              setEditQualification(res.data.qualification || '');
-              setEditPublisher(res.data.publisher || '');
-              setEditStartDate(res.data.startDate || '');
-              setEditEndDate(res.data.endDate || '');
-              setEditIssueDate(res.data.issueDate || '');
-            }}
-          />
-        </>
-      ) : (
-        <>
-          <ExpHeader
-            experienceType={data.experienceType}
-            title={editTitle}
-            qualification={editQualification}
-            publisher={editPublisher}
-            issueDate={editIssueDate}
-            startDate={editStartDate}
-            endDate={editEndDate}
-            isEditing={false}
-            onChange={{}} // 수정 아님
-          />
-
-          <ExpTabs
-            subDataList={subDataList}
-            selectedIndex={selectedTabIndex}
-            onSelect={setSelectedTabIndex}
-            isEditing={false}
-            onRemoveClick={index => setDeleteIndex(index)}
-            onRequestFullDelete={() => setIsPopupOpen(true)}
-            onAddClick={handleAddSubExperience}
-            onTabNameChange={(index, newName) => {
-              const updated = [...subDataList];
-              updated[index] = { ...updated[index], tabName: newName };
-              setSubDataList(updated);
-            }}
-          />
-
-          {deleteIndex !== null && (
-            <Popup
-              title="세부 경험 삭제"
-              content="이 세부 경험 내용을 정말 삭제하시겠습니까?"
-              confirmText="삭제"
-              cancelText="취소"
-              onConfirm={() => handleDeleteSubExp(deleteIndex)}
-              onCancel={() => setDeleteIndex(null)}
-            />
-          )}
-
-          {isPopupOpen && (
-            <Popup
-              title="전체 경험 삭제"
-              content={
-                '해당 경험 카드의 모든 내용이 삭제됩니다. \n세부 경험만 삭제하려면 ‘수정’에서 개별 삭제해 주세요.'
-              }
-              confirmText="삭제"
-              cancelText="취소"
-              onConfirm={async () => {
-                await deleteExp(Number(params?.id));
-                router.push('/exp');
-              }}
-              onCancel={() => setIsPopupOpen(false)}
-            />
-          )}
-
-          <ExpDetailContent
-            data={data}
-            subData={currentSubData}
-            isEditing={false}
-            onChange={(field, value) => {
-              const updated = [...subDataList];
-              updated[selectedTabIndex] = {
-                ...updated[selectedTabIndex],
-                [field]: value,
-              };
-              setSubDataList(updated);
-            }}
-          />
-
-          <div className="flex items-center gap-[9px] mt-8">
-            <button
-              type="button"
-              onClick={() => setIsPopupOpen(true)}
-              className="w-[50%] py-3 bg-gray-1000 text-sm text-gray-300 font-semibold border border-gray-50-20 rounded-lg cursor-pointer"
-            >
-              삭제
+    <>
+      <div className="pr-20 pl-20 pb-20">
+        <div className="flex justify-between w-full mb-6">
+          <div className="flex items-center">
+            <button type="button" onClick={() => router.push('/exp')}>
+              <BackIcon className="stroke-gray-50 w-[35px] h-[35px] cursor-pointer" />
             </button>
-
-            <button
-              type="button"
-              onClick={() => setIsEditing(true)}
-              className="w-[50%] py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg cursor-pointer"
-            >
-              수정
-            </button>
+            <div className="text-3xl font-bold ml-2 text-white">경험 상세</div>
           </div>
-        </>
-      )}
-    </div>
+        </div>
+
+        {isEditing ? (
+          <>
+            <ExpForm
+              data={{
+                id: data.experienceId,
+                experienceType: data.experienceType,
+                title: editTitle,
+                qualification: editQualification,
+                publisher: editPublisher,
+                startDate: editStartDate,
+                endDate: editEndDate,
+                issueDate: editIssueDate,
+                subExperiences: subDataList,
+                subExperiencesResponseDto: subDataList,
+              }}
+              isEditMode={true}
+              onSuccess={async () => {
+                setIsEditing(false);
+                const res = await getExpById(Number(params?.id));
+                setData(res.data);
+                setSubDataList(res.data.subExperiencesResponseDto ?? []);
+                setEditTitle(res.data.title || '');
+                setEditQualification(res.data.qualification || '');
+                setEditPublisher(res.data.publisher || '');
+                setEditStartDate(res.data.startDate || '');
+                setEditEndDate(res.data.endDate || '');
+                setEditIssueDate(res.data.issueDate || '');
+              }}
+              onCancel={handleCancelEdit}
+            />
+          </>
+        ) : (
+          <>
+            <ExpHeader
+              experienceType={data.experienceType}
+              title={editTitle}
+              qualification={editQualification}
+              publisher={editPublisher}
+              issueDate={editIssueDate}
+              startDate={editStartDate}
+              endDate={editEndDate}
+              isEditing={false}
+              onChange={{}} // 수정 아님
+            />
+
+            <ExpTabs
+              subDataList={subDataList}
+              selectedIndex={selectedTabIndex}
+              onSelect={setSelectedTabIndex}
+              isEditing={false}
+              onRemoveClick={index => setDeleteIndex(index)}
+              onRequestFullDelete={() => setIsPopupOpen(true)}
+              onAddClick={handleAddSubExperience}
+              onTabNameChange={(index, newName) => {
+                const updated = [...subDataList];
+                updated[index] = { ...updated[index], tabName: newName };
+                setSubDataList(updated);
+              }}
+            />
+
+            {deleteIndex !== null && (
+              <Popup
+                title="세부 경험 삭제"
+                content="이 세부 경험 내용을 정말 삭제하시겠습니까?"
+                confirmText="삭제"
+                cancelText="취소"
+                onConfirm={() => handleDeleteSubExp(deleteIndex)}
+                onCancel={() => setDeleteIndex(null)}
+              />
+            )}
+
+            {isPopupOpen && (
+              <Popup
+                title="전체 경험 삭제"
+                content={
+                  '해당 경험 카드의 모든 내용이 삭제됩니다. \n세부 경험만 삭제하려면 ‘수정’에서 개별 삭제해 주세요.'
+                }
+                confirmText="삭제"
+                cancelText="취소"
+                onConfirm={async () => {
+                  await deleteExp(Number(params?.id));
+                  router.push('/exp');
+                }}
+                onCancel={() => setIsPopupOpen(false)}
+              />
+            )}
+
+            <ExpDetailContent
+              data={data}
+              subData={currentSubData}
+              isEditing={false}
+              onChange={(field, value) => {
+                const updated = [...subDataList];
+                updated[selectedTabIndex] = {
+                  ...updated[selectedTabIndex],
+                  [field]: value,
+                };
+                setSubDataList(updated);
+              }}
+            />
+
+            <div className="flex items-center gap-[9px] mt-8">
+              <button
+                type="button"
+                onClick={() => setIsPopupOpen(true)}
+                className="w-[50%] py-3 bg-gray-1000 text-sm text-gray-300 font-semibold border border-gray-50-20 rounded-lg cursor-pointer"
+              >
+                삭제
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsEditing(true)}
+                className="w-[50%] py-3 bg-primary-50 text-sm text-gray-1100 font-semibold rounded-lg cursor-pointer"
+              >
+                수정
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+      <Footer />
+    </>
   );
 }
