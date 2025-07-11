@@ -7,6 +7,7 @@ export interface ExpPayload {
   id?: number;
   experienceId?: number;
   experienceType: ExpType;
+  status?: ExpStatus;
   qualification?: string;
   publisher?: string;
   issueDate?: string;
@@ -19,7 +20,6 @@ export interface ExpPayload {
 export interface SubExperience {
   subExperienceId?: number;
   tabName?: string;
-  status: ExpStatus;
   formType?: ExpFormType;
   uploadType?: UploadType;
   subTitle?: string;

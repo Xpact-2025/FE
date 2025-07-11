@@ -20,9 +20,7 @@ import ExpHeader from '../../exp/components/ExpDetailHeader';
 interface ExpFormProps {
   data?: ExpPayload & { subExperiencesResponseDto: SubExperience[] };
   onSuccess?: () => void;
-  onCancel?: () => void;
   isEditMode?: boolean;
-  hideButton?: boolean;
 }
 
 const getInitialForm = (
@@ -46,7 +44,7 @@ const getInitialForm = (
       data?.experienceType === 'CERTIFICATES'
         ? undefined
         : sub?.formType || 'STAR_FORM',
-    status: sub?.status,
+    status: data?.status || 'SAVE',
     uploadType: sub?.uploadType || 'FILE',
     experienceType: data?.experienceType || ('' as ExpType),
     qualification: data?.qualification || '',
@@ -74,9 +72,7 @@ const getInitialForm = (
 export default function ExpForm({
   data,
   onSuccess,
-  onCancel,
   isEditMode = false,
-  hideButton = false,
 }: ExpFormProps) {
   const router = useRouter();
   const [forms, setForms] = useState(() => {
@@ -258,16 +254,18 @@ export default function ExpForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const allSavedForms = forms.map(f => ({
+    const updatedForms = forms.map(f => ({
       ...f,
       status: 'SAVE' as ExpStatus,
     }));
 
-    setForms(allSavedForms);
+    setForms(updatedForms);
+    const form = updatedForms[activeFormIndex];
 
     const payload: ExpPayload = {
       ...form,
       title: form.title,
+      status: form.status,
       issueDate: form.issueDate
         ? new Date(form.issueDate).toISOString()
         : undefined,
@@ -275,8 +273,7 @@ export default function ExpForm({
         ? new Date(form.startDate).toISOString()
         : undefined,
       endDate: form.endDate ? new Date(form.endDate).toISOString() : undefined,
-      subExperiences: allSavedForms.map(f => ({
-        status: f.status ?? 'SAVE',
+      subExperiences: updatedForms.map(f => ({
         formType: f.formType ?? 'STAR_FORM',
         uploadType: f.uploadType ?? 'FILE',
         tabName: f.tabName ?? '',
@@ -363,69 +360,71 @@ export default function ExpForm({
           </div>
         )}
 
-      <div className="w-[1025px] px-12">
-        {isEditMode && (
-          <ExpHeader
-            experienceType={form.experienceType}
-            title={form.title}
-            qualification={form.qualification}
-            publisher={form.publisher}
-            issueDate={form.issueDate}
-            startDate={form.startDate}
-            endDate={form.endDate}
-            isEditing={true}
-            onChange={{
-              title: val => handleChange('title', val),
-              qualification: val => handleChange('qualification', val),
-              publisher: val => handleChange('publisher', val),
-              issueDate: val => handleChange('issueDate', val),
-              startDate: val => handleChange('startDate', val),
-              endDate: val => handleChange('endDate', val),
-            }}
-          />
-        )}
-        {/*경험탭*/}
-        <div className="flex mb-[-14px]">
-          {forms.map((_, index) => (
-            <div
-              key={index}
-              className={`relative flex items-center justify-center w-48 h-20 ${activeFormIndex === index ? 'bg-gray-700 border-primary-50 border-t-2' : 'bg-black border border-gray-700 text-gray-400'} rounded-tl-2xl rounded-tr-2xl `}
-              onClick={() => setActiveFormIndex(index)}
-            >
-              {forms.length > 1 && (
-                <CloseIcon
-                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                    e.stopPropagation();
-                    handleRemoveExperienceTab(index);
+        <div className="w-[1025px] px-12">
+          {isEditMode && (
+            <ExpHeader
+              experienceType={form.experienceType}
+              title={form.title}
+              status={form.status}
+              qualification={form.qualification}
+              publisher={form.publisher}
+              issueDate={form.issueDate}
+              startDate={form.startDate}
+              endDate={form.endDate}
+              isEditing={true}
+              onChange={{
+                title: val => handleChange('title', val),
+                status: val => handleChange('status', val),
+                qualification: val => handleChange('qualification', val),
+                publisher: val => handleChange('publisher', val),
+                issueDate: val => handleChange('issueDate', val),
+                startDate: val => handleChange('startDate', val),
+                endDate: val => handleChange('endDate', val),
+              }}
+            />
+          )}
+          {/*경험탭*/}
+          <div className="flex mb-[-14px]">
+            {forms.map((_, index) => (
+              <div
+                key={index}
+                className={`relative flex items-center justify-center w-48 h-20 ${activeFormIndex === index ? 'bg-gray-700 border-primary-50 border-t-2' : 'bg-black border border-gray-700 text-gray-400'} rounded-tl-2xl rounded-tr-2xl `}
+                onClick={() => setActiveFormIndex(index)}
+              >
+                {forms.length > 1 && (
+                  <CloseIcon
+                    onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                      e.stopPropagation();
+                      handleRemoveExperienceTab(index);
+                    }}
+                    className="absolute top-2 right-3 w-4 h-4 cursor-pointer"
+                  />
+                )}
+                <input
+                  type="text"
+                  className="w-[100px] h-[30px] bg-[#5B5B5B] px-2 py-1 text-center rounded text-lg"
+                  value={forms[index].tabName ?? ''}
+                  placeholder={`경험 ${index + 1}`}
+                  onChange={e => {
+                    const newTabName = e.target.value;
+                    setForms(prev => {
+                      const updated = [...prev];
+                      updated[index] = {
+                        ...updated[index],
+                        tabName: newTabName,
+                      };
+                      return updated;
+                    });
                   }}
-                  className="absolute top-2 right-3 w-4 h-4 cursor-pointer"
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      e.currentTarget.blur();
+                    }
+                  }}
                 />
-              )}
-              <input
-                type="text"
-                className="w-[100px] h-[30px] bg-[#5B5B5B] px-2 py-1 text-center rounded text-lg"
-                value={forms[index].tabName ?? ''}
-                placeholder={`경험 ${index + 1}`}
-                onChange={e => {
-                  const newTabName = e.target.value;
-                  setForms(prev => {
-                    const updated = [...prev];
-                    updated[index] = {
-                      ...updated[index],
-                      tabName: newTabName,
-                    };
-                    return updated;
-                  });
-                }}
-                onKeyDown={e => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    e.currentTarget.blur();
-                  }
-                }}
-              />
-            </div>
-          ))}
+              </div>
+            ))}
 
             {/*경험 항목*/}
             {forms.length < 4 && (
@@ -505,84 +504,8 @@ export default function ExpForm({
           </div>
 
           {/*저장 버튼*/}
-        {!hideButton ? (
-            {!isEditMode && (
-            <>
-              <div className="flex justify-between pt-15 gap-4 mb-15">
-                  <button
-                    type="submit"
-                    onClick={() => {
-                      setForms(prev => {
-                        const updated = [...prev];
-                        updated[activeFormIndex] = {
-                          ...updated[activeFormIndex],
-                          status: 'DRAFT',
-                        };
-                        return updated;
-                      });
-                    }}
-                    className="w-[502px] h-14 py-5 bg-gray-800 hover:bg-gray-700 text-sm text-gray-300 font-semibold border border-gray-50-10 rounded-lg cursor-pointer"
-                  >
-                    임시저장
-                  </button>
-                  <button
-                    type="submit"
-                    onClick={() => {
-                      setForms(prev => {
-                        const updated = [...prev];
-                        updated[activeFormIndex] = {
-                          ...updated[activeFormIndex],
-                          status: 'SAVE',
-                        };
-                        return updated;
-                      });
-                    }}
-                    className="w-[502px] h-14 py-5 bg-primary-50 hover:bg-primary-100 text-sm text-gray-1000 font-semibold rounded-lg cursor-pointer"
-                  >
-                    작성완료
-                  </button>
-                </div>
-        ) : (
-          <div className="flex justify-between pt-15 gap-4 mb-15">
-            <button
-              type="button"
-              onClick={() => router.push('/exp')}
-              className="w-[502px] h-14 py-4 bg-gray-800 hover:bg-gray-700 font-semibold text-gray-300 border border-gray-50-10 rounded-lg cursor-pointer"
-            >
-              취소
-            </button>
-            <button
-              type="submit"
-              onClick={() => {
-                {
-                  setForms(prev => {
-                    const updated = [...prev];
-                    updated[activeFormIndex] = {
-                      ...updated[activeFormIndex],
-                      status: 'SAVE',
-                    };
-                    return updated;
-                  });
-                }
-              }}
-              className="w-[502px] h-14 py-5 bg-primary-50 hover:bg-primary-100 text-sm text-gray-1000 font-semibold rounded-lg cursor-pointer"
-            >
-              저장
-            </button>
-          </div>
-        )}
-            </>
-          )}
-
-          {isEditMode && (
-            <div className="flex justify-between pt-15 gap-2.5">
-              <button
-                type="button"
-                onClick={onCancel}
-                className="w-[502px] h-14 py-5 bg-gray-800 text-sm text-gray-300 font-semibold border border-gray-50-10 rounded-lg"
-              >
-                취소
-              </button>
+          {!isEditMode ? (
+            <div className="flex justify-between pt-15 gap-4 mb-15">
               <button
                 type="submit"
                 onClick={() => {
@@ -590,12 +513,34 @@ export default function ExpForm({
                     const updated = [...prev];
                     updated[activeFormIndex] = {
                       ...updated[activeFormIndex],
-                      status: 'SAVE',
+                      status: 'DRAFT',
                     };
                     return updated;
                   });
                 }}
-                className="w-[502px] h-14 py-5 bg-primary-50 text-sm text-gray-1000 font-semibold rounded-lg"
+                className="w-[502px] h-14 py-5 bg-gray-800 hover:bg-gray-700 text-sm text-gray-300 font-semibold border border-gray-50-10 rounded-lg cursor-pointer"
+              >
+                임시저장
+              </button>
+              <button
+                type="submit"
+                className="w-[502px] h-14 py-5 bg-primary-50 hover:bg-primary-100 text-sm text-gray-1000 font-semibold rounded-lg cursor-pointer"
+              >
+                작성완료
+              </button>
+            </div>
+          ) : (
+            <div className="flex justify-between pt-15 gap-4 mb-15">
+              <button
+                type="button"
+                onClick={() => router.push('/exp')}
+                className="w-[502px] h-14 py-4 bg-gray-800 hover:bg-gray-700 font-semibold text-gray-300 border border-gray-50-10 rounded-lg cursor-pointer"
+              >
+                취소
+              </button>
+              <button
+                type="submit"
+                className="w-[502px] h-14 py-5 bg-primary-50 hover:bg-primary-100 text-sm text-gray-1000 font-semibold rounded-lg cursor-pointer"
               >
                 저장
               </button>
