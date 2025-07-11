@@ -1,39 +1,51 @@
+'use client';
+
 import { DASHBOARD_INFO } from '@/constants/dashboardInfo';
 import DashboardHeader from './DashboardHeader';
+import { useState, useEffect } from 'react';
+import { ScrapActivity, getScrapActivities } from '@/apis/scrap';
 
-const scrapItems = [
-  {
-    title: '현대자동차 서비스 디자인 공모전',
-    dday: 1,
-  },
-  {
-    title: '창의 혁신 데이터 분석 공모전',
-    dday: 3,
-  },
-  {
-    title: '[카카오뱅크] 결제 서비스 기획 인턴',
-    dday: 8,
-  },
-  {
-    title: '[토스] Sales Mandgement 인턴',
-    dday: 11,
-  },
-];
+function ScrapCard({ title, dday }: { title: string; dday: string | null }) {
+  const numericDday = Number(dday);
+  const isNumber = !isNaN(numericDday);
 
-function ScrapCard({ title, dday }: { title: string; dday: number }) {
   return (
-    <div className="flex justify-between items-center border-b border-gray-50-20 py-[10px] gap-1">
-      <div className="body-12-m text-gray-50 whitespace-pre-line">{title}</div>
+    <div className="flex justify-between items-center border-b border-gray-50-20 py-[10px] gap-1.5">
+      <div className="body-14-m text-gray-50 truncate max-w-55">{title}</div>
       <div
-        className={`body-14-m whitespace-nowrap ${dday <= 7 ? 'text-gray-50' : 'text-gray-500'}`}
+        className={`body-14-m whitespace-nowrap ${isNumber && numericDday >= -7 ? 'text-gray-50' : 'text-gray-500'}`}
       >
-        D-{dday}
+        {isNumber
+          ? numericDday >= 0
+            ? '마감'
+            : `D${numericDday}`
+          : dday || '없음'}
       </div>
     </div>
   );
 }
 
 export default function Scrap() {
+  const [scrapItems, setScrapItems] = useState<ScrapActivity[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchScraps() {
+      setLoading(true);
+      const res = await getScrapActivities();
+      if (res.httpStatus === 200) {
+        setScrapItems(res.data);
+      } else {
+        setScrapItems([]);
+      }
+      setLoading(false);
+    }
+
+    fetchScraps();
+  }, []);
+
+  if (loading) return <div>로딩 중...</div>;
+
   return (
     <>
       <DashboardHeader
@@ -41,9 +53,15 @@ export default function Scrap() {
         info={DASHBOARD_INFO.SCRAP.info}
       />
       <div className="flex flex-col gap-3">
-        {scrapItems.map((item, idx) => (
-          <ScrapCard key={idx} title={item.title} dday={item.dday} />
-        ))}
+        {scrapItems.length > 0 ? (
+          scrapItems.map((item, idx) => (
+            <ScrapCard key={idx} title={item.title} dday={item.dday} />
+          ))
+        ) : (
+          <div className="body-14-m text-gray-500 py-4">
+            스크랩한 활동이 없습니다.
+          </div>
+        )}
       </div>
     </>
   );

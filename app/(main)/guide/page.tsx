@@ -205,11 +205,11 @@ export default function GuidePage() {
 
       {isActivityLoading ? (
         <LoadingSpinner />
-      ) : activities && activities.length > 0 ? (
+      ) : 0 ? (
         <AIList data={activities} />
       ) : (
         <div className="text-gray-400 text-center py-10">
-          AI 추천 경험이 없습니다.
+          {selectedFilter?.map(f => f).join(', ')} 관련 AI 추천 활동이 없습니다.
         </div>
       )}
       <Footer />
