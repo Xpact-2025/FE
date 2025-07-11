@@ -112,9 +112,12 @@ export default function SignupForm() {
       imageUrl: '/images/mainprofile.svg',
     });
 
+    // 응답 처리
     if (data.httpStatus === 200) {
       alert('회원가입에 성공하셨습니다!');
       router.push('/login');
+    } else if (data.code === 'MEMBER002') {
+      alert('이미 존재하는 회원입니다.');
     } else {
       alert(`회원가입 실패: ${data.message}`);
     }
@@ -126,7 +129,7 @@ export default function SignupForm() {
       birthDate,
       type: 'FORM',
       role: 'ROLE_ADMIN',
-      imgUrl: '/images/mainprofile.svg',
+      imageUrl: '/images/mainprofile.svg',
     });
   };
 
