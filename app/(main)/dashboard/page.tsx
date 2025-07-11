@@ -16,9 +16,16 @@ import DashboardHeader from './components/DashboardHeader';
 
 export default async function DashboardPage() {
   const profileInfo = await getProfileInfo();
+
+  function getNowDate() {
+    const now = new Date();
+    now.setHours(now.getHours() + 9, 0, 0, 0);
+    return now;
+  }
+
   const expHistory = await getExpHistory(
-    new Date().getFullYear(),
-    new Date().getMonth() + 1
+    getNowDate().getFullYear(),
+    getNowDate().getMonth() + 1
   );
 
   function getStartAndEndLines(): {
@@ -27,22 +34,27 @@ export default async function DashboardPage() {
     startLine: string;
     endLine: string;
   } {
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
+    // end: 이번 달의 마지막 날 (한국 시간 기준)
+    const end = new Date(
+      getNowDate().getFullYear(),
+      getNowDate().getMonth() + 1,
+      0
+    );
 
-    // end: 이번 달의 마지막 날
-    const end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-
-    // start: 두 달 전의 첫째 날
-    const start = new Date(now.getFullYear(), now.getMonth() - 3, 1);
+    // start: 두 달 전의 첫째 날 (한국 시간 기준)
+    const start = new Date(
+      getNowDate().getFullYear(),
+      getNowDate().getMonth() - 3,
+      1
+    );
 
     const toString = (date: Date) => date.toISOString().split('T')[0]; // yyyy-mm-dd 형식
 
     return {
       start: start,
       end: end,
-      startLine: toString(new Date(now.getFullYear(), 0, 1)),
-      endLine: toString(new Date(now.getFullYear(), 11, 31)),
+      startLine: toString(new Date(getNowDate().getFullYear(), 0, 1)),
+      endLine: toString(new Date(getNowDate().getFullYear(), 11, 31)),
     };
   }
 

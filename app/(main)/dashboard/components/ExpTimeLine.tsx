@@ -26,7 +26,6 @@ export default function ExpTimeLine({
   const [experiences, setExperiences] = useState<TimelineExp[]>(
     expTimeline.data
   );
-  console.log(minDate, maxDate);
 
   const monthLabels: string[] = [];
   const dt = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
