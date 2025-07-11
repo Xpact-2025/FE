@@ -17,6 +17,7 @@ export default function ExpList({ data }: ExpListProps) {
   const [selectedType, setSelectedType] = useState<ExpType | null>(null);
   const [expList, setExpList] = useState<Exp[]>(data || []);
 
+  console.log(expList);
   const handleDelete = (id: number) => {
     setExpList(prev => prev.filter(exp => exp.id !== id));
   };
@@ -90,7 +91,9 @@ export default function ExpList({ data }: ExpListProps) {
               id={exp.id}
               title={exp.title}
               type={exp.experienceType}
-              draftTime={exp.draftTime}
+              startDate={exp.startDate}
+              endDate={exp.endDate}
+              issueDate={exp.issueDate}
               status={exp.status}
               subTitles={exp.subTitles}
               keywords={exp.keywords}

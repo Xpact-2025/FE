@@ -39,7 +39,9 @@ export interface Exp {
   id: number;
   title: string;
   experienceType: ExpType;
-  draftTime?: string;
+  startDate?: string;
+  endDate?: string;
+  issueDate?: string;
   status: ExpStatus;
   subTitles: string[];
   keywords: string[];

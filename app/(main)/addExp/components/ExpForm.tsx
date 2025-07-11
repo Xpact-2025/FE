@@ -254,13 +254,12 @@ export default function ExpForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const updatedForms = forms.map(f => ({
+    const allSavedForms = forms.map(f => ({
       ...f,
       status: 'SAVE' as ExpStatus,
     }));
 
-    setForms(updatedForms);
-    const form = updatedForms[activeFormIndex];
+    setForms(allSavedForms);
 
     const payload: ExpPayload = {
       ...form,
@@ -273,7 +272,7 @@ export default function ExpForm({
         ? new Date(form.startDate).toISOString()
         : undefined,
       endDate: form.endDate ? new Date(form.endDate).toISOString() : undefined,
-      subExperiences: updatedForms.map(f => ({
+      subExperiences: allSavedForms.map(f => ({
         formType: f.formType ?? 'STAR_FORM',
         uploadType: f.uploadType ?? 'FILE',
         tabName: f.tabName ?? '',

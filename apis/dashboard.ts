@@ -111,7 +111,7 @@ export async function getExpHistory(
   month: number
 ): Promise<ExpHisoryResponse> {
   const res = await API.get<ExpHisoryResponse>(
-    `/api/dashboard/history-new?${new URLSearchParams({
+    `/api/dashboard/history?${new URLSearchParams({
       year: String(year),
       month: String(month),
     })}`
