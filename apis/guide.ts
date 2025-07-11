@@ -5,7 +5,7 @@ import API from './config';
 export interface AIActivity {
   id: number;
   title: string;
-  weakness: string;
+  // weakness: string;
   imgUrl: string;
   scrapType: string;
   isCliped: boolean;
@@ -65,8 +65,8 @@ export async function getAIActivityByIndex(
     const res = await API.get<GetAIResponse>('/api/guide/activities', {
       params: {
         weaknessOrder,
-        size: 50,
         page: 0,
+        size: 12,
         sort: 'id,DESC',
       },
     });
