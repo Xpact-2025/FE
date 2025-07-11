@@ -21,6 +21,7 @@ interface ExpFormProps {
   data?: ExpPayload & { subExperiencesResponseDto: SubExperience[] };
   onSuccess?: () => void;
   isEditMode?: boolean;
+  hideButton?: boolean;
 }
 
 const getInitialForm = (
@@ -73,6 +74,7 @@ export default function ExpForm({
   data,
   onSuccess,
   isEditMode = false,
+  hideButton = false,
 }: ExpFormProps) {
   const router = useRouter();
   const [forms, setForms] = useState(() => {
@@ -496,40 +498,70 @@ export default function ExpForm({
         </div>
 
         {/*저장 버튼*/}
-        <div className="flex justify-between pt-15 gap-4 mb-15">
-          <button
-            type="submit"
-            onClick={() => {
-              setForms(prev => {
-                const updated = [...prev];
-                updated[activeFormIndex] = {
-                  ...updated[activeFormIndex],
-                  status: 'DRAFT',
-                };
-                return updated;
-              });
-            }}
-            className="w-[502px] h-14 py-5 bg-gray-800 hover:bg-gray-700 text-sm text-gray-300 font-semibold border border-gray-50-10 rounded-lg cursor-pointer"
-          >
-            임시저장
-          </button>
-          <button
-            type="submit"
-            onClick={() => {
-              setForms(prev => {
-                const updated = [...prev];
-                updated[activeFormIndex] = {
-                  ...updated[activeFormIndex],
-                  status: 'SAVE',
-                };
-                return updated;
-              });
-            }}
-            className="w-[502px] h-14 py-5 bg-primary-50 hover:bg-primary-100 text-sm text-gray-1000 font-semibold rounded-lg cursor-pointer"
-          >
-            작성완료
-          </button>
-        </div>
+        {!hideButton ? (
+          <div className="flex justify-between pt-15 gap-4 mb-15">
+            <button
+              type="submit"
+              onClick={() => {
+                setForms(prev => {
+                  const updated = [...prev];
+                  updated[activeFormIndex] = {
+                    ...updated[activeFormIndex],
+                    status: 'DRAFT',
+                  };
+                  return updated;
+                });
+              }}
+              className="w-[502px] h-14 py-5 bg-gray-800 hover:bg-gray-700 text-sm text-gray-300 font-semibold border border-gray-50-10 rounded-lg cursor-pointer"
+            >
+              임시저장
+            </button>
+            <button
+              type="submit"
+              onClick={() => {
+                setForms(prev => {
+                  const updated = [...prev];
+                  updated[activeFormIndex] = {
+                    ...updated[activeFormIndex],
+                    status: 'SAVE',
+                  };
+                  return updated;
+                });
+              }}
+              className="w-[502px] h-14 py-5 bg-primary-50 hover:bg-primary-100 text-sm text-gray-1000 font-semibold rounded-lg cursor-pointer"
+            >
+              작성완료
+            </button>
+          </div>
+        ) : (
+          <div className="flex justify-between pt-15 gap-4 mb-15">
+            <button
+              type="button"
+              onClick={() => router.push('/exp')}
+              className="w-[502px] h-14 py-4 bg-gray-800 hover:bg-gray-700 font-semibold text-gray-300 border border-gray-50-10 rounded-lg cursor-pointer"
+            >
+              취소
+            </button>
+            <button
+              type="submit"
+              onClick={() => {
+                {
+                  setForms(prev => {
+                    const updated = [...prev];
+                    updated[activeFormIndex] = {
+                      ...updated[activeFormIndex],
+                      status: 'SAVE',
+                    };
+                    return updated;
+                  });
+                }
+              }}
+              className="w-[502px] h-14 py-5 bg-primary-50 hover:bg-primary-100 text-sm text-gray-1000 font-semibold rounded-lg cursor-pointer"
+            >
+              저장
+            </button>
+          </div>
+        )}
       </div>
       <Footer />
     </form>

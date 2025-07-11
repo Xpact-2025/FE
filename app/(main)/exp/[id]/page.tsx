@@ -136,6 +136,7 @@ export default function ExpDetailPage() {
                 subExperiencesResponseDto: subDataList,
               }}
               isEditMode={true}
+              hideButton={true}
               onSuccess={async () => {
                 setIsEditing(false);
                 const res = await getExpById(Number(params?.id));
