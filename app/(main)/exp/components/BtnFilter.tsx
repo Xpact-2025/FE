@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ArrowDownIcon from '@/public/icons/Arrow_Down.svg';
 import CloseIcon from '@/public/icons/Close.svg';
 import { EXP_OPTIONS } from '@/constants/expOptions';
@@ -21,6 +21,20 @@ export default function BtnFilter({
   const options = Object.values(EXP_OPTIONS);
   const selectedOption = options.find(o => o.value === selectedType);
   const [order, setOrder] = useState<'latest' | 'oldest'>('latest');
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleSelectType = (type: ExpType) => {
     if (type === null) {
@@ -39,15 +53,18 @@ export default function BtnFilter({
   return (
     <div className="flex justify-end relative">
       <div
-        className="flex items-center justify-center px-4 h-[40px] bg-gray-1000 border border-gray-50-20 rounded-lg text-gray-300 text-sm"
+        className="flex items-center justify-center px-4 h-[40px] bg-gray-1000 border border-gray-50-20 rounded-lg text-gray-300 text-sm cursor-pointer"
         onClick={() => setIsOpen(true)}
       >
         {selectedOption?.label || '전체'}•
-        {order === 'latest' ? '최신순' : '과거순'}
+        {order === 'latest' ? '최근 경험순' : '오래된 경험순'}
         <ArrowDownIcon className="w-[24px] h-[24px]" />
       </div>
       {isOpen && (
-        <div className="flex flex-col absolute justify-center w-[597px] h-[457px] top-[60px] bg-gray-1000 rounded-lg border border-gray-50-20 z-50 p-4">
+        <div
+          ref={menuRef}
+          className="flex flex-col absolute justify-center w-[597px] h-[457px] top-[60px] bg-gray-1000 rounded-lg border border-gray-50-20 z-50 p-4"
+        >
           <div className="flex justify-end px-7">
             <CloseIcon onClick={() => setIsOpen(false)} />
           </div>
@@ -74,12 +91,12 @@ export default function BtnFilter({
             <div className="text-gray-50 text-xl">정렬 방식</div>
             <div className="flex gap-4">
               <BtnExpType
-                label="최신순"
+                label="최근 경험순"
                 selected={order === 'latest'}
                 onClick={() => handleSelectOrder('latest')}
               />
               <BtnExpType
-                label="과거순"
+                label="오래된 경험순"
                 selected={order === 'oldest'}
                 onClick={() => handleSelectOrder('oldest')}
               />

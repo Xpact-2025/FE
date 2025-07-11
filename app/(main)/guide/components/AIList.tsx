@@ -7,7 +7,11 @@ interface AIListProps {
 
 export default function AIList({ data }: AIListProps) {
   if (!data || data.length === 0) {
-    return <div className="text-gray-400">AI 추천 활동이 없습니다.</div>;
+    return (
+      <div className="mx-5 mb-10 body-15-m text-gray-300">
+        AI 추천 활동이 없습니다.
+      </div>
+    );
   }
 
   return (

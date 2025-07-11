@@ -283,7 +283,7 @@ export default function FileInput({
                 />
                 <button
                   type="button"
-                  className="w-32 h-11 px-5 rounded bg-gray-600 text-gray-50"
+                  className="w-32 h-11 px-5 rounded bg-gray-600 hover:bg-gray-500 text-gray-50 cursor-pointer"
                   onClick={() => fileInputRef.current?.click()}
                 >
                   첨부파일 추가
@@ -371,7 +371,7 @@ export default function FileInput({
       <button
         type="button"
         onClick={addNewItem}
-        className="flex gap-2.5 w-full h-14 items-center justify-center bg-gray-700 mt-7 p-2 text-gray-50 text-xl hover:bg-gray-600 rounded-full transition"
+        className="flex gap-2.5 w-full h-14 items-center justify-center bg-gray-700 mt-7 p-2 text-gray-50 text-xl hover:bg-gray-600 rounded-full cursor-pointer"
       >
         <PlusIcon className="w-[25px] h-[25px]" /> 항목 추가
       </button>
