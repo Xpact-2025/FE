@@ -33,7 +33,18 @@ export async function getProfileInfo(): Promise<ProfileInfoResponse> {
     return res.data;
   } catch (err) {
     console.error('프로필 정보 불러오기 실패', err);
-    if (err instanceof AxiosError && err?.response?.status === 500) {
+    if (
+      err instanceof AxiosError &&
+      (err?.response?.status === 401 || err?.response?.status === 403)
+    ) {
+      redirect('/profile');
+    }
+    if (
+      err instanceof AxiosError &&
+      (err?.response?.status === 500 ||
+        err?.response?.status === 404 ||
+        err?.response?.status === 400)
+    ) {
       redirect('/profile');
     }
     redirect('/login');
