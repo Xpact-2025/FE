@@ -66,7 +66,7 @@ export async function getAIActivityByIndex(
       params: {
         weaknessOrder,
         page: 0,
-        size: 12,
+        size: 50,
         sort: 'id,DESC',
       },
     });
