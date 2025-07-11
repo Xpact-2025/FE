@@ -28,6 +28,7 @@ export default async function DashboardPage() {
     endLine: string;
   } {
     const now = new Date();
+    now.setHours(0, 0, 0, 0);
 
     // end: 이번 달의 마지막 날
     const end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
