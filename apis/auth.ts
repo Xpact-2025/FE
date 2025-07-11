@@ -27,6 +27,7 @@ interface SignupPayload {
   birthDate: string;
   type?: 'FORM' | 'KAKAO';
   role?: 'ROLE_USER' | 'ROLE_ADMIN';
+  imageUrl?: string;
 }
 
 interface SignupResponse {
