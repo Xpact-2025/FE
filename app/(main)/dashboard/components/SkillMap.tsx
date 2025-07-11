@@ -76,10 +76,10 @@ export default function SkillMap({
             onClick={() => setShowStrengthFeedback(true)}
             className="text-left flex flex-col items-start"
           >
-            <div className="text-gray-300 body-10-m mb-2">강점 역량</div>
+            <div className="text-gray-300 body-11-m mb-2">강점 역량</div>
             <div className="flex items-center">
               <div className="inline-block w-3 h-3 border-2 border-gray-200 rounded-md mr-2" />
-              <span className="text-primary body-12-m">
+              <span className="text-primary text-[12px] font-semibold underline cursor-pointer">
                 {strengthFeedback.strengthName}
               </span>
             </div>
@@ -89,10 +89,10 @@ export default function SkillMap({
             onClick={() => setShowWeaknessFeedback(true)}
             className="text-left flex flex-col items-start"
           >
-            <div className="text-gray-300 body-10-m mb-2">보완 필요 역량</div>
+            <div className="text-gray-300 body-11-m mb-2">보완 필요 역량</div>
             <div className="flex items-center">
               <div className="inline-block w-3 h-3 border-2 border-gray-200 rounded-md mr-2" />
-              <span className="text-primary body-12-m">
+              <span className="text-primary text-[12px] font-semibold underline cursor-pointe">
                 {weaknessFeedback.weaknessName}
               </span>
             </div>
