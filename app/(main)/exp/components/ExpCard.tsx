@@ -6,13 +6,14 @@ import MoreVerticalIcon from '@/public/icons/More_Vertical.svg';
 import DropdownMenu from './DropdownMenu';
 import ExpVariety from './ExpVariety';
 import { useRouter } from 'next/navigation';
-import ClockIcon from '@/public/icons/Clock.svg';
 
 interface ExpCardProps {
   id: number;
   title: string;
   type: ExpType;
-  draftTime?: string;
+  startDate?: string;
+  endDate?: string;
+  issueDate?: string;
   status: ExpStatus;
   subTitles: string[];
   keywords: string[];
@@ -23,7 +24,9 @@ export default function ExpCard({
   id,
   title,
   type,
-  draftTime,
+  startDate,
+  endDate,
+  issueDate,
   status,
   subTitles,
   onDelete,
@@ -36,30 +39,6 @@ export default function ExpCard({
     router.push(`/exp/${id}`);
   };
 
-  const formattedDraftTime = draftTime
-    ? (() => {
-        const date = new Date(draftTime);
-        const today = new Date();
-        const isToday =
-          date.getFullYear() === today.getFullYear() &&
-          date.getMonth() === today.getMonth() &&
-          date.getDate() === today.getDate();
-
-        if (isToday) {
-          return date.toLocaleTimeString('ko-KR', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-          });
-        } else {
-          const yyyy = date.getFullYear();
-          const mm = String(date.getMonth() + 1).padStart(2, '0');
-          const dd = String(date.getDate()).padStart(2, '0');
-          return `${yyyy}-${mm}-${dd}`;
-        }
-      })()
-    : null;
-
   return (
     <div
       className="relative w-[260px] h-[224px] border 
@@ -69,9 +48,16 @@ export default function ExpCard({
       <div
         className="flex flex-col cursor-pointer"
         onClick={handleClick}
-        style={{ width: '200px', height: '200px' }}
+        style={{ width: '220px', height: '200px' }}
       >
-        <ExpVariety type={type} />
+        <div className="flex justify-between">
+          <ExpVariety type={type} />
+          {isTemp && (
+            <div className="flex gap-1.5 items-center text-[13px] text-gray-300 whitespace-nowrap">
+              임시저장
+            </div>
+          )}
+        </div>
         <div className="body-16-sb text-gray-50 mt-[15px] mb-[5px] truncate">
           {title}
         </div>
@@ -87,15 +73,10 @@ export default function ExpCard({
             ))}
         </ol>
       </div>
-      <div className="flex flex-row justify-between items-center relative">
-        {isTemp && draftTime && (
-          <div className="flex gap-1.5 items-center body-14-m text-gray-300 whitespace-nowrap">
-            <ClockIcon />
-            <span>{formattedDraftTime}</span>
-            <span>임시저장</span>
-          </div>
-        )}
-
+      <div className="flex justify-between whitespace-nowrap text-[13px] text-gray-300">
+        {type === 'CERTIFICATES' || type === 'PRIZE'
+          ? issueDate
+          : `${startDate} - ${endDate}`}
         <div className="flex w-full justify-end">
           <MoreVerticalIcon
             className=" stroke-gray-50 cursor-pointer"

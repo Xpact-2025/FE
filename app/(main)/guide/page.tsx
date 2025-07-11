@@ -139,7 +139,7 @@ export default function GuidePage() {
       </div>
 
       <div
-        className="flex items-center justify-around w-[100%] h-full bg-gray-700 rounded-[12px] border border-gray-600 mt-6 pl-9 pr-13 py-5.5"
+        className="flex items-center justify-around w-[100%] h-full bg-gray-700 rounded-[12px] border border-gray-600 mt-6 pl-6 pr-12 py-5.5"
         onMouseLeave={() => setSelectedSkill(null)}
       >
         {!selectedSkill && (
@@ -206,7 +206,9 @@ export default function GuidePage() {
       {isActivityLoading ? (
         <LoadingSpinner />
       ) : activities && activities.length > 0 ? (
-        <AIList data={activities} />
+        <div className="pb-10">
+          <AIList data={activities} />
+        </div>
       ) : (
         <div className="text-gray-400 text-center py-10">
           AI 추천 경험이 없습니다.

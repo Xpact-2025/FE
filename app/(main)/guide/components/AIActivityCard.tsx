@@ -73,7 +73,7 @@ export default function AIActivityCard({
   return (
     <div
       onClick={handleCardClick}
-      className="w-65 h-125 px-5 py-4.5 bg-[#1A1A1A] rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between mb-5 cursor-pointer"
+      className="w-65 h-125 px-5 py-4.5 bg-[#1A1A1A] rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between mb-5 cursor-pointer border border-gray-700"
     >
       <div>
         {/* 이미지 */}
