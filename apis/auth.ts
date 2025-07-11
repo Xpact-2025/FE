@@ -103,13 +103,21 @@ export async function loginUser(payload: LoginPayload): Promise<LoginResponse> {
 export async function signupUser(
   payload: SignupPayload
 ): Promise<SignupResponse> {
-  const res = await API.post<SignupResponse>('/auth/signup', {
-    ...payload,
-    type: payload.type ?? 'FORM',
-    role: payload.role ?? 'ROLE_ADMIN',
-  });
+  try {
+    const res = await API.post<SignupResponse>('/auth/signup', {
+      ...payload,
+      type: payload.type ?? 'FORM',
+      role: payload.role ?? 'ROLE_ADMIN',
+    });
 
-  return res.data;
+    return res.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<SignupResponse>;
+    if (axiosError.response?.data) {
+      return axiosError.response.data;
+    }
+    throw error;
+  }
 }
 
 //카카오 로그인
