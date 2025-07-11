@@ -27,6 +27,7 @@ interface SignupPayload {
   birthDate: string;
   type?: 'FORM' | 'KAKAO';
   role?: 'ROLE_USER' | 'ROLE_ADMIN';
+  imageUrl?: string;
 }
 
 interface SignupResponse {
@@ -105,7 +106,7 @@ export async function signupUser(
   const res = await API.post<SignupResponse>('/auth/signup', {
     ...payload,
     type: payload.type ?? 'FORM',
-    role: payload.role ?? 'ROLE_USER',
+    role: payload.role ?? 'ROLE_ADMIN',
   });
 
   return res.data;
