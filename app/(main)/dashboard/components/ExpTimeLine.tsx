@@ -8,7 +8,7 @@ import {
 } from '@/apis/dashboard';
 import BtnNext from '@/app/components/commons/BtnNext';
 import BtnPrev from '@/app/components/commons/BtnPrev';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import DashboardHeader from './DashboardHeader';
 import { DASHBOARD_INFO } from '@/constants/dashboardInfo';
 
@@ -26,16 +26,14 @@ export default function ExpTimeLine({
   const [experiences, setExperiences] = useState<TimelineExp[]>(
     expTimeline.data
   );
+  console.log(minDate, maxDate);
 
-  const monthLabels = useMemo(() => {
-    const labels: string[] = [];
-    const dt = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
-    while (dt < maxDate) {
-      labels.push(`${dt.getMonth() + 1}월`);
-      dt.setMonth(dt.getMonth() + 1);
-    }
-    return labels;
-  }, [minDate, maxDate]);
+  const monthLabels: string[] = [];
+  const dt = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
+  while (dt.getMonth() <= maxDate.getMonth()) {
+    monthLabels.push(`${dt.getMonth() + 1}월`);
+    dt.setMonth(dt.getMonth() + 1);
+  }
 
   // 1달 이전으로 이동
   const handlePrev = () => {
