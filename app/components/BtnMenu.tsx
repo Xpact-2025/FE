@@ -19,9 +19,15 @@ export default function BtnMenu({ title, menu }: BtnMenuProps) {
 
   const handleClick = () => {
     if (!hasToken) {
-      alert('로그인 후 이용할 수 있습니다.');
+      const confirmed = window.confirm(
+        '로그인 후 이용할 수 있습니다. 로그인 페이지로 이동할까요?'
+      );
+      if (confirmed) {
+        router.push('/login');
+      }
       return;
     }
+
     router.push(`/${menu}`);
   };
 

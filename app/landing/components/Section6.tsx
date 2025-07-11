@@ -2,7 +2,7 @@ import ReviewSlider from './ReviewSlider';
 
 export default function Section6() {
   return (
-    <section className="bg-gray-1000 text-white w-full p-[130px] text-center">
+    <section className="bg-gray-1000 text-white py-[130px] text-center mt-[20%] px-[10%]">
       <h3 className="text-[24px] md:text-[36px] font-semibold mb-[48px] leading-relaxed">
         정리되지 않던 경험이,{' '}
         <span className="px-2 py-1 text-white bg-highlight">
