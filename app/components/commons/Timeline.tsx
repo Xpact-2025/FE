@@ -54,7 +54,7 @@ export default function Timeline({
     placedBar.length > 0 ? Math.max(...placedBar.map(bar => bar.rowIndex)) : 0;
 
   const totalSvgHeight =
-    maxRowIndex >= 3 ? maxRowIndex * (30 + gap) + 30 + gap : height;
+    maxRowIndex >= 3 ? maxRowIndex * (30 + gap) + 50 + gap : height;
 
   useEffect(() => {
     if (!numericWidth) return;
