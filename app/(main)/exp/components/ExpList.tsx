@@ -78,7 +78,10 @@ export default function ExpList({ data }: ExpListProps) {
       </div>
 
       {!data || data.length === 0 ? (
-        <div>AI 추천활동이 존재하지 않습니다.</div>
+        <div className="mx-4 mt-7 body-15-m text-gray-300">
+          아직 등록된 경험이 없어요. 오른쪽 아래 버튼을 눌러 경험을 추가해
+          보세요!
+        </div>
       ) : (
         <div className="w-full flex flex-wrap space-x-[28px] space-y-[37px]">
           {filteredData?.map(exp => (

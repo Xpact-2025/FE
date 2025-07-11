@@ -110,7 +110,7 @@ const GuideModal: React.FC<GuideModalProps> = ({
           height={42}
           className="absolute top-[80px] right-[134px]"
         />
-        <div className="absolute bg-gray-600 px-12 py-8 rounded-2xl top-[100px] right-[35px] w-[858px]">
+        <div className="absolute bg-gray-600 px-8 py-8 rounded-2xl top-[100px] right-[35px] w-[820px]">
           <h2 className="text-3xl font-semibold mb-4">{title}</h2>
           {renderContent()}
         </div>
