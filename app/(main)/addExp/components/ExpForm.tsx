@@ -432,11 +432,11 @@ export default function ExpForm({
           </div>
           {/*회색 배경*/}
           <div className="pt-[14px] z-0 relative bg-gray-700 rounded-2xl px-12">
-            {/*작성양식 탭*/}
-
+            {/* 작성양식 탭 */}
             <div className="pb-[60px]">
               {form.experienceType !== 'PRIZE' &&
-                form.experienceType !== 'CERTIFICATES' && (
+                form.experienceType !== 'CERTIFICATES' &&
+                (!isEditMode || forms[activeFormIndex].subId === undefined) && (
                   <>
                     <div className="flex items-center justify-between w-full pt-7.5 pb-6.5">
                       <div className="text-gray-50 text-xl font-medium ml-[1%]">
@@ -476,17 +476,21 @@ export default function ExpForm({
                     )}
                   </>
                 )}
-              {isModalOpen && (
-                <GuideModal
-                  title={
-                    form.selectedTab === 'star'
-                      ? 'STAR 양식 작성 가이드'
-                      : '간결 양식 작성 가이드'
-                  }
-                  type={(form.selectedTab ?? 'star') as 'star' | 'simple'}
-                  closeRequest={() => setIsModalOpen(false)}
-                />
-              )}
+
+              {/* 가이드 모달도 동일한 조건으로 보이도록 */}
+              {isEditMode &&
+                isModalOpen &&
+                forms[activeFormIndex].subId === undefined && (
+                  <GuideModal
+                    title={
+                      form.selectedTab === 'star'
+                        ? 'STAR 양식 작성 가이드'
+                        : '간결 양식 작성 가이드'
+                    }
+                    type={(form.selectedTab ?? 'star') as 'star' | 'simple'}
+                    closeRequest={() => setIsModalOpen(false)}
+                  />
+                )}
             </div>
 
             {/*제목부터 입력*/}
