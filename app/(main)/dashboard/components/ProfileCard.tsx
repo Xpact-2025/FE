@@ -20,8 +20,8 @@ export default function ProfileCard({
           className={
             `px-4 py-1 bg-primary rounded-full text-gray-1000 ` +
             (profileInfo.desiredDetailRecruit?.length > 7
-              ? 'body-10-m'
-              : 'body-12-m')
+              ? 'text-[10px] font-semibold'
+              : 'text-[12px] font-semibold')
           }
         >
           {profileInfo.desiredDetailRecruit
@@ -31,7 +31,7 @@ export default function ProfileCard({
 
         <h2 className="my-2 body-16-sb">{profileInfo.name}</h2>
 
-        <div className="body-9-r text-gray-300 stroke-gray-300 flex flex-col items-center text-center">
+        <div className="text-[11px] text-gray-300 stroke-gray-300 flex flex-col items-center text-center">
           <p className="break-keep">
             {profileInfo.educationName
               ? profileInfo.educationName

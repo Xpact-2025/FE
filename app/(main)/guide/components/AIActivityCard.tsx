@@ -104,17 +104,18 @@ export default function AIActivityCard({
         </div>
 
         {/* 제목 */}
-        <div className="pt-5 body-20-r text-gray-50 break-words whitespace-normal">
+        <div className="pt-5 body-20-r text-gray-50 break-words whitespace-normal line-clamp-3">
           {data.title}
         </div>
       </div>
 
       {/* D-day */}
-      <div className="flex items-center justify-between body-16-r pt-2">
-        <div className="text-gray-50">{data.weakness ?? '전체'}</div>
-        <div className="text-gray-50">
-          {parseInt(data.dday) >= 0 ? '마감' : `D${data.dday}`}
-        </div>
+      <div className="flex justify-end body-16-r pt-2 p-1 text-gray-50">
+        {isNaN(Number(data.dday))
+          ? data.dday // 숫자가 아니면 그대로 출력
+          : Number(data.dday) >= 0
+            ? '마감'
+            : `D${data.dday}`}
       </div>
     </div>
   );
