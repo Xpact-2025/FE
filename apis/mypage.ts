@@ -31,7 +31,18 @@ export async function getMemberInfo(): Promise<MemberResponse> {
     return res.data;
   } catch (err) {
     console.error('프로필 정보 불러오기 실패', err);
-    if (err instanceof AxiosError && err?.response?.status === 500) {
+    if (
+      err instanceof AxiosError &&
+      (err?.response?.status === 401 || err?.response?.status === 403)
+    ) {
+      redirect('/login');
+    }
+    if (
+      err instanceof AxiosError &&
+      (err?.response?.status === 500 ||
+        err?.response?.status === 404 ||
+        err?.response?.status === 400)
+    ) {
       redirect('/profile');
     }
     redirect('/login');
