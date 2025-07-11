@@ -24,6 +24,7 @@ export default function ExpDetailPage() {
   const [isEditing, setIsEditing] = useState(
     () => searchParams.get('edit') === 'true'
   );
+  const [editStatus, setEditStatus] = useState(data?.status || 'SAVE');
   const [editTitle, setEditTitle] = useState('');
   const [editQualification, setEditQualification] = useState('');
   const [editPublisher, setEditPublisher] = useState('');
@@ -124,6 +125,8 @@ export default function ExpDetailPage() {
           <div className="-mt-15">
             <ExpForm
               data={{
+                ...data,
+                status: editStatus,
                 id: data.experienceId,
                 experienceType: data.experienceType,
                 title: editTitle,
@@ -139,8 +142,10 @@ export default function ExpDetailPage() {
               onSuccess={async () => {
                 setIsEditing(false);
                 const res = await getExpById(Number(params?.id));
+                console.log('서버에서 받아온 최신 데이터:', res.data);
                 setData(res.data);
                 setSubDataList(res.data.subExperiencesResponseDto ?? []);
+                setEditStatus(res.data.status || 'SAVE');
                 setEditTitle(res.data.title || '');
                 setEditQualification(res.data.qualification || '');
                 setEditPublisher(res.data.publisher || '');

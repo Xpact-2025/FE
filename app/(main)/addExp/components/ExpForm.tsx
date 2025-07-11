@@ -365,7 +365,6 @@ export default function ExpForm({
             <ExpHeader
               experienceType={form.experienceType}
               title={form.title}
-              status={form.status}
               qualification={form.qualification}
               publisher={form.publisher}
               issueDate={form.issueDate}
@@ -374,7 +373,6 @@ export default function ExpForm({
               isEditing={true}
               onChange={{
                 title: val => handleChange('title', val),
-                status: val => handleChange('status', val),
                 qualification: val => handleChange('qualification', val),
                 publisher: val => handleChange('publisher', val),
                 issueDate: val => handleChange('issueDate', val),
