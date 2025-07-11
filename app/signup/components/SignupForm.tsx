@@ -5,6 +5,8 @@ import FormInput from '../../components/InputCheckBox';
 import { signupUser } from '@/apis/auth';
 import { useRouter } from 'next/navigation';
 import AgreementList from '@/app/components/AgreementList';
+import TermsPopup from '@/app/components/PrivacyPopup';
+import PrivacyPopup from '@/app/components/PrivacyPopup';
 
 export default function SignupForm() {
   const [email, setEmail] = useState('');
@@ -110,7 +112,7 @@ export default function SignupForm() {
     });
 
     if (data.httpStatus === 200) {
-      alert('회원가입 성공!');
+      alert('회원가입에 성공하셨습니다!');
       router.push('/login');
     } else {
       alert(`회원가입 실패: ${data.message}`);
@@ -189,14 +191,29 @@ export default function SignupForm() {
           successHighlight
         />
       </div>
-
       <button
         onClick={handleSignup}
         className="w-full mt-[8%] py-3 bg-primary hover:bg-primary-100 text-[18px] font-semibold rounded cursor-pointer"
       >
         회원가입
       </button>
-      <AgreementList agreements={agreements} onChange={handleAgreementChange} />
+      <AgreementList
+        agreements={[
+          {
+            id: 'terms',
+            label: '이용약관에 동의합니다.',
+            required: true,
+            detailComponent: <TermsPopup />,
+          },
+          {
+            id: 'privacy',
+            label: '개인정보 수집 및 이용에 동의합니다.',
+            required: true,
+            detailComponent: <PrivacyPopup />,
+          },
+        ]}
+        onChange={handleAgreementChange}
+      />
     </div>
   );
 }

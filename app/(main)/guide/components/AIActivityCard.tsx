@@ -96,7 +96,7 @@ export default function AIActivityCard({
           </span>
           <div onClick={handleToggleScrap} className="cursor-pointer">
             {isCliped ? (
-              <BookmarkFill className="stroke-gray-100 w-5 h-5" />
+              <BookmarkFill className="w-5 h-5" />
             ) : (
               <BookmarkIcon className="stroke-gray-100 w-5 h-5" />
             )}

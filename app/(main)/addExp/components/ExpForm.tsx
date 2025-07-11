@@ -20,6 +20,7 @@ import ExpHeader from '../../exp/components/ExpDetailHeader';
 interface ExpFormProps {
   data?: ExpPayload & { subExperiencesResponseDto: SubExperience[] };
   onSuccess?: () => void;
+  onCancel?: () => void;
   isEditMode?: boolean;
 }
 
@@ -72,6 +73,7 @@ const getInitialForm = (
 export default function ExpForm({
   data,
   onSuccess,
+  onCancel,
   isEditMode = false,
 }: ExpFormProps) {
   const router = useRouter();
@@ -114,7 +116,7 @@ export default function ExpForm({
 
     const newForm = {
       ...getInitialForm(undefined),
-      id: forms[0].id, // ✅ 기존 경험 ID 유지
+      id: forms[0].id,
       formType: isAward ? undefined : ('STAR_FORM' as ExpFormType),
       selectedTab: isAward ? undefined : 'star',
       experienceType: currentExperienceType,
@@ -325,77 +327,77 @@ export default function ExpForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-20">
-      {!isEditMode && (
-        <div className="flex items-center pb-[50px]">
-          <button
-            type="button"
-            onClick={() => {
-              setPendingFormType(null);
-              setIsPopupOpen(true);
-            }}
-          >
-            <BackIcon className="stroke-gray-50 w-[35px] h-[35px]" />
-          </button>
+    <>
+      <form onSubmit={handleSubmit} className="p-20">
+        {!isEditMode && (
+          <div className="flex items-center pb-[50px]">
+            <button
+              type="button"
+              onClick={() => {
+                setPendingFormType(null);
+                setIsPopupOpen(true);
+              }}
+            >
+              <BackIcon className="stroke-gray-50 w-[35px] h-[35px]" />
+            </button>
 
-          {isPopupOpen && !pendingFormType && (
-            <Popup
-              title="작성취소"
-              content={`경험 작성을 취소하시겠습니까?\n취소하시면 입력하신 내용은 저장되지 않습니다.`}
-              confirmText="작성 취소"
-              cancelText="계속 작성"
-              onConfirm={() => router.push('/exp')}
-              onCancel={() => {
-                setIsPopupOpen(false);
+            {isPopupOpen && !pendingFormType && (
+              <Popup
+                title="작성취소"
+                content={`경험 작성을 취소하시겠습니까?\n취소하시면 입력하신 내용은 저장되지 않습니다.`}
+                confirmText="작성 취소"
+                cancelText="계속 작성"
+                onConfirm={() => router.push('/exp')}
+                onCancel={() => {
+                  setIsPopupOpen(false);
+                }}
+              />
+            )}
+            <div className="text-gray-50 text-2xl font-medium">경험 입력</div>
+          </div>
+        )}
+
+        <div className="w-[1025px] px-12">
+          {isEditMode && (
+            <ExpHeader
+              experienceType={form.experienceType}
+              title={form.title}
+              qualification={form.qualification}
+              publisher={form.publisher}
+              issueDate={form.issueDate}
+              startDate={form.startDate}
+              endDate={form.endDate}
+              isEditing={true}
+              onChange={{
+                title: val => handleChange('title', val),
+                qualification: val => handleChange('qualification', val),
+                publisher: val => handleChange('publisher', val),
+                issueDate: val => handleChange('issueDate', val),
+                startDate: val => handleChange('startDate', val),
+                endDate: val => handleChange('endDate', val),
               }}
             />
           )}
-          <div className="text-gray-50 text-2xl font-medium">경험 입력</div>
-        </div>
-      )}
-
-      <div className="w-[1025px] px-12">
-        {isEditMode && (
-          <ExpHeader
-            experienceType={form.experienceType}
-            title={form.title}
-            qualification={form.qualification}
-            publisher={form.publisher}
-            issueDate={form.issueDate}
-            startDate={form.startDate}
-            endDate={form.endDate}
-            isEditing={true}
-            onChange={{
-              title: val => handleChange('title', val),
-              qualification: val => handleChange('qualification', val),
-              publisher: val => handleChange('publisher', val),
-              issueDate: val => handleChange('issueDate', val),
-              startDate: val => handleChange('startDate', val),
-              endDate: val => handleChange('endDate', val),
-            }}
-          />
-        )}
-        {/*경험탭*/}
-        <div className="flex mb-[-14px]">
-          {forms.map((_, index) => (
-            <div
-              key={index}
-              className={`w-48 h-20 ${activeFormIndex === index ? 'bg-gray-700 border-primary-50 border-t-2' : 'bg-black border border-gray-700 text-gray-400'} rounded-tl-2xl rounded-tr-2xl `}
-              onClick={() => setActiveFormIndex(index)}
-            >
-              {forms.length > 1 && (
-                <CloseIcon
-                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                    e.stopPropagation();
-                    handleRemoveExperienceTab(index);
-                  }}
-                  className="mx-41 my-2.5 w-4 h-4"
-                />
-              )}
-              <div className="flex h-full justify-center text-lg mt-[10px]">
+          {/*경험탭*/}
+          <div className="flex mb-[-14px]">
+            {forms.map((_, index) => (
+              <div
+                key={index}
+                className={`relative flex items-center justify-center w-48 h-20 ${activeFormIndex === index ? 'bg-gray-700 border-primary-50 border-t-2' : 'bg-black border border-gray-700 text-gray-400'} rounded-tl-2xl rounded-tr-2xl `}
+                onClick={() => setActiveFormIndex(index)}
+              >
+                {forms.length > 1 && (
+                  <CloseIcon
+                    onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                      e.stopPropagation();
+                      handleRemoveExperienceTab(index);
+                    }}
+                    className="absolute top-2 right-3 w-4 h-4 cursor-pointer"
+                  />
+                )}
                 <input
                   type="text"
-                  className="absolute top-73 w-[100px] h-[30px] bg-[#5B5B5B] px-2 py-1 text-center rounded"
+                  className="w-[100px] h-[30px] bg-[#5B5B5B] px-2 py-1 text-center rounded text-lg"
                   value={forms[index].tabName ?? ''}
                   placeholder={`경험 ${index + 1}`}
                   onChange={e => {
@@ -416,119 +418,155 @@ export default function ExpForm({
                   }}
                 />
               </div>
-            </div>
-          ))}
+            ))}
 
-          {/*경험 항목*/}
-          {forms.length < 4 && (
-            <div
-              className="w-48 h-20 'bg-black border border-gray-700 rounded-tl-2xl rounded-tr-2xl"
-              onClick={() => handleAddExperienceTab(form.experienceType)}
-            >
-              <PlusGrayIcon className="flex mx-19.5 my-4.5 w-[27px] h-[27px] cursor-pointer" />
+            {/*경험 항목*/}
+            {forms.length < 4 && (
+              <div
+                className="w-48 h-20 'bg-black border border-gray-700 rounded-tl-2xl rounded-tr-2xl"
+                onClick={() => handleAddExperienceTab(form.experienceType)}
+              >
+                <PlusGrayIcon className="flex mx-19.5 my-4.5 w-[27px] h-[27px] cursor-pointer" />
+              </div>
+            )}
+          </div>
+          {/*회색 배경*/}
+          <div className="pt-[14px] z-0 relative bg-gray-700 rounded-2xl px-12">
+            {/* 작성양식 탭 */}
+            <div className="pb-[60px]">
+              {form.experienceType !== 'PRIZE' &&
+                form.experienceType !== 'CERTIFICATES' &&
+                (!isEditMode || forms[activeFormIndex].subId === undefined) && (
+                  <>
+                    <div className="flex items-center justify-between w-full pt-7.5 pb-6.5">
+                      <div className="text-gray-50 text-xl font-medium ml-[1%]">
+                        작성 양식
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <button
+                          type="button"
+                          onMouseEnter={() => setIsModalOpen(true)}
+                        >
+                          <HelpIcon className="stroke-gray-300 w-[24px] h-[24px] cursor-pointer" />
+                        </button>
+                        <span className="text-neutral-400 font-medium p-2">
+                          양식 활용 가이드
+                        </span>
+                      </div>
+                    </div>
+                    <FormTab
+                      onChange={handleTabChange}
+                      selectedTab={
+                        forms[activeFormIndex].selectedTab as 'star' | 'simple'
+                      }
+                    />
+                    {isPopupOpen && pendingFormType && (
+                      <Popup
+                        title="양식 변경"
+                        content={`${
+                          pendingFormType === 'STAR_FORM'
+                            ? 'STAR 양식'
+                            : '간결 양식'
+                        }으로 변경하시겠습니까?\n변경하시면 입력하신 내용은 저장되지 않습니다.`}
+                        confirmText="양식 변경"
+                        cancelText="계속 작성"
+                        onConfirm={confirmTabChange}
+                        onCancel={() => setIsPopupOpen(false)}
+                      />
+                    )}
+                  </>
+                )}
+
+              {/* 가이드 모달도 동일한 조건으로 보이도록 */}
+              {isEditMode &&
+                isModalOpen &&
+                forms[activeFormIndex].subId === undefined && (
+                  <GuideModal
+                    title={
+                      form.selectedTab === 'star'
+                        ? 'STAR 양식 작성 가이드'
+                        : '간결 양식 작성 가이드'
+                    }
+                    type={(form.selectedTab ?? 'star') as 'star' | 'simple'}
+                    closeRequest={() => setIsModalOpen(false)}
+                  />
+                )}
+            </div>
+
+            {/*제목부터 입력*/}
+            {renderForm()}
+          </div>
+
+          {/*저장 버튼*/}
+          {!isEditMode && (
+            <>
+              <div className="flex justify-between pt-15 gap-2.5">
+                <button
+                  type="submit"
+                  onClick={() => {
+                    setForms(prev => {
+                      const updated = [...prev];
+                      updated[activeFormIndex] = {
+                        ...updated[activeFormIndex],
+                        status: 'DRAFT',
+                      };
+                      return updated;
+                    });
+                  }}
+                  className="w-[502px] h-14 py-5 bg-gray-800 text-sm text-gray-300 font-semibold border border-gray-50-10 rounded-lg"
+                >
+                  임시저장
+                </button>
+                <button
+                  type="submit"
+                  onClick={() => {
+                    setForms(prev => {
+                      const updated = [...prev];
+                      updated[activeFormIndex] = {
+                        ...updated[activeFormIndex],
+                        status: 'SAVE',
+                      };
+                      return updated;
+                    });
+                  }}
+                  className="w-[502px] h-14 py-5 bg-primary-50 text-sm text-gray-1000 font-semibold rounded-lg"
+                >
+                  작성완료
+                </button>
+              </div>
+            </>
+          )}
+
+          {isEditMode && (
+            <div className="flex justify-between pt-15 gap-2.5">
+              <button
+                type="button"
+                onClick={onCancel}
+                className="w-[502px] h-14 py-5 bg-gray-800 text-sm text-gray-300 font-semibold border border-gray-50-10 rounded-lg"
+              >
+                취소
+              </button>
+              <button
+                type="submit"
+                onClick={() => {
+                  setForms(prev => {
+                    const updated = [...prev];
+                    updated[activeFormIndex] = {
+                      ...updated[activeFormIndex],
+                      status: 'SAVE',
+                    };
+                    return updated;
+                  });
+                }}
+                className="w-[502px] h-14 py-5 bg-primary-50 text-sm text-gray-1000 font-semibold rounded-lg"
+              >
+                저장
+              </button>
             </div>
           )}
         </div>
-        {/*회색 배경*/}
-        <div className="pt-[14px] z-0 relative bg-gray-700 rounded-2xl px-12">
-          {/*작성양식 탭*/}
-
-          <div className="pb-[60px]">
-            {form.experienceType !== 'PRIZE' &&
-              form.experienceType !== 'CERTIFICATES' && (
-                <>
-                  <div className="flex items-center justify-between w-full pt-7.5 pb-6.5">
-                    <div className="text-gray-50 text-xl font-medium ml-[1%]">
-                      작성 양식
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <button
-                        type="button"
-                        onMouseEnter={() => setIsModalOpen(true)}
-                      >
-                        <HelpIcon className="stroke-gray-300 w-[24px] h-[24px] cursor-pointer" />
-                      </button>
-                      <span className="text-neutral-400 font-medium p-2">
-                        양식 활용 가이드
-                      </span>
-                    </div>
-                  </div>
-                  <FormTab
-                    onChange={handleTabChange}
-                    selectedTab={
-                      forms[activeFormIndex].selectedTab as 'star' | 'simple'
-                    }
-                  />
-                  {isPopupOpen && pendingFormType && (
-                    <Popup
-                      title="양식 변경"
-                      content={`${
-                        pendingFormType === 'STAR_FORM'
-                          ? 'STAR 양식'
-                          : '간결 양식'
-                      }으로 변경하시겠습니까?\n변경하시면 입력하신 내용은 저장되지 않습니다.`}
-                      confirmText="양식 변경"
-                      cancelText="계속 작성"
-                      onConfirm={confirmTabChange}
-                      onCancel={() => setIsPopupOpen(false)}
-                    />
-                  )}
-                </>
-              )}
-            {isModalOpen && (
-              <GuideModal
-                title={
-                  form.selectedTab === 'star'
-                    ? 'STAR 양식 작성 가이드'
-                    : '간결 양식 작성 가이드'
-                }
-                type={(form.selectedTab ?? 'star') as 'star' | 'simple'}
-                closeRequest={() => setIsModalOpen(false)}
-              />
-            )}
-          </div>
-
-          {/*제목부터 입력*/}
-          {renderForm()}
-        </div>
-
-        {/*저장 버튼*/}
-        <div className="flex justify-between pt-15 gap-2.5">
-          <button
-            type="submit"
-            onClick={() => {
-              setForms(prev => {
-                const updated = [...prev];
-                updated[activeFormIndex] = {
-                  ...updated[activeFormIndex],
-                  status: 'DRAFT',
-                };
-                return updated;
-              });
-            }}
-            className="w-[502px] h-14 py-5 bg-gray-800 text-sm text-gray-300 font-semibold border border-gray-50-10 rounded-lg"
-          >
-            임시저장
-          </button>
-          <button
-            type="submit"
-            onClick={() => {
-              setForms(prev => {
-                const updated = [...prev];
-                updated[activeFormIndex] = {
-                  ...updated[activeFormIndex],
-                  status: 'SAVE',
-                };
-                return updated;
-              });
-            }}
-            className="w-[502px] h-14 py-5 bg-primary-50 text-sm text-gray-1000 font-semibold rounded-lg"
-          >
-            작성완료
-          </button>
-        </div>
-      </div>
+      </form>
       <Footer />
-    </form>
+    </>
   );
 }

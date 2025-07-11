@@ -31,9 +31,10 @@ export default function GuidePage() {
   const [isHoveredSkillHelp, setIsHoveredSkillHelp] = useState(false);
   const skillHelpText =
     '대시보드의 핵심스킬맵에서 낮게 나타난 \n3가지 역량에 대해 알려줘요.';
-  const [isHoveredActivityHelp, setIsHoveredActivityHelp] = useState(false); // 👈 추가된 부분
+  const [isHoveredActivityHelp, setIsHoveredActivityHelp] = useState(false);
   const activityHelpText =
     '필요 역량을 키우는 데 도움이 되는 활동을 AI가 추천해줘요.';
+  const [hasNoExpError, setHasNoExpError] = useState(false);
 
   useEffect(() => {
     const fetchMemberInfo = async () => {
@@ -46,10 +47,19 @@ export default function GuidePage() {
 
     const fetchWeaknesses = async () => {
       const weakRes = await getWeakness();
-      if (weakRes.httpStatus !== 200) {
-        setError(true);
+
+      if (weakRes.code === 'WE002') {
+        setHasNoExpError(true); //경험 없을 경우 예외 처리
+        setInitialLoading(false);
         return;
       }
+
+      if (weakRes.httpStatus !== 200 || !Array.isArray(weakRes.data)) {
+        setError(true);
+        setInitialLoading(false);
+        return;
+      }
+
       setWeaknesses(weakRes.data);
       setInitialLoading(false);
     };
@@ -86,6 +96,21 @@ export default function GuidePage() {
     return (
       <div className="w-full h-screen flex justify-center items-center">
         <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (hasNoExpError) {
+    return (
+      <div className="w-full h-screen flex flex-col justify-center items-center text-center text-gray-400 px-6">
+        <p className="text-lg font-semibold mb-2">경험 분석이 필요합니다</p>
+        <p className="text-sm">
+          성장 가이드를 보기 위해선 먼저 <br />
+          <span className="text-primary-50 font-medium">
+            대시보드에서 경험 분석
+          </span>
+          을 완료해주세요.
+        </p>
       </div>
     );
   }
@@ -178,7 +203,15 @@ export default function GuidePage() {
         />
       </div>
 
-      {isActivityLoading ? <LoadingSpinner /> : <AIList data={activities} />}
+      {isActivityLoading ? (
+        <LoadingSpinner />
+      ) : activities && activities.length > 0 ? (
+        <AIList data={activities} />
+      ) : (
+        <div className="text-gray-400 text-center py-10">
+          AI 추천 경험이 없습니다.
+        </div>
+      )}
       <Footer />
     </div>
   );

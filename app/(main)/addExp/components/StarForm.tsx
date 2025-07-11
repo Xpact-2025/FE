@@ -60,7 +60,7 @@ export default function StarForm({ data, onChange }: StarFormProps) {
         </div>
         <ExpInputBox
           type="textarea"
-          placeholder="그 안에서 실제로 겪은 문제나 과제는 무엇이 있었나요?"
+          placeholder="그 문제를 해결하기 위해 어떤 행동을 했나요?"
           value={data.action}
           onChange={e => handleChange('action', e.target.value)}
         />
@@ -71,7 +71,7 @@ export default function StarForm({ data, onChange }: StarFormProps) {
       </div>
       <ExpInputBox
         type="textarea"
-        placeholder="그 안에서 실제로 겪은 문제나 과제는 무엇이 있었나요?"
+        placeholder="선택한 행동의 결과는 어땠나요?"
         value={data.result}
         onChange={e => handleChange('result', e.target.value)}
       />

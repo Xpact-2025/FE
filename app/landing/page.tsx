@@ -14,14 +14,18 @@ export default function LandingPage() {
     <>
       <Header />
       <div className="mb-[100px]" />
-      <Section1 />
-      <Section2 />
-      <Section3 />
-      <Section4 />
-      <Section5 />
-      <Section6 />
-      <Section7 />
-      <Footer />
+      <div>
+        <Section1 />
+        <Section2 />
+        <Section3 />
+        <Section4 />
+        <Section5 />
+        <Section6 />
+        <Section7 />
+      </div>
+      <div className="px-[10%]">
+        <Footer />
+      </div>
     </>
   );
 }

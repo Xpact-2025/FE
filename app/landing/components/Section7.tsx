@@ -1,4 +1,10 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+
 export default function Section7() {
+  const router = useRouter();
+
   return (
     <section className="bg-gray-1000 text-white w-full h-[1226px] text-center flex flex-col items-center justify-centermx-auto relative">
       <div
@@ -29,7 +35,10 @@ export default function Section7() {
         XPact
       </p>
 
-      <button className="w-[120px] h-[40px] bg-gray-50 text-gray-1100 text-[16px] font-semibold px-5 py-2 rounded hover:bg-primary-50 active:bg-primary-100 transition z-10">
+      <button
+        className="bg-white w-[120px] h-[40px] text-gray-1100 text-[16px] font-semibold px-6 py-2 rounded hover:bg-primary-50 active:bg-primary-100 transition mt-[45px] cursor-pointer"
+        onClick={() => router.push('/login')}
+      >
         시작하기
       </button>
     </section>
