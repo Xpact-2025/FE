@@ -126,3 +126,15 @@ export async function downloadFile(id: number) {
   const res = await API.get(`/downloads/${id}`);
   return res.data;
 }
+
+export async function getDownloadUrl(key: string): Promise<string | null> {
+  try {
+    const res = await API.get('/downloads', {
+      params: { key },
+    });
+    return res.data?.data ?? null;
+  } catch (e) {
+    console.error('파일 다운로드 요청 실패', e);
+    return null;
+  }
+}

@@ -1,6 +1,6 @@
 'use client';
 
-import { ExpPayload, SubExperience } from '@/apis/exp';
+import { ExpPayload, getDownloadUrl, SubExperience } from '@/apis/exp';
 import Image from 'next/image';
 import KeywordInput from '../../addExp/components/KeywordInput';
 import FileInput from '../../addExp/components/FileInput';
@@ -163,7 +163,15 @@ export default function ExpDetailContent({
             {subData.files.map((file, idx) => (
               <div
                 key={idx}
-                className=" bg-gray-600 rounded-md px-3 py-2 text-sm text-gray-200 flex items-center gap-2"
+                onClick={async () => {
+                  const url = await getDownloadUrl(file);
+                  if (url) {
+                    window.open(url, '_blank');
+                  } else {
+                    alert('파일을 다운로드할 수 없습니다.');
+                  }
+                }}
+                className="bg-gray-600 rounded-md px-3 py-2 text-sm text-gray-200 flex items-center gap-2 cursor-pointer hover:bg-gray-500 transition-colors"
               >
                 <Image
                   src="/images/file.svg"
@@ -171,7 +179,18 @@ export default function ExpDetailContent({
                   width={14}
                   height={18}
                 />
-                {file}
+                <span>
+                  {decodeURIComponent(
+                    file
+                      .split('/')
+                      .pop()
+                      ?.split('?')[0]
+                      ?.replace(
+                        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}_/,
+                        ''
+                      ) || '파일명'
+                  )}
+                </span>
               </div>
             ))}
           </div>
