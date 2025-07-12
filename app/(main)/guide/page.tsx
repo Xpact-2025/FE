@@ -216,7 +216,7 @@ export default function GuidePage() {
         </div>
       ) : (
         <div className="text-gray-400 text-center py-10">
-          {selectedFilter?.join(', ') || '전체'} 관련 AI 추천 활동이 없습니다.
+          {selectedFilter?.map(f => f).join(', ')} 관련 AI 추천 활동이 없습니다.
         </div>
       )}
 

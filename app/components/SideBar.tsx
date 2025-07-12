@@ -13,8 +13,10 @@ import UserCircleIcon from '@/public/icons/User_Circle.svg';
 export default function SideBar() {
   const pathname = usePathname();
 
-  const iconStyle = (currentPath: string) => {
-    return `${currentPath === pathname ? 'stroke-gray-50' : 'stroke-gray-300'} w-[24px] h-[24px] transition-colors group-hover:stroke-gray-50`;
+  const iconStyle = (targetPath: string) => {
+    return `${
+      pathname.startsWith(targetPath) ? 'stroke-gray-50' : 'stroke-gray-300'
+    } w-[24px] h-[24px] transition-colors group-hover:stroke-gray-50`;
   };
 
   return (
