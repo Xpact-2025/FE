@@ -81,7 +81,7 @@ export default async function DashboardPage() {
           <div className="flex-[1] bg-gray-800 rounded-[23px] pt-6 pb-4 px-8">
             <ExpHistory expHistory={expHistory} />
           </div>
-          <div className="flex-[1] bg-gray-800 rounded-[23px] pt-6 pb-4 px-8">
+          <div className="flex-[1] w-[290px] bg-gray-800 rounded-[23px] pt-6 pb-4 px-8">
             <Scrap />
           </div>
         </div>
