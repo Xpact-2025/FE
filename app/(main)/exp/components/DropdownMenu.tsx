@@ -38,7 +38,7 @@ export default function DropdownMenu({
   return (
     <div
       ref={menuRef}
-      className="absolute right-[-140px] top-[-10px] z-10 w-[132px] bg-gray-200 border rounded-md shadow-md py-2 text-gray-1100"
+      className="absolute right-[-130px] top-[180px] z-10 w-[132px] bg-gray-200 border rounded-md shadow-md py-2 text-gray-1100"
     >
       <button
         onClick={() => {

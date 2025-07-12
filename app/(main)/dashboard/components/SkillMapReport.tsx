@@ -33,12 +33,12 @@ export default function SkillMapReport({
       </div>
       <div className="text-gray-400 body-11-m">{feedbackDescription}</div>
       <div className="mt-5">
-        <div className="text-primary body-11-m mb-2">{feedbackName}</div>
-        <p className="text-gray-200 body-11-m whitespace-pre-wrap mb-4">
+        <div className="text-primary mb-2 text-[13px]">{feedbackName}</div>
+        <p className="text-gray-200 text-[12px] whitespace-pre-wrap mb-4">
           {feedbackReason}
         </p>
-        <div className="text-primary body-11-m mb-2">커리어 연결</div>
-        <p className="text-gray-200 body-11-m whitespace-pre-wrap">
+        <div className="text-primary text-[13px] mb-2">커리어 연결</div>
+        <p className="text-gray-200 text-[12px] whitespace-pre-wrap">
           {suggestion}
         </p>
       </div>

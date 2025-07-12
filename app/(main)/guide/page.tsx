@@ -72,17 +72,22 @@ export default function GuidePage() {
     const fetchActivities = async () => {
       setIsActivityLoading(true);
       try {
-        if (!selectedFilter || selectedFilter.length !== 1) {
-          const res = await getAIActivityByIndex(0);
+        // 전체 선택 (selectedFilter가 null 또는 빈 배열)
+        if (!selectedFilter || selectedFilter.length === 0) {
+          const res = await getAIActivityByIndex(0); // 전체
           setActivities(res.httpStatus === 200 ? res.data.content : []);
           return;
         }
 
+        // 약점 하나 선택된 경우
         const selected = selectedFilter[0];
         const index = weaknesses.findIndex(w => w.weaknessName === selected);
-        if (index === -1) return;
+        if (index === -1) {
+          setActivities([]); // 선택된 약점이 없으면 빈 배열
+          return;
+        }
 
-        const res = await getAIActivityByIndex(index + 1);
+        const res = await getAIActivityByIndex(index + 1); // 1부터 시작
         setActivities(res.httpStatus === 200 ? res.data.content : []);
       } finally {
         setIsActivityLoading(false);
@@ -205,7 +210,7 @@ export default function GuidePage() {
 
       {isActivityLoading ? (
         <LoadingSpinner />
-      ) : 0 ? (
+      ) : activities.length > 0 ? (
         <div className="pb-10">
           <AIList data={activities} />
         </div>
@@ -214,6 +219,7 @@ export default function GuidePage() {
           {selectedFilter?.map(f => f).join(', ')} 관련 AI 추천 활동이 없습니다.
         </div>
       )}
+
       <Footer />
     </div>
   );
