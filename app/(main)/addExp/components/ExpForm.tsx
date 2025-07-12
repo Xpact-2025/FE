@@ -481,19 +481,17 @@ export default function ExpForm({
                 )}
 
               {/* 가이드 모달도 동일한 조건으로 보이도록 */}
-              {isEditMode &&
-                isModalOpen &&
-                forms[activeFormIndex].subId === undefined && (
-                  <GuideModal
-                    title={
-                      form.selectedTab === 'star'
-                        ? 'STAR 양식 작성 가이드'
-                        : '간결 양식 작성 가이드'
-                    }
-                    type={(form.selectedTab ?? 'star') as 'star' | 'simple'}
-                    closeRequest={() => setIsModalOpen(false)}
-                  />
-                )}
+              {isModalOpen && forms[activeFormIndex].subId === undefined && (
+                <GuideModal
+                  title={
+                    form.selectedTab === 'star'
+                      ? 'STAR 양식 작성 가이드'
+                      : '간결 양식 작성 가이드'
+                  }
+                  type={(form.selectedTab ?? 'star') as 'star' | 'simple'}
+                  closeRequest={() => setIsModalOpen(false)}
+                />
+              )}
             </div>
 
             {/*제목부터 입력*/}

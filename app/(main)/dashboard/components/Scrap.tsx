@@ -11,7 +11,7 @@ function ScrapCard({ title, dday }: { title: string; dday: string | null }) {
 
   return (
     <div className="flex justify-between items-center border-b border-gray-50-20 py-[10px] gap-1.5">
-      <div className="body-14-m text-gray-50 truncate max-w-55">{title}</div>
+      <div className="text-[13px] text-gray-50 truncate max-w-55">{title}</div>
       <div
         className={`body-14-m whitespace-nowrap ${isNumber && numericDday >= -7 ? 'text-gray-50' : 'text-gray-500'}`}
       >
